@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\image\Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="HuaZi.Library" Version="2025.11.7.1" />
     <PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -16,6 +20,12 @@
 
   <ItemGroup>
     <Folder Include="Class\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\image\Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
