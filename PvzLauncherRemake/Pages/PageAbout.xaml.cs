@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ModernWpf.Controls;
+using PvzLauncherRemake.Class;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +26,8 @@ namespace PvzLauncherRemake.Pages
         public PageAbout()
         {
             InitializeComponent();
+
+            textBlock_Version.Text = AppInfo.Version;
         }
     }
 }
