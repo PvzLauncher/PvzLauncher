@@ -20,7 +20,7 @@ namespace PvzLauncherRemake.Controls
     /// </summary>
     public partial class UserGameCard : UserControl
     {
-        public UIElement[] Icon { get; set; } = { new Rectangle { Fill = new SolidColorBrush(Color.FromRgb(255, 0, 255)) } };
+        public UIElement[] Icon { get; set; } = { new Rectangle { Height = 50, Width = 50, Fill = new SolidColorBrush(Color.FromRgb(255, 0, 255)) } };
         public string Title { get; set; } = "Title";
         public string Version { get; set; } = "1.0.0.0";
 
