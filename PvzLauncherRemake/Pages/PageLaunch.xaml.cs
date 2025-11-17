@@ -1,4 +1,5 @@
-﻿using PvzLauncherRemake.Class;
+﻿using Notifications.Wpf;
+using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using System;
@@ -27,6 +28,7 @@ namespace PvzLauncherRemake.Pages
     public partial class PageLaunch : ModernWpf.Controls.Page
     {
         private JsonGameInfo.Index currentGameInfo = null!;
+        private NotificationManager notifi = new NotificationManager();
 
         #region Init
         public void Initialize() { }
@@ -53,6 +55,19 @@ namespace PvzLauncherRemake.Pages
                     textBlock_LaunchVersion.Text = "请选择一个游戏";
                 }
 
+                //判断游戏是否运行
+                try
+                {
+                    if (AppProcess.Process != null && AppProcess.Process.Id != 0 && !AppProcess.Process.HasExited)
+                    {
+                        logger.Info("检测到游戏进程仍在运行...");
+                        textBlock_LaunchText.Text = "结束进程";
+                        
+                    }
+                }
+                catch (InvalidOperationException) { }
+
+
             }
             catch (Exception ex)
             {
@@ -73,6 +88,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                //没运行就启动
                 if (textBlock_LaunchText.Text == "启动游戏")
                 {
                     textBlock_LaunchText.Text = "结束进程";
@@ -99,12 +115,12 @@ namespace PvzLauncherRemake.Pages
                     AppProcess.Process.Start();
                     logger.Info($"进程启动完毕");
 
-                    await DialogManager.ShowDialogAsync(new ModernWpf.Controls.ContentDialog
+                    //启动提示
+                    notifi.Show(new NotificationContent
                     {
                         Title = "提示",
-                        Content = "游戏启动成功!",
-                        PrimaryButtonText = "确定",
-                        DefaultButton = ModernWpf.Controls.ContentDialogButton.Primary
+                        Message = $"{AppInfo.Config.CurrentGame} 启动成功!",
+                        Type = NotificationType.Information
                     });
 
                     //等待结束
@@ -112,15 +128,29 @@ namespace PvzLauncherRemake.Pages
 
                     await AppProcess.Process.WaitForExitAsync();
                     logger.Info($"进程退出, ExitCode: {AppProcess.Process.ExitCode}");
+                    notifi.Show(new NotificationContent
+                    {
+                        Title = "提示",
+                        Message = $"游戏进程退出, 退出代码: {AppProcess.Process.ExitCode}",
+                        Type = NotificationType.Warning
+                    });
 
                     textBlock_LaunchText.Text = "启动游戏";
                 }
-                else if(textBlock_LaunchText.Text=="结束进程")
+                //运行就结束
+                else if (textBlock_LaunchText.Text == "结束进程")
                 {
                     logger.Info($"用户手动结束进程中...");
                     textBlock_LaunchText.Text = "启动游戏";
                     //结束进程
                     AppProcess.Process.Close();
+
+                    notifi.Show(new NotificationContent
+                    {
+                        Title = "提示",
+                        Message = "已尝试结束进程，部分版本可能仍未退出，需手动结束",
+                        Type = NotificationType.Information
+                    });
                 }
             }
             catch (Exception ex)
