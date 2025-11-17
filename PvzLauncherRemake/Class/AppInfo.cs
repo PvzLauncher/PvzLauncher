@@ -8,7 +8,7 @@ namespace PvzLauncherRemake.Class
     {
         public static readonly string ExecutePath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}";//执行目录
         public static readonly string Version = $"1.0.0-alpha.2";//版本
-        public static readonly string ExecuteShellPath = $"{Path.Combine(Path.GetDirectoryName(ExecutePath)!, "PvzLauncher.exe")}";//启动外壳目录
+        public static readonly string RootPath = $"{Path.GetDirectoryName(ExecutePath)}";//顶级目录
         
         //启动参数配置
         public static class Arguments
