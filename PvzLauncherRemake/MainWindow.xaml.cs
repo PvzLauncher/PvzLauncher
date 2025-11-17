@@ -62,7 +62,7 @@ namespace PvzLauncherRemake
             }
         }
 
-        public async Task InitializeLoaded()
+        public async void InitializeLoaded()
         {
             try
             {
