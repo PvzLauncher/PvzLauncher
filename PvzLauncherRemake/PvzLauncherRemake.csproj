@@ -6,6 +6,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+
+    <!-- 只保留指定的语言文化，其余全部排除 -->
+    <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+
+    <!-- 可选：更严格模式，防止意外打包其他语言 -->
+    <ExcludeAllSatelliteAssemblies>true</ExcludeAllSatelliteAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
