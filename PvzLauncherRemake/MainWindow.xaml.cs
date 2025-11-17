@@ -32,11 +32,34 @@ namespace PvzLauncherRemake
         private NavigationTransitionInfo FrameAnimation = new DrillInNavigationTransitionInfo();//Frame切换动画
 
         #region Initialize
-        public void Initialize()
+        public async void Initialize()
         {
             try
             {
                 logger.Info($"MainWindow 开始初始化");
+
+                //初始化配置文件
+                if (!File.Exists(System.IO.Path.Combine(AppInfo.ExecutePath, "config.json")))
+                {
+                    AppInfo.Config = new JsonConfig.Index
+                    {
+                        CurrentGame = null!
+                    };
+                    ConfigManager.SaveAllConfig();
+                }
+
+                //读配置
+                ConfigManager.ReadAllConfig();
+
+                //创建游戏目录
+                if (!Directory.Exists(AppInfo.GameDirectory))
+                {
+                    logger.Info($"游戏目录 {AppInfo.GameDirectory} 不存在，即将创建");
+                    Directory.CreateDirectory(AppInfo.GameDirectory);
+                }
+
+                //加载游戏列表
+                await GameManager.LoadGameList();
 
                 //预加载
                 void AddType(Type t)
@@ -55,26 +78,6 @@ namespace PvzLauncherRemake
                 //选择默认页
                 navView.SelectedItem = navViewItem_Launch;
                 logger.Info($"选择默认页: {((NavigationViewItem)navView.SelectedItem).Name}");
-
-                //创建游戏目录
-                if (!Directory.Exists(AppInfo.GameDirectory))
-                {
-                    logger.Info($"游戏目录 {AppInfo.GameDirectory} 不存在，即将创建");
-                    Directory.CreateDirectory(AppInfo.GameDirectory);
-                }
-
-                //初始化配置文件
-                if (!File.Exists(System.IO.Path.Combine(AppInfo.ExecutePath, "config.json")))
-                {
-                    AppInfo.Config = new JsonConfig.Index
-                    {
-                        CurrentGame = null!
-                    };
-                    ConfigManager.SaveAllConfig();
-                }
-
-                //读配置
-                ConfigManager.ReadAllConfig();
 
                 logger.Info($"MainWindow 结束初始化");
             }
