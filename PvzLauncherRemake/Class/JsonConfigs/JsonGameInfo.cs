@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PvzLauncherRemake.Class.JsonConfig
+namespace PvzLauncherRemake.Class.JsonConfigs
 {
     public class JsonGameInfo
     {
