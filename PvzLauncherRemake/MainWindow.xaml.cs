@@ -1,10 +1,14 @@
 ﻿using HuaZi.Library.Logger;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
+using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -58,9 +62,54 @@ namespace PvzLauncherRemake
             }
         }
 
-        public void InitializeLoaded()
+        public async Task InitializeLoaded()
         {
+            try
+            {
+                logger.Info($"处理 {this.Name} 加载事件");
 
+                //处理启动参数
+                string[] args = Environment.GetCommandLineArgs();
+                logger.Info("==========[启动参数信息]==========");
+
+                foreach (var arg in args)
+                {
+                    switch (arg)
+                    {
+                        //外壳启动
+                        case "-shell":
+                            AppInfo.Arguments.isShell = true;
+                            logger.Info($"isShell: {AppInfo.Arguments.isShell}"); break;
+                    }
+                }
+                logger.Info("==========[End]==========");
+
+                //是否外壳启动
+                if (!AppInfo.Arguments.isShell)
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "警告",
+                        Content = "检测到程序非外壳启动, 此启动方式可能会导致某些意外的事情发生",
+                        PrimaryButtonText = "改用外壳启动",
+                        CloseButtonText = "忽略",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() =>
+                    {
+                        //Primary=>改用外壳启动
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = System.IO.Path.Combine(AppInfo.RootPath, "PvzLauncher.exe"),
+                            UseShellExecute = true
+                        });
+                        Environment.Exit(0);
+                    }));
+
+                logger.Info($"处理 {this.Name} 加载事件完毕");
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", $"加载 {this.Name} 发生错误", ex);
+            }
         }
         #endregion
 
