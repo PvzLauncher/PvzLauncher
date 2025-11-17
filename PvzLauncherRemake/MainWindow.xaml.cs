@@ -87,6 +87,7 @@ namespace PvzLauncherRemake
                 //是否外壳启动
                 if (!AppInfo.Arguments.isShell && !Debugger.IsAttached) 
                 {
+                    logger.Info("检测到没有使用Shell执行");
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "警告",
