@@ -25,6 +25,7 @@ namespace PvzLauncherRemake.Controls
         public string Version { get; set; } = "1.0.0.0";
         public string Icon { get; set; } = "origin";
         public bool isRecommend { get; set; } = false;
+        public bool isNew { get; set; } = false;
 
         public UserDownloadCard()
         {
@@ -58,6 +59,14 @@ namespace PvzLauncherRemake.Controls
                 string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
                                 "<Rectangle Height=\"20\" Fill=\"#FF64FF64\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 "<TextBlock Text=\"推荐\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\" FontWeight=\"Bold\"/>" +
+                              "</Grid>";
+                stackPanel_lCards.Children.Add(XamlReader.Parse(xaml) as Grid);
+            }
+            if (isNew)
+            {
+                string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
+                                "<Rectangle Height=\"20\" Fill=\"#FF6432FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                                "<TextBlock Text=\"新\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\" FontWeight=\"Bold\"/>" +
                               "</Grid>";
                 stackPanel_lCards.Children.Add(XamlReader.Parse(xaml) as Grid);
             }
