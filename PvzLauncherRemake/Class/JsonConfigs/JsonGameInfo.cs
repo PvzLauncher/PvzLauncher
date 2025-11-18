@@ -12,7 +12,7 @@ namespace PvzLauncherRemake.Class.JsonConfigs
         public partial class Index
         {
             [JsonProperty("tip")]
-            public string Tip { get; set; } = AppInfo.Strings.GameConfigTip;
+            public string Tip { get; set; } = "此文件为PvzLauncher版本标志文件，请勿移除！";
 
             [JsonProperty("game_info")]
             public GameInfo GameInfo { get; set; }
