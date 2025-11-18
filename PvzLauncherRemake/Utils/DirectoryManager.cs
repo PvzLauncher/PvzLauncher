@@ -1,7 +1,9 @@
-﻿using System;
+﻿using PvzLauncherRemake.Class;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -13,7 +15,7 @@ namespace PvzLauncherRemake.Utils
         /// <param name="sourceDir">源文件夹</param>
         /// <param name="destDir">目标文件夹</param>
         /// <returns></returns>
-        public static async Task CopyDirectoryAsync(string sourceDir, string destDir)
+        public static async Task CopyDirectoryAsync(string sourceDir, string destDir, Action<string> callBack = null!)
         {
             var sourceDirInfo = new DirectoryInfo(sourceDir);
 
@@ -24,7 +26,18 @@ namespace PvzLauncherRemake.Utils
             foreach (FileInfo file in sourceDirInfo.GetFiles())
             {
                 string targetFilePath = Path.Combine(destDir, file.Name);
-                await Task.Run(() => file.CopyTo(targetFilePath));
+                await Task.Run(() =>
+                {
+                    if (callBack != null)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            callBack(file.Name);
+                        });
+                    }
+                    logger.Info($"复制文件: {file.Name}");
+                    file.CopyTo(targetFilePath);
+                });
             }
 
             // 递归复制所有子文件夹
