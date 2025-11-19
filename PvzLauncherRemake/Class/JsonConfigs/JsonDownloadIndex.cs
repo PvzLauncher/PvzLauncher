@@ -19,6 +19,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("zh_revision")]
             public GameInfo[] ZhRevision { get; set; }
+
+            [JsonProperty("trainer")]
+            public TrainerInfo[] Trainer { get; set; }
         }
 
         public partial class GameInfo
@@ -26,11 +29,44 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("name")]
             public string Name { get; set; }
 
+            [JsonProperty("description")]
+            public string Description { get; set; }
+
             [JsonProperty("version_type")]
             public string VersionType { get; set; }
 
             [JsonProperty("version")]
             public string Version { get; set; }
+
+            [JsonProperty("execute_name")]
+            public string ExecuteName { get; set; }
+
+            [JsonProperty("is_recommend")]
+            public bool IsRecommend { get; set; }
+
+            [JsonProperty("is_new")]
+            public bool IsNew { get; set; }
+
+            [JsonProperty("url")]
+            public string Url { get; set; }
+        }
+
+        public partial class TrainerInfo
+        {
+            [JsonProperty("name")]
+            public string Name { get; set; }
+
+            [JsonProperty("description")]
+            public string Description { get; set; }
+
+            [JsonProperty("version_type")]
+            public string VersionType { get; set; }
+
+            [JsonProperty("version")]
+            public string Version { get; set; }
+
+            [JsonProperty("support_version")]
+            public string SupportVersion { get; set; }
 
             [JsonProperty("execute_name")]
             public string ExecuteName { get; set; }
