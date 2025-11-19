@@ -20,7 +20,7 @@ namespace PvzLauncherRemake.Controls
     /// </summary>
     public partial class UserGameCard : UserControl
     {
-        public UIElement[] Icon { get; set; } = null!;
+        public string Icon { get; set; } = "origin";
         public string Title { get; set; } = "Title";
         public string Version { get; set; } = "1.0.0.0";
 
@@ -34,13 +34,12 @@ namespace PvzLauncherRemake.Controls
 
         private void LoadUI(object sender, RoutedEventArgs e)
         {
-            if (Icon != null) 
+            //图标
+            List<Viewbox> icons = new List<Viewbox> { viewBox_beta, viewBox_origin };
+            foreach (var icon in icons)
             {
-                grid_Icon.Children.Clear();
-                foreach (var path in Icon)
-                {
-                    grid_Icon.Children.Add(path);
-                }
+                if (icon.Tag.ToString() != Icon)
+                    icon.Visibility = Visibility.Hidden;
             }
 
             textBlock_Title.Text = Title;
