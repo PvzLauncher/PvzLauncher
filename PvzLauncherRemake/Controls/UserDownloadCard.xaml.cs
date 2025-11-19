@@ -22,6 +22,7 @@ namespace PvzLauncherRemake.Controls
     public partial class UserDownloadCard : UserControl
     {
         public string Title { get; set; } = "Title";
+        public string Description { get; set; } = null!;
         public string Version { get; set; } = "1.0.0.0";
         public string SupportVersion { get; set; } = null!;
         public string Icon { get; set; } = "origin";
@@ -37,6 +38,7 @@ namespace PvzLauncherRemake.Controls
         public void LoadUI(object sender, RoutedEventArgs e)
         {
             textBlock_Title.Text = Title;
+            textBlock_Description.Text = Description;
 
             List<Viewbox> icons = new List<Viewbox> { viewBox_beta, viewBox_origin };
             foreach (var icon in icons)
