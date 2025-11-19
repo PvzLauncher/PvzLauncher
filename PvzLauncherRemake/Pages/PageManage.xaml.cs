@@ -79,6 +79,7 @@ namespace PvzLauncherRemake.Pages
                     var card = new UserGameCard
                     {
                         Title = game.GameInfo.Name,
+                        Icon = game.GameInfo.Version.StartsWith("β") ? "beta" : "origin",
                         Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                     };
                     listBox.Items.Add(card);//添加

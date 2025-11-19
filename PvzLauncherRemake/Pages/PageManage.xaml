@@ -27,7 +27,7 @@
 
             <ListBox x:Name="listBox" SelectionChanged="listBox_SelectionChanged" Margin="0,36,0,0">
                 <ctrl:UserGameCard/>
-                <ctrl:UserGameCard/>
+                <ctrl:UserGameCard Icon="beta"/>
                 <ctrl:UserGameCard/>
                 <ctrl:UserGameCard/>
             </ListBox>
