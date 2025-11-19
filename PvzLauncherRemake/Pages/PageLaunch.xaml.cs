@@ -142,15 +142,39 @@ namespace PvzLauncherRemake.Pages
                 {
                     logger.Info($"用户手动结束进程中...");
                     textBlock_LaunchText.Text = "启动游戏";
-                    //结束进程
-                    AppProcess.Process.Close();
 
-                    notifi.Show(new NotificationContent
+                    //尝试使程序自行退出
+                    if (!AppProcess.Process.HasExited)
                     {
-                        Title = "提示",
-                        Message = "已尝试结束进程，部分版本可能仍未退出，需手动结束",
-                        Type = NotificationType.Information
-                    });
+                        notifi.Show(new NotificationContent
+                        {
+                            Title = "提示",
+                            Message = "正在尝试关闭游戏...",
+                            Type = NotificationType.Information
+                        });
+                        AppProcess.Process.CloseMainWindow();
+                        //等待自己关闭
+                        await Task.Delay(1000);
+
+                        //强制关
+                        if (!AppProcess.Process.HasExited)
+                        {
+                            AppProcess.Process.Kill();
+                            //等待完全关闭
+                            await Task.Delay(1000);
+                        }
+
+                        if (!AppProcess.Process.HasExited)
+                        {
+                            //都Kill()了不能再关不上吧
+                            notifi.Show(new NotificationContent
+                            {
+                                Title = "失败",
+                                Message = "我们无法终止您的游戏，请您自行退出",
+                                Type = NotificationType.Error
+                            });
+                        }
+                    }
                 }
             }
             catch (Exception ex)
