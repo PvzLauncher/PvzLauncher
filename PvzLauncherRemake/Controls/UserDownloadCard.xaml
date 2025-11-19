@@ -40,18 +40,25 @@
                 </Path>
             </Canvas>
         </Viewbox>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="50,5,5,0">
+            <TextBlock x:Name="textBlock_Title" Text="Title" FontSize="15" Margin="0,0,5,0"/>
+            <TextBlock x:Name="textBlock_Description" Text="Description" FontSize="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#B2000000"/>
+        </StackPanel>
 
-        <TextBlock x:Name="textBlock_Title" Text="Title" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,5,5,0" FontSize="15"/>
-        <StackPanel x:Name="stackPanel_lCards" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,0,5,5">
-            <!-- <Grid Margin="0,0,5,0">
+        <StackPanel x:Name="stackPanel_Labels" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,0,5,5">
+            <Grid Margin="0,0,5,0">
                 <Rectangle Height="20" Fill="#FF969696" RadiusX="3" RadiusY="3"/>
-                <TextBlock x:Name="lCard_Version" Text="Version" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                <TextBlock Text="Version" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0"/>
             </Grid>
-            <Grid x:Name="lCard_Recommend" Margin="0,0,5,0">
+            <Grid Margin="0,0,5,0">
+                <Rectangle Height="20" RadiusX="3" RadiusY="3" Fill="#FF3264FF"/>
+                <TextBlock Text="支持版本: Version" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0"/>
+            </Grid>
+            <Grid Margin="0,0,5,0">
                 <Rectangle Height="20" Fill="#FF64FF64" RadiusX="3" RadiusY="3"/>
                 <TextBlock Text="推荐" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0" FontWeight="Bold"/>
-            </Grid> -->
-            <Grid x:Name="lCard_New" Margin="0,0,5,0">
+            </Grid>
+            <Grid Margin="0,0,5,0">
                 <Rectangle Height="20" Fill="#FF6432FF" RadiusX="3" RadiusY="3"/>
                 <TextBlock Text="新" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0" FontWeight="Bold"/>
             </Grid>

@@ -23,6 +23,7 @@ namespace PvzLauncherRemake.Controls
     {
         public string Title { get; set; } = "Title";
         public string Version { get; set; } = "1.0.0.0";
+        public string SupportVersion { get; set; } = null!;
         public string Icon { get; set; } = "origin";
         public bool isRecommend { get; set; } = false;
         public bool isNew { get; set; } = false;
@@ -45,14 +46,22 @@ namespace PvzLauncherRemake.Controls
             }
 
             //添加lCard
-            stackPanel_lCards.Children.Clear();
+            stackPanel_Labels.Children.Clear();
             if (!string.IsNullOrEmpty(Version))
             {
                 string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
                                 "<Rectangle Height=\"20\" Fill=\"#FF969696\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 $"<TextBlock Text=\"{Version}\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\"/>" +
                               "</Grid>";
-                stackPanel_lCards.Children.Add(XamlReader.Parse(xaml) as Grid);
+                stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
+            }
+            if (!string.IsNullOrEmpty(SupportVersion))
+            {
+                string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
+                                "<Rectangle Height=\"20\" Fill=\"#FF3264FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                                $"<TextBlock Text=\"支持版本: {SupportVersion}\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\"/>" +
+                              "</Grid>";
+                stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
             }
             if (isRecommend)
             {
@@ -60,7 +69,7 @@ namespace PvzLauncherRemake.Controls
                                 "<Rectangle Height=\"20\" Fill=\"#FF64FF64\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 "<TextBlock Text=\"推荐\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\" FontWeight=\"Bold\"/>" +
                               "</Grid>";
-                stackPanel_lCards.Children.Add(XamlReader.Parse(xaml) as Grid);
+                stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
             }
             if (isNew)
             {
@@ -68,7 +77,7 @@ namespace PvzLauncherRemake.Controls
                                 "<Rectangle Height=\"20\" Fill=\"#FF6432FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 "<TextBlock Text=\"新\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\" FontWeight=\"Bold\"/>" +
                               "</Grid>";
-                stackPanel_lCards.Children.Add(XamlReader.Parse(xaml) as Grid);
+                stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
             }
         }
     }
