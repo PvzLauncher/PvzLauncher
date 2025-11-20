@@ -15,6 +15,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -29,6 +30,42 @@ namespace PvzLauncherRemake.Pages
     {
         private JsonGameInfo.Index currentGameInfo = null!;
         private NotificationManager notifi = new NotificationManager();
+
+        #region Animation
+        public void StartTitleAnimation(double gridHeight, double timeMs = 500)
+        {
+            var animation = new ThicknessAnimationUsingKeyFrames();
+            animation.Duration = TimeSpan.FromMilliseconds(timeMs);
+            animation.KeyFrames.Add(new DiscreteThicknessKeyFrame(
+                new Thickness(0, -10 - gridHeight, 0, 0),
+                KeyTime.FromTimeSpan(TimeSpan.Zero)));
+
+            var easingKeyFrame = new EasingThicknessKeyFrame(
+                new Thickness(0, 10, 0, 0),
+                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(timeMs)))
+            {
+
+                // 1. 快速滑入并轻微回弹
+                EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.35 }
+
+                // 2. 平滑强减速
+                // EasingFunction = new QuinticEase { EasingMode = EasingMode.EaseOut }
+
+                // 3. 弹性弹跳效果
+                // EasingFunction = new ElasticEase { EasingMode = EasingMode.EaseOut, Oscillations = 2, Springiness = 8 }
+
+                // 4. 先慢后快再减速
+                // EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
+
+                // 5. 经典 Power 缓动
+                // EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut, Power = 4 }
+            };
+
+            animation.KeyFrames.Add(easingKeyFrame);
+            animation.FillBehavior = FillBehavior.HoldEnd;
+            grid_Title.BeginAnimation(FrameworkElement.MarginProperty, animation);
+        }
+        #endregion
 
         #region Init
         public void Initialize() { }
@@ -67,6 +104,9 @@ namespace PvzLauncherRemake.Pages
                 }
                 catch (InvalidOperationException) { }
 
+
+                //播放动画
+                StartTitleAnimation(grid_Title.Height,1000);
 
             }
             catch (Exception ex)
