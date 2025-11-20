@@ -41,7 +41,7 @@ namespace PvzLauncherRemake.Pages
                 KeyTime.FromTimeSpan(TimeSpan.Zero)));
 
             var easingKeyFrame = new EasingThicknessKeyFrame(
-                new Thickness(0, 10, 0, 0),
+                new Thickness(0, 0, 0, 0),
                 KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(timeMs)))
             {
 
@@ -69,7 +69,7 @@ namespace PvzLauncherRemake.Pages
 
         #region Init
         public void Initialize() { }
-        public void InitializeLoaded()
+        public async void InitializeLoaded()
         {
             try
             {
@@ -106,7 +106,9 @@ namespace PvzLauncherRemake.Pages
 
 
                 //播放动画
-                StartTitleAnimation(grid_Title.Height,1000);
+                grid_Title.Margin = new Thickness(0, -10 - grid_Title.Height, 0, 0);
+                await Task.Delay(200);//等待Frame动画播放完毕
+                StartTitleAnimation(grid_Title.Height,500);
 
             }
             catch (Exception ex)
@@ -120,9 +122,8 @@ namespace PvzLauncherRemake.Pages
         {
             InitializeComponent();
             Initialize();
+            Loaded += ((sender, e) => InitializeLoaded());
         }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e) { InitializeLoaded(); }
 
         private async void button_Launch_Click(object sender, RoutedEventArgs e)
         {
