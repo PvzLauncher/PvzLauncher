@@ -67,47 +67,75 @@ namespace PvzLauncherRemake.Pages
                 //加载游戏列表
                 await GameManager.LoadGameList();
 
-                //添加卡片
-                foreach (var game in AppInfo.GameList)
+                //游戏库里有东西才加
+                if (AppInfo.GameList.Count > 0)
                 {
-                    //判断版本
-                    string version =
-                        game.GameInfo.VersionType == "en_origin" ? "英文原版" :
-                        game.GameInfo.VersionType == "zh_origin" ? "中文原版" :
-                        game.GameInfo.VersionType == "zh_revision" ? "中文改版" : "未知";
-                    //定义卡片
-                    var card = new UserGameCard
+                    //添加卡片
+                    foreach (var game in AppInfo.GameList)
                     {
-                        Title = game.GameInfo.Name,
-                        Icon = game.GameInfo.Version.StartsWith("β") ? "beta" : "origin",
-                        Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
-                    };
-                    listBox.Items.Add(card);//添加
-                    logger.Info($"添加卡片: 标题: {card.Title} 版本: {card.Version}");
-                }
-
-                //选择卡片
-                bool isChecked = false;
-                if (AppInfo.Config.CurrentGame != null)
-                {
-                    logger.Info("当前选择不为空，开始检查项");
-                    foreach (var item in listBox.Items)
-                    {
-                        if ($"{((UserGameCard)item).Title}" == AppInfo.Config.CurrentGame)
+                        //判断版本
+                        string version =
+                            game.GameInfo.VersionType == "en_origin" ? "英文原版" :
+                            game.GameInfo.VersionType == "zh_origin" ? "中文原版" :
+                            game.GameInfo.VersionType == "zh_revision" ? "中文改版" : "未知";
+                        //定义卡片
+                        var card = new UserGameCard
                         {
-                            isChecked = true;
-                            listBox.SelectedItem = item;
+                            Title = game.GameInfo.Name,
+                            Icon = game.GameInfo.Version.StartsWith("β") ? "beta" : "origin",
+                            Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
+                            Background = Brushes.Transparent,
+                            Tag = game
+                        };
+                        card.PreviewMouseLeftButtonDown += SelectGame;
+                        card.PreviewMouseRightButtonDown += SetGame;
+                        listBox.Items.Add(card);//添加
+                        logger.Info($"添加卡片: 标题: {card.Title} 版本: {card.Version}");
+                    }
+
+                    //选择卡片
+                    bool isChecked = false;
+                    if (AppInfo.Config.CurrentGame != null)
+                    {
+                        logger.Info("当前选择不为空，开始检查项");
+                        foreach (var item in listBox.Items)
+                        {
+                            if ($"{((UserGameCard)item).Title}" == AppInfo.Config.CurrentGame)
+                            {
+                                isChecked = true;
+                                listBox.SelectedItem = item;
+                            }
                         }
                     }
+                    if (!isChecked)
+                    {
+                        await DialogManager.ShowDialogAsync(new ContentDialog
+                        {
+                            Title = "发现无效的配置",
+                            Content = $"发现无效的配置: \"Index -> CurrentGame\": \"{AppInfo.Config.CurrentGame}\"\n\n找不到目标游戏",
+                            PrimaryButtonText = "确定",
+                            DefaultButton = ContentDialogButton.Primary
+                        });
+                    }
                 }
-                if (!isChecked)
+                else
+                {
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
-                        Title = "发现无效的配置",
-                        Content = $"发现无效的配置: \"Index -> CurrentGame\": \"{AppInfo.Config.CurrentGame}\"\n\n找不到目标游戏",
-                        PrimaryButtonText = "确定",
+                        Title = "提示",
+                        Content = "您的游戏库内还没有游戏！快去下载页面下载或导入一个游戏吧！",
+                        PrimaryButtonText = "去下载",
+                        SecondaryButtonText = "去导入",
+                        CloseButtonText = "稍后",
                         DefaultButton = ContentDialogButton.Primary
-                    });
+                    }, (() =>
+                    {
+                        NavigationController.Navigate(this, "Download");
+                    }), (() =>
+                    {
+                        button_Load_Click(button_Load, null!);
+                    }));
+                }
 
                 EndLoad();
                 logger.Info($"PageManage 结束初始化");
@@ -124,20 +152,35 @@ namespace PvzLauncherRemake.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e) { InitializeLoaded(); }
 
         //选择游戏
-        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SelectGame(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 if (listBox.SelectedItem != null)
                 {
-                    logger.Info($"用户选择游戏: {((UserGameCard)listBox.SelectedItem).Title}");
-                    AppInfo.Config.CurrentGame = $"{((UserGameCard)listBox.SelectedItem).Title}";
+
+                    logger.Info($"用户选择游戏: {((UserGameCard)sender).Title}");
+                    AppInfo.Config.CurrentGame = $"{((UserGameCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
+                    listBox.SelectedItem = sender;
                 }
             }
             catch (Exception ex)
             {
                 ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+            }
+        }
+
+        //设置游戏
+        private void SetGame(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                this.NavigationService.Navigate(new PageManageSet((JsonGameInfo.Index)((UserGameCard)sender).Tag));
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", "在处理选择事件时发生错误", ex);
             }
         }
 

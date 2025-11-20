@@ -25,7 +25,14 @@
                 </Button.BorderBrush>
             </Button>
 
-            <ListBox x:Name="listBox" SelectionChanged="listBox_SelectionChanged" Margin="0,36,0,0">
+            <ListBox x:Name="listBox" Margin="0,36,0,0" SelectionMode="Single">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="0"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ctrl:UserGameCard/>
                 <ctrl:UserGameCard Icon="beta"/>
                 <ctrl:UserGameCard/>

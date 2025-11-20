@@ -163,5 +163,32 @@ namespace PvzLauncherRemake
                 ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
             }
         }
+
+        private void frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            try
+            {
+                //判断是否显示返回箭头
+                if(frame.Content is PageManageSet)
+                {
+                    navView.IsBackButtonVisible = NavigationViewBackButtonVisible.Visible;
+                    navView.IsBackEnabled = true;
+                }
+                else
+                {
+                    navView.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
+                    navView.IsBackEnabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", "处理导航后事件发生错误", ex);
+            }
+        }
+
+        private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            frame.GoBack();
+        }
     }
 }
