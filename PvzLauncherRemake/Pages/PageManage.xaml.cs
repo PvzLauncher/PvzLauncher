@@ -83,6 +83,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             Title = game.GameInfo.Name,
                             Icon = game.GameInfo.Version.StartsWith("β") ? "beta" : "origin",
+                            isCurrent = game.GameInfo.Name == AppInfo.Config.CurrentGame ? true : false,
                             Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                             Background = Brushes.Transparent,
                             Tag = game
@@ -91,31 +92,6 @@ namespace PvzLauncherRemake.Pages
                         card.PreviewMouseRightButtonDown += SetGame;
                         listBox.Items.Add(card);//添加
                         logger.Info($"添加卡片: 标题: {card.Title} 版本: {card.Version}");
-                    }
-
-                    //选择卡片
-                    bool isChecked = false;
-                    if (AppInfo.Config.CurrentGame != null)
-                    {
-                        logger.Info("当前选择不为空，开始检查项");
-                        foreach (var item in listBox.Items)
-                        {
-                            if ($"{((UserGameCard)item).Title}" == AppInfo.Config.CurrentGame)
-                            {
-                                isChecked = true;
-                                listBox.SelectedItem = item;
-                            }
-                        }
-                    }
-                    if (!isChecked)
-                    {
-                        await DialogManager.ShowDialogAsync(new ContentDialog
-                        {
-                            Title = "发现无效的配置",
-                            Content = $"发现无效的配置: \"Index -> CurrentGame\": \"{AppInfo.Config.CurrentGame}\"\n\n找不到目标游戏",
-                            PrimaryButtonText = "确定",
-                            DefaultButton = ContentDialogButton.Primary
-                        });
                     }
                 }
                 else
@@ -164,10 +140,17 @@ namespace PvzLauncherRemake.Pages
                         Message = $"已选择 \"{((UserGameCard)sender).Title}\" 作为启动游戏",
                         Type = NotificationType.Information
                     });
+
+                    //更新控件
+                    foreach (var card in listBox.Items)
+                    {
+                        ((UserGameCard)card).isCurrent = (card == sender);
+                        ((UserGameCard)card).SetLabels();
+                    }
+
                     logger.Info($"用户选择游戏: {((UserGameCard)sender).Title}");
                     AppInfo.Config.CurrentGame = $"{((UserGameCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
-                    listBox.SelectedItem = sender;
                 }
             }
             catch (Exception ex)
