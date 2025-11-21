@@ -62,7 +62,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="标题图片:" Margin="0,0,20,0" VerticalAlignment="Top"/>
                                 <StackPanel Margin="0,0,20,0">
-                                    <RadioButton x:Name="radioButton_TitieImage_EN" Tag="EN" Content="英文" IsChecked="True" Click="radioButton_TitieImage_EN_Click"/>
+                                    <RadioButton x:Name="radioButton_TitieImage_EN" Tag="EN" Content="Plants Vs. Zombies" IsChecked="True" Click="radioButton_TitieImage_EN_Click"/>
                                     <Viewbox x:Name="viewBox_Title_EN" Height="40">
                                         <Canvas UseLayoutRounding="False" Width="446.66922" Height="69.963036">
                                             <Canvas.Clip>
@@ -563,7 +563,7 @@
 
                                 </StackPanel>
                                 <StackPanel>
-                                    <RadioButton x:Name="radioButton_TitleImage_ZH" Tag="ZH" Content="中文" IsChecked="False" Click="radioButton_TitieImage_EN_Click"/>
+                                    <RadioButton x:Name="radioButton_TitleImage_ZH" Tag="ZH" Content="植物大战僵尸" IsChecked="False" Click="radioButton_TitieImage_EN_Click"/>
                                     <Viewbox x:Name="viewBox_Title_ZH" Height="40">
                                         <Canvas UseLayoutRounding="False" Width="450.25116" Height="96.68676">
                                             <Canvas.Clip>
