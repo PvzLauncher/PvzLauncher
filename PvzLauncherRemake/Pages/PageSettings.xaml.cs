@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
@@ -17,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static PvzLauncherRemake.Class.AppLogger;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -62,10 +64,22 @@ namespace PvzLauncherRemake.Pages
                     case "ZH":
                         radioButton_TitleImage_ZH.IsChecked = true; break;
                 }
+                //### 背景
+                radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
+                if (!string.IsNullOrEmpty(AppInfo.Config.LauncherConfig.Background))
+                {
+                    radioButton_Background_Custom.IsChecked = true;
+                    button_Background_Select.IsEnabled = true;
+                    image_Background.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
+                }
+                else
+                {
+                    button_Background_Select.IsEnabled = false;
+                    radioButton_Background_Default.IsChecked = true;
+                }
 
 
-
-                isInitialized = true;
+                    isInitialized = true;
                 logger.Info("PageSettings 结束初始化");
             }
             catch (Exception ex)
@@ -119,7 +133,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                if(sender is RadioButton radioButton)
+                if (sender is RadioButton radioButton)
                 {
                     if ((string)radioButton.Tag == "EN")
                         radioButton_TitleImage_ZH.IsChecked = false;
@@ -130,7 +144,51 @@ namespace PvzLauncherRemake.Pages
                     ConfigManager.SaveAllConfig();
                 }
 
-                
+
+            }
+        }
+
+        private void button_Background_Select_Click(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                var dialog = new OpenFileDialog
+                {
+                    Filter = "图像文件|*.png;*.jpg;*.webp;*.bmp",
+                    Multiselect = false,
+                    CheckFileExists = true
+                };
+                if (dialog.ShowDialog() == true)
+                {
+                    AppInfo.Config.LauncherConfig.Background = dialog.FileName;
+                    ConfigManager.SaveAllConfig();
+                    image_Background.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
+
+                }
+            }
+        }
+
+        private void radioButton_Background_Default_Click(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                if (sender is RadioButton radioButton)
+                {
+                    if ((string)radioButton.Tag == "Default")
+                    {
+                        button_Background_Select.IsEnabled = false;
+                        AppInfo.Config.LauncherConfig.Background = null!;
+                        radioButton_Background_Custom.IsChecked = false;
+                    }
+                    if ((string)radioButton.Tag == "Custom")
+                    {
+                        button_Background_Select.IsEnabled = true;
+                        radioButton_Background_Default.IsChecked = false;
+                    }
+                    ConfigManager.SaveAllConfig();
+                }
+
+
             }
         }
     }

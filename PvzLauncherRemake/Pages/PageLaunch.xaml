@@ -10,7 +10,7 @@
       Title="PageLaunch" Background="#FFF0F0F0">
 
     <Grid>
-        <Image Source="/Assets/bitmap/background.png" Stretch="UniformToFill" Opacity="0.7">
+        <Image x:Name="image" Stretch="UniformToFill" Opacity="0.7">
             <Image.Effect>
                 <BlurEffect Radius="25"/>
             </Image.Effect>

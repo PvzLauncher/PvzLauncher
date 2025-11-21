@@ -59,7 +59,7 @@
                                 </Button>
                             </StackPanel>
                             <!--标题图片-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="标题图片:" Margin="0,0,20,0" VerticalAlignment="Top"/>
                                 <StackPanel Margin="0,0,20,0">
                                     <RadioButton x:Name="radioButton_TitieImage_EN" Tag="EN" Content="Plants Vs. Zombies" IsChecked="True" Click="radioButton_TitieImage_EN_Click"/>
@@ -946,6 +946,31 @@
 
                                 </StackPanel>
                             </StackPanel>
+                            <!--背景图-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="背景图:" Margin="0,0,10,0"/>
+                                <RadioButton x:Name="radioButton_Background_Default" Tag="Default" Content="默认" IsChecked="True" VerticalAlignment="Top" Click="radioButton_Background_Default_Click"/>
+                                <StackPanel>
+                                    <RadioButton x:Name="radioButton_Background_Custom" Tag="Custom" Content="自定义" IsChecked="False" Click="radioButton_Background_Default_Click"/>
+                                    <Border BorderBrush="Black" BorderThickness="1,1,1,1" Margin="0,0,0,10">
+                                        <Image x:Name="image_Background" Height="128" Width="256" Stretch="UniformToFill"/>
+                                    </Border>
+                                    <Button x:Name="button_Background_Select" Content="选择" VerticalAlignment="Top" Click="button_Background_Select_Click">
+                                        <Button.BorderBrush>
+                                            <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                                                <LinearGradientBrush.RelativeTransform>
+                                                    <ScaleTransform CenterY="0.5" ScaleY="-1"/>
+                                                </LinearGradientBrush.RelativeTransform>
+                                                <GradientStop Color="#29000000"/>
+                                                <GradientStop Color="#33000000" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Button.BorderBrush>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+
+
+
 
                         </StackPanel>
                     </StackPanel>

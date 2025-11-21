@@ -119,6 +119,10 @@ namespace PvzLauncherRemake.Pages
                 await Task.Delay(200);//等待Frame动画播放完毕
                 StartTitleAnimation(grid_Title.Height,500);
 
+                //设置背景
+                if (!string.IsNullOrEmpty(AppInfo.Config.LauncherConfig.Background))
+                    image.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
+
             }
             catch (Exception ex)
             {
