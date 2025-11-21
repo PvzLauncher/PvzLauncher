@@ -41,15 +41,13 @@ namespace PvzLauncherRemake
                 //初始化配置文件
                 if (!File.Exists(System.IO.Path.Combine(AppInfo.ExecutePath, "config.json")))
                 {
-                    AppInfo.Config = new JsonConfig.Index
-                    {
-                        CurrentGame = null!
-                    };
+                    AppInfo.Config = new JsonConfig.Index();
                     ConfigManager.SaveAllConfig();
                 }
 
                 //读配置
                 ConfigManager.ReadAllConfig();
+                this.Title = AppInfo.Config.LauncherConfig.WindowTitle;
 
                 //创建游戏目录
                 if (!Directory.Exists(AppInfo.GameDirectory))
