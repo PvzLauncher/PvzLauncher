@@ -106,6 +106,15 @@ namespace PvzLauncherRemake.Pages
 
 
                 //播放动画
+                viewBox_Title_EN.Visibility = Visibility.Hidden;
+                viewBox_Title_ZH.Visibility = Visibility.Hidden;
+                switch (AppInfo.Config.LauncherConfig.TitleImage)//切换语言
+                {
+                    case "EN":
+                        viewBox_Title_EN.Visibility = Visibility.Visible;break;
+                    case "ZH":
+                        viewBox_Title_ZH.Visibility = Visibility.Visible;break;
+                }
                 grid_Title.Margin = new Thickness(0, -10 - grid_Title.Height, 0, 0);
                 await Task.Delay(200);//等待Frame动画播放完毕
                 StartTitleAnimation(grid_Title.Height,500);
@@ -156,6 +165,15 @@ namespace PvzLauncherRemake.Pages
                     AppProcess.Process.Start();
                     logger.Info($"进程启动完毕");
 
+                    //启动后操作
+                    switch (AppInfo.Config.LauncherConfig.LaunchedOperate)
+                    {
+                        case "Close":
+                            Environment.Exit(0);break;
+                        case "HideAndDisplay":
+                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Hidden;break;
+                    }
+
                     //启动提示
                     notifi.Show(new NotificationContent
                     {
@@ -168,6 +186,7 @@ namespace PvzLauncherRemake.Pages
                     logger.Info("等待进程退出...");
 
                     await AppProcess.Process.WaitForExitAsync();
+
                     logger.Info($"进程退出, ExitCode: {AppProcess.Process.ExitCode}");
                     notifi.Show(new NotificationContent
                     {
@@ -177,6 +196,13 @@ namespace PvzLauncherRemake.Pages
                     });
 
                     textBlock_LaunchText.Text = "启动游戏";
+
+                    //启动后操作
+                    switch (AppInfo.Config.LauncherConfig.LaunchedOperate)
+                    {
+                        case "HideAndDisplay":
+                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Visible;break;
+                    }
                 }
                 //运行就结束
                 else if (textBlock_LaunchText.Text == "结束进程")
