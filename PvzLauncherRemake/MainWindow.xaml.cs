@@ -48,6 +48,8 @@ namespace PvzLauncherRemake
                 //读配置
                 ConfigManager.ReadAllConfig();
                 this.Title = AppInfo.Config.LauncherConfig.WindowTitle;
+                this.Width = AppInfo.Config.LauncherConfig.WindowSize.Width;
+                this.Height = AppInfo.Config.LauncherConfig.WindowSize.Height;
 
                 //创建游戏目录
                 if (!Directory.Exists(AppInfo.GameDirectory))
@@ -75,6 +77,13 @@ namespace PvzLauncherRemake
                 //选择默认页
                 navView.SelectedItem = navViewItem_Launch;
                 logger.Info($"选择默认页: {((NavigationViewItem)navView.SelectedItem).Name}");
+
+                //注册事件
+                this.SizeChanged += ((sender, e) =>
+                {
+                    AppInfo.Config.LauncherConfig.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
+                    ConfigManager.SaveAllConfig();
+                });
 
                 logger.Info($"MainWindow 结束初始化");
             }
