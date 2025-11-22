@@ -1,4 +1,5 @@
-﻿using Notifications.Wpf;
+﻿using HuaZi.Library.Json;
+using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,6 +32,7 @@ namespace PvzLauncherRemake.Pages
     {
         private JsonGameInfo.Index currentGameInfo = null!;
         private NotificationManager notifi = new NotificationManager();
+        private bool MainCycleEnable = false;
 
         #region Animation
         public void StartTitleAnimation(double gridHeight, double timeMs = 500)
@@ -68,7 +71,7 @@ namespace PvzLauncherRemake.Pages
         #endregion
 
         #region Init
-        public void Initialize() { }
+        public void Initialize() { MainCycle(); }
         public async void InitializeLoaded()
         {
             try
@@ -99,7 +102,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         logger.Info("检测到游戏进程仍在运行...");
                         textBlock_LaunchText.Text = "结束进程";
-                        
+
                     }
                 }
                 catch (InvalidOperationException) { }
@@ -111,13 +114,13 @@ namespace PvzLauncherRemake.Pages
                 switch (AppInfo.Config.LauncherConfig.TitleImage)//切换语言
                 {
                     case "EN":
-                        viewBox_Title_EN.Visibility = Visibility.Visible;break;
+                        viewBox_Title_EN.Visibility = Visibility.Visible; break;
                     case "ZH":
-                        viewBox_Title_ZH.Visibility = Visibility.Visible;break;
+                        viewBox_Title_ZH.Visibility = Visibility.Visible; break;
                 }
                 grid_Title.Margin = new Thickness(0, -10 - grid_Title.Height, 0, 0);
                 await Task.Delay(200);//等待Frame动画播放完毕
-                StartTitleAnimation(grid_Title.Height,500);
+                StartTitleAnimation(grid_Title.Height, 500);
 
                 //设置背景
                 if (!string.IsNullOrEmpty(AppInfo.Config.LauncherConfig.Background))
@@ -127,6 +130,21 @@ namespace PvzLauncherRemake.Pages
             catch (Exception ex)
             {
                 ErrorReportDialog.Show("发生错误", "加载后初始化 PageLaunch 发生错误", ex);
+            }
+        }
+        #endregion
+
+        #region Cycle
+        public async void MainCycle()
+        {
+            while (true)
+            {
+                await Task.Delay(1000);
+                if (MainCycleEnable)
+                {
+                    currentGameInfo.Record.PlayTime++;
+                    Json.WriteJson(System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"), currentGameInfo);
+                }
             }
         }
         #endregion
@@ -173,10 +191,17 @@ namespace PvzLauncherRemake.Pages
                     switch (AppInfo.Config.LauncherConfig.LaunchedOperate)
                     {
                         case "Close":
-                            Environment.Exit(0);break;
+                            Environment.Exit(0); break;
                         case "HideAndDisplay":
-                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Hidden;break;
+                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Hidden; break;
                     }
+
+                    //记录启动次数
+                    currentGameInfo.Record.PlayCount++;
+                    Json.WriteJson(System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"), currentGameInfo);
+
+                    //开始计时
+                    MainCycleEnable = true;
 
                     //启动提示
                     notifi.Show(new NotificationContent
@@ -190,6 +215,9 @@ namespace PvzLauncherRemake.Pages
                     logger.Info("等待进程退出...");
 
                     await AppProcess.Process.WaitForExitAsync();
+
+                    //停止计时
+                    MainCycleEnable = false;
 
                     logger.Info($"进程退出, ExitCode: {AppProcess.Process.ExitCode}");
                     notifi.Show(new NotificationContent
@@ -205,7 +233,7 @@ namespace PvzLauncherRemake.Pages
                     switch (AppInfo.Config.LauncherConfig.LaunchedOperate)
                     {
                         case "HideAndDisplay":
-                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Visible;break;
+                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Visible; break;
                     }
                 }
                 //运行就结束
@@ -250,6 +278,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
+                MainCycleEnable = false;
                 ErrorReportDialog.Show("发生错误", "启动游戏时发生错误", ex);
             }
         }
