@@ -41,6 +41,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("navigation_view_align")]
             public string NavigationViewAlign { get; set; } = "Top";
+
+            [JsonProperty("update_channel")]
+            public string UpdateChannel { get; set; } = "Stable";
         }
 
         public class WindowSize
