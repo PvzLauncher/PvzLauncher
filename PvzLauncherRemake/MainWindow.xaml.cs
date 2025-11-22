@@ -60,9 +60,9 @@ namespace PvzLauncherRemake
                 switch (AppInfo.Config.LauncherConfig.NavigationViewAlign)
                 {
                     case "Left":
-                        navView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;break;
+                        navView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact; break;
                     case "Top":
-                        navView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;break;
+                        navView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
                 }
 
                 //注册事件
@@ -115,15 +115,19 @@ namespace PvzLauncherRemake
                         //外壳启动
                         case "-shell":
                             AppInfo.Arguments.isShell = true; break;
+                        //更新启动，显示更新完毕对话框
+                        case "-update":
+                            AppInfo.Arguments.isUpdate = true; break;
                     }
                 }
 
                 logger.Info("==========[启动参数信息]==========");
                 logger.Info($"isShell: {AppInfo.Arguments.isShell}");
+                logger.Info($"isUpdate: {AppInfo.Arguments.isUpdate}");
                 logger.Info("==========[End]==========");
 
                 //是否外壳启动
-                if (!AppInfo.Arguments.isShell && !Debugger.IsAttached) 
+                if (!AppInfo.Arguments.isShell && !Debugger.IsAttached)
                 {
                     logger.Info("检测到没有使用Shell执行");
                     await DialogManager.ShowDialogAsync(new ContentDialog
@@ -143,6 +147,16 @@ namespace PvzLauncherRemake
                         });
                         Environment.Exit(0);
                     }));
+                }
+                //更新启动
+                if (AppInfo.Arguments.isUpdate)
+                {
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "更新完毕",
+                        Content = $"您已更新到最新版 {AppInfo.Version} , 尽情享受吧！",
+                        PrimaryButtonText = "确定"
+                    });
                 }
 
                 logger.Info($"处理 MainWindow 加载事件完毕");
@@ -183,7 +197,7 @@ namespace PvzLauncherRemake
             try
             {
                 //判断是否显示返回箭头
-                if(frame.Content is PageManageSet)
+                if (frame.Content is PageManageSet)
                 {
                     navView.IsBackButtonVisible = NavigationViewBackButtonVisible.Visible;
                     navView.IsBackEnabled = true;

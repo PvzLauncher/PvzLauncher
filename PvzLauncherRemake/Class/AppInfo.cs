@@ -20,6 +20,7 @@ namespace PvzLauncherRemake.Class
         public static class Arguments
         {
             public static bool isShell = false;
+            public static bool isUpdate = false;
         }
     }
 }
