@@ -169,8 +169,13 @@ namespace PvzLauncherRemake.Pages
 
                 var listbox = (ListBox)sender;
                 var selectItem = (UserDownloadCard)listbox.SelectedItem;
-                var downloadIndex = (JsonDownloadIndex.GameInfo)selectItem.Tag;
-                string savePath = System.IO.Path.Combine(AppInfo.GameDirectory, downloadIndex.Name);
+                var downloadIndex = (string)listbox.Tag == "trainer"
+                    ? (JsonDownloadIndex.TrainerInfo)selectItem.Tag
+                    : (JsonDownloadIndex.GameInfo)selectItem.Tag;
+
+                string savePath = listbox.Tag.ToString() == "trainer" ?
+                    System.IO.Path.Combine(AppInfo.TrainerDirectory, downloadIndex.Name) :
+                    System.IO.Path.Combine(AppInfo.GameDirectory, downloadIndex.Name);
 
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
@@ -189,7 +194,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             var textBox = new TextBox { Text = downloadIndex.Name };
 
-                            if (Directory.Exists(System.IO.Path.Combine(AppInfo.GameDirectory, downloadIndex.Name)))
+                            if (Directory.Exists(savePath))
                             {
                                 await DialogManager.ShowDialogAsync(new ContentDialog
                                 {
@@ -221,8 +226,8 @@ namespace PvzLauncherRemake.Pages
                         StartLoad(true);
 
                         //清除残留
-                        if (File.Exists(System.IO.Path.Combine(AppInfo.TempPath, "Game.zip")))
-                            await Task.Run(() => File.Delete(System.IO.Path.Combine(AppInfo.TempPath, "Game.zip")));
+                        if (File.Exists(System.IO.Path.Combine(AppInfo.TempPath, "PVZLAUNCHERCACHE.zip")))
+                            await Task.Run(() => File.Delete(System.IO.Path.Combine(AppInfo.TempPath, "PVZLAUNCHERCACHE.zip")));
 
                         bool isDownloadDone = false;
                         string? downloadError = null;
@@ -230,7 +235,7 @@ namespace PvzLauncherRemake.Pages
                         downloader = new Downloader
                         {
                             Url = downloadIndex.Url,
-                            SavePath = System.IO.Path.Combine(AppInfo.TempPath, "Game.zip"),
+                            SavePath = System.IO.Path.Combine(AppInfo.TempPath, "PVZLAUNCHERCACHE.zip"),
                             Progress = ((p, s) =>
                             {
                                 progressBar_Loading.Value = p;
@@ -267,7 +272,7 @@ namespace PvzLauncherRemake.Pages
                         await Task.Run(() =>
                         {
                             //使用SharpCompress库解压
-                            ArchiveFactory.WriteToDirectory(System.IO.Path.Combine(AppInfo.TempPath, "Game.zip"), savePath, new ExtractionOptions
+                            ArchiveFactory.WriteToDirectory(System.IO.Path.Combine(AppInfo.TempPath, "PVZLAUNCHERCACHE.zip"), savePath, new ExtractionOptions
                             {
                                 ExtractFullPath = true,
                                 Overwrite = true
@@ -275,33 +280,48 @@ namespace PvzLauncherRemake.Pages
                         });
 
                         //写Json
-                        var jsonContent = new JsonGameInfo.Index
+                        string jsonContentName = null!;
+                        if (listbox.Tag.ToString() == "trainer")
                         {
-                            GameInfo = new JsonGameInfo.GameInfo
+                            JsonGameInfo.Index jsonContent = new JsonGameInfo.Index
+                            {
+                                GameInfo = new JsonGameInfo.GameInfo
+                                {
+                                    ExecuteName = downloadIndex.ExecuteName,
+                                    Name = System.IO.Path.GetFileName(savePath),
+                                    Version = downloadIndex.Version,
+                                    VersionType = downloadIndex.VersionType
+                                },
+                                Record = new JsonGameInfo.Record
+                                {
+                                    FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                    PlayCount = 0,
+                                    PlayTime = 0
+                                }
+                            };
+                            Json.WriteJson(System.IO.Path.Combine(savePath, ".pvzl.json"), jsonContent);
+                            jsonContentName = jsonContent.GameInfo.Name;
+                        }
+                        else
+                        {
+                            JsonTrainerInfo.Index jsonContent = new JsonTrainerInfo.Index
                             {
                                 ExecuteName = downloadIndex.ExecuteName,
-                                Name = System.IO.Path.GetFileName(savePath),
-                                Version = downloadIndex.Version,
-                                VersionType = downloadIndex.VersionType
-                            },
-                            Record = new JsonGameInfo.Record
-                            {
-                                FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                PlayCount = 0,
-                                PlayTime = 0
-                            }
-                        };
-                        Json.WriteJson(System.IO.Path.Combine(savePath, ".pvzl.json"), jsonContent);
+                                Version = downloadIndex.Version
+                            };
+                            Json.WriteJson(System.IO.Path.Combine(savePath, ".pvzl.json"), jsonContent);
+                        }
 
                         notificationManager.Show(new NotificationContent
                         {
                             Title = "下载完成",
-                            Message = $"\"{jsonContent.GameInfo.Name}\" 已添加进您的游戏库!",
+                            Message = $"\"{System.IO.Path.GetFileName(savePath)}\" 已添加进您的{(listbox.Tag.ToString() == "trainer" ? "修改器" : "游戏")}库!",
                             Type = NotificationType.Success
                         });
 
                         //设置当前项
-                        AppInfo.Config.CurrentGame = jsonContent.GameInfo.Name;
+                        if (listbox.Tag.ToString() != "trainer")
+                            AppInfo.Config.CurrentGame = jsonContentName;
                         NavigationController.Navigate(this, "Manage");
 
                         EndLoad();

@@ -49,6 +49,11 @@ namespace PvzLauncherRemake
                     logger.Info($"游戏目录 {AppInfo.GameDirectory} 不存在，即将创建");
                     Directory.CreateDirectory(AppInfo.GameDirectory);
                 }
+                if (!Directory.Exists(AppInfo.TrainerDirectory))
+                {
+                    logger.Info($"修改器目录 {AppInfo.TrainerDirectory} 不存在，即将创建");
+                    Directory.CreateDirectory(AppInfo.TrainerDirectory);
+                }
 
                 //读配置
                 ConfigManager.ReadAllConfig();

@@ -11,6 +11,7 @@ namespace PvzLauncherRemake.Class
         public static readonly string Version = $"1.0.0-alpha.12";//版本
         public static readonly string RootPath = $"{Path.GetDirectoryName(ExecutePath)}";//顶级目录
         public static readonly string GameDirectory = $"{Path.Combine(ExecutePath, "Games")}";//游戏目录
+        public static readonly string TrainerDirectory = $"{Path.Combine(ExecutePath, "Trainer")}";//修改器目录
         public static List<JsonGameInfo.Index> GameList = new List<JsonGameInfo.Index>();//游戏列表
         public static JsonConfig.Index Config = null!;//配置
         public static readonly string DownloadIndexUrl = "https://gitee.com/huamouren110/UpdateService/raw/main/PvzLauncherRemake/download.json";//下载索引

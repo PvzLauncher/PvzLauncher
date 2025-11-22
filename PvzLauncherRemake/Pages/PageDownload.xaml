@@ -35,7 +35,7 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="修改器下载">
-                <ListBox x:Name="listBox_trainer">
+                <ListBox x:Name="listBox_trainer" Tag="trainer" SelectionChanged="listBox_SelectionChanged">
                     <ctrl:UserDownloadCard SupportVersion="1.0.0.1051"/>
                 </ListBox>
             </TabItem>
