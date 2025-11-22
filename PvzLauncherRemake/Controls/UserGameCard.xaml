@@ -57,7 +57,7 @@
                 <TextBlock x:Name="textBlock_Version" Text="Version" Margin="2,2,2,2" Foreground="White"/>
             </Grid>
             <Grid Margin="0,0,5,0">
-                <Rectangle Fill="#FFFF6464" RadiusX="3" RadiusY="3"/>
+                <Rectangle Fill="#FFFF3232" RadiusX="3" RadiusY="3"/>
                 <TextBlock Text="活动" Margin="2,2,2,2" Foreground="White" FontWeight="Bold"/>
             </Grid>
         </StackPanel>
