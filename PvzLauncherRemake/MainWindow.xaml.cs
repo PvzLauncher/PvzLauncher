@@ -161,7 +161,8 @@ namespace PvzLauncherRemake
                     {
                         Title = "更新完毕",
                         Content = $"您已更新到最新版 {AppInfo.Version} , 尽情享受吧！",
-                        PrimaryButtonText = "确定"
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
                     });
                 }
 
