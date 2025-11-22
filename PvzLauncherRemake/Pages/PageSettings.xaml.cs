@@ -1,10 +1,12 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
+using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,9 +70,24 @@ namespace PvzLauncherRemake.Pages
                 radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
                 if (!string.IsNullOrEmpty(AppInfo.Config.LauncherConfig.Background))
                 {
-                    radioButton_Background_Custom.IsChecked = true;
-                    button_Background_Select.IsEnabled = true;
-                    image_Background.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
+                    if (Directory.Exists(AppInfo.Config.LauncherConfig.Background))
+                    {
+                        radioButton_Background_Custom.IsChecked = true;
+                        button_Background_Select.IsEnabled = true;
+                        image_Background.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
+                    }
+                    else
+                    {
+                        new NotificationManager().Show(new NotificationContent
+                        {
+                            Title = "背景设置项失效",
+                            Message = $"\"{AppInfo.Config.LauncherConfig.Background}\" 不存在！已恢复为默认背景!",
+                            Type = NotificationType.Error
+                        });
+                        AppInfo.Config.LauncherConfig.Background = null!;
+                        ConfigManager.SaveAllConfig();
+                        this.NavigationService.Refresh();
+                    }
                 }
                 else
                 {

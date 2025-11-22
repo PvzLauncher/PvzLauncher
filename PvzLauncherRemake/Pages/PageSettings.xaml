@@ -18,7 +18,7 @@
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="操作" FontSize="25" FontWeight="Bold"/>
                             <!--启动后操作-->
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="游戏启动后操作:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <ComboBox x:Name="comboBox_LaunchedOperate" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="comboBox_LaunchedOperate_SelectionChanged">
                                     <ComboBoxItem Content="不执行任何操作"/>
@@ -947,7 +947,7 @@
                                 </StackPanel>
                             </StackPanel>
                             <!--背景图-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="背景图:" Margin="0,0,10,0"/>
                                 <RadioButton x:Name="radioButton_Background_Default" Tag="Default" Content="默认" IsChecked="True" VerticalAlignment="Top" Click="radioButton_Background_Default_Click"/>
                                 <StackPanel>
@@ -969,6 +969,7 @@
                                 </StackPanel>
                             </StackPanel>
 
+                            
 
 
 
