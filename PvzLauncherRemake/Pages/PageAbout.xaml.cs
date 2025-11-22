@@ -29,5 +29,17 @@ namespace PvzLauncherRemake.Pages
 
             textBlock_Version.Text = AppInfo.Version;
         }
+
+        public void GoToUrl(object sender,RoutedEventArgs e)
+        {
+            if(sender is Button button)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = button.Tag.ToString(),
+                    UseShellExecute = true
+                });
+            }
+        }
     }
 }

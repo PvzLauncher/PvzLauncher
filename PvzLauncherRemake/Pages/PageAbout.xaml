@@ -28,12 +28,38 @@
         <TextBlock Text="Plants vs. Zombies Launcher - Remake" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,0,0,0" FontSize="25" FontWeight="Bold"/>
         <TextBlock x:Name="textBlock_Version" Text="Version" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,37,0,0" Foreground="#FF646464"/>
 
-        <TextBlock Text="作者" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,105,0,0"/>
-        <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen" Content="isHuaMouRen" VerticalAlignment="Top" Margin="0,129,0,0"/>
-        <TextBlock Text="项目储存库" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,162,0,0"/>
-        <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen/PvzLauncher-Remake" Content="isHuaMouRen/PvzLauncher-Remake" VerticalAlignment="Top" Margin="0,186,0,0"/>
-        <TextBlock Text="UI库" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,215,0,0"/>
-        <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf" VerticalAlignment="Top" Margin="0,239,0,0"/>
+        <StackPanel Margin="0,100,0,20">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Button x:Name="button_ReportIssue" Content="反馈问题" Margin="0,0,10,0" Tag="https://github.com/isHuaMouRen/PvzLauncher-Remake/issues/new/choose" Click="GoToUrl">
+                    <Button.BorderBrush>
+                        <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                            <LinearGradientBrush.RelativeTransform>
+                                <ScaleTransform CenterY="0.5" ScaleY="-1"/>
+                            </LinearGradientBrush.RelativeTransform>
+                            <GradientStop Color="#29000000"/>
+                            <GradientStop Color="#33000000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.BorderBrush>
+                </Button>
+                <Button x:Name="button_UploadVersion" Content="提供游戏版本" Tag="https://github.com/isHuaMouRen/PvzLauncher-Remake/issues/new?template=download.yml" Click="GoToUrl">
+                    <Button.BorderBrush>
+                        <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                            <LinearGradientBrush.RelativeTransform>
+                                <ScaleTransform CenterY="0.5" ScaleY="-1"/>
+                            </LinearGradientBrush.RelativeTransform>
+                            <GradientStop Color="#29000000"/>
+                            <GradientStop Color="#33000000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.BorderBrush>
+                </Button>
+            </StackPanel>
+            <TextBlock Text="作者" FontSize="15" FontWeight="Bold"/>
+            <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen" Content="isHuaMouRen"/>
+            <TextBlock Text="项目储存库" FontSize="15" FontWeight="Bold"/>
+            <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen/PvzLauncher-Remake" Content="isHuaMouRen/PvzLauncher-Remake"/>
+            <TextBlock Text="UI库" FontSize="15" FontWeight="Bold" Cursor="Hand"/>
+            <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf" Cursor="Hand"/>
+        </StackPanel>
 
         <TextBlock Text="版权所有 ©️ 2025 HuaMouRen 保留所有权益" Foreground="#FF646464" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
     </Grid>
