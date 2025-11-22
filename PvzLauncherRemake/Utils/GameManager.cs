@@ -43,5 +43,34 @@ namespace PvzLauncherRemake.Utils
             });
             
         }
+
+        /// <summary>
+        /// 加载修改器列表
+        /// </summary>
+        public static async Task LoadTrainerList()
+        {
+            await Task.Run(() =>
+            {
+                logger.Info("开始加载修改器列表");
+                //清理
+                AppInfo.TrainerList.Clear();
+
+                //游戏文件夹
+                string[] trainers = Directory.GetDirectories(AppInfo.TrainerDirectory);
+
+                foreach (var trainer in trainers)
+                {
+                    string configPath = Path.Combine(trainer, ".pvzl.json");
+                    if (File.Exists(configPath))
+                    {
+                        JsonTrainerInfo.Index configContent = Json.ReadJson<JsonTrainerInfo.Index>(configPath);
+                        logger.Info($"找到修改器配置: {Path.GetFileName(trainer)}");
+                        AppInfo.TrainerList.Add(configContent);
+                    }
+                }
+
+                logger.Info("加载修改器列表结束");
+            });
+        }
     }
 }
