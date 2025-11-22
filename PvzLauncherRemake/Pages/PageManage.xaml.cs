@@ -10,6 +10,7 @@ using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -64,8 +65,10 @@ namespace PvzLauncherRemake.Pages
 
                 //清理
                 listBox.Items.Clear();
-                //加载游戏列表
+                listBox_Trainer.Items.Clear();
+                //加载列表
                 await GameManager.LoadGameList();
+                await GameManager.LoadTrainerList();
 
                 //游戏库里有东西才加
                 if (AppInfo.GameList.Count > 0)
@@ -85,7 +88,7 @@ namespace PvzLauncherRemake.Pages
                             Icon = game.GameInfo.Version.StartsWith("β") ? "beta" : "origin",
                             isCurrent = game.GameInfo.Name == AppInfo.Config.CurrentGame ? true : false,
                             Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
-                            Background = Brushes.Transparent,
+                            Background = System.Windows.Media.Brushes.Transparent,
                             Tag = game
                         };
                         card.PreviewMouseDoubleClick += SelectGame;
@@ -110,6 +113,44 @@ namespace PvzLauncherRemake.Pages
                     }), (() =>
                     {
                         button_Load_Click(button_Load, null!);
+                    }));
+                }
+
+                //添加修改器
+                //游戏库里有东西才加
+                if (AppInfo.TrainerList.Count > 0)
+                {
+                    //添加卡片
+                    foreach (var trainer in AppInfo.TrainerList)
+                    {
+                        //定义卡片
+                        var card = new UserTrainerCard
+                        {
+                            Title = trainer.Name,
+                            Icon = Icon.ExtractAssociatedIcon(System.IO.Path.Combine(AppInfo.TrainerDirectory,trainer.Name,trainer.ExecuteName))!,
+                            isCurrent = trainer.Name == AppInfo.Config.CurrentTrainer ? true : false,
+                            Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
+                            Background = System.Windows.Media.Brushes.Transparent,
+                            Tag = trainer
+                        };
+                        card.PreviewMouseDoubleClick += SelectTrainer;
+                        //card.PreviewMouseRightButtonDown += SetGame;
+                        listBox_Trainer.Items.Add(card);//添加
+                        logger.Info($"添加修改器卡片: 标题: {card.Title} 版本: {card.Version}");
+                    }
+                }
+                else
+                {
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "提示",
+                        Content = "您的修改器库内还没有修改器！快去下载页面下载吧！",
+                        PrimaryButtonText = "去下载",
+                        CloseButtonText = "稍后",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() =>
+                    {
+                        NavigationController.Navigate(this, "Download");
                     }));
                 }
 
@@ -158,6 +199,39 @@ namespace PvzLauncherRemake.Pages
                 ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
             }
         }
+
+        //选择修改器
+        private void SelectTrainer(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (listBox_Trainer.SelectedItem != null)
+                {
+                    notificationManager.Show(new NotificationContent
+                    {
+                        Title = "选择修改器",
+                        Message = $"已选择 \"{((UserTrainerCard)sender).Title}\" 作为当前修改器",
+                        Type = NotificationType.Information
+                    });
+
+                    //更新控件
+                    foreach (var card in listBox_Trainer.Items)
+                    {
+                        ((UserTrainerCard)card).isCurrent = (card == sender);
+                        ((UserTrainerCard)card).SetLabels();
+                    }
+
+                    logger.Info($"用户选择修改器: {((UserTrainerCard)sender).Title}");
+                    AppInfo.Config.CurrentTrainer = $"{((UserTrainerCard)sender).Title}";
+                    ConfigManager.SaveAllConfig();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+            }
+        }
+
 
         //设置游戏
         private void SetGame(object sender, MouseButtonEventArgs e)
