@@ -92,7 +92,7 @@ namespace PvzLauncherRemake.Pages
                 radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
                 if (!string.IsNullOrEmpty(AppInfo.Config.LauncherConfig.Background))
                 {
-                    if (Directory.Exists(AppInfo.Config.LauncherConfig.Background))
+                    if (File.Exists(AppInfo.Config.LauncherConfig.Background))
                     {
                         radioButton_Background_Custom.IsChecked = true;
                         button_Background_Select.IsEnabled = true;
