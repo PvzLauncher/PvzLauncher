@@ -125,6 +125,15 @@ namespace PvzLauncherRemake.Pages
                     case "Top":
                         radioButton_NavViewTop.IsChecked = true;break;
                 }
+                //## 更新
+                //### 更新通道
+                switch (AppInfo.Config.LauncherConfig.UpdateChannel)
+                {
+                    case "Stable":
+                        comboBox_UpdateChannel.SelectedIndex = 0;break;
+                    case "Development":
+                        comboBox_UpdateChannel.SelectedIndex = 1;break;
+                }
 
 
                     isInitialized = true;
@@ -273,6 +282,15 @@ namespace PvzLauncherRemake.Pages
                 ErrorReportDialog.Show("发生错误", "更新时发生错误", ex);
             }
             
+        }
+
+        private void comboBox_UpdateChannel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppInfo.Config.LauncherConfig.UpdateChannel = (string)(((ComboBoxItem)comboBox_UpdateChannel.SelectedItem).Tag);
+                ConfigManager.SaveAllConfig();
+            }
         }
     }
 }

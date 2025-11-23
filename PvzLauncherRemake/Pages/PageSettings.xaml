@@ -994,6 +994,14 @@
                                     </Button.BorderBrush>
                                 </Button>
                             </StackPanel>
+                            <!--更新通道-->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="更新通道:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <ComboBox x:Name="comboBox_UpdateChannel" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="comboBox_UpdateChannel_SelectionChanged">
+                                    <ComboBoxItem Content="Stable (稳定版, 更新慢)" Tag="Stable"/>
+                                    <ComboBoxItem Content="Development (开发版, 更新快)" Tag="Development"/>
+                                </ComboBox>
+                            </StackPanel>
                         </StackPanel>
 
 
