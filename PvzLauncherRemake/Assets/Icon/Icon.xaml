@@ -5,7 +5,7 @@
             <RectangleGeometry Rect="0.0,0.0,512.0,512.0"/>
         </Canvas.Clip>
         <Canvas UseLayoutRounding="False">
-            <Path Fill="#fff1eef2" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="7.5" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+            <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="7.5" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
                 <Path.Data>
                     <PathGeometry Figures="m 302.334 414.935 c 40.4344 -10.4299 105.204 -19.0139 134.761 -72.0946 c 34.3197 -47.7745 4.69309 -73.671 -15.2355 -108.695 C 405.115 212.933 391.736 203.379 377.663 197.682 C 302.237 181.259 247.376 205.595 202.742 238.287 C 74.4843 347.651 174.145 445.115 302.334 414.935 Z" FillRule="Nonzero"/>
                 </Path.Data>
