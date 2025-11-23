@@ -134,6 +134,8 @@ namespace PvzLauncherRemake.Pages
                     case "Development":
                         comboBox_UpdateChannel.SelectedIndex = 1;break;
                 }
+                //### 启动时检查更新
+                checkBox_StartUpCheckUpdate.IsChecked = AppInfo.Config.LauncherConfig.StartUpCheckUpdate;
 
 
                     isInitialized = true;
@@ -289,6 +291,15 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppInfo.Config.LauncherConfig.UpdateChannel = (string)(((ComboBoxItem)comboBox_UpdateChannel.SelectedItem).Tag);
+                ConfigManager.SaveAllConfig();
+            }
+        }
+
+        private void checkBox_StartUpCheckUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppInfo.Config.LauncherConfig.StartUpCheckUpdate = (bool)checkBox_StartUpCheckUpdate.IsChecked!;
                 ConfigManager.SaveAllConfig();
             }
         }

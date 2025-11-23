@@ -26,7 +26,6 @@
                                     <ComboBoxItem Content="启动器隐藏，等待游戏结束后显示"/>
                                 </ComboBox>
                             </StackPanel>
-
                         </StackPanel>
 
                         <!--外观-->
@@ -969,7 +968,7 @@
                                 </StackPanel>
                             </StackPanel>
                             <!--NavigationView位置-->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="导航栏位置:" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <RadioButton x:Name="radioButton_NavViewLeft" Content="左侧" Tag="Left" Checked="radioButton_NavViewLeft_Checked"/>
                                 <RadioButton x:Name="radioButton_NavViewTop" Content="顶部" Tag="Top" Checked="radioButton_NavViewLeft_Checked"/>
@@ -1001,6 +1000,11 @@
                                     <ComboBoxItem Content="Stable (稳定版, 更新慢)" Tag="Stable"/>
                                     <ComboBoxItem Content="Development (开发版, 更新快)" Tag="Development"/>
                                 </ComboBox>
+                            </StackPanel>
+                            <!--启动时检查更新-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="启动时检查更新:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <CheckBox x:Name="checkBox_StartUpCheckUpdate" Content="启用" Click="checkBox_StartUpCheckUpdate_Click"/>
                             </StackPanel>
                         </StackPanel>
 

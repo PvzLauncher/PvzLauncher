@@ -166,6 +166,21 @@ namespace PvzLauncherRemake
                     });
                 }
 
+
+
+
+
+
+
+
+
+
+
+                //检查更新
+                if (AppInfo.Config.LauncherConfig.StartUpCheckUpdate)
+                    await Updater.CheckUpdate(null!, true);
+
+
                 logger.Info($"处理 MainWindow 加载事件完毕");
             }
             catch (Exception ex)

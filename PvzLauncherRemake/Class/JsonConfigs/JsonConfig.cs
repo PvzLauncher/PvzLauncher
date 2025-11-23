@@ -44,6 +44,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("update_channel")]
             public string UpdateChannel { get; set; } = "Stable";
+
+            [JsonProperty("start_up_check_update")]
+            public bool StartUpCheckUpdate { get; set; } = true;
         }
 
         public class WindowSize

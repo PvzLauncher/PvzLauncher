@@ -25,7 +25,7 @@ namespace PvzLauncherRemake.Utils
         public static bool isUpdate = false;
         public static HttpClient Client = new HttpClient();
 
-        public static async Task CheckUpdate(Action<double,double> progressCallback = null!)
+        public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
             logger.Info("开始检测更新...");
             //获取主索引
@@ -55,13 +55,14 @@ namespace PvzLauncherRemake.Utils
             }
             else
             {
-                await DialogManager.ShowDialogAsync(new ContentDialog
-                {
-                    Title = "无可用更新",
-                    Content = $"您使用的已经是最新版本 {AppInfo.Version} , 无需更新!",
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                });
+                if (!isStartUp)
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "无可用更新",
+                        Content = $"您使用的已经是最新版本 {AppInfo.Version} , 无需更新!",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    });
             }
 
 
