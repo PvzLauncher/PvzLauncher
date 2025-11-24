@@ -170,8 +170,16 @@ namespace PvzLauncherRemake.Pages
                             });
                             //刷新游戏列表
                             await GameManager.LoadGameList();
+
                             if (AppInfo.GameList.Count > 0 && AppInfo.Config.CurrentGame == GameInfo.GameInfo.Name)
+                            {
                                 AppInfo.Config.CurrentGame = AppInfo.GameList[0].GameInfo.Name;
+                            }
+                            else if (AppInfo.GameList.Count == 0)
+                            {
+                                AppInfo.Config.CurrentGame = null!;
+                            }
+
                             this.NavigationService.GoBack();
 
                             EndLoad();
@@ -341,7 +349,7 @@ namespace PvzLauncherRemake.Pages
                         Type = NotificationType.Error
                     });
                 }
-                
+
             }
             catch (Exception ex)
             {
