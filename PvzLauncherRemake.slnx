@@ -3,9 +3,6 @@
     <BuildType Name="Release" />
   </Configurations>
   <Project Path="ExecuteShell/ExecuteShell.csproj" />
-  <Project Path="PvzLauncherRemake/PvzLauncherRemake.csproj">
-    <BuildDependency Project="ExecuteShell/ExecuteShell.csproj" />
-    <BuildDependency Project="UpdateService/UpdateService.csproj" />
-  </Project>
+  <Project Path="PvzLauncherRemake/PvzLauncherRemake.csproj" />
   <Project Path="UpdateService/UpdateService.csproj" />
 </Solution>
