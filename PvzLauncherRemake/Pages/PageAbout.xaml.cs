@@ -35,9 +35,9 @@ namespace PvzLauncherRemake.Pages
             textBlock_Version.Text = AppInfo.Version;
         }
 
-        public void GoToUrl(object sender,RoutedEventArgs e)
+        public void GoToUrl(object sender, RoutedEventArgs e)
         {
-            if(sender is Button button)
+            if (sender is Button button)
             {
                 Process.Start(new ProcessStartInfo
                 {
@@ -150,6 +150,53 @@ namespace PvzLauncherRemake.Pages
                         Message = "好了，这次是真的没了，最大值就是250了。快走吧。",
                         Type = NotificationType.Information,
                     }); break;
+            }
+        }
+
+        private async void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var textBox = new TextBox();
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "开发者控制台",
+                    Content = new StackPanel
+                    {
+                        Children =
+                        {
+                            new TextBlock
+                            {
+                                Text="您正在进入开发者控制台，在开发者控制台乱改造成的程序异常请不要前往仓库反馈BUG！\n\n请输入32位整形最大值来进入开发者控制台",
+                                Margin=new Thickness(0,0,0,10)
+                            },
+                            textBox
+                        }
+                    },
+                    PrimaryButtonText = "确定",
+                    CloseButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
+                }, (() =>
+                {
+                    if (textBox.Text == Int32.MaxValue.ToString())
+                    {
+                        this.NavigationService.Navigate(new PageDeveloper());
+                    }
+                    else
+                    {
+                        new NotificationManager().Show(new NotificationContent
+                        {
+                            Title = "错误",
+                            Message = "你没有输入正确的Int32最大值",
+                            Type = NotificationType.Error
+                        });
+                    }
+                }));
+                
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", null!, ex);
             }
         }
     }
