@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11217.181 d18.0
+VisualStudioVersion = 18.0.11217.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PvzLauncherRemake", "PvzLauncherRemake\PvzLauncherRemake.csproj", "{1340F4C5-8386-4018-9B55-9BD30FC69C1A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3C28315A-296D-4F00-B7D9-398542359F47} = {3C28315A-296D-4F00-B7D9-398542359F47}
+		{9ABF9664-4AF0-4FC8-B5E4-ABB44FFE3DA9} = {9ABF9664-4AF0-4FC8-B5E4-ABB44FFE3DA9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteShell", "ExecuteShell\ExecuteShell.csproj", "{3C28315A-296D-4F00-B7D9-398542359F47}"
 EndProject
