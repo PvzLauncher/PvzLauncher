@@ -167,7 +167,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             new TextBlock
                             {
-                                Text="您正在进入开发者控制台，在开发者控制台乱改造成的程序异常请不要前往仓库反馈BUG！\n\n请输入32位整形最大值来进入开发者控制台",
+                                Text="您正在进入开发者控制台，在开发者控制台乱改造成的程序异常请不要前往仓库反馈BUG！\n\n请输入 Int32的最大值与最小值的和 来进入开发者控制台",
                                 Margin=new Thickness(0,0,0,10)
                             },
                             textBox
@@ -178,7 +178,7 @@ namespace PvzLauncherRemake.Pages
                     DefaultButton = ContentDialogButton.Primary
                 }, (() =>
                 {
-                    if (textBox.Text == Int32.MaxValue.ToString())
+                    if (textBox.Text == (Int32.MaxValue + Int32.MinValue).ToString()) 
                     {
                         this.NavigationService.Navigate(new PageDeveloper());
                     }
