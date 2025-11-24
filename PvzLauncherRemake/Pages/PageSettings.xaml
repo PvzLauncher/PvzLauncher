@@ -1008,6 +1008,19 @@
                             </StackPanel>
                         </StackPanel>
 
+                        <!--通知-->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="通知" FontSize="25" FontWeight="Bold"/>
+                            <!--下载通知-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="下载通知:" Margin="0,0,10,0" VerticalAlignment="Center"/>
+
+                                <CheckBox x:Name="checkBox_DownloadTipGame" Content="游戏下载通知" Tag="Game" IsChecked="False" Click="checkBox_DownloadTipGame_Click"/>
+                                <CheckBox x:Name="checkBox_DownloadTipTrainer" Content="修改器下载通知" Tag="Trainer" IsChecked="False" Click="checkBox_DownloadTipGame_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                        
 
                     </StackPanel>
                 </ScrollViewer>

@@ -99,21 +99,22 @@ namespace PvzLauncherRemake.Pages
                 }
                 else
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
-                    {
-                        Title = "提示",
-                        Content = "您的游戏库内还没有游戏！快去下载页面下载或导入一个游戏吧！",
-                        PrimaryButtonText = "去下载",
-                        SecondaryButtonText = "去导入",
-                        CloseButtonText = "稍后",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() =>
-                    {
-                        NavigationController.Navigate(this, "Download");
-                    }), (() =>
-                    {
-                        button_Load_Click(button_Load, null!);
-                    }));
+                    if (AppInfo.Config.LauncherConfig.DownloadTip.ShowGameDownloadTip)
+                        await DialogManager.ShowDialogAsync(new ContentDialog
+                        {
+                            Title = "提示",
+                            Content = "您的游戏库内还没有游戏！快去下载页面下载或导入一个游戏吧！",
+                            PrimaryButtonText = "去下载",
+                            SecondaryButtonText = "去导入",
+                            CloseButtonText = "稍后",
+                            DefaultButton = ContentDialogButton.Primary
+                        }, (() =>
+                        {
+                            NavigationController.Navigate(this, "Download");
+                        }), (() =>
+                        {
+                            button_Load_Click(button_Load, null!);
+                        }));
                 }
 
                 //添加修改器
@@ -141,17 +142,18 @@ namespace PvzLauncherRemake.Pages
                 }
                 else
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
-                    {
-                        Title = "提示",
-                        Content = "您的修改器库内还没有修改器！快去下载页面下载吧！",
-                        PrimaryButtonText = "去下载",
-                        CloseButtonText = "稍后",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() =>
-                    {
-                        NavigationController.Navigate(this, "Download");
-                    }));
+                    if (AppInfo.Config.LauncherConfig.DownloadTip.ShowTrainerDownloadTip)
+                        await DialogManager.ShowDialogAsync(new ContentDialog
+                        {
+                            Title = "提示",
+                            Content = "您的修改器库内还没有修改器！快去下载页面下载吧！",
+                            PrimaryButtonText = "去下载",
+                            CloseButtonText = "稍后",
+                            DefaultButton = ContentDialogButton.Primary
+                        }, (() =>
+                        {
+                            NavigationController.Navigate(this, "Download");
+                        }));
                 }
 
                 EndLoad();

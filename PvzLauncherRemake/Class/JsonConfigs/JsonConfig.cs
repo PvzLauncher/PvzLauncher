@@ -47,6 +47,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("start_up_check_update")]
             public bool StartUpCheckUpdate { get; set; } = true;
+
+            [JsonProperty("download_tip")]
+            public DownloadTip DownloadTip { get; set; } = new DownloadTip();
         }
 
         public class WindowSize
@@ -56,6 +59,15 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("height")]
             public double Height { get; set; } = 450;
+        }
+
+        public class DownloadTip
+        {
+            [JsonProperty("show_game_download_tip")]
+            public bool ShowGameDownloadTip { get; set; } = true;
+
+            [JsonProperty("show_trainer_download_tip")]
+            public bool ShowTrainerDownloadTip { get; set; } = false;
         }
     }
 }
