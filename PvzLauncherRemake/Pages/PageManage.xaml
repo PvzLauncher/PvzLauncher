@@ -42,7 +42,7 @@
                     </ListBox>
                 </TabItem>
             </TabControl>
-            <Button x:Name="button_Load" Content="导入游戏" VerticalAlignment="Top" Background="#B3F0F0F0" Click="button_Load_Click" HorizontalAlignment="Right" Margin="0,10,10,0">
+            <Button x:Name="button_Load" Content="导入游戏" VerticalAlignment="Top" Click="button_Load_Click" HorizontalAlignment="Right" Margin="0,10,10,0">
                 <Button.BorderBrush>
                     <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                         <LinearGradientBrush.RelativeTransform>
