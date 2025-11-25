@@ -33,6 +33,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("version")]
             public string Version { get; set; }
 
+            [JsonProperty("size")]
+            public double Size { get; set; } = 0;//MB
+
             [JsonProperty("execute_name")]
             public string ExecuteName { get; set; }
 
