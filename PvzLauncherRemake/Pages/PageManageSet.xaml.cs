@@ -6,6 +6,7 @@ using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
@@ -336,6 +337,63 @@ namespace PvzLauncherRemake.Pages
                     });
                 }
 
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", null!, ex);
+            }
+        }
+
+        private async void button_Rename_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var textBox = new TextBox { Text = GameInfo.GameInfo.Name };
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "更改名称",
+                    Content = textBox,
+                    PrimaryButtonText = "确定",
+                    CloseButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
+                }, (() =>
+                {
+                    if (textBox.Text != null) 
+                    {
+                        if(!Directory.Exists(Path.Combine(AppInfo.GameDirectory, textBox.Text)))
+                        {
+                            string lastName = GameInfo.GameInfo.Name;
+                            GameInfo.GameInfo.Name = textBox.Text;
+                            Directory.Move(Path.Combine(AppInfo.GameDirectory, lastName), Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name));
+                            Json.WriteJson(Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+                            notificationManage.Show(new NotificationContent
+                            {
+                                Title = "更名成功",
+                                Message = $"游戏已更名为 \"{GameInfo.GameInfo.Name}\"",
+                                Type = NotificationType.Success
+                            });
+                            this.NavigationService.Refresh();
+                        }
+                        else
+                        {
+                            notificationManage.Show(new NotificationContent
+                            {
+                                Title = "更名失败",
+                                Message = $"游戏库下已有与\"{textBox.Text}\"同名游戏！",
+                                Type = NotificationType.Error
+                            });
+                        }
+                    }
+                    else
+                    {
+                        notificationManage.Show(new NotificationContent
+                        {
+                            Title = "更名失败",
+                            Message = "新名称为空",
+                            Type = NotificationType.Error
+                        });
+                    }
+                }));
             }
             catch (Exception ex)
             {
