@@ -18,6 +18,7 @@
   <ItemGroup>
     <None Remove="Assets\bitmap\background.png" />
     <None Remove="Assets\Icon\Icon.ico" />
+    <None Remove="Splash\SplashScreen.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +36,12 @@
     <PackageReference Include="Notifications.Wpf" Version="0.1.1" />
     <PackageReference Include="SharpCompress" Version="0.41.0" />
     <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="Splash\SplashScreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </SplashScreen>
   </ItemGroup>
 
 </Project>
