@@ -31,6 +31,12 @@
                         <!--外观-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="外观" FontSize="25" FontWeight="Bold"/>
+                            <!--主题-->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="颜色主题:" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <RadioButton x:Name="radioButton_Theme_Light" Tag="Light" Content="明亮" Click="radioButton_Theme_Light_Click"/>
+                                <RadioButton x:Name="radioButton_Theme_Dark" Tag="Dark" Content="暗黑" Click="radioButton_Theme_Light_Click"/>
+                            </StackPanel>
                             <!--标题-->
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="启动器标题:" VerticalAlignment="Center" Margin="0,0,10,0"/>

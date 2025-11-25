@@ -1,4 +1,5 @@
-﻿using ModernWpf.Controls;
+﻿using ModernWpf;
+using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
@@ -56,6 +57,13 @@ namespace PvzLauncherRemake
                         navView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact; break;
                     case "Top":
                         navView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
+                }
+                switch (AppInfo.Config.LauncherConfig.Theme)
+                {
+                    case "Light":
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;break;
+                    case "Dark":
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;break;
                 }
 
                 //注册事件

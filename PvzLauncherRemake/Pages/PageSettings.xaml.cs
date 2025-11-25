@@ -19,6 +19,16 @@ namespace PvzLauncherRemake.Pages
     {
         private bool isInitialized = false;
 
+        public void ShowRestartTip()
+        {
+            new NotificationManager().Show(new NotificationContent
+            {
+                Title = "提示",
+                Message = "此设置项重启才能生效",
+                Type = NotificationType.Information
+            });
+        }
+
         #region Load
         public void SetLoad(bool isLoad)
         {
@@ -64,6 +74,16 @@ namespace PvzLauncherRemake.Pages
                         comboBox_LaunchedOperate.SelectedIndex = 2; break;
                 }
                 //## 外观
+                //### 主题
+                radioButton_Theme_Light.IsChecked = false;
+                radioButton_Theme_Dark.IsChecked = false;
+                switch (AppInfo.Config.LauncherConfig.Theme)
+                {
+                    case "Light":
+                        radioButton_Theme_Light.IsChecked = true;break;
+                    case "Dark":
+                        radioButton_Theme_Dark.IsChecked = true;break;
+                }
                 //### 窗口标题
                 textBox_WindowTitle.Text = AppInfo.Config.LauncherConfig.WindowTitle;
                 //### 标题图片
@@ -178,6 +198,16 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
+        private void radioButton_Theme_Light_Click(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppInfo.Config.LauncherConfig.Theme = (string)(((RadioButton)sender).Tag);
+                ConfigManager.SaveAllConfig();
+                ShowRestartTip();
+            }
+        }
+
         private void button_TitleReset_Click(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
@@ -228,7 +258,7 @@ namespace PvzLauncherRemake.Pages
                     AppInfo.Config.LauncherConfig.Background = dialog.FileName;
                     ConfigManager.SaveAllConfig();
                     image_Background.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
-
+                    ShowRestartTip();
                 }
             }
         }
@@ -263,12 +293,7 @@ namespace PvzLauncherRemake.Pages
             {
                 AppInfo.Config.LauncherConfig.NavigationViewAlign = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveAllConfig();
-                new NotificationManager().Show(new NotificationContent
-                {
-                    Title = "提示",
-                    Message = "此设置项重启才能生效",
-                    Type = NotificationType.Information
-                });
+
             }
         }
 
@@ -321,6 +346,8 @@ namespace PvzLauncherRemake.Pages
         }
 
         #endregion
+
+        #region 存档设置
 
         private async void button_SaveDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -377,7 +404,7 @@ namespace PvzLauncherRemake.Pages
                 ConfigManager.SaveAllConfig();
             }
         }
-        
 
+        #endregion
     }
 }
