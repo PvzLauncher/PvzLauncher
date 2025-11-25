@@ -40,7 +40,7 @@ namespace PvzLauncherRemake.Controls
             {
                 string xaml =
                     "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                        "<Rectangle Fill=\"#FF8C8C8C\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                        "<Rectangle Fill=\"#7F000000\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                         $"<TextBlock Text=\"{Version}\" Margin=\"2,2,2,2\" Foreground=\"White\"/>" +
                     "</Grid>";
                 stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
@@ -49,7 +49,7 @@ namespace PvzLauncherRemake.Controls
             {
                 string xaml =
                     "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                        "<Rectangle Fill=\"#FF3232FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                        "<Rectangle Fill=\"#CC0000FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                         $"<TextBlock Text=\"{SupportVersion}\" Margin=\"2,2,2,2\" Foreground=\"White\"/>" +
                     "</Grid>";
                 stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
@@ -58,7 +58,7 @@ namespace PvzLauncherRemake.Controls
             {
                 string xaml =
                     "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                        "<Rectangle Fill=\"#FFFF3232\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                        "<Rectangle Fill=\"#CCFF0000\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                         "<TextBlock Text=\"活动\" Margin=\"2,2,2,2\" Foreground=\"White\" FontWeight=\"Bold\"/> " +
                     "</Grid>";
                 stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);

@@ -40,7 +40,7 @@ namespace PvzLauncherRemake.Controls
             if (!string.IsNullOrEmpty(Version))
             {
                 string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                                "<Rectangle Height=\"20\" Fill=\"#FF969696\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                                "<Rectangle Height=\"20\" Fill=\"#7F000000\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 $"<TextBlock Text=\"{Version}\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\"/>" +
                               "</Grid>";
                 stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
@@ -48,7 +48,7 @@ namespace PvzLauncherRemake.Controls
             if (!string.IsNullOrEmpty(SupportVersion))
             {
                 string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                                "<Rectangle Height=\"20\" Fill=\"#FF3264FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                                "<Rectangle Height=\"20\" Fill=\"#CC0000FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 $"<TextBlock Text=\"支持版本: {SupportVersion}\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\"/>" +
                               "</Grid>";
                 stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
@@ -56,7 +56,7 @@ namespace PvzLauncherRemake.Controls
             if (isRecommend)
             {
                 string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                                "<Rectangle Height=\"20\" Fill=\"#FF64FF64\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                                "<Rectangle Height=\"20\" Fill=\"#CC00FF00\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 "<TextBlock Text=\"推荐\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\" FontWeight=\"Bold\"/>" +
                               "</Grid>";
                 stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);
@@ -64,7 +64,7 @@ namespace PvzLauncherRemake.Controls
             if (isNew)
             {
                 string xaml = "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                                "<Rectangle Height=\"20\" Fill=\"#FF6432FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                                "<Rectangle Height=\"20\" Fill=\"#CC3200FF\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                                 "<TextBlock Text=\"新\" Foreground=\"White\" HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" Margin=\"5,0,5,0\" FontWeight=\"Bold\"/>" +
                               "</Grid>";
                 stackPanel_Labels.Children.Add(XamlReader.Parse(xaml) as Grid);

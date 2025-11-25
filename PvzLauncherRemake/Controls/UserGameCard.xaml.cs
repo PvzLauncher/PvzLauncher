@@ -45,7 +45,7 @@ namespace PvzLauncherRemake.Controls
             {
                 string xaml =
                     "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                        "<Rectangle Fill=\"#FF8C8C8C\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                        "<Rectangle Fill=\"#7F000000\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                         $"<TextBlock Text=\"{Version}\" FontSize=\"12\" Margin=\"2,2,2,2\" Foreground=\"White\"/>" +
                     "</Grid>";
                 stackPanel.Children.Add(XamlReader.Parse(xaml) as Grid);
@@ -54,7 +54,7 @@ namespace PvzLauncherRemake.Controls
             {
                 string xaml =
                     "<Grid Margin=\"0,0,5,0\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-                        "<Rectangle Fill=\"#FFFF6464\" RadiusX=\"3\" RadiusY=\"3\"/>" +
+                        "<Rectangle Fill=\"#CCFF0000\" RadiusX=\"3\" RadiusY=\"3\"/>" +
                         $"<TextBlock Text=\"活动\" FontSize=\"12\" Margin=\"2,2,2,2\" Foreground=\"White\" FontWeight=\"Bold\"/>" +
                     "</Grid>";
                 stackPanel.Children.Add(XamlReader.Parse(xaml) as Grid);
