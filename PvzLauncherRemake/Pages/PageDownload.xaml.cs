@@ -13,7 +13,6 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -50,7 +49,6 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("PageDownload 开始初始化");
                 StartLoad();
 
                 using (var client = new HttpClient())
@@ -70,7 +68,7 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = zhOriginGame.IsRecommend,
                         Tag = zhOriginGame
                     };
-                    logger.Info($"添加游戏: {card.Title}");
+                    
                     listBox_zhOrigin.Items.Add(card);
                 }
 
@@ -89,7 +87,7 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = zhRevisionGame.IsRecommend,
                         Tag = zhRevisionGame
                     };
-                    logger.Info($"添加游戏: {card.Title}");
+                    
                     listBox_zhRevision.Items.Add(card);
                 }
 
@@ -107,7 +105,7 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = enOriginGame.IsRecommend,
                         Tag = enOriginGame
                     };
-                    logger.Info($"添加游戏: {card.Title}");
+                    
                     listBox_enOrigin.Items.Add(card);
                 }
 
@@ -126,12 +124,12 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = trainerInfo.IsRecommend,
                         Tag = trainerInfo
                     };
-                    logger.Info($"添加修改器: {card.Title}");
+                    
                     listBox_trainer.Items.Add(card);
                 }
 
                 EndLoad();
-                logger.Info("PageDownload 结束初始化");
+                
             }
             catch (Exception ex)
             {
@@ -152,7 +150,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("开始下载游戏...");
+                
 
                 var listbox = (ListBox)sender;
                 var selectItem = (UserDownloadCard)listbox.SelectedItem;

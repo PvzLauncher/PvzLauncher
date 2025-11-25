@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -47,10 +46,10 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("PageSettings 开始初始化");
+                
                 isInitialized = false;
 
-                logger.Info($"当前配置文件: {JsonConvert.SerializeObject(AppInfo.Config)}");
+                
 
                 //# 启动器设置
                 //## 操作
@@ -139,7 +138,7 @@ namespace PvzLauncherRemake.Pages
 
 
                     isInitialized = true;
-                logger.Info("PageSettings 结束初始化");
+                
             }
             catch (Exception ex)
             {

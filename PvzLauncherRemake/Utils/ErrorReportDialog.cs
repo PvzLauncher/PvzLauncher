@@ -1,7 +1,6 @@
 ﻿using ModernWpf.Controls;
 using System.Windows.Controls;
 using System.Windows.Media;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -9,7 +8,7 @@ namespace PvzLauncherRemake.Utils
     {
         public static async void Show(string title, string message, Exception ex)
         {
-            logger.Error($"{title} {message}: {ex}");
+            
             var dialog = new ContentDialog
             {
                 Title = title,

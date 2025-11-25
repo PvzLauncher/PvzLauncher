@@ -9,7 +9,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -46,7 +45,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("PageManageSet 开始初始化");
+                
 
                 //设置卡片
                 userGameCard.Title = GameInfo.GameInfo.Name;
@@ -57,7 +56,7 @@ namespace PvzLauncherRemake.Pages
                 userGameCard.Version = $"{version} {GameInfo.GameInfo.Version}";
                 userGameCard.Icon =
                     GameInfo.GameInfo.Version.StartsWith("β") ? "beta" : "origin";
-                logger.Info($"设置卡片: 标题: {userGameCard.Title}\n版本: {userGameCard.Version}\n图标: {userGameCard.Icon}");
+                
 
                 //统计信息
                 textBlock_Record.Text =
@@ -65,7 +64,7 @@ namespace PvzLauncherRemake.Pages
                     $"游玩时间: {(GameInfo.Record.PlayTime >= 60 ? GameInfo.Record.PlayTime / 60 : GameInfo.Record.PlayTime >= (60 * 60) ? GameInfo.Record.PlayTime / (60 * 60) : GameInfo.Record.PlayTime)}{(GameInfo.Record.PlayTime >= 60 ? "分钟" : GameInfo.Record.PlayTime >= (60 * 60) ? "小时" : "秒")}\n" +
                     $"启动次数: {GameInfo.Record.PlayCount}";
 
-                logger.Info("PageManageSet 结束初始化");
+                
             }
             catch (Exception ex)
             {
@@ -88,7 +87,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (Directory.Exists(System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name)))
                 {
-                    logger.Info($"打开文件夹: {System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name)}");
+                    
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name),
@@ -108,7 +107,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("等待用户确认删除游戏操作...");
+                
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "确定操作",
@@ -184,7 +183,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("开始更改版本信息");
+                
 
                 //VersionType
                 var comboBox = new ComboBox
@@ -247,7 +246,7 @@ namespace PvzLauncherRemake.Pages
                     GameInfo.GameInfo.Version = textBox.Text;
                     GameInfo.GameInfo.VersionType = (string)((ComboBoxItem)comboBox.SelectedItem).Tag;
                     Json.WriteJson(System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-                    logger.Info($"版本信息更改完毕: 版本类型: {GameInfo.GameInfo.VersionType} 版本号: {GameInfo.GameInfo.Version}");
+                    
                     notificationManage.Show(new NotificationContent
                     {
                         Title = "成功",
@@ -268,7 +267,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("开始更改可执行文件");
+                
 
                 string[] files = Directory.GetFiles(System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name));
                 List<string> exes = new List<string>();

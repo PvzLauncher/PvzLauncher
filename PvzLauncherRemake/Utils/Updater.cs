@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Windows.Controls;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -24,7 +23,7 @@ namespace PvzLauncherRemake.Utils
 
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
-            logger.Info("开始检测更新...");
+            
             //获取主索引
             UpdateIndex = Json.ReadJson<JsonUpdateIndex.Index>(await Client.GetStringAsync(AppInfo.UpdateIndexUrl));
 
@@ -43,7 +42,7 @@ namespace PvzLauncherRemake.Utils
                     Url = UpdateIndex.Development.Url;
                     break;
             }
-            logger.Info($"当前更新通道: {AppInfo.Config.LauncherConfig.UpdateChannel}\n最新版本: {LatestVersion}\nURL: {Url}");
+            
 
             //判断版本
             if (AppInfo.Version != LatestVersion)

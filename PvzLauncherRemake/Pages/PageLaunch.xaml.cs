@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -65,7 +64,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (!string.IsNullOrEmpty(AppInfo.Config.CurrentGame))
                 {
-                    logger.Info($"当前选择游戏: {AppInfo.Config.CurrentGame}");
+                    
                     //查找选择游戏信息
                     foreach (var game in AppInfo.GameList)
                         if (game.GameInfo.Name == AppInfo.Config.CurrentGame)
@@ -77,14 +76,14 @@ namespace PvzLauncherRemake.Pages
                 }
                 else
                 {
-                    logger.Info("没有检测到选择游戏，禁用按钮");
+                    
                     button_Launch.IsEnabled = false;
                     textBlock_LaunchVersion.Text = "请选择一个游戏";
                 }
 
                 if (!string.IsNullOrEmpty(AppInfo.Config.CurrentTrainer))
                 {
-                    logger.Info($"当前选择修改器: {AppInfo.Config.CurrentTrainer}");
+                    
                     foreach (var trainer in AppInfo.TrainerList)
                         if (trainer.Name == AppInfo.Config.CurrentTrainer)
                             currentTrainerInfo = trainer;
@@ -99,7 +98,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     if (AppProcess.Process != null && AppProcess.Process.Id != 0 && !AppProcess.Process.HasExited)
                     {
-                        logger.Info("检测到游戏进程仍在运行...");
+                        
                         textBlock_LaunchText.Text = "结束进程";
 
                     }
@@ -164,12 +163,12 @@ namespace PvzLauncherRemake.Pages
                 {
                     textBlock_LaunchText.Text = "结束进程";
 
-                    logger.Info("游戏开始启动...");
-                    logger.Info($"当前游戏: {AppInfo.Config.CurrentGame}");
+                    
+                    
                     //游戏exe路径
                     string gameExePath = System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, currentGameInfo.GameInfo.ExecuteName);
 
-                    logger.Info($"游戏exe路径: {gameExePath}");
+                    
 
                     //定义Process
                     AppProcess.Process = new Process
@@ -184,7 +183,7 @@ namespace PvzLauncherRemake.Pages
 
                     //启动
                     AppProcess.Process.Start();
-                    logger.Info($"进程启动完毕");
+                    
 
                     //启动后操作
                     switch (AppInfo.Config.LauncherConfig.LaunchedOperate)
@@ -211,14 +210,14 @@ namespace PvzLauncherRemake.Pages
                     });
 
                     //等待结束
-                    logger.Info("等待进程退出...");
+                    
 
                     await AppProcess.Process.WaitForExitAsync();
 
                     //停止计时
                     MainCycleEnable = false;
 
-                    logger.Info($"进程退出, ExitCode: {AppProcess.Process.ExitCode}");
+                    
                     notifi.Show(new NotificationContent
                     {
                         Title = "提示",
@@ -238,7 +237,7 @@ namespace PvzLauncherRemake.Pages
                 //运行就结束
                 else if (textBlock_LaunchText.Text == "结束进程")
                 {
-                    logger.Info($"用户手动结束进程中...");
+                    
                     textBlock_LaunchText.Text = "启动游戏";
 
                     //尝试使程序自行退出
@@ -286,7 +285,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info("开始启动修改器...");
+                
 
                 Process.Start(new ProcessStartInfo
                 {

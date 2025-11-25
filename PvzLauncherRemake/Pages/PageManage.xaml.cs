@@ -14,7 +14,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -47,7 +46,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"PageManage 开始初始化");
+                
                 StartLoad();
 
                 //清理
@@ -81,7 +80,7 @@ namespace PvzLauncherRemake.Pages
                         card.PreviewMouseDoubleClick += SelectGame;
                         card.PreviewMouseRightButtonDown += SetGame;
                         listBox.Items.Add(card);//添加
-                        logger.Info($"添加卡片: 标题: {card.Title} 版本: {card.Version}");
+                        
                     }
                 }
                 else
@@ -125,7 +124,7 @@ namespace PvzLauncherRemake.Pages
                         card.PreviewMouseDoubleClick += SelectTrainer;
                         //card.PreviewMouseRightButtonDown += SetGame;
                         listBox_Trainer.Items.Add(card);//添加
-                        logger.Info($"添加修改器卡片: 标题: {card.Title} 版本: {card.Version}");
+                        
                     }
                 }
                 else
@@ -146,7 +145,7 @@ namespace PvzLauncherRemake.Pages
                 }
 
                 EndLoad();
-                logger.Info($"PageManage 结束初始化");
+                
             }
             catch (Exception ex)
             {
@@ -180,7 +179,7 @@ namespace PvzLauncherRemake.Pages
                         ((UserGameCard)card).SetLabels();
                     }
 
-                    logger.Info($"用户选择游戏: {((UserGameCard)sender).Title}");
+                    
                     AppInfo.Config.CurrentGame = $"{((UserGameCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
                 }
@@ -212,7 +211,7 @@ namespace PvzLauncherRemake.Pages
                         ((UserTrainerCard)card).SetLabels();
                     }
 
-                    logger.Info($"用户选择修改器: {((UserTrainerCard)sender).Title}");
+                    
                     AppInfo.Config.CurrentTrainer = $"{((UserTrainerCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
                 }
@@ -242,7 +241,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"用户点击: {((Button)sender).Content} 按钮");
+                
 
                 //导入游戏总逻辑================================================
                 string originPath = null!;
@@ -256,7 +255,7 @@ namespace PvzLauncherRemake.Pages
                 bool isGameNameInputDone = false;
                 bool isExeSelectDone = false;
 
-                void cancelLoad() { logger.Info("用户取消游戏导入操作"); isGameNameInputDone = true; isExeSelectDone = true; }
+                void cancelLoad() {  isGameNameInputDone = true; isExeSelectDone = true; }
                 var openFolderDialog = new OpenFolderDialog
                 {
                     Title = "请选择游戏文件夹",
@@ -311,7 +310,7 @@ namespace PvzLauncherRemake.Pages
                                 await DirectoryManager.CopyDirectoryAsync(originPath, targetPath, ((f) => textBlock_Loading.Text = $"复制文件: {f}"));
                                 EndLoad();
 
-                                logger.Info("文件夹复制完成");
+                                
 
                                 //检测exe
                                 gameFiles = Directory.GetFiles(targetPath);
@@ -319,7 +318,7 @@ namespace PvzLauncherRemake.Pages
                                 {
                                     if (file.EndsWith(".exe"))
                                     {
-                                        logger.Info("发现.exe文件");
+                                        
                                         gameExes.Add(System.IO.Path.GetFileName(file));
                                     }
                                 }
@@ -327,7 +326,7 @@ namespace PvzLauncherRemake.Pages
                                 //选择exe
                                 if (gameExes.Count == 0)//无exe
                                 {
-                                    logger.Info("未发现任何exe");
+                                    
                                     await DialogManager.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = "导入失败",
@@ -414,7 +413,7 @@ namespace PvzLauncherRemake.Pages
                                         Message = $"{gameName} 已成功导入您的游戏库!",
                                         Type = NotificationType.Success
                                     });
-                                    logger.Info($"{gameName} 已成功导入您的游戏库!");
+                                    
 
                                     //当前选择:
                                     AppInfo.Config.CurrentGame = gameName;

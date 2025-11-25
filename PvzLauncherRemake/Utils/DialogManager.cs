@@ -1,5 +1,4 @@
 ﻿using ModernWpf.Controls;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -9,14 +8,14 @@ namespace PvzLauncherRemake.Utils
 
         public static async Task ShowDialogAsync(ContentDialog dialog, Action? primaryCallback = null, Action? secondaryCallback = null, Action? closeCallback = null)
         {
-            logger.Info($"添加队列(Title: {dialog.Title}, Content: {dialog.Content})");
+            
             // 等待直到没有对话框显示
             await WaitForDialogToCloseAsync();
 
             isDialogShow = true;
 
             var result = await dialog.ShowAsync();
-            logger.Info($"对话框关闭, 用户选择: {result}");
+            
             isDialogShow = false;
             HandleDialogResult(result, primaryCallback, secondaryCallback, closeCallback);
         }
@@ -25,7 +24,7 @@ namespace PvzLauncherRemake.Utils
         {
             while (isDialogShow)
             {
-                logger.Info($"等待当前对话框退出...");
+                
                 await Task.Delay(100);
             }
         }

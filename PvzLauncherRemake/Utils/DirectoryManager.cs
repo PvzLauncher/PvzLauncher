@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -35,7 +34,7 @@ namespace PvzLauncherRemake.Utils
                             callBack(file.Name);
                         });
                     }
-                    logger.Info($"复制文件: {file.Name}");
+                    
                     file.CopyTo(targetFilePath);
                 });
             }

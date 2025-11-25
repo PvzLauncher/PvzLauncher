@@ -2,7 +2,6 @@
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using System.IO;
-using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -15,7 +14,7 @@ namespace PvzLauncherRemake.Utils
         {
             await Task.Run(() =>
             {
-                logger.Info("开始加载游戏列表");
+                
                 //清理
                 AppInfo.GameList.Clear();
 
@@ -28,12 +27,12 @@ namespace PvzLauncherRemake.Utils
                     if (File.Exists(configPath))
                     {
                         JsonGameInfo.Index configContent = Json.ReadJson<JsonGameInfo.Index>(configPath);
-                        logger.Info($"找到游戏配置: {Path.GetFileName(game)}");
+                        
                         AppInfo.GameList.Add(configContent);
                     }
                 }
 
-                logger.Info("加载游戏列表结束");
+                
             });
             
         }
@@ -45,7 +44,7 @@ namespace PvzLauncherRemake.Utils
         {
             await Task.Run(() =>
             {
-                logger.Info("开始加载修改器列表");
+                
                 //清理
                 AppInfo.TrainerList.Clear();
 
@@ -58,12 +57,12 @@ namespace PvzLauncherRemake.Utils
                     if (File.Exists(configPath))
                     {
                         JsonTrainerInfo.Index configContent = Json.ReadJson<JsonTrainerInfo.Index>(configPath);
-                        logger.Info($"找到修改器配置: {Path.GetFileName(trainer)}");
+                        
                         AppInfo.TrainerList.Add(configContent);
                     }
                 }
 
-                logger.Info("加载修改器列表结束");
+                
             });
         }
     }
