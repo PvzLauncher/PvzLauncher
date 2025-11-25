@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using Newtonsoft.Json;
+using ModernWpf.Controls;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
@@ -129,6 +129,11 @@ namespace PvzLauncherRemake.Pages
                 checkBox_DownloadTipTrainer.IsChecked = AppInfo.Config.LauncherConfig.DownloadTip.ShowTrainerDownloadTip;
 
 
+                //# 存档设置
+                //## 存档隔离
+                //### 启用存档隔离
+                checkBox_EnableIsolationSave.IsChecked = AppInfo.Config.SaveConfig.EnableSaveIsolation;
+
 
 
 
@@ -153,6 +158,8 @@ namespace PvzLauncherRemake.Pages
             Initialize();
             Loaded += ((sender, e) => InitializeLoaded());
         }
+
+        #region 启动器设置
 
         private void comboBox_LaunchedOperate_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -312,5 +319,65 @@ namespace PvzLauncherRemake.Pages
                 ConfigManager.SaveAllConfig();
             }
         }
+
+        #endregion
+
+        private async void button_SaveDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "警告",
+                    Content = "此操作不可逆，一旦删除您的存档将会永久删除！(真的很久!)",
+                    PrimaryButtonText = "删除",
+                    CloseButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Close
+                }, (async () =>
+                {
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "最后一次警告",
+                        Content = "这将是最后一次警告，确认后存档立即删除，您现在还有取消的机会！",
+                        PrimaryButtonText = "继续删除",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Close
+                    }, (async () =>
+                    {
+                        try
+                        {
+                            StartLoad();
+                            await Task.Run(() =>
+                            {
+                                Directory.Delete(AppInfo.SaveDirectory, true);
+                            });
+                            EndLoad();
+                            new NotificationManager().Show(new NotificationContent
+                            {
+                                Title = "删除存档",
+                                Message = "您的存档已经移除",
+                                Type = NotificationType.Success
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorReportDialog.Show("发生错误", "发生错误", ex);
+                        }
+                        
+                    }));
+                }));
+            }
+        }
+
+        private void checkBox_EnableIsolationSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppInfo.Config.SaveConfig.EnableSaveIsolation = (bool)checkBox_EnableIsolationSave.IsChecked!;
+                ConfigManager.SaveAllConfig();
+            }
+        }
+        
+
     }
 }

@@ -14,6 +14,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("launcher_config")]
             public LauncherConfig LauncherConfig { get; set; } = new LauncherConfig();
+
+            [JsonProperty("save_config")]
+            public SaveConfig SaveConfig { get; set; } = new SaveConfig();
         }
 
         public class LauncherConfig
@@ -44,6 +47,12 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("download_tip")]
             public DownloadTip DownloadTip { get; set; } = new DownloadTip();
+        }
+
+        public class SaveConfig
+        {
+            [JsonProperty("enable_save_isolation")]
+            public bool EnableSaveIsolation { get; set; } = false;
         }
 
         public class WindowSize

@@ -1026,6 +1026,48 @@
                 </ScrollViewer>
 
             </TabItem>
+            <TabItem Header="存档设置">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <!--操作-->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="操作" FontSize="25" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <!--操作-->
+                            <StackPanel Orientation="Horizontal">
+                                <!--删除-->
+                                <Button x:Name="button_SaveDelete" Foreground="#E4FF0000" FontWeight="Bold" Margin="0,0,10,0" Click="button_SaveDelete_Click">
+                                    <Button.BorderBrush>
+                                        <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <ScaleTransform CenterY="0.5" ScaleY="-1"/>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#29000000"/>
+                                            <GradientStop Color="#33000000" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Button.BorderBrush>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:PathIcon Data="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" Height="15" Width="15" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                        <TextBlock Text="删除存档" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                        <!--版本隔离-->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="存档隔离" FontSize="25" FontWeight="Bold"/>
+                            <TextBlock TextWrapping="Wrap" Text="启用存档隔离后，每个版本使用独立的存档，不会发生串档现象，这仅适用于原版或基于原版存档系统制作的改版。其他引擎重写的或更改了存档系统的版本无效" Margin="0,0,0,10"/>
+                            <!--开启存档隔离-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="启用存档隔离" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkBox_EnableIsolationSave" Content="启用" Click="checkBox_EnableIsolationSave_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                        
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
         </TabControl>
         <Grid x:Name="grid_Loading" Visibility="Hidden">
             <ui:ProgressRing IsActive="True" Width="50" Height="50"/>

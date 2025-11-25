@@ -4,6 +4,7 @@ using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -232,6 +233,14 @@ namespace PvzLauncherRemake.Pages
                     {
                         case "HideAndDisplay":
                             ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Visible; break;
+                    }
+
+                    //保存存档
+                    if (AppInfo.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(AppInfo.SaveDirectory)) 
+                    {
+                        if (Directory.Exists(Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".save")))
+                            Directory.Delete(Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".save"), true);
+                        await DirectoryManager.CopyDirectoryAsync(AppInfo.SaveDirectory, Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".save"));
                     }
                 }
                 //运行就结束

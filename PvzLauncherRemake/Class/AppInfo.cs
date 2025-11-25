@@ -13,7 +13,8 @@ namespace PvzLauncherRemake.Class
         public static readonly string GameDirectory = $"{Path.Combine(ExecuteDirectory, "Games")}";//游戏目录
         public static readonly string TrainerDirectory = $"{Path.Combine(ExecuteDirectory, "Trainer")}";//修改器目录
         public static readonly string TempDiectory = Path.GetTempPath();//临时文件夹
-       
+        public static readonly string SaveDirectory = @"C:\ProgramData\PopCap Games\PlantsVsZombies\userdata";//存档文件夹
+
         //特殊
         public static List<JsonGameInfo.Index> GameList = new List<JsonGameInfo.Index>();//游戏列表
         public static List<JsonTrainerInfo.Index> TrainerList = new List<JsonTrainerInfo.Index>();//修改器

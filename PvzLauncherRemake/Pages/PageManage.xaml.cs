@@ -10,6 +10,7 @@ using PvzLauncherRemake.Utils;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -159,7 +160,7 @@ namespace PvzLauncherRemake.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e) { InitializeLoaded(); }
 
         //选择游戏
-        private void SelectGame(object sender, MouseButtonEventArgs e)
+        private async void SelectGame(object sender, MouseButtonEventArgs e)
         {
             try
             {
@@ -179,9 +180,16 @@ namespace PvzLauncherRemake.Pages
                         ((UserGameCard)card).SetLabels();
                     }
 
-                    
                     AppInfo.Config.CurrentGame = $"{((UserGameCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
+
+                    //切换存档
+                    if (AppInfo.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save")))
+                    {
+                        if (Directory.Exists(AppInfo.SaveDirectory))
+                            Directory.Delete(AppInfo.SaveDirectory, true);
+                        await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save"), AppInfo.SaveDirectory);
+                    }
                 }
             }
             catch (Exception ex)

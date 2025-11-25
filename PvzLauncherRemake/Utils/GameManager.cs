@@ -26,6 +26,12 @@ namespace PvzLauncherRemake.Utils
                     string configPath = Path.Combine(game, ".pvzl.json");
                     if (File.Exists(configPath))
                     {
+                        //创建独立存档
+                        if (AppInfo.Config.SaveConfig.EnableSaveIsolation && !Directory.Exists(Path.Combine(game, ".save")))
+                        {
+                            Directory.CreateDirectory(Path.Combine(game, ".save"));
+                        }
+
                         JsonGameInfo.Index configContent = Json.ReadJson<JsonGameInfo.Index>(configPath);
                         
                         AppInfo.GameList.Add(configContent);
