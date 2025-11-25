@@ -1,10 +1,4 @@
-﻿using PvzLauncherRemake.Class;
-using ModernWpf.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ModernWpf.Controls;
 using System.Windows.Controls;
 using System.Windows.Media;
 using static PvzLauncherRemake.Class.AppLogger;

@@ -1,5 +1,4 @@
-﻿using HuaZi.Library.Logger;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
@@ -7,18 +6,8 @@ using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake
