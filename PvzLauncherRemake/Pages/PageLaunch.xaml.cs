@@ -164,13 +164,16 @@ namespace PvzLauncherRemake.Pages
                 {
                     textBlock_LaunchText.Text = "结束进程";
 
-                    
-                    
+                    //切换存档
+                    if (AppInfo.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save")))
+                    {
+                        if (Directory.Exists(AppInfo.SaveDirectory))
+                            Directory.Delete(AppInfo.SaveDirectory, true);
+                        await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save"), AppInfo.SaveDirectory);
+                    }
+
                     //游戏exe路径
                     string gameExePath = System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, currentGameInfo.GameInfo.ExecuteName);
-
-                    
-
                     //定义Process
                     AppProcess.Process = new Process
                     {

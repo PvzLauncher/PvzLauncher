@@ -182,14 +182,6 @@ namespace PvzLauncherRemake.Pages
 
                     AppInfo.Config.CurrentGame = $"{((UserGameCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
-
-                    //切换存档
-                    if (AppInfo.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save")))
-                    {
-                        if (Directory.Exists(AppInfo.SaveDirectory))
-                            Directory.Delete(AppInfo.SaveDirectory, true);
-                        await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save"), AppInfo.SaveDirectory);
-                    }
                 }
             }
             catch (Exception ex)
