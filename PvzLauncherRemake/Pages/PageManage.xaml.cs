@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 
 namespace PvzLauncherRemake.Pages
@@ -47,7 +48,12 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                
+                //动画重置位置
+                button_Load.Margin = new Thickness(0, -50, 10, 0);
+                tabControl.Margin = new Thickness(0, 100, 0, 0);
+                tabControl.Opacity = 0;
+                button_Load.Opacity = 0;
+
                 StartLoad();
 
                 //清理
@@ -81,7 +87,7 @@ namespace PvzLauncherRemake.Pages
                         card.PreviewMouseDoubleClick += SelectGame;
                         card.PreviewMouseRightButtonDown += SetGame;
                         listBox.Items.Add(card);//添加
-                        
+
                     }
                 }
                 else
@@ -116,7 +122,7 @@ namespace PvzLauncherRemake.Pages
                         var card = new UserTrainerCard
                         {
                             Title = trainer.Name,
-                            Icon = Icon.ExtractAssociatedIcon(System.IO.Path.Combine(AppInfo.TrainerDirectory,trainer.Name,trainer.ExecuteName))!,
+                            Icon = Icon.ExtractAssociatedIcon(System.IO.Path.Combine(AppInfo.TrainerDirectory, trainer.Name, trainer.ExecuteName))!,
                             isCurrent = trainer.Name == AppInfo.Config.CurrentTrainer ? true : false,
                             Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                             Background = System.Windows.Media.Brushes.Transparent,
@@ -125,7 +131,7 @@ namespace PvzLauncherRemake.Pages
                         card.PreviewMouseDoubleClick += SelectTrainer;
                         //card.PreviewMouseRightButtonDown += SetGame;
                         listBox_Trainer.Items.Add(card);//添加
-                        
+
                     }
                 }
                 else
@@ -146,7 +152,34 @@ namespace PvzLauncherRemake.Pages
                 }
 
                 EndLoad();
-                
+                //动画开始
+                await Task.Delay(150);
+                tabControl.BeginAnimation(MarginProperty, new ThicknessAnimation
+                {
+                    To = new Thickness(0),
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+                });
+                tabControl.BeginAnimation(OpacityProperty, new DoubleAnimation
+                {
+                    To = 1,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                });
+                await Task.Delay(20);
+                button_Load.BeginAnimation(MarginProperty, new ThicknessAnimation
+                {
+                    To = new Thickness(0, 10, 10, 0),
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.2 }
+                });
+                button_Load.BeginAnimation(OpacityProperty, new DoubleAnimation
+                {
+                    To = 1,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                });
+
             }
             catch (Exception ex)
             {
@@ -211,7 +244,7 @@ namespace PvzLauncherRemake.Pages
                         ((UserTrainerCard)card).SetLabels();
                     }
 
-                    
+
                     AppInfo.Config.CurrentTrainer = $"{((UserTrainerCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
                 }
@@ -241,7 +274,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                
+
 
                 //导入游戏总逻辑================================================
                 string originPath = null!;
@@ -255,7 +288,7 @@ namespace PvzLauncherRemake.Pages
                 bool isGameNameInputDone = false;
                 bool isExeSelectDone = false;
 
-                void cancelLoad() {  isGameNameInputDone = true; isExeSelectDone = true; }
+                void cancelLoad() { isGameNameInputDone = true; isExeSelectDone = true; }
                 var openFolderDialog = new OpenFolderDialog
                 {
                     Title = "请选择游戏文件夹",
@@ -310,7 +343,7 @@ namespace PvzLauncherRemake.Pages
                                 await DirectoryManager.CopyDirectoryAsync(originPath, targetPath, ((f) => textBlock_Loading.Text = $"复制文件: {f}"));
                                 EndLoad();
 
-                                
+
 
                                 //检测exe
                                 gameFiles = Directory.GetFiles(targetPath);
@@ -318,7 +351,7 @@ namespace PvzLauncherRemake.Pages
                                 {
                                     if (file.EndsWith(".exe"))
                                     {
-                                        
+
                                         gameExes.Add(System.IO.Path.GetFileName(file));
                                     }
                                 }
@@ -326,7 +359,7 @@ namespace PvzLauncherRemake.Pages
                                 //选择exe
                                 if (gameExes.Count == 0)//无exe
                                 {
-                                    
+
                                     await DialogManager.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = "导入失败",
@@ -413,7 +446,7 @@ namespace PvzLauncherRemake.Pages
                                         Message = $"{gameName} 已成功导入您的游戏库!",
                                         Type = NotificationType.Success
                                     });
-                                    
+
 
                                     //当前选择:
                                     AppInfo.Config.CurrentGame = gameName;
