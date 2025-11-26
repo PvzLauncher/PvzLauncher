@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using ModernWpf;
 using ModernWpf.Controls;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
@@ -204,7 +205,13 @@ namespace PvzLauncherRemake.Pages
             {
                 AppInfo.Config.LauncherConfig.Theme = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveAllConfig();
-                ShowRestartTip();
+                switch (AppInfo.Config.LauncherConfig.Theme)
+                {
+                    case "Light":
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;break;
+                    case "Dark":
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;break;
+                }
             }
         }
 
@@ -258,7 +265,6 @@ namespace PvzLauncherRemake.Pages
                     AppInfo.Config.LauncherConfig.Background = dialog.FileName;
                     ConfigManager.SaveAllConfig();
                     image_Background.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
-                    ShowRestartTip();
                 }
             }
         }
