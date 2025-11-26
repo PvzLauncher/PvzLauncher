@@ -18,7 +18,7 @@
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="操作" FontSize="25" FontWeight="Bold"/>
                             <!--启动后操作-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="sp1" Orientation="Horizontal">
                                 <TextBlock Text="游戏启动后操作:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <ComboBox x:Name="comboBox_LaunchedOperate" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="comboBox_LaunchedOperate_SelectionChanged">
                                     <ComboBoxItem Content="不执行任何操作"/>
@@ -32,13 +32,13 @@
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="外观" FontSize="25" FontWeight="Bold"/>
                             <!--主题-->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <StackPanel x:Name="sp2" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="颜色主题:" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <RadioButton x:Name="radioButton_Theme_Light" Tag="Light" Content="明亮" Click="radioButton_Theme_Light_Click"/>
                                 <RadioButton x:Name="radioButton_Theme_Dark" Tag="Dark" Content="暗黑" Click="radioButton_Theme_Light_Click"/>
                             </StackPanel>
                             <!--标题-->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <StackPanel x:Name="sp3" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="启动器标题:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <TextBox x:Name="textBox_WindowTitle" Text="Plants Vs. Zombies Launcher" Margin="0,0,10,0" TextChanged="textBox_WindowTitle_TextChanged">
                                     <TextBox.BorderBrush>
@@ -64,7 +64,7 @@
                                 </Button>
                             </StackPanel>
                             <!--标题图片-->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <StackPanel x:Name="sp4" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="标题图片:" Margin="0,0,20,0" VerticalAlignment="Top"/>
                                 <StackPanel Margin="0,0,20,0">
                                     <RadioButton x:Name="radioButton_TitieImage_EN" Tag="EN" Content="Plants Vs. Zombies" IsChecked="True" Click="radioButton_TitieImage_EN_Click"/>
@@ -952,7 +952,7 @@
                                 </StackPanel>
                             </StackPanel>
                             <!--背景图-->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <StackPanel x:Name="sp5" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="背景图:" Margin="0,0,10,0"/>
                                 <RadioButton x:Name="radioButton_Background_Default" Tag="Default" Content="默认" IsChecked="True" VerticalAlignment="Top" Click="radioButton_Background_Default_Click"/>
                                 <StackPanel>
@@ -974,7 +974,7 @@
                                 </StackPanel>
                             </StackPanel>
                             <!--NavigationView位置-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="sp6" Orientation="Horizontal">
                                 <TextBlock Text="导航栏位置:" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <RadioButton x:Name="radioButton_NavViewLeft" Content="左侧" Tag="Left" Checked="radioButton_NavViewLeft_Checked"/>
                                 <RadioButton x:Name="radioButton_NavViewTop" Content="顶部" Tag="Top" Checked="radioButton_NavViewLeft_Checked"/>
@@ -985,7 +985,7 @@
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="更新" FontSize="25" FontWeight="Bold"/>
                             <!--检测更新-->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <StackPanel x:Name="sp7" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="检测更新:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <Button x:Name="button_CheckUpdate" Content="检测更新" Click="button_CheckUpdate_Click">
                                     <Button.BorderBrush>
@@ -1000,7 +1000,7 @@
                                 </Button>
                             </StackPanel>
                             <!--更新通道-->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <StackPanel x:Name="sp8" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="更新通道:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <ComboBox x:Name="comboBox_UpdateChannel" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="comboBox_UpdateChannel_SelectionChanged">
                                     <ComboBoxItem Content="Stable (稳定版, 更新慢)" Tag="Stable"/>
@@ -1008,7 +1008,7 @@
                                 </ComboBox>
                             </StackPanel>
                             <!--启动时检查更新-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="sp9" Orientation="Horizontal">
                                 <TextBlock Text="启动时检查更新:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <CheckBox x:Name="checkBox_StartUpCheckUpdate" Content="启用" Click="checkBox_StartUpCheckUpdate_Click"/>
                             </StackPanel>
@@ -1018,7 +1018,7 @@
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="通知" FontSize="25" FontWeight="Bold"/>
                             <!--下载通知-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="sp10" Orientation="Horizontal">
                                 <TextBlock Text="下载通知:" Margin="0,0,10,0" VerticalAlignment="Center"/>
 
                                 <CheckBox x:Name="checkBox_DownloadTipGame" Content="游戏下载通知" Tag="Game" IsChecked="False" Click="checkBox_DownloadTipGame_Click"/>

@@ -6,8 +6,10 @@ using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 
@@ -29,6 +31,24 @@ namespace PvzLauncherRemake.Pages
                 Type = NotificationType.Information
             });
         }
+
+        #region Animation
+        public void StartAnimation(StackPanel sp)
+        {
+            sp.BeginAnimation(MarginProperty, new ThicknessAnimation
+            {
+                To = new Thickness(0, sp.Margin.Top, sp.Margin.Right, sp.Margin.Bottom),
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+            });
+            sp.BeginAnimation(OpacityProperty, new DoubleAnimation
+            {
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+            });
+        }
+        #endregion
 
         #region Load
         public void SetLoad(bool isLoad)
@@ -53,10 +73,19 @@ namespace PvzLauncherRemake.Pages
 
         #region Init
         public void Initialize() { }
-        public void InitializeLoaded()
+        public async void InitializeLoaded()
         {
             try
             {
+                //动画归位
+                StackPanel[] sps = { sp1, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, sp10 };
+                foreach (var sp in sps)
+                {
+                    sp.Margin = new Thickness(-500, sp.Margin.Top, sp.Margin.Right, sp.Margin.Bottom);
+                    sp.Opacity = 0;
+                }
+
+
                 
                 isInitialized = false;
 
@@ -164,7 +193,12 @@ namespace PvzLauncherRemake.Pages
 
 
                     isInitialized = true;
-                
+
+                foreach (var sp in sps)
+                {
+                    await Task.Delay(50);
+                    StartAnimation(sp);
+                }
             }
             catch (Exception ex)
             {
