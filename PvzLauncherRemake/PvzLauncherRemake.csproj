@@ -31,6 +31,7 @@
   <ItemGroup>
     <PackageReference Include="HuaZi.Library" Version="2025.11.7.1" />
     <PackageReference Include="MdXaml" Version="1.27.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650-prerelease" />
     <PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Notifications.Wpf" Version="0.1.1" />
