@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Windows.Controls;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -23,11 +24,14 @@ namespace PvzLauncherRemake.Utils
 
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
-            
+            logger.Info($"[更新器] 开始检测更新");
             //获取主索引
-            UpdateIndex = Json.ReadJson<JsonUpdateIndex.Index>(await Client.GetStringAsync(AppInfo.UpdateIndexUrl));
+            string indexString = await Client.GetStringAsync(AppInfo.UpdateIndexUrl);
+            logger.Info($"[更新器] 获取更新索引: {indexString}");
+            UpdateIndex = Json.ReadJson<JsonUpdateIndex.Index>(indexString);
 
             //判断更新通道
+            logger.Info($"[更新器] 当前更新通道: {AppInfo.Config.LauncherConfig.UpdateChannel}");
             switch (AppInfo.Config.LauncherConfig.UpdateChannel)
             {
                 case "Stable":
@@ -42,11 +46,13 @@ namespace PvzLauncherRemake.Utils
                     Url = UpdateIndex.Development.Url;
                     break;
             }
-            
+            logger.Info($"[更新器] 最新版本: {LatestVersion}  更新文件Url: {Url}");
 
             //判断版本
+            logger.Info($"[更新器] 当前版本: {AppInfo.Version}");
             if (AppInfo.Version != LatestVersion)
             {
+                logger.Info($"[更新器] 检测到更新，开始更新");
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = $"发现可用更新 - {LatestVersion}",
@@ -61,10 +67,11 @@ namespace PvzLauncherRemake.Utils
                     PrimaryButtonText = "立即更新",
                     CloseButtonText = "取消更新",
                     DefaultButton = ContentDialogButton.Primary
-                }, (() => isUpdate = true));
+                }, (() => { isUpdate = true; logger.Info($"[更新器] 用户取消更新"); }));
             }
             else
             {
+                logger.Info($"[更新器] 无可用更新");
                 if (!isStartUp)
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
@@ -78,7 +85,12 @@ namespace PvzLauncherRemake.Utils
 
             //不更新直接return
             if (!isUpdate)
+            {
+                logger.Info($"[更新器] 更新结束");
                 return;
+            }
+
+            logger.Info($"[更新器] 准备更新...");
 
             //开始更新
             bool? done = null;
@@ -98,25 +110,31 @@ namespace PvzLauncherRemake.Utils
                         errorMessage = e!;
                     }
                 }),
-                Progress = progressCallback
+                Progress = ((p,s) =>
+                {
+                    progressCallback(p, s);
+                    logger.Info($"[更新器] 下载更新文件: {Math.Round(p, 2)}  ({Math.Round(s / 1024, 2)}MB/s)");
+                })
             };
+            logger.Info($"[更新器] 开始下载更新文件");
 
             downloader.StartDownload();
 
             //等待下载完毕
             while (done == null)
                 await Task.Delay(1000);
+            logger.Info($"[更新器] 下载完成");
             //如下载失败抛错误
             if (done == false)
                 throw new Exception(errorMessage);
             //下载成功↓
             //运行更新服务
+            logger.Info($"[更新器] 下载完成，运行更新服务");
             Process.Start(new ProcessStartInfo
             {
                 FileName = Path.Combine(AppInfo.ExecuteDirectory, "UpdateService"),
                 UseShellExecute = true
             });
-
             Environment.Exit(0);
         }
     }
