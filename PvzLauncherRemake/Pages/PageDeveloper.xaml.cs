@@ -2,6 +2,7 @@
 using PvzLauncherRemake.Class;
 using System.Reflection;
 using System.Windows.Controls;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -14,10 +15,14 @@ namespace PvzLauncherRemake.Pages
 
         public async void MainCycle()
         {
+            logger.Info($"[开发者控制面板:周期循环] 开始进入周期循环");
             while (true)
             {
+                logger.Info($"[开发者控制面板:周期循环] 循环事件触发");
                 await Task.Delay(1000);
-                //
+
+                // =====
+
                 string text = "";
                 Type type = typeof(AppInfo);
 
@@ -41,9 +46,14 @@ namespace PvzLauncherRemake.Pages
             MainCycle();
             Loaded += (async (s, e) =>
             {
+                logger.Info($"[开发者控制面板] 初始化...");
+                logger.Info($"[开发者控制面板] 初始化WebView2...");
+
                 await webView2.EnsureCoreWebView2Async(null);
+                logger.Info($"[开发者控制面板] 初始化WebView2成功");
 
                 isInitialize = true;
+                logger.Info($"[开发者控制面板] 完成初始化!");
                 new NotificationManager().Show(new NotificationContent
                 {
                     Title = "WebView2",
