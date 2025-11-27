@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -16,10 +17,16 @@ namespace PvzLauncherRemake.Utils
         /// <returns></returns>
         public static async Task CopyDirectoryAsync(string sourceDir, string destDir, Action<string> callBack = null!)
         {
+            logger.Info($"[文件夹管理器] 开始复制文件夹");
             var sourceDirInfo = new DirectoryInfo(sourceDir);
 
             // 创建目标文件夹（包括多级）
-            Directory.CreateDirectory(destDir);
+            if (!Directory.Exists(destDir))
+                Directory.CreateDirectory(destDir);
+
+            logger.Info($"[文件夹管理器] 原文件夹: {sourceDir} 目标文件夹: {destDir}");
+
+            logger.Info($"[文件夹管理器] 开始复制");
 
             // 复制所有文件
             foreach (FileInfo file in sourceDirInfo.GetFiles())
@@ -34,7 +41,7 @@ namespace PvzLauncherRemake.Utils
                             callBack(file.Name);
                         });
                     }
-                    
+                    logger.Info($"[文件夹管理器] 复制文件: \"{file.Name}\"");
                     file.CopyTo(targetFilePath);
                 });
             }
@@ -42,8 +49,9 @@ namespace PvzLauncherRemake.Utils
             // 递归复制所有子文件夹
             foreach (DirectoryInfo subDir in sourceDirInfo.GetDirectories())
             {
+                logger.Info($"[文件夹管理器] 复制文件夹: \"{subDir.Name}\"");
                 string targetSubDir = Path.Combine(destDir, subDir.Name);
-                await CopyDirectoryAsync(subDir.FullName, targetSubDir);
+                await CopyDirectoryAsync(subDir.FullName, targetSubDir,callBack);
             }
         }
     }
