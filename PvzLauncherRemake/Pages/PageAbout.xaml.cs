@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -27,6 +28,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (sender is Button button)
             {
+                logger.Info($"[关于] 跳转Url => {button.Tag}");
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = button.Tag.ToString(),
@@ -38,7 +40,7 @@ namespace PvzLauncherRemake.Pages
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             EggCount++;
-
+            logger.Info($"[关于] 触发彩蛋，当前点击次数: {EggCount}");
             switch (EggCount)
             {
                 case 10:
@@ -100,9 +102,6 @@ namespace PvzLauncherRemake.Pages
                 case 130:
                     ErrorReportDialog.Show("发生错误", "某处代码访问了非法内存！", new Exception("我是异常，我被抛出了"));
                     break;
-                case 135:
-                    Thread.Sleep(5000);
-                    break;
                 case 150:
                     new NotificationManager().Show(new NotificationContent
                     {
@@ -145,6 +144,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                logger.Info($"[关于] 用户尝试进入控制台");
                 var textBox = new TextBox();
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
@@ -166,6 +166,7 @@ namespace PvzLauncherRemake.Pages
                     DefaultButton = ContentDialogButton.Primary
                 }, (() =>
                 {
+                    logger.Info($"[关于] 用户输入答案: {textBox.Text}");
                     if (textBox.Text == (Int32.MaxValue + Int32.MinValue).ToString()) 
                     {
                         this.NavigationService.Navigate(new PageDeveloper());
