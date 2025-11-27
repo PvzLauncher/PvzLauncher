@@ -2,6 +2,7 @@
 using HuaZi.Library.Logger;
 using Microsoft.Win32;
 using ModernWpf.Controls;
+using Newtonsoft.Json;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
@@ -14,8 +15,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -48,18 +49,22 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                logger.Info($"[管理] 开始初始化...");
                 StartLoad();
 
                 //清理
                 listBox.Items.Clear();
                 listBox_Trainer.Items.Clear();
                 //加载列表
+                logger.Info($"[管理] 开始加载游戏列表");
                 await GameManager.LoadGameList();
                 await GameManager.LoadTrainerList();
+                logger.Info($"[管理] 游戏列表加载完毕");
 
                 //游戏库里有东西才加
                 if (AppInfo.GameList.Count > 0)
                 {
+                    logger.Info($"[管理] 开始添加卡片");
                     //添加卡片
                     foreach (var game in AppInfo.GameList)
                     {
@@ -80,12 +85,14 @@ namespace PvzLauncherRemake.Pages
                         };
                         card.PreviewMouseDoubleClick += SelectGame;
                         card.PreviewMouseRightButtonDown += SetGame;
+                        logger.Info($"[管理] 添加游戏: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isCurrent}\"  Version=\"{card.Version}\"");
                         listBox.Items.Add(card);//添加
 
                     }
                 }
                 else
                 {
+                    logger.Warn($"[管理] 在游戏库内未发现任何游戏");
                     AppInfo.Config.CurrentGame = null!;
                     if (AppInfo.Config.LauncherConfig.DownloadTip.ShowGameDownloadTip)
                         await DialogManager.ShowDialogAsync(new ContentDialog
@@ -109,6 +116,7 @@ namespace PvzLauncherRemake.Pages
                 //游戏库里有东西才加
                 if (AppInfo.TrainerList.Count > 0)
                 {
+                    logger.Info($"[管理] 添加修改器列表");
                     //添加卡片
                     foreach (var trainer in AppInfo.TrainerList)
                     {
@@ -124,12 +132,14 @@ namespace PvzLauncherRemake.Pages
                         };
                         card.PreviewMouseDoubleClick += SelectTrainer;
                         //card.PreviewMouseRightButtonDown += SetGame;
+                        logger.Info($"[管理] 添加修改器: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isCurrent}\"  Version=\"{card.Version}\"");
                         listBox_Trainer.Items.Add(card);//添加
 
                     }
                 }
                 else
                 {
+                    logger.Warn($"[管理] 未发现任何修改器");
                     AppInfo.Config.CurrentTrainer = null!;
                     if (AppInfo.Config.LauncherConfig.DownloadTip.ShowTrainerDownloadTip)
                         await DialogManager.ShowDialogAsync(new ContentDialog
@@ -146,7 +156,7 @@ namespace PvzLauncherRemake.Pages
                 }
 
                 EndLoad();
-
+                logger.Info($"[管理] ");                
             }
             catch (Exception ex)
             {
@@ -182,6 +192,7 @@ namespace PvzLauncherRemake.Pages
 
                     AppInfo.Config.CurrentGame = $"{((UserGameCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
+                    logger.Info($"[管理] 选择游戏: {AppInfo.Config.CurrentGame}");
                 }
             }
             catch (Exception ex)
@@ -214,6 +225,7 @@ namespace PvzLauncherRemake.Pages
 
                     AppInfo.Config.CurrentTrainer = $"{((UserTrainerCard)sender).Title}";
                     ConfigManager.SaveAllConfig();
+                    logger.Info($"[管理] 选择修改器: {AppInfo.Config.CurrentTrainer}");
                 }
             }
             catch (Exception ex)
@@ -241,7 +253,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-
+                logger.Info($"[管理] 开始导入游戏");
 
                 //导入游戏总逻辑================================================
                 string originPath = null!;
@@ -265,14 +277,10 @@ namespace PvzLauncherRemake.Pages
                 var listBox = new ListBox();//选择exe
 
 
-
-
-
-
                 if (openFolderDialog.ShowDialog() == true)//用户完成选择
                 {
                     originPath = openFolderDialog.FolderName;
-
+                    logger.Info($"[管理] 原文件夹: {originPath}");
                     //输入游戏名
                     while (!isGameNameInputDone)
                     {
@@ -300,15 +308,18 @@ namespace PvzLauncherRemake.Pages
                             }
                             else
                             {
+                                logger.Info($"[管理] 游戏名: {textBox.Text}");
                                 //不存在，继续保存
                                 isGameNameInputDone = true;
                                 gameName = textBox.Text;
                                 targetPath = System.IO.Path.Combine(AppInfo.GameDirectory, gameName);
 
                                 //复制文件夹
+                                logger.Info($"[管理] 开始复制游戏");
                                 StartLoad();
                                 await DirectoryManager.CopyDirectoryAsync(originPath, targetPath, ((f) => textBlock_Loading.Text = $"复制文件: {f}"));
                                 EndLoad();
+                                logger.Info($"[管理] 复制结束");
 
 
 
@@ -318,7 +329,7 @@ namespace PvzLauncherRemake.Pages
                                 {
                                     if (file.EndsWith(".exe"))
                                     {
-
+                                        logger.Info($"[管理] 检测到exe文件: {file}");
                                         gameExes.Add(System.IO.Path.GetFileName(file));
                                     }
                                 }
@@ -326,7 +337,7 @@ namespace PvzLauncherRemake.Pages
                                 //选择exe
                                 if (gameExes.Count == 0)//无exe
                                 {
-
+                                    logger.Info($"[管理] 未发现exe。开始清理");
                                     await DialogManager.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = "导入失败",
@@ -348,10 +359,12 @@ namespace PvzLauncherRemake.Pages
                                 }
                                 else if (gameExes.Count == 1)//只有一个exe
                                 {
+                                    logger.Info($"[管理] 仅检测到一个exe");
                                     gameExeName = gameExes[0];
                                 }
                                 else//多个exe
                                 {
+                                    logger.Info($"[管理] 检测到多个exe。开始解决问题");
                                     //添加进listBox
                                     listBox.Items.Clear();
                                     foreach (var exe in gameExes)
@@ -381,6 +394,7 @@ namespace PvzLauncherRemake.Pages
                                         {
                                             isExeSelectDone = true;
                                             gameExeName = (string)listBox.SelectedItem;
+                                            logger.Info($"[管理] 选择exe: {gameExeName}");
                                         }
                                     }
 
@@ -405,6 +419,7 @@ namespace PvzLauncherRemake.Pages
                                             PlayTime = 0
                                         }
                                     };
+                                    logger.Info($"[管理] 保存游戏配置文件: {JsonConvert.SerializeObject(jsonContent)}");
                                     Json.WriteJson(System.IO.Path.Combine(targetPath, ".pvzl.json"), jsonContent);
 
                                     notificationManager.Show(new NotificationContent
