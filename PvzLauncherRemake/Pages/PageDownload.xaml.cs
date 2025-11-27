@@ -1,6 +1,7 @@
 ﻿using HuaZi.Library.Downloader;
 using HuaZi.Library.Json;
 using ModernWpf.Controls;
+using Newtonsoft.Json;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
@@ -13,6 +14,7 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -49,12 +51,18 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                logger.Info($"[下载] 开始初始化...");
                 StartLoad();
 
                 using (var client = new HttpClient())
-                    DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(await client.GetStringAsync(AppInfo.DownloadIndexUrl));
+                {
+                    string indexString = await client.GetStringAsync(AppInfo.DownloadIndexUrl);
+                    logger.Info($"[下载] 获取下载索引: {indexString}");
+                    DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
+                }
 
                 //中文原版
+                logger.Info($"[下载] 开始加载中文原版游戏列表");
                 listBox_zhOrigin.Items.Clear();
                 foreach (var zhOriginGame in DownloadIndex.ZhOrigin)
                 {
@@ -69,11 +77,12 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = zhOriginGame.IsRecommend,
                         Tag = zhOriginGame
                     };
-                    
+                    logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
                     listBox_zhOrigin.Items.Add(card);
                 }
 
                 //中文改版
+                logger.Info($"[下载] 开始加载中文改版游戏列表");
                 listBox_zhRevision.Items.Clear();
                 foreach (var zhRevisionGame in DownloadIndex.ZhRevision)
                 {
@@ -89,11 +98,12 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = zhRevisionGame.IsRecommend,
                         Tag = zhRevisionGame
                     };
-                    
+                    logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
                     listBox_zhRevision.Items.Add(card);
                 }
 
                 //英文原版
+                logger.Info($"[下载] 开始加载英文原版游戏列表");
                 listBox_enOrigin.Items.Clear();
                 foreach (var enOriginGame in DownloadIndex.EnOrigin)
                 {
@@ -108,11 +118,12 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = enOriginGame.IsRecommend,
                         Tag = enOriginGame
                     };
-                    
+                    logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
                     listBox_enOrigin.Items.Add(card);
                 }
 
                 //修改器
+                logger.Info($"[下载] 开始加载修改器列表");
                 listBox_trainer.Items.Clear();
                 foreach (var trainerInfo in DownloadIndex.Trainer)
                 {
@@ -128,12 +139,12 @@ namespace PvzLauncherRemake.Pages
                         isRecommend = trainerInfo.IsRecommend,
                         Tag = trainerInfo
                     };
-                    
+                    logger.Info($"[下载] 添加修改器卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
                     listBox_trainer.Items.Add(card);
                 }
 
                 EndLoad();
-                
+                logger.Info($"[下载] 结束初始化");
             }
             catch (Exception ex)
             {
@@ -154,7 +165,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                
+                logger.Info($"[下载] 准备下载游戏...");
 
                 var listbox = (ListBox)sender;
                 var selectItem = (UserDownloadCard)listbox.SelectedItem;
@@ -175,6 +186,7 @@ namespace PvzLauncherRemake.Pages
                     DefaultButton = ModernWpf.Controls.ContentDialogButton.Primary
                 }, (async () =>
                 {
+                    logger.Info($"[下载] 用户同意下载");
                     try
                     {
                         //检测同名
@@ -185,6 +197,7 @@ namespace PvzLauncherRemake.Pages
 
                             if (Directory.Exists(savePath))
                             {
+                                logger.Info($"[下载] 检测到同名文件夹，开始解决问题");
                                 await DialogManager.ShowDialogAsync(new ContentDialog
                                 {
                                     Title = "发现冲突",
@@ -205,6 +218,7 @@ namespace PvzLauncherRemake.Pages
                                 });
                                 if (textBox.Text != downloadIndex.Name)
                                 {
+                                    logger.Info($"[下载] 同名冲突解决成功，新的名字: {textBox.Text}");
                                     savePath = System.IO.Path.Combine(AppInfo.GameDirectory, textBox.Text);
                                     isNameDone = true;
                                 }
@@ -213,10 +227,18 @@ namespace PvzLauncherRemake.Pages
                                 isNameDone = true;
                         }
                         StartLoad(true);
+                        logger.Info($"[下载] 没有检测到冲突或冲突已解决，准备下载");
+                        logger.Info($"[下载] 信息:\n" +
+                            $"      保存位置: {savePath}\n" +
+                            $"      URL: {downloadIndex.Url}\n" +
+                            $"      临时下载文件位置: {Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip")}");
 
                         //清除残留
                         if (File.Exists(System.IO.Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip")))
+                        {
+                            logger.Info($"[下载] 检测到下载残留，开始清理");
                             await Task.Run(() => File.Delete(System.IO.Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip")));
+                        }
 
                         bool isDownloadDone = false;
                         string? downloadError = null;
@@ -227,13 +249,17 @@ namespace PvzLauncherRemake.Pages
                             SavePath = System.IO.Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip"),
                             Progress = ((p, s) =>
                             {
+                                logger.Info($"[下载: 下载器] 下载进度: {Math.Round(p, 2)}  速度: {Math.Round(s / 1024, 2)} MB/s");
                                 progressBar_Loading.Value = p;
                                 textBlock_Loading.Text = $"下载中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)}MB/S)";
                             }),
                             Completed = ((s, e) =>
                             {
+                                logger.Info($"[下载: 下载器] 下载任务完成:   成功: {s} | 失败信息: {e}");
                                 if (s)
+                                {
                                     isDownloadDone = true;
+                                }
                                 else
                                 {
                                     downloadError = e;
@@ -241,7 +267,7 @@ namespace PvzLauncherRemake.Pages
                                 }
                             })
                         };
-
+                        logger.Info($"[下载] 开始下载...");
                         downloader.StartDownload();
 
                         //等下载完毕
@@ -252,12 +278,12 @@ namespace PvzLauncherRemake.Pages
                         if (!string.IsNullOrEmpty(downloadError))
                             throw new Exception(downloadError);
 
-
                         textBlock_Loading.Text = "解压中...";
                         //创建文件夹
                         if (!Directory.Exists(savePath))
                             Directory.CreateDirectory(savePath);
                         //解压
+                        logger.Info($"[下载] 开始解压");
                         await Task.Run(() =>
                         {
                             //使用SharpCompress库解压
@@ -267,8 +293,11 @@ namespace PvzLauncherRemake.Pages
                                 Overwrite = true
                             });
                         });
+                        logger.Info($"[下载] 解压完成");
 
                         //写Json
+                        logger.Info($"[下载] 开始定义Json配置文件");
+
                         string jsonContentName = null!;
                         if (listbox.Tag.ToString() != "trainer")
                         {
@@ -288,6 +317,7 @@ namespace PvzLauncherRemake.Pages
                                     PlayTime = 0
                                 }
                             };
+                            logger.Info($"[下载] {JsonConvert.SerializeObject(jsonContent)}");
                             Json.WriteJson(System.IO.Path.Combine(savePath, ".pvzl.json"), jsonContent);
                             jsonContentName = jsonContent.GameInfo.Name;
                         }
@@ -299,7 +329,9 @@ namespace PvzLauncherRemake.Pages
                                 ExecuteName = downloadIndex.ExecuteName,
                                 Version = downloadIndex.Version
                             };
+                            logger.Info($"[下载] {JsonConvert.SerializeObject(jsonContent)}");
                             Json.WriteJson(System.IO.Path.Combine(savePath, ".pvzl.json"), jsonContent);
+                            jsonContentName = jsonContent.Name;
                         }
 
                         notificationManager.Show(new NotificationContent
@@ -308,10 +340,15 @@ namespace PvzLauncherRemake.Pages
                             Message = $"\"{System.IO.Path.GetFileName(savePath)}\" 已添加进您的{(listbox.Tag.ToString() == "trainer" ? "修改器" : "游戏")}库!",
                             Type = NotificationType.Success
                         });
+                        logger.Info($"[下载] 下载完成!!");
 
                         //设置当前项
                         if (listbox.Tag.ToString() != "trainer")
                             AppInfo.Config.CurrentGame = jsonContentName;
+                        else
+                            AppInfo.Config.CurrentTrainer = jsonContentName;
+
+                        logger.Info($"[下载] 设置当前选中项: 游戏->{AppInfo.Config.CurrentGame}   修改器->{AppInfo.Config.CurrentTrainer}");
                         NavigationController.Navigate(this, "Manage");
 
                         EndLoad();
