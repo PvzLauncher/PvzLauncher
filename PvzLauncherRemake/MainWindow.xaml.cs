@@ -172,7 +172,7 @@ namespace PvzLauncherRemake
                     });
                 }
 
-                logger.Info($"[主窗口] {new string('=', 20)}");
+                logger.Info($"[主窗口] {new string('=', 30)}");
 
 
 
