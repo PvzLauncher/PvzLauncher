@@ -22,7 +22,7 @@ namespace PvzLauncherRemake.Controls
     public partial class UserCard : UserControl
     {
         public string Title { get; set; } = "Title";
-        public string Description { get; set; } = "Description";
+        public string Description { get; set; }
         public string Icon { get; set; } = "origin";
         public string Version { get; set; }
         public string Size { get; set; }
