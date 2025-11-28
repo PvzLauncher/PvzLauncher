@@ -350,6 +350,9 @@ namespace PvzLauncherRemake.Pages
 
                                 logger.Info($"[管理: 修改器设置] 更名成功: {trainerConfig.Name}");
 
+                                if (AppInfo.Config.CurrentTrainer == lastName)
+                                    AppInfo.Config.CurrentTrainer = trainerConfig.Name;
+
                                 this.NavigationService.Refresh();
                             }
                             else

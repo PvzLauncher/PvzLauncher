@@ -374,6 +374,10 @@ namespace PvzLauncherRemake.Pages
                                 Message = $"游戏已更名为 \"{GameInfo.GameInfo.Name}\"",
                                 Type = NotificationType.Success
                             });
+
+                            if (AppInfo.Config.CurrentGame == lastName)
+                                AppInfo.Config.CurrentGame = GameInfo.GameInfo.Name;
+
                             this.NavigationService.Refresh();
                         }
                         else
