@@ -1,5 +1,4 @@
 ﻿using HuaZi.Library.Json;
-using HuaZi.Library.Logger;
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
@@ -8,14 +7,13 @@ using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils;
-using System;
-using System.Drawing;
+using System.Diagnostics;
 using System.IO;
-using System.Security.RightsManagement;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media.Effects;
 using static PvzLauncherRemake.Class.AppLogger;
 
@@ -132,7 +130,7 @@ namespace PvzLauncherRemake.Pages
                             Tag = trainer
                         };
                         card.PreviewMouseDoubleClick += SelectTrainer;
-                        //card.PreviewMouseRightButtonDown += SetGame;
+                        card.PreviewMouseRightButtonDown += SetTrainer;
                         logger.Info($"[管理] 添加修改器: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isActive}\"  Version=\"{card.Version}\"");
                         listBox_Trainer.Items.Add(card);//添加
 
@@ -235,7 +233,6 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-
         //设置游戏
         private void SetGame(object sender, MouseButtonEventArgs e)
         {
@@ -246,6 +243,156 @@ namespace PvzLauncherRemake.Pages
             catch (Exception ex)
             {
                 ErrorReportDialog.Show("发生错误", "在处理选择事件时发生错误", ex);
+            }
+        }
+
+        //设置修改器
+        private async void SetTrainer(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var trainerConfig = (JsonTrainerInfo.Index)(((UserCard)sender).Tag);
+
+                logger.Info($"[管理: 修改器设置] 开始设置修改器");
+                //控件
+                var buttonDelete = XamlReader.Parse("<Button xmlns:ui=\"http://schemas.modernwpf.com/2019\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" HorizontalAlignment=\"Stretch\" Margin=\"0,0,0,10\" Foreground=\"#E4FF0000\">\r\n<Button.BorderBrush>\r\n<LinearGradientBrush EndPoint=\"0,3\" MappingMode=\"Absolute\">\r\n<LinearGradientBrush.RelativeTransform>\r\n<ScaleTransform CenterY=\"0.5\" ScaleY=\"-1\"/>\r\n</LinearGradientBrush.RelativeTransform>\r\n<GradientStop Color=\"#29000000\"/>\r\n<GradientStop Color=\"#33000000\" Offset=\"1\"/>\r\n</LinearGradientBrush>\r\n</Button.BorderBrush>\r\n<StackPanel Orientation=\"Horizontal\">\r\n<ui:PathIcon Width=\"15\" Height=\"15\" Data=\"M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z\" Margin=\"0,0,5,0\"/>\r\n<TextBlock Text=\"删除修改器\"/>\r\n</StackPanel>\r\n</Button>\r\n") as Button;
+                var buttonRename = XamlReader.Parse("<Button xmlns:ui=\"http://schemas.modernwpf.com/2019\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" HorizontalAlignment=\"Stretch\" Margin=\"0,0,0,10\">\r\n                    <Button.BorderBrush>\r\n                        <LinearGradientBrush EndPoint=\"0,3\" MappingMode=\"Absolute\">\r\n                            <LinearGradientBrush.RelativeTransform>\r\n                                <ScaleTransform CenterY=\"0.5\" ScaleY=\"-1\"/>\r\n                            </LinearGradientBrush.RelativeTransform>\r\n                            <GradientStop Color=\"#29000000\"/>\r\n                            <GradientStop Color=\"#33000000\" Offset=\"1\"/>\r\n                        </LinearGradientBrush>\r\n                    </Button.BorderBrush>\r\n                    <StackPanel Orientation=\"Horizontal\">\r\n                        <ui:PathIcon Height=\"15\" Width=\"15\" Margin=\"0,0,5,0\" Data=\"M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z\"/>\r\n                        <TextBlock Text=\"更改名称\"/>\r\n                    </StackPanel>\r\n                </Button>\r\n") as Button;
+                var buttonOpenFolder = XamlReader.Parse("<Button xmlns:ui=\"http://schemas.modernwpf.com/2019\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" HorizontalAlignment=\"Stretch\">\r\n                    <Button.BorderBrush>\r\n                        <LinearGradientBrush EndPoint=\"0,3\" MappingMode=\"Absolute\">\r\n                            <LinearGradientBrush.RelativeTransform>\r\n                                <ScaleTransform CenterY=\"0.5\" ScaleY=\"-1\"/>\r\n                            </LinearGradientBrush.RelativeTransform>\r\n                            <GradientStop Color=\"#29000000\"/>\r\n                            <GradientStop Color=\"#33000000\" Offset=\"1\"/>\r\n                        </LinearGradientBrush>\r\n                    </Button.BorderBrush>\r\n                    <StackPanel Orientation=\"Horizontal\">\r\n                        <ui:PathIcon Width=\"15\" Height=\"15\" Margin=\"0,0,5,0\" Data=\"M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z\"/>\r\n                        <TextBlock Text=\"打开文件夹\"/>\r\n                    </StackPanel>\r\n                </Button>\r\n") as Button;
+
+                var dialog = new ContentDialog
+                {
+                    Title = "操作",
+                    Content = new StackPanel
+                    {
+                        Children =
+                        {
+                            buttonDelete,buttonRename,buttonOpenFolder
+                        }
+                    },
+                    CloseButtonText = "关闭",
+                    DefaultButton = ContentDialogButton.Close
+                };
+
+                //删除
+                buttonDelete!.Click += (async (s, e) =>
+                {
+                    logger.Info($"[管理: 修改器设置] 开始删除修改器");
+                    dialog.Hide();
+
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "确认删除",
+                        Content = $"\"{trainerConfig.Name}\" 将被删除，一旦删除将永久消失(真的很久!)\n\n(此操作仅有这一次确认机会，点击删除按钮立即执行删除程序！)",
+                        PrimaryButtonText = "删除",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Close
+                    }, (async () =>
+                    {
+                        logger.Info($"[管理: 修改器设置] 用户同意删除，开始删除...");
+
+                        await Task.Run(() => Directory.Delete(Path.Combine(AppInfo.TrainerDirectory, trainerConfig.Name), true));
+                        logger.Info($"[管理: 修改器设置] 删除完毕");
+                        await GameManager.LoadTrainerList();
+
+                        if (AppInfo.TrainerList.Count > 0 && AppInfo.Config.CurrentTrainer == trainerConfig.Name)
+                        {
+                            AppInfo.Config.CurrentTrainer = AppInfo.TrainerList[0].Name;
+                        }
+                        else
+                        {
+                            AppInfo.Config.CurrentTrainer = null!;
+                        }
+
+                        notificationManager.Show(new NotificationContent
+                        {
+                            Title = "删除成功",
+                            Message = $"\"{trainerConfig.Name}\" 已从您的修改器库内移除!",
+                            Type = NotificationType.Success
+                        });
+
+                        this.NavigationService.Refresh();
+                    }));
+                });
+
+                //重命名
+                buttonRename!.Click += (async (s, e) =>
+                {
+                    logger.Info($"[管理: 修改器设置] 开始重命名...");
+                    dialog.Hide();
+                    var textBox = new TextBox
+                    {
+                        Text = trainerConfig.Name
+                    };
+
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "重命名",
+                        Content = textBox,
+                        PrimaryButtonText = "确定",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() =>
+                    {
+                        if (textBox.Text != null)
+                        {
+                            if (!Directory.Exists(Path.Combine(AppInfo.TrainerDirectory, textBox.Text)))
+                            {
+                                string lastName = trainerConfig.Name;
+                                trainerConfig.Name = textBox.Text;
+                                Directory.Move(Path.Combine(AppInfo.TrainerDirectory, lastName), Path.Combine(AppInfo.TrainerDirectory, trainerConfig.Name));
+                                Json.WriteJson(Path.Combine(AppInfo.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
+                                notificationManager.Show(new NotificationContent
+                                {
+                                    Title = "更名成功",
+                                    Message = $"修改器已更名为: {trainerConfig.Name}",
+                                    Type = NotificationType.Success
+                                });
+
+                                logger.Info($"[管理: 修改器设置] 更名成功: {trainerConfig.Name}");
+
+                                this.NavigationService.Refresh();
+                            }
+                            else
+                            {
+                                logger.Info($"[管理: 修改器设置] {textBox.Text} 在库内已有相同名称，操作取消");
+                                notificationManager.Show(new NotificationContent
+                                {
+                                    Title = "更名失败",
+                                    Message = $"库内已有与 \"{textBox.Text}\" 同名修改器！",
+                                    Type = NotificationType.Error
+                                });
+                            }
+                        }
+                        else
+                        {
+                            logger.Info($"[管理: 修改器设置] 用户输入为空，操作取消");
+                            notificationManager.Show(new NotificationContent
+                            {
+                                Title = "更名失败",
+                                Message = "新名称为空",
+                                Type = NotificationType.Error
+                            });
+                        }
+                    }));
+                });
+
+                //打开文件夹
+                buttonOpenFolder!.Click += ((s, e) =>
+                {
+                    dialog.Hide();
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = Path.Combine(AppInfo.TrainerDirectory, trainerConfig.Name),
+                        UseShellExecute = true
+                    });
+                });
+
+                await DialogManager.ShowDialogAsync(dialog);
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", null!, ex);
             }
         }
 
@@ -274,8 +421,8 @@ namespace PvzLauncherRemake.Pages
                     Title = "请选择游戏文件夹",
                     Multiselect = false
                 };
-                var textBox = new TextBox();//游戏名输入框
-                var listBox = new ListBox();//选择exe
+                var textBox = new System.Windows.Controls.TextBox();//游戏名输入框
+                var listBox = new System.Windows.Controls.ListBox();//选择exe
 
 
                 if (openFolderDialog.ShowDialog() == true)//用户完成选择
