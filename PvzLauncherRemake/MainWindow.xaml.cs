@@ -1,4 +1,5 @@
-﻿using ModernWpf;
+﻿using Microsoft.Win32;
+using ModernWpf;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using Newtonsoft.Json;
@@ -8,6 +9,8 @@ using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
 using static PvzLauncherRemake.Class.AppLogger;
@@ -66,9 +69,9 @@ namespace PvzLauncherRemake
                 switch (AppInfo.Config.LauncherConfig.Theme)
                 {
                     case "Light":
-                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;break;
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; break;
                     case "Dark":
-                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;break;
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark; break;
                 }
 
                 //注册事件
@@ -109,7 +112,7 @@ namespace PvzLauncherRemake
             }
         }
 
-        public async void InitializeLoaded()
+        public async Task InitializeLoaded()
         {
             try
             {
@@ -135,12 +138,14 @@ namespace PvzLauncherRemake
 
 
                 logger.Info($"[主窗口] {new string('=', 10)}启动参数配置{new string('=', 10)}");
+                logger.Info($"[主窗口] isShell={AppInfo.Arguments.isShell}");
+                logger.Info($"[主窗口] isUpdate={AppInfo.Arguments.isUpdate}");
+                logger.Info($"[主窗口] {new string('=', 30)}");
 
 
                 //是否外壳启动
                 if (!AppInfo.Arguments.isShell && !Debugger.IsAttached)
                 {
-                    logger.Info($"[主窗口] isShell={AppInfo.Arguments.isShell}");
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "警告",
@@ -162,7 +167,6 @@ namespace PvzLauncherRemake
                 //更新启动
                 if (AppInfo.Arguments.isUpdate)
                 {
-                    logger.Info($"[主窗口] isUpdate={AppInfo.Arguments.isUpdate}");
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "更新完毕",
@@ -171,15 +175,6 @@ namespace PvzLauncherRemake
                         DefaultButton = ContentDialogButton.Primary
                     });
                 }
-
-                logger.Info($"[主窗口] {new string('=', 30)}");
-
-
-
-
-
-
-
 
 
                 //检查更新
@@ -202,7 +197,13 @@ namespace PvzLauncherRemake
 
         public MainWindow() { InitializeComponent(); Initialize(); }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e) { InitializeLoaded(); }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(async () =>
+            {
+                await InitializeLoaded();
+            }, System.Windows.Threading.DispatcherPriority.Normal);
+        }
 
         private void navView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
         {
@@ -228,7 +229,7 @@ namespace PvzLauncherRemake
             try
             {
                 //判断是否显示返回箭头
-                if (frame.Content is PageManageSet || frame.Content is PageDeveloper) 
+                if (frame.Content is PageManageSet || frame.Content is PageDeveloper)
                 {
                     navView.IsBackButtonVisible = NavigationViewBackButtonVisible.Visible;
                     navView.IsBackEnabled = true;
