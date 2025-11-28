@@ -347,7 +347,7 @@ namespace PvzLauncherRemake.Pages
                             AppInfo.Config.CurrentGame = jsonContentName;
                         else
                             AppInfo.Config.CurrentTrainer = jsonContentName;
-
+                        ConfigManager.SaveAllConfig();
                         logger.Info($"[下载] 设置当前选中项: 游戏->{AppInfo.Config.CurrentGame}   修改器->{AppInfo.Config.CurrentTrainer}");
                         NavigationController.Navigate(this, "Manage");
 
