@@ -219,7 +219,7 @@ namespace PvzLauncherRemake.Pages
                                 if (textBox.Text != downloadIndex.Name)
                                 {
                                     logger.Info($"[下载] 同名冲突解决成功，新的名字: {textBox.Text}");
-                                    savePath = System.IO.Path.Combine(AppInfo.GameDirectory, textBox.Text);
+                                    savePath = System.IO.Path.Combine(listbox.Tag.ToString() == "trainer" ? AppInfo.TrainerDirectory : AppInfo.GameDirectory, textBox.Text);
                                     isNameDone = true;
                                 }
                             }
@@ -325,7 +325,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             JsonTrainerInfo.Index jsonContent = new JsonTrainerInfo.Index
                             {
-                                Name = downloadIndex.Name,
+                                Name = System.IO.Path.GetFileName(savePath),
                                 ExecuteName = downloadIndex.ExecuteName,
                                 Version = downloadIndex.Version
                             };
