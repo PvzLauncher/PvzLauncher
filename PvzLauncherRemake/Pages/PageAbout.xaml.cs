@@ -15,7 +15,21 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageAbout : ModernWpf.Controls.Page
     {
-        private long EggCount = 0;
+        private long _eggCount = 0;
+
+        private static readonly IReadOnlyList<(int clicks, string title, string message, NotificationType type, Action? action)>
+            EasterEggs =
+        [
+            (10,  "香蒲", "你真的很无聊...",                               NotificationType.Information, null),
+            (20,  "香蒲", "不是我说，你无聊的话可以去干其他事，能不能不要点我了", NotificationType.Information, null),
+            (40,  "香蒲", "不 要 再 点 我 了 ! ! !",                   NotificationType.Warning,       null),
+            (70,  "香蒲", "你可以去干一些有意义的事情，而不是在这里点一堆矢量路径！！！", NotificationType.Error, null),
+            (100, "香蒲", "好了，到此为止。作者只做了100次点击的判断，后面没有了",     NotificationType.Success,      null),
+            (130, "发生错误", "System.IndexOutOfRangeException: 索引超出了数组的边界。\r\n   在 Program.Main() 位置 C:\\Projects\\ArrayDemo\\Program.cs:第 11 行\r\n   在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)\r\n   在 System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr)",NotificationType.Error, null),
+            (150, "香蒲", "看来骗不到你",                               NotificationType.Information, null),
+            (200, "香蒲", "恭喜！200次点击",                           NotificationType.Information, null),
+            (250, "香蒲", "好了，这次是真的没了，最大值就是250了。快走吧。", NotificationType.Information, null)
+        ];
 
         public PageAbout()
         {
@@ -39,104 +53,22 @@ namespace PvzLauncherRemake.Pages
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            EggCount++;
-            logger.Info($"[关于] 触发彩蛋，当前点击次数: {EggCount}");
-            switch (EggCount)
+            _eggCount++;
+            logger.Info($"[关于] 触发彩蛋，当前点击次数: {_eggCount}");
+
+            foreach (var (clicks, title, message, type, action) in EasterEggs) 
             {
-                case 10:
+                if (_eggCount == clicks)
+                {
                     new NotificationManager().Show(new NotificationContent
                     {
-                        Title = "香蒲",
-                        Message = "你真的很无聊...",
-                        Type = NotificationType.Information
-                    }); break;
-                case 20:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "不是我说，你无聊的话可以去干其他事，能不能不要点我了",
-                        Type = NotificationType.Information
-                    }); break;
-                case 40:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "不 要 再 点 我 了 ! ! !",
-                        Type = NotificationType.Warning
-                    }); break;
-                case 45:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "......",
-                        Type = NotificationType.Information
-                    }); break;
-                case 60:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "我知道你很无聊...",
-                        Type = NotificationType.Information
-                    }); break;
-                case 70:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "你可以去干一些有意义的事情，而不是在这里点一堆矢量路径！！！",
-                        Type = NotificationType.Error
-                    }); break;
-                case 90:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "你还在点...",
-                        Type = NotificationType.Information
-                    }); break;
-                case 100:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "好了，到此为止。作者只做了100次点击的判断，后面没有了",
-                        Type = NotificationType.Success
-                    }); break;
-                case 130:
-                    ErrorReportDialog.Show("发生错误", "某处代码访问了非法内存！", new Exception("我是异常，我被抛出了"));
-                    break;
-                case 150:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "看来骗不到你",
-                        Type = NotificationType.Information
-                    }); break;
-                case 160:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "何必呢，我也只是一个被设定好的程序，按照特定的逻辑执行。你到底无聊到什么程度，来这里点我？",
-                        Type = NotificationType.Information,
-                    }); break;
-                case 170:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "...",
-                        Type = NotificationType.Information,
-                    }); break;
-                case 200:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "恭喜！200次点击",
-                        Type = NotificationType.Information,
-                    }); break;
-                case 250:
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "香蒲",
-                        Message = "好了，这次是真的没了，最大值就是250了。快走吧。",
-                        Type = NotificationType.Information,
-                    }); break;
+                        Title = title,
+                        Message = message,
+                        Type = type
+                    });
+                    action?.Invoke();
+                    return;
+                }
             }
         }
 
@@ -145,6 +77,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
                 logger.Info($"[关于] 用户尝试进入控制台");
+
                 var textBox = new TextBox();
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
@@ -155,8 +88,8 @@ namespace PvzLauncherRemake.Pages
                         {
                             new TextBlock
                             {
-                                Text="您正在进入开发者控制台，在开发者控制台乱改造成的程序异常请不要前往仓库反馈BUG！\n\n请输入 Int32的最大值与最小值的和 来进入开发者控制台",
-                                Margin=new Thickness(0,0,0,10)
+                                Text="您正在进入开发者控制台，为避免意外，请输入Int32最大值与最小值的和",
+                                Margin=new Thickness(0,0,0,5)
                             },
                             textBox
                         }
@@ -166,22 +99,21 @@ namespace PvzLauncherRemake.Pages
                     DefaultButton = ContentDialogButton.Primary
                 }, (() =>
                 {
-                    logger.Info($"[关于] 用户输入答案: {textBox.Text}");
-                    if (textBox.Text == (Int32.MaxValue + Int32.MinValue).ToString()) 
+                    if (textBox.Text == (Int32.MaxValue + Int32.MinValue).ToString())
                     {
-                        this.NavigationService.Navigate(new PageDeveloper());
+                        NavigationService?.Navigate(new PageDeveloper());
                     }
                     else
                     {
                         new NotificationManager().Show(new NotificationContent
                         {
-                            Title = "错误",
-                            Message = "你没有输入正确的Int32最大值",
+                            Title = "答案错误",
+                            Message = $"您无法进入开发者控制台, \"{textBox.Text}\" 是错误的！",
                             Type = NotificationType.Error
                         });
                     }
                 }));
-                
+
             }
             catch (Exception ex)
             {
