@@ -11,6 +11,7 @@ using SharpCompress.Archives;
 using SharpCompress.Common;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
@@ -23,9 +24,92 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownload : ModernWpf.Controls.Page
     {
-        private NotificationManager notificationManager = new NotificationManager();
         private JsonDownloadIndex.Index DownloadIndex = null!;
-        private Downloader downloader = null!;
+
+        #region ResolveSameName
+        private async Task<string> ResolveSameName(string name, string baseDir)
+        {
+            string path = Path.Combine(baseDir, name);
+            if (!Directory.Exists(path)) return path;
+
+            while (true)
+            {
+                var textBox = new TextBox { Text = name };
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "发现重名",
+                    Content = new StackPanel
+                    {
+                        Children =
+                        {
+                            new TextBlock
+                            {
+                                Text=$"在您的库内发现与 \"{name}\" 重名的文件夹, 请输入一个新名称!",
+                                Margin=new Thickness(0,0,0,5)
+                            },
+                            textBox
+                        }
+                    },
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                });
+
+                if (!Directory.Exists(Path.Combine(baseDir, textBox.Text)))
+                    return Path.Combine(baseDir, textBox.Text);
+                else
+                    new NotificationManager().Show(new NotificationContent
+                    {
+                        Title = "无法解决",
+                        Message = $"库内仍然有与 \"{textBox.Text}\" 同名的文件夹，请继续解决",
+                        Type = NotificationType.Warning
+                    });
+            }
+        }
+        #endregion
+
+        #region AddCard
+        private void AddGameCard(ListBox listBox, JsonDownloadIndex.GameInfo[] gameInfos)
+        {
+            foreach (var gameInfo in gameInfos)
+            {
+                var card = new UserCard
+                {
+                    Title = gameInfo.Name,
+                    Description = gameInfo.Description,
+                    Icon =
+                    gameInfo.Version.StartsWith("β") ? "Beta" :
+                    gameInfo.Version.StartsWith("TAT", StringComparison.OrdinalIgnoreCase) ? "Tat" : "Origin",
+                    Version = gameInfo.Version,
+                    Size = gameInfo.Size.ToString(),
+                    isNew = gameInfo.IsNew,
+                    isRecommend = gameInfo.IsRecommend,
+                    Tag = gameInfo
+                };
+                logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
+                listBox.Items.Add(card);
+            }
+        }
+        private void AddTrainerCard(ListBox listBox, JsonDownloadIndex.TrainerInfo[] trainerInfos)
+        {
+            foreach (var trainerInfo in trainerInfos)
+            {
+                var card = new UserCard
+                {
+                    Title = trainerInfo.Name,
+                    Description = trainerInfo.Description,
+                    Icon = "Origin",
+                    Version = trainerInfo.Version,
+                    Size = trainerInfo.Size.ToString(),
+                    SupportVersion = trainerInfo.SupportVersion,
+                    isNew = trainerInfo.IsNew,
+                    isRecommend = trainerInfo.IsRecommend,
+                    Tag = trainerInfo
+                };
+                logger.Info($"[下载] 添加修改器卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
+                listBox.Items.Add(card);
+            }
+        }
+        #endregion
 
         #region Load
         public void StartLoad(bool showProgressBar = false)
@@ -46,7 +130,6 @@ namespace PvzLauncherRemake.Pages
         #endregion
 
         #region Init
-        public void Initialize() { }
         public async void InitializeLoaded()
         {
             try
@@ -64,84 +147,14 @@ namespace PvzLauncherRemake.Pages
                 //中文原版
                 logger.Info($"[下载] 开始加载中文原版游戏列表");
                 listBox_zhOrigin.Items.Clear();
-                foreach (var zhOriginGame in DownloadIndex.ZhOrigin)
-                {
-                    var card = new UserCard
-                    {
-                        Title = zhOriginGame.Name,
-                        Description = zhOriginGame.Description,
-                        Icon = "Origin",
-                        Version = zhOriginGame.Version,
-                        Size = zhOriginGame.Size.ToString(),
-                        isNew = zhOriginGame.IsNew,
-                        isRecommend = zhOriginGame.IsRecommend,
-                        Tag = zhOriginGame
-                    };
-                    logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
-                    listBox_zhOrigin.Items.Add(card);
-                }
-
-                //中文改版
-                logger.Info($"[下载] 开始加载中文改版游戏列表");
                 listBox_zhRevision.Items.Clear();
-                foreach (var zhRevisionGame in DownloadIndex.ZhRevision)
-                {
-                    var card = new UserCard
-                    {
-                        Title = zhRevisionGame.Name,
-                        Description = zhRevisionGame.Description,
-                        Icon = zhRevisionGame.Version.StartsWith("β") ? "Beta" :
-                                zhRevisionGame.Version.StartsWith("TAT", StringComparison.OrdinalIgnoreCase) ? "Tat" : "Origin",
-                        Version = zhRevisionGame.Version,
-                        Size = zhRevisionGame.Size.ToString(),
-                        isNew = zhRevisionGame.IsNew,
-                        isRecommend = zhRevisionGame.IsRecommend,
-                        Tag = zhRevisionGame
-                    };
-                    logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
-                    listBox_zhRevision.Items.Add(card);
-                }
-
-                //英文原版
-                logger.Info($"[下载] 开始加载英文原版游戏列表");
                 listBox_enOrigin.Items.Clear();
-                foreach (var enOriginGame in DownloadIndex.EnOrigin)
-                {
-                    var card = new UserCard
-                    {
-                        Title = enOriginGame.Name,
-                        Description = enOriginGame.Description,
-                        Icon = "Origin",
-                        Version = enOriginGame.Version,
-                        Size = enOriginGame.Size.ToString(),
-                        isNew = enOriginGame.IsNew,
-                        isRecommend = enOriginGame.IsRecommend,
-                        Tag = enOriginGame
-                    };
-                    logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
-                    listBox_enOrigin.Items.Add(card);
-                }
-
-                //修改器
-                logger.Info($"[下载] 开始加载修改器列表");
                 listBox_trainer.Items.Clear();
-                foreach (var trainerInfo in DownloadIndex.Trainer)
-                {
-                    var card = new UserCard
-                    {
-                        Title = trainerInfo.Name,
-                        Description = trainerInfo.Description,
-                        Icon = "Origin",
-                        Version = trainerInfo.Version,
-                        Size = trainerInfo.Size.ToString(),
-                        SupportVersion = trainerInfo.SupportVersion,
-                        isNew = trainerInfo.IsNew,
-                        isRecommend = trainerInfo.IsRecommend,
-                        Tag = trainerInfo
-                    };
-                    logger.Info($"[下载] 添加修改器卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
-                    listBox_trainer.Items.Add(card);
-                }
+
+                AddGameCard(listBox_zhOrigin, DownloadIndex.ZhOrigin);
+                AddGameCard(listBox_zhRevision, DownloadIndex.ZhRevision);
+                AddGameCard(listBox_enOrigin, DownloadIndex.EnOrigin);
+                AddTrainerCard(listBox_trainer, DownloadIndex.Trainer);
 
                 EndLoad();
                 logger.Info($"[下载] 结束初始化");
@@ -153,216 +166,151 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
-        public PageDownload()
-        {
-            InitializeComponent();
-            Initialize();
-        }
+        public PageDownload() => InitializeComponent();
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) { InitializeLoaded(); }
+        private void Page_Loaded(object sender, RoutedEventArgs e) => InitializeLoaded();
 
         private async void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (sender is not ListBox lisbox || lisbox.SelectedItem is not UserCard card) return;
+
+            bool isTrainer = lisbox.Tag?.ToString() == "trainer";
+            var info = isTrainer ? (JsonDownloadIndex.TrainerInfo)card.Tag : (JsonDownloadIndex.GameInfo)card.Tag;
+            string baseDirectory =
+                isTrainer ? AppInfo.TrainerDirectory :
+                AppInfo.GameDirectory;
+
+            //确认下载
+            bool confirm = false;
+            await DialogManager.ShowDialogAsync(new ContentDialog
+            {
+                Title = "下载确认",
+                Content = $"是否下载 \"{info.Name}\"",
+                PrimaryButtonText = "确定",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary
+            }, (() => confirm = true));
+            if (!confirm) return;
+
+            //处理同名
+            string savePath = await ResolveSameName(info.Name, baseDirectory);
+
+            //开始下载
+            await StartDownloadAsync(info, savePath, isTrainer);
+        }
+
+        private async Task StartDownloadAsync(dynamic info, string savePath, bool isTrainer)
+        {
+            StartLoad(true);
+
+            string tempPath = Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERDOWNLOADCACHE.zip");
+
             try
             {
-                logger.Info($"[下载] 准备下载游戏...");
+                //清除残留
+                if (File.Exists(tempPath))
+                    await Task.Run(() => File.Delete(tempPath));
 
-                var listbox = (ListBox)sender;
-                var selectItem = (UserCard)listbox.SelectedItem;
-                var downloadIndex = (string)listbox.Tag == "trainer"
-                    ? (JsonDownloadIndex.TrainerInfo)selectItem.Tag
-                    : (JsonDownloadIndex.GameInfo)selectItem.Tag;
-
-                string savePath = listbox.Tag.ToString() == "trainer" ?
-                    System.IO.Path.Combine(AppInfo.TrainerDirectory, downloadIndex.Name) :
-                    System.IO.Path.Combine(AppInfo.GameDirectory, downloadIndex.Name);
-
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                bool? isDownloadComplete = null;
+                string errorMessage = "";
+                //定义下载器
+                var downloader = new Downloader
                 {
-                    Title = "下载确认",
-                    Content = $"名称: {downloadIndex.Name}\n\n版本: {downloadIndex.Version}",
-                    PrimaryButtonText = "开始下载",
-                    CloseButtonText = "取消",
-                    DefaultButton = ModernWpf.Controls.ContentDialogButton.Primary
-                }, (async () =>
-                {
-                    logger.Info($"[下载] 用户同意下载");
-                    try
+                    Url = info.Url,
+                    SavePath = tempPath,
+                    Progress = ((p, s) =>
                     {
-                        //检测同名
-                        bool isNameDone = false;
-                        while (!isNameDone)
-                        {
-                            var textBox = new TextBox { Text = downloadIndex.Name };
-
-                            if (Directory.Exists(savePath))
-                            {
-                                logger.Info($"[下载] 检测到同名文件夹，开始解决问题");
-                                await DialogManager.ShowDialogAsync(new ContentDialog
-                                {
-                                    Title = "发现冲突",
-                                    Content = new StackPanel
-                                    {
-                                        Children =
-                                        {
-                                            new TextBlock
-                                            {
-                                                Text=$"在您的游戏库发现与 \"{downloadIndex.Name}\" 同名的文件夹，请使用其他名称",
-                                                Margin=new Thickness(0,0,0,10)
-                                            },
-                                            textBox
-                                        }
-                                    },
-                                    PrimaryButtonText = "确定",
-                                    DefaultButton = ContentDialogButton.Primary
-                                });
-                                if (textBox.Text != downloadIndex.Name)
-                                {
-                                    logger.Info($"[下载] 同名冲突解决成功，新的名字: {textBox.Text}");
-                                    savePath = System.IO.Path.Combine(listbox.Tag.ToString() == "trainer" ? AppInfo.TrainerDirectory : AppInfo.GameDirectory, textBox.Text);
-                                    isNameDone = true;
-                                }
-                            }
-                            else
-                                isNameDone = true;
-                        }
-                        StartLoad(true);
-                        logger.Info($"[下载] 没有检测到冲突或冲突已解决，准备下载");
-                        logger.Info($"[下载] 信息:\n" +
-                            $"      保存位置: {savePath}\n" +
-                            $"      URL: {downloadIndex.Url}\n" +
-                            $"      临时下载文件位置: {Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip")}");
-
-                        //清除残留
-                        if (File.Exists(System.IO.Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip")))
-                        {
-                            logger.Info($"[下载] 检测到下载残留，开始清理");
-                            await Task.Run(() => File.Delete(System.IO.Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip")));
-                        }
-
-                        bool isDownloadDone = false;
-                        string? downloadError = null;
-                        //定义下载器
-                        downloader = new Downloader
-                        {
-                            Url = downloadIndex.Url,
-                            SavePath = System.IO.Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip"),
-                            Progress = ((p, s) =>
-                            {
-                                logger.Info($"[下载: 下载器] 下载进度: {Math.Round(p, 2)}  速度: {Math.Round(s / 1024, 2)} MB/s");
-                                progressBar_Loading.Value = p;
-                                textBlock_Loading.Text = $"下载中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)}MB/S)";
-                            }),
-                            Completed = ((s, e) =>
-                            {
-                                logger.Info($"[下载: 下载器] 下载任务完成:   成功: {s} | 失败信息: {e}");
-                                if (s)
-                                {
-                                    isDownloadDone = true;
-                                }
-                                else
-                                {
-                                    downloadError = e;
-                                    isDownloadDone = true;
-                                }
-                            })
-                        };
-                        logger.Info($"[下载] 开始下载...");
-                        downloader.StartDownload();
-
-                        //等下载完毕
-                        while (isDownloadDone == false)
-                            await Task.Delay(1000);
-
-                        //下载失败抛错误
-                        if (!string.IsNullOrEmpty(downloadError))
-                            throw new Exception(downloadError);
-
-                        textBlock_Loading.Text = "解压中...";
-                        //创建文件夹
-                        if (!Directory.Exists(savePath))
-                            Directory.CreateDirectory(savePath);
-                        //解压
-                        logger.Info($"[下载] 开始解压");
-                        await Task.Run(() =>
-                        {
-                            //使用SharpCompress库解压
-                            ArchiveFactory.WriteToDirectory(System.IO.Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERCACHE.zip"), savePath, new ExtractionOptions
-                            {
-                                ExtractFullPath = true,
-                                Overwrite = true
-                            });
-                        });
-                        logger.Info($"[下载] 解压完成");
-
-                        //写Json
-                        logger.Info($"[下载] 开始定义Json配置文件");
-
-                        string jsonContentName = null!;
-                        if (listbox.Tag.ToString() != "trainer")
-                        {
-                            JsonGameInfo.Index jsonContent = new JsonGameInfo.Index
-                            {
-                                GameInfo = new JsonGameInfo.GameInfo
-                                {
-                                    ExecuteName = downloadIndex.ExecuteName,
-                                    Name = System.IO.Path.GetFileName(savePath),
-                                    Version = downloadIndex.Version,
-                                    VersionType = downloadIndex.VersionType
-                                },
-                                Record = new JsonGameInfo.Record
-                                {
-                                    FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                    PlayCount = 0,
-                                    PlayTime = 0
-                                }
-                            };
-                            logger.Info($"[下载] {JsonConvert.SerializeObject(jsonContent)}");
-                            Json.WriteJson(System.IO.Path.Combine(savePath, ".pvzl.json"), jsonContent);
-                            jsonContentName = jsonContent.GameInfo.Name;
-                        }
+                        progressBar_Loading.Value = p;
+                        textBlock_Loading.Text = $"下载中 {Math.Round(p, 2)}% ({Math.Round(s / 1024, 2)}MB/s)";
+                    }),
+                    Completed = ((s, e) =>
+                    {
+                        if (s)
+                            isDownloadComplete = true;
                         else
                         {
-                            JsonTrainerInfo.Index jsonContent = new JsonTrainerInfo.Index
-                            {
-                                Name = System.IO.Path.GetFileName(savePath),
-                                ExecuteName = downloadIndex.ExecuteName,
-                                Version = downloadIndex.Version
-                            };
-                            logger.Info($"[下载] {JsonConvert.SerializeObject(jsonContent)}");
-                            Json.WriteJson(System.IO.Path.Combine(savePath, ".pvzl.json"), jsonContent);
-                            jsonContentName = jsonContent.Name;
+                            isDownloadComplete = false;
+                            errorMessage = e!;
                         }
 
-                        notificationManager.Show(new NotificationContent
-                        {
-                            Title = "下载完成",
-                            Message = $"\"{System.IO.Path.GetFileName(savePath)}\" 已添加进您的{(listbox.Tag.ToString() == "trainer" ? "修改器" : "游戏")}库!",
-                            Type = NotificationType.Success
-                        });
-                        logger.Info($"[下载] 下载完成!!");
+                    })
+                };
+                downloader.StartDownload();
 
-                        //设置当前项
-                        if (listbox.Tag.ToString() != "trainer")
-                            AppInfo.Config.CurrentGame = jsonContentName;
-                        else
-                            AppInfo.Config.CurrentTrainer = jsonContentName;
-                        ConfigManager.SaveAllConfig();
-                        logger.Info($"[下载] 设置当前选中项: 游戏->{AppInfo.Config.CurrentGame}   修改器->{AppInfo.Config.CurrentTrainer}");
-                        NavigationController.Navigate(this, "Manage");
+                //等待下载完毕
+                while (isDownloadComplete == null) 
+                    await Task.Delay(1000);
 
-                        EndLoad();
-                    }
-                    catch (Exception ex)
+                //失败抛错误
+                if (isDownloadComplete == false)
+                    throw new Exception(errorMessage);
+
+                textBlock_Loading.Text = $"解压中...";
+
+                if (!Directory.Exists(savePath))
+                    Directory.CreateDirectory(savePath);
+
+                //解压
+                await Task.Run(() =>
+                {
+                    ArchiveFactory.WriteToDirectory(tempPath, savePath, new ExtractionOptions
                     {
-                        ErrorReportDialog.Show("发生错误", "下载发生错误", ex);
-                    }
-                }));
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
+                });
+
+
+                string configName = Path.GetFileName(savePath);
+                if (!isTrainer)
+                {
+                    var cfg = new JsonGameInfo.Index
+                    {
+                        GameInfo = new JsonGameInfo.GameInfo
+                        {
+                            ExecuteName = info.ExecuteName,
+                            Version = info.Version,
+                            VersionType = info.VersionType,
+                            Name = configName
+                        },
+                        Record = new JsonGameInfo.Record
+                        {
+                            FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                            PlayCount = 0,
+                            PlayTime = 0
+                        }
+                    };
+                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                    AppInfo.Config.CurrentGame = configName;
+                }
+                else
+                {
+                    var cfg = new JsonTrainerInfo.Index
+                    {
+                        ExecuteName = info.ExecuteName,
+                        Version = info.Version,
+                        Name = configName
+                    };
+                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                    AppInfo.Config.CurrentTrainer = configName;
+                }
+
+                new NotificationManager().Show(new NotificationContent
+                {
+                    Title = "下载完成",
+                    Message = $"\"{configName}\" 已添加进您的库内",
+                    Type = NotificationType.Success
+                });
+
+
+                NavigationController.Navigate(this, "Manage");
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "下载游戏时发生错误", ex);
+                ErrorReportDialog.Show("发生错误", null!, ex);
             }
+
+            EndLoad();
         }
     }
 }
