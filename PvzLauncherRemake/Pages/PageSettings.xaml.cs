@@ -116,9 +116,9 @@ namespace PvzLauncherRemake.Pages
                 switch (AppInfo.Config.LauncherConfig.Theme)
                 {
                     case "Light":
-                        radioButton_Theme_Light.IsChecked = true;break;
+                        radioButton_Theme_Light.IsChecked = true; break;
                     case "Dark":
-                        radioButton_Theme_Dark.IsChecked = true;break;
+                        radioButton_Theme_Dark.IsChecked = true; break;
                 }
                 //### 窗口标题
                 textBox_WindowTitle.Text = AppInfo.Config.LauncherConfig.WindowTitle;
@@ -160,22 +160,22 @@ namespace PvzLauncherRemake.Pages
                     radioButton_Background_Default.IsChecked = true;
                 }
                 //### NavigationView位置
-                radioButton_NavViewLeft.IsChecked = false;radioButton_NavViewTop.IsChecked = false;
+                radioButton_NavViewLeft.IsChecked = false; radioButton_NavViewTop.IsChecked = false;
                 switch (AppInfo.Config.LauncherConfig.NavigationViewAlign)
                 {
                     case "Left":
-                        radioButton_NavViewLeft.IsChecked = true;break;
+                        radioButton_NavViewLeft.IsChecked = true; break;
                     case "Top":
-                        radioButton_NavViewTop.IsChecked = true;break;
+                        radioButton_NavViewTop.IsChecked = true; break;
                 }
                 //## 更新
                 //### 更新通道
                 switch (AppInfo.Config.LauncherConfig.UpdateChannel)
                 {
                     case "Stable":
-                        comboBox_UpdateChannel.SelectedIndex = 0;break;
+                        comboBox_UpdateChannel.SelectedIndex = 0; break;
                     case "Development":
-                        comboBox_UpdateChannel.SelectedIndex = 1;break;
+                        comboBox_UpdateChannel.SelectedIndex = 1; break;
                 }
                 //### 启动时检查更新
                 checkBox_StartUpCheckUpdate.IsChecked = AppInfo.Config.LauncherConfig.StartUpCheckUpdate;
@@ -250,9 +250,9 @@ namespace PvzLauncherRemake.Pages
                 switch (AppInfo.Config.LauncherConfig.Theme)
                 {
                     case "Light":
-                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;break;
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; break;
                     case "Dark":
-                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;break;
+                        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark; break;
                 }
             }
         }
@@ -362,7 +362,7 @@ namespace PvzLauncherRemake.Pages
             {
                 ErrorReportDialog.Show("发生错误", "更新时发生错误", ex);
             }
-            
+
         }
 
         private void comboBox_UpdateChannel_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -421,24 +421,37 @@ namespace PvzLauncherRemake.Pages
                     {
                         try
                         {
-                            StartLoad();
-                            await Task.Run(() =>
+
+                            if (Directory.Exists(AppInfo.SaveDirectory))
                             {
-                                Directory.Delete(AppInfo.SaveDirectory, true);
-                            });
-                            EndLoad();
-                            new NotificationManager().Show(new NotificationContent
+                                StartLoad();
+                                await Task.Run(() =>
+                                {
+                                    Directory.Delete(AppInfo.SaveDirectory, true);
+                                });
+                                EndLoad();
+                                new NotificationManager().Show(new NotificationContent
+                                {
+                                    Title = "删除存档",
+                                    Message = "您的存档已经移除",
+                                    Type = NotificationType.Success
+                                });
+                            }
+                            else
                             {
-                                Title = "删除存档",
-                                Message = "您的存档已经移除",
-                                Type = NotificationType.Success
-                            });
+                                new NotificationManager().Show(new NotificationContent
+                                {
+                                    Title = "失败",
+                                    Message = "存档不存在，无法删除",
+                                    Type = NotificationType.Error
+                                });
+                            }
                         }
                         catch (Exception ex)
                         {
                             ErrorReportDialog.Show("发生错误", "发生错误", ex);
                         }
-                        
+
                     }));
                 }));
             }
