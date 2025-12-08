@@ -190,7 +190,7 @@ namespace PvzLauncherRemake.Pages
                     }
 
                     AppInfo.Config.CurrentGame = $"{((UserCard)sender).Title}";
-                    ConfigManager.SaveAllConfig();
+                    ConfigManager.SaveConfig();
                     logger.Info($"[管理] 选择游戏: {AppInfo.Config.CurrentGame}");
                 }
             }
@@ -223,7 +223,7 @@ namespace PvzLauncherRemake.Pages
 
 
                     AppInfo.Config.CurrentTrainer = $"{((UserCard)sender).Title}";
-                    ConfigManager.SaveAllConfig();
+                    ConfigManager.SaveConfig();
                     logger.Info($"[管理] 选择修改器: {AppInfo.Config.CurrentTrainer}");
                 }
             }
@@ -628,7 +628,7 @@ namespace PvzLauncherRemake.Pages
 
                                     //当前选择:
                                     AppInfo.Config.CurrentGame = gameName;
-                                    ConfigManager.SaveAllConfig();
+                                    ConfigManager.SaveConfig();
 
                                     //刷新页面
                                     this.NavigationService.Refresh();
