@@ -15,12 +15,14 @@ namespace PvzLauncherRemake.Utils
     public static class Updater
     {
         public static JsonUpdateIndex.Index UpdateIndex = null!;
+        public static HttpClient Client = new HttpClient();
+
         public static string LatestVersion = null!;
         public static string ChangeLog = null!;
         public static string Url = null!;
-        public static string SavePath = Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERUPDATECACHE.zip");
+        public static string SavePath = Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERUPDATECACHE");
+
         public static bool isUpdate = false;
-        public static HttpClient Client = new HttpClient();
 
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
@@ -97,7 +99,7 @@ namespace PvzLauncherRemake.Utils
             bool? done = null;
             string errorMessage = null!;
 
-            var downloader = new Downloader
+            AppDownloader.downloader = new Downloader
             {
                 Url = Url,
                 SavePath = SavePath,
@@ -119,11 +121,15 @@ namespace PvzLauncherRemake.Utils
             };
             logger.Info($"[更新器] 开始下载更新文件");
 
-            downloader.StartDownload();
+            AppDownloader.downloader.StartDownload();
 
             //等待下载完毕
             while (done == null)
                 await Task.Delay(1000);
+
+            //清空
+            AppDownloader.downloader = null;
+
             logger.Info($"[更新器] 下载完成");
             //如下载失败抛错误
             if (done == false)
@@ -131,12 +137,28 @@ namespace PvzLauncherRemake.Utils
             //下载成功↓
             //运行更新服务
             logger.Info($"[更新器] 下载完成，运行更新服务");
-            Process.Start(new ProcessStartInfo
+            if (File.Exists(Path.Combine(AppInfo.ExecuteDirectory, "UpdateService.exe")))
             {
-                FileName = Path.Combine(AppInfo.ExecuteDirectory, "UpdateService"),
-                UseShellExecute = true
-            });
-            Environment.Exit(0);
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Path.Combine(AppInfo.ExecuteDirectory, "UpdateService.exe"),
+                    UseShellExecute = true
+                });
+                Environment.Exit(0);
+            }
+            else
+            {
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "失败",
+                    Content = $"无法在 \"{Path.Combine(AppInfo.ExecuteDirectory, "UpdateService.exe")}\" 找到更新服务",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                });
+                Environment.Exit(1);
+            }
+
+
         }
     }
 }
