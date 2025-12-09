@@ -115,7 +115,7 @@ namespace PvzLauncherRemake.Utils
                 }),
                 Progress = ((p, s) =>
                 {
-                    progressCallback(p, s);
+                    progressCallback?.Invoke(p, s);
                     logger.Info($"[更新器] 下载更新文件: {Math.Round(p, 2)}  ({Math.Round(s / 1024, 2)}MB/s)");
                 })
             };
