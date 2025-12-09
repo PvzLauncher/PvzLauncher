@@ -1,4 +1,5 @@
 ﻿using ModernWpf.Controls;
+using System.Linq;
 using System.Windows;
 using static PvzLauncherRemake.Class.AppLogger;
 
@@ -8,19 +9,40 @@ namespace PvzLauncherRemake.Utils
     {
         public static void Navigate(DependencyObject obj, string target)
         {
-            if (Window.GetWindow(obj) is MainWindow window)
-                if (window.FindName("navView") is NavigationView navView)
-                    if (navView.FindName($"navViewItem_{target}") is NavigationViewItem navViewItem)
-                    {
-                        logger.Info($"[导航视图控制器] 导航到 \"{target}\"");
-                        navView.SelectedItem = navViewItem;
-                    }
-                    else
-                        throw new Exception("找不到目标项");
+            if (string.IsNullOrWhiteSpace(target)) return;
+
+            try
+            {
+                if (Window.GetWindow(obj) is not MainWindow window) return;
+                if (window.FindName("navView") is not NavigationView navView) return;
+
+                NavigationViewItem? targetItem = null;
+
+                //用Tag匹配
+                targetItem = navView.MenuItems.OfType<NavigationViewItem>()
+                    .Concat(navView.FooterMenuItems.OfType<NavigationViewItem>())
+                    .FirstOrDefault(item => item.Tag?.ToString() == target)!;
+
+                //兼容
+                if (targetItem == null)
+                {
+                    targetItem = navView.FindName($"navViewItem_{target}") as NavigationViewItem;
+                }
+
+                if (targetItem != null)
+                {
+                    navView.SelectedItem = targetItem;
+                    logger.Info($"[导航控制器] 已导航 → {target} ({targetItem.Content})");
+                }
                 else
-                    throw new Exception("找不到目标项");
-            else
-                throw new Exception("找不到目标项");
+                {
+                    logger.Warn($"[导航控制器] 未找到导航目标：\"{target}\"（Tag 或 x:Name=\"navViewItem_{target}\" 均不存在）");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error($"[导航控制器] 导航时发生异常：{ex.Message}");
+            }
         }
     }
 }
