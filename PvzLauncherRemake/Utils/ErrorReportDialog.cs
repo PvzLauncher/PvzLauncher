@@ -21,7 +21,7 @@ namespace PvzLauncherRemake.Utils
             var scrollViewer = new ScrollViewer
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                MaxHeight = 400,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Margin = new Thickness(0, 0, 0, 10)
             };
 
@@ -29,10 +29,7 @@ namespace PvzLauncherRemake.Utils
             {
                 Text = ex.ToString(),
                 IsReadOnly = true,
-                FontFamily = new FontFamily("Consolas"),
                 FontSize = 12,
-                Background = new SolidColorBrush(Color.FromRgb(30, 30, 30)),
-                Foreground = Brushes.White,
                 Padding = new Thickness(8),
                 TextWrapping = TextWrapping.Wrap,
                 AcceptsReturn = true
@@ -47,18 +44,14 @@ namespace PvzLauncherRemake.Utils
                     new System.Windows.Controls.ProgressBar
                     {
                         Value = 100,
-                        Height = 6,
                         Foreground = new SolidColorBrush(Color.FromRgb(220, 50, 50)),
-                        Background = Brushes.Transparent,
-                        BorderThickness = new Thickness(0)
+                        Margin = new Thickness(0,0,0,10)
                     },
                     new TextBlock
                     {
                         Text = message,
-                        FontSize = 15,
-                        FontWeight = FontWeights.Medium,
-                        Foreground = Brushes.White,
-                        TextWrapping = TextWrapping.Wrap
+                        TextWrapping = TextWrapping.Wrap,
+                        Margin = new Thickness(0,0,0,10)
                     },
                     scrollViewer,
 
