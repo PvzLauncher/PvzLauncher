@@ -36,8 +36,7 @@ namespace PvzLauncherRemake
                 if (!File.Exists(System.IO.Path.Combine(AppInfo.ExecuteDirectory, "config.json")))
                 {
                     logger.Info($"[主窗口] 未检测到配置文件，即将创建");
-                    AppInfo.Config = new JsonConfig.Index();
-                    ConfigManager.SaveAllConfig();
+                    ConfigManager.CreateDefaultConfig();
                 }//创建游戏目录
                 if (!Directory.Exists(AppInfo.GameDirectory))
                 {
@@ -51,7 +50,7 @@ namespace PvzLauncherRemake
                 }
 
                 //读配置
-                ConfigManager.ReadAllConfig();
+                ConfigManager.LoadConfig();
 
                 //应用配置
                 logger.Info($"[主窗口] 开始应用配置");
@@ -80,13 +79,13 @@ namespace PvzLauncherRemake
                 {
                     logger.Info($"[主窗口] 窗口大小改变:  Width: {this.Width}  Height: {this.Height}");
                     AppInfo.Config.LauncherConfig.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
-                    ConfigManager.SaveAllConfig();
+                    ConfigManager.SaveConfig();
                 });
 
 
                 //加载列表
-                await GameManager.LoadGameList();
-                await GameManager.LoadTrainerList();
+                await GameManager.LoadGameListAsync();
+                await GameManager.LoadTrainerListAsync();
 
                 //预加载Page
                 void AddType(Type t)

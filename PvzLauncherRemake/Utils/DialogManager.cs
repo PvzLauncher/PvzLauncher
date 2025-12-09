@@ -1,50 +1,50 @@
 ﻿using ModernWpf.Controls;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
 {
     public static class DialogManager
     {
-        private static bool isDialogShow = false;
+        private static readonly SemaphoreSlim DialogSemaphore = new(1, 1);
 
-        public static async Task ShowDialogAsync(ContentDialog dialog, Action? primaryCallback = null, Action? secondaryCallback = null, Action? closeCallback = null)
+        public static async Task<ContentDialogResult> ShowDialogAsync(
+            ContentDialog dialog,
+            Action? primaryCallback = null,
+            Action? secondaryCallback = null,
+            Action? closeCallback = null)
         {
-            logger.Info($"[对话框管理器] 显示对话框: Title=\"{dialog.Title}\" Content=\"{dialog.Content}\" PrimaryButton=\"{dialog.PrimaryButtonText}\" SecondaryButton=\"{dialog.SecondaryButtonText}\" CloseButton=\"{dialog.CloseButtonText}\"");
-            logger.Info($"[对话框管理器] 等待对话框空闲");
-            // 等待直到没有对话框显示
-            await WaitForDialogToCloseAsync();
-            logger.Info($"[对话框管理器] 显示对话框: {dialog.Title}");
-            isDialogShow = true;
+            logger.Info($"[对话框管理器] 请求显示对话框 → {dialog.Title}");
 
-            var result = await dialog.ShowAsync();
-            logger.Info($"[对话框管理器] 对话框关闭, 用户选择: {(
-                result == ContentDialogResult.Primary ? "Primary" :
-                result == ContentDialogResult.Secondary ? "Secondary" : "Close"
-            )}: {(
-                result == ContentDialogResult.Primary ? dialog.PrimaryButtonText :
-                result == ContentDialogResult.Secondary ? dialog.SecondaryButtonText : dialog.CloseButtonText
-            )}");
-
-            isDialogShow = false;
-            HandleDialogResult(result, primaryCallback, secondaryCallback, closeCallback);
-        }
-
-        private static async Task WaitForDialogToCloseAsync()
-        {
-            while (isDialogShow)
+            await DialogSemaphore.WaitAsync();
+            try
             {
-                await Task.Delay(100);
-            }
-        }
+                var result = await dialog.ShowAsync();
 
-        private static void HandleDialogResult(ContentDialogResult result, Action? primaryCallback, Action? secondaryCallback = null, Action? closeCallback = null)
-        {
-            if (result == ContentDialogResult.Primary)
-                primaryCallback?.Invoke();
-            else if (result == ContentDialogResult.Secondary)
-                secondaryCallback?.Invoke();
-            else
-                closeCallback?.Invoke();
+                logger.Info($"[对话框管理器] 对话框关闭 ← {dialog.Title}，用户选择：{result}");
+
+                // 执行回调
+                switch (result)
+                {
+                    case ContentDialogResult.Primary: primaryCallback?.Invoke(); break;
+                    case ContentDialogResult.Secondary: secondaryCallback?.Invoke(); break;
+                    default: closeCallback?.Invoke(); break;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"[对话框管理器] 显示对话框异常: {ex}");
+                return ContentDialogResult.None;
+            }
+            finally
+            {
+                DialogSemaphore.Release();
+            }
         }
     }
 }

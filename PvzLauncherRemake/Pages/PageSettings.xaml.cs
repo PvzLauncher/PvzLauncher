@@ -150,7 +150,7 @@ namespace PvzLauncherRemake.Pages
                             Type = NotificationType.Error
                         });
                         AppInfo.Config.LauncherConfig.Background = null!;
-                        ConfigManager.SaveAllConfig();
+                        ConfigManager.SaveConfig();
                         this.NavigationService.Refresh();
                     }
                 }
@@ -237,7 +237,7 @@ namespace PvzLauncherRemake.Pages
                     case 2:
                         AppInfo.Config.LauncherConfig.LaunchedOperate = "HideAndDisplay"; break;
                 }
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
             }
         }
 
@@ -246,7 +246,7 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppInfo.Config.LauncherConfig.Theme = (string)(((RadioButton)sender).Tag);
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
                 switch (AppInfo.Config.LauncherConfig.Theme)
                 {
                     case "Light":
@@ -269,7 +269,7 @@ namespace PvzLauncherRemake.Pages
             {
                 AppInfo.Config.LauncherConfig.WindowTitle = textBox_WindowTitle.Text;
                 ((MainWindow)Window.GetWindow(this)).Title = AppInfo.Config.LauncherConfig.WindowTitle;
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
             }
         }
 
@@ -285,7 +285,7 @@ namespace PvzLauncherRemake.Pages
                         radioButton_TitieImage_EN.IsChecked = false;
 
                     AppInfo.Config.LauncherConfig.TitleImage = (string)radioButton.Tag;
-                    ConfigManager.SaveAllConfig();
+                    ConfigManager.SaveConfig();
                 }
 
 
@@ -305,7 +305,7 @@ namespace PvzLauncherRemake.Pages
                 if (dialog.ShowDialog() == true)
                 {
                     AppInfo.Config.LauncherConfig.Background = dialog.FileName;
-                    ConfigManager.SaveAllConfig();
+                    ConfigManager.SaveConfig();
                     image_Background.Source = new BitmapImage(new Uri(AppInfo.Config.LauncherConfig.Background));
                 }
             }
@@ -328,7 +328,7 @@ namespace PvzLauncherRemake.Pages
                         button_Background_Select.IsEnabled = true;
                         radioButton_Background_Default.IsChecked = false;
                     }
-                    ConfigManager.SaveAllConfig();
+                    ConfigManager.SaveConfig();
                 }
 
 
@@ -340,7 +340,7 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppInfo.Config.LauncherConfig.NavigationViewAlign = (string)(((RadioButton)sender).Tag);
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
 
             }
         }
@@ -370,7 +370,7 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppInfo.Config.LauncherConfig.UpdateChannel = (string)(((ComboBoxItem)comboBox_UpdateChannel.SelectedItem).Tag);
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
             }
         }
 
@@ -379,7 +379,7 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppInfo.Config.LauncherConfig.StartUpCheckUpdate = (bool)checkBox_StartUpCheckUpdate.IsChecked!;
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
             }
         }
 
@@ -389,7 +389,7 @@ namespace PvzLauncherRemake.Pages
             {
                 AppInfo.Config.LauncherConfig.DownloadTip.ShowGameDownloadTip = (bool)checkBox_DownloadTipGame.IsChecked!;
                 AppInfo.Config.LauncherConfig.DownloadTip.ShowTrainerDownloadTip = (bool)checkBox_DownloadTipTrainer.IsChecked!;
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
             }
         }
 
@@ -482,7 +482,7 @@ namespace PvzLauncherRemake.Pages
                         AppInfo.Config.SaveConfig.EnableSaveIsolation = false;
                     }));
 
-                ConfigManager.SaveAllConfig();
+                ConfigManager.SaveConfig();
             }
         }
 
