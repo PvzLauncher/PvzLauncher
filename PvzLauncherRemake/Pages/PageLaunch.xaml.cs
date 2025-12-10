@@ -22,7 +22,6 @@ namespace PvzLauncherRemake.Pages
         private JsonGameInfo.Index currentGameInfo = null!;
         private JsonTrainerInfo.Index currentTrainerInfo = null!;
         private NotificationManager notifi = new NotificationManager();
-        private bool MainCycleEnable = false;
 
         #region Animation
         public void StartAnimation()
@@ -200,7 +199,6 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                MainCycleEnable = false;
                 ErrorReportDialog.Show("发生错误", "启动游戏时发生错误", ex);
             }
         }
