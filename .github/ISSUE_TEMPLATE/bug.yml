@@ -1,6 +1,6 @@
 name: 🔴 BUG 报告
 description: 程序报错或出现意料之外的情况
-labels: [🔴 BUG]
+type: "Bug"
 body:
   - type: textarea
     id: description

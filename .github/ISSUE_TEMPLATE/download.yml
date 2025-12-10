@@ -1,6 +1,6 @@
 name: 🟡 为游戏库库贡献
 description: 你可以将你知道的植物大战僵尸版本贡献到游戏库，让玩家可以直接从启动器下载页面下载到你贡献的游戏！
-labels: [🟡 游戏库]
+type: "游戏库"
 body:
   - type: textarea
     id: gamename
