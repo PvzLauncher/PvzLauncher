@@ -25,55 +25,21 @@ namespace PvzLauncherRemake.Pages
         private bool MainCycleEnable = false;
 
         #region Animation
-        public void StartTitleAnimation(double gridHeight, double timeMs = 500)
+        public void StartAnimation()
         {
-            var animation = new ThicknessAnimationUsingKeyFrames();
-            animation.Duration = TimeSpan.FromMilliseconds(timeMs);
-            animation.KeyFrames.Add(new DiscreteThicknessKeyFrame(
-                new Thickness(0, -10 - gridHeight, 0, 0),
-                KeyTime.FromTimeSpan(TimeSpan.Zero)));
-
-            var easingKeyFrame = new EasingThicknessKeyFrame(
-                new Thickness(0, 0, 0, 0),
-                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(timeMs)))
-            {
-
-                // 1. 快速滑入并轻微回弹
-                EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.35 }
-
-                // 2. 平滑强减速
-                // EasingFunction = new QuinticEase { EasingMode = EasingMode.EaseOut }
-
-                // 3. 弹性弹跳效果
-                // EasingFunction = new ElasticEase { EasingMode = EasingMode.EaseOut, Oscillations = 2, Springiness = 8 }
-
-                // 4. 先慢后快再减速
-                // EasingFunction = new SineEase { EasingMode = EasingMode.EaseInOut }
-
-                // 5. 经典 Power 缓动
-                // EasingFunction = new PowerEase { EasingMode = EasingMode.EaseOut, Power = 4 }
-            };
-
-            animation.KeyFrames.Add(easingKeyFrame);
-            animation.FillBehavior = FillBehavior.HoldEnd;
-            grid_Title.BeginAnimation(FrameworkElement.MarginProperty, animation);
-        }
-
-        public void StartButtonAnimation(double timeMs = 500)
-        {
-            var anim = new ThicknessAnimation
+            var animation = new ThicknessAnimation
             {
                 To = new Thickness(0),
-                Duration = TimeSpan.FromMilliseconds(timeMs),
-                EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.2 }
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new BackEase { Amplitude = 0.2, EasingMode = EasingMode.EaseOut }
             };
-            stackPanel_LaunchButtons.BeginAnimation(MarginProperty, anim);
+            grid_Title.BeginAnimation(MarginProperty, animation);
+            stackPanel_LaunchButtons.BeginAnimation(MarginProperty, animation);
         }
         #endregion
 
         #region Init
-        public void Initialize() { MainCycle(); }
-        public async void InitializeLoaded()
+        public async void Initialize()
         {
             try
             {
@@ -135,10 +101,9 @@ namespace PvzLauncherRemake.Pages
                 }
                 grid_Title.Margin = new Thickness(0, -10 - grid_Title.Height, 0, 0);
                 stackPanel_LaunchButtons.Margin = new Thickness(0, 0, -50 - button_Launch.Width, 0);
+
                 await Task.Delay(200);//等待Frame动画播放完毕
-                StartTitleAnimation(grid_Title.Height, 500);
-                await Task.Delay(20);
-                StartButtonAnimation();
+                StartAnimation();
 
                 //设置背景
                 if (!string.IsNullOrEmpty(AppInfo.Config.LauncherConfig.Background))
@@ -153,26 +118,10 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
-        #region Cycle
-        public async void MainCycle()
-        {
-            while (true)
-            {
-                await Task.Delay(1000);
-                if (MainCycleEnable)
-                {
-                    currentGameInfo.Record.PlayTime++;
-                    Json.WriteJson(System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"), currentGameInfo);
-                }
-            }
-        }
-        #endregion
-
         public PageLaunch()
         {
             InitializeComponent();
-            Initialize();
-            Loaded += ((sender, e) => InitializeLoaded());
+            Loaded += ((sender, e) => Initialize());
         }
 
         private async void button_Launch_Click(object sender, RoutedEventArgs e)
@@ -190,47 +139,30 @@ namespace PvzLauncherRemake.Pages
                     if (AppInfo.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save")))
                     {
                         logger.Info($"[启动] 已启用存档隔离，开始切换存档");
-                        if (Directory.Exists(AppInfo.SaveDirectory))
-                            Directory.Delete(AppInfo.SaveDirectory, true);
-                        await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppInfo.GameDirectory, AppInfo.Config.CurrentGame, ".save"), AppInfo.SaveDirectory);
+                        await GameManager.SwitchGameSave(currentGameInfo);
                         logger.Info($"[启动] 存档切换成功！");
                     }
 
-                    //游戏exe路径
-                    string gameExePath = System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, currentGameInfo.GameInfo.ExecuteName);
-                    logger.Info($"[启动] 设置游戏可执行文件路径: {gameExePath}");
-                    //定义Process
-                    AppProcess.Process = new Process
+                    //启动游戏
+                    GameManager.LaunchGame(currentGameInfo, (async () =>
                     {
-                        StartInfo = new ProcessStartInfo
+                        notifi.Show(new NotificationContent
                         {
-                            FileName = gameExePath,
-                            UseShellExecute = true,
-                            WorkingDirectory = System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name)
+                            Title = "提示",
+                            Message = $"游戏进程退出, 退出代码: {AppProcess.Process.ExitCode}",
+                            Type = NotificationType.Warning
+                        });
+
+                        textBlock_LaunchText.Text = "启动游戏";
+
+                        //保存存档
+                        if (AppInfo.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(AppInfo.SaveDirectory))
+                        {
+                            logger.Info($"[启动] 存档隔离已开启，开始保存存档");
+                            await GameManager.SaveGameSave(currentGameInfo);
+                            logger.Info($"[启动] 存档保存成功");
                         }
-                    };
-                    logger.Info($"[启动] 启动进程");
-                    //启动
-                    AppProcess.Process.Start();
-
-                    //启动后操作
-                    logger.Info($"[启动] 启动后操作为: {AppInfo.Config.LauncherConfig.LaunchedOperate}");
-                    switch (AppInfo.Config.LauncherConfig.LaunchedOperate)
-                    {
-                        case "Close":
-                            Environment.Exit(0); break;
-                        case "HideAndDisplay":
-                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Hidden; break;
-                    }
-
-                    //记录启动次数
-                    currentGameInfo.Record.PlayCount++;
-                    logger.Info($"[启动] 启动次数+1, 现在为： {currentGameInfo.Record.PlayCount}");
-                    Json.WriteJson(System.IO.Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"), currentGameInfo);
-
-                    //开始计时
-                    MainCycleEnable = true;
-                    logger.Info($"[启动] 开始计时游玩时间，现在为: {currentGameInfo.Record.PlayTime}");
+                    }));
 
                     //启动提示
                     notifi.Show(new NotificationContent
@@ -239,44 +171,6 @@ namespace PvzLauncherRemake.Pages
                         Message = $"{AppInfo.Config.CurrentGame} 启动成功!",
                         Type = NotificationType.Success
                     });
-
-                    //等待结束
-
-                    logger.Info($"[启动] 启动操作完毕，等待游戏结束...");
-                    await AppProcess.Process.WaitForExitAsync();
-
-                    //停止计时
-                    MainCycleEnable = false;
-                    logger.Info($"[启动] 游戏进程已结束");
-                    logger.Info($"[启动] 游玩时间: {currentGameInfo.Record.PlayTime}");
-
-
-                    notifi.Show(new NotificationContent
-                    {
-                        Title = "提示",
-                        Message = $"游戏进程退出, 退出代码: {AppProcess.Process.ExitCode}",
-                        Type = NotificationType.Warning
-                    });
-
-                    textBlock_LaunchText.Text = "启动游戏";
-
-                    //启动后操作
-                    logger.Info($"[启动] 启动后操作为: {AppInfo.Config.LauncherConfig.LaunchedOperate}");
-                    switch (AppInfo.Config.LauncherConfig.LaunchedOperate)
-                    {
-                        case "HideAndDisplay":
-                            ((MainWindow)Window.GetWindow(this)).Visibility = Visibility.Visible; break;
-                    }
-
-                    //保存存档
-                    if (AppInfo.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(AppInfo.SaveDirectory))
-                    {
-                        logger.Info($"[启动] 存档隔离已开启，开始保存存档");
-                        if (Directory.Exists(Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".save")))
-                            Directory.Delete(Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".save"), true);
-                        await DirectoryManager.CopyDirectoryAsync(AppInfo.SaveDirectory, Path.Combine(AppInfo.GameDirectory, currentGameInfo.GameInfo.Name, ".save"));
-                        logger.Info($"[启动] 存档保存成功");
-                    }
                 }
                 //运行就结束
                 else if (textBlock_LaunchText.Text == "结束进程")
@@ -284,41 +178,24 @@ namespace PvzLauncherRemake.Pages
                     logger.Info($"[启动] 正在结束游戏...");
                     textBlock_LaunchText.Text = "启动游戏";
 
-                    //尝试使程序自行退出
-                    if (!AppProcess.Process.HasExited)
+                    await GameManager.KillGame((() =>
                     {
-                        logger.Info($"[启动] 尝试使游戏进程自行退出");
-                        notifi.Show(new NotificationContent
+                        new NotificationManager().Show(new NotificationContent
                         {
-                            Title = "提示",
-                            Message = "正在尝试关闭游戏...",
-                            Type = NotificationType.Information
+                            Title = "结束游戏",
+                            Message = "成功结束游戏",
+                            Type = NotificationType.Success
                         });
-                        AppProcess.Process.CloseMainWindow();
-                        //等待自己关闭
-                        await Task.Delay(1000);
-
-                        //强制关
-                        if (!AppProcess.Process.HasExited)
+                    }), (() =>
+                    {
+                        new NotificationManager().Show(new NotificationContent
                         {
-                            logger.Warn($"[启动] 游戏进程仍然运行，开始强制结束");
-                            AppProcess.Process.Kill();
-                            //等待完全关闭
-                            await Task.Delay(1000);
-                        }
-
-                        if (!AppProcess.Process.HasExited)
-                        {
-                            //都Kill()了不能再关不上吧
-                            logger.Error($"[启动] 无法终止游戏进程!");
-                            notifi.Show(new NotificationContent
-                            {
-                                Title = "失败",
-                                Message = "我们无法终止您的游戏，请您自行退出",
-                                Type = NotificationType.Error
-                            });
-                        }
-                    }
+                            Title = "结束游戏",
+                            Message = "无法结束游戏，请手动关闭游戏",
+                            Type = NotificationType.Error
+                        });
+                    }));
+                    
                 }
             }
             catch (Exception ex)
