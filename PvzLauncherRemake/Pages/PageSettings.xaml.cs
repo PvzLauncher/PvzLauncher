@@ -481,6 +481,8 @@ namespace PvzLauncherRemake.Pages
                         checkBox_EnableIsolationSave.IsChecked = false;
                         AppInfo.Config.SaveConfig.EnableSaveIsolation = false;
                     }));
+                else
+                    AppInfo.Config.SaveConfig.EnableSaveIsolation = false;
 
                 ConfigManager.SaveConfig();
             }
