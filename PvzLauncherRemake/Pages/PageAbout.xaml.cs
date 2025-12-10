@@ -35,7 +35,7 @@ namespace PvzLauncherRemake.Pages
         {
             InitializeComponent();
 
-            textBlock_Version.Text = $"{AppInfo.Version}{(AppInfo.IsCiBuild ? "-ci" : null)}";
+            textBlock_Version.Text = $"{AppInfo.Version}";
         }
 
         public void GoToUrl(object sender, RoutedEventArgs e)

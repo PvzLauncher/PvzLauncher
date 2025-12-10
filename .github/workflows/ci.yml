@@ -31,20 +31,5 @@ jobs:
       run: >
         dotnet publish 
         "PvzLauncherRemake\PvzLauncherRemake.csproj" 
-        -o "ci" 
         -c Release 
-        --self-contained true 
-        -p:PublishSingleFile=true 
-        -p:IncludeNativeLibrariesForSelfExtract=true 
-        -p:PublishTrimmed=false 
-        -p:EnableCompressionInSingleFile=true 
         --no-restore 
-
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: PvZ-Launcher-Latest
-        path: |
-          **/ci/*.exe
-          **/ci/*.dll
-        if-no-files-found: warn
