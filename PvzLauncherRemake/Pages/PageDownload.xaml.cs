@@ -26,47 +26,6 @@ namespace PvzLauncherRemake.Pages
     {
         private JsonDownloadIndex.Index DownloadIndex = null!;
 
-        #region ResolveSameName
-        private async Task<string> ResolveSameName(string name, string baseDir)
-        {
-            string path = Path.Combine(baseDir, name);
-            if (!Directory.Exists(path)) return path;
-
-            while (true)
-            {
-                var textBox = new TextBox { Text = name };
-                await DialogManager.ShowDialogAsync(new ContentDialog
-                {
-                    Title = "发现重名",
-                    Content = new StackPanel
-                    {
-                        Children =
-                        {
-                            new TextBlock
-                            {
-                                Text=$"在您的库内发现与 \"{name}\" 重名的文件夹, 请输入一个新名称!",
-                                Margin=new Thickness(0,0,0,5)
-                            },
-                            textBox
-                        }
-                    },
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                });
-
-                if (!Directory.Exists(Path.Combine(baseDir, textBox.Text)))
-                    return Path.Combine(baseDir, textBox.Text);
-                else
-                    new NotificationManager().Show(new NotificationContent
-                    {
-                        Title = "无法解决",
-                        Message = $"库内仍然有与 \"{textBox.Text}\" 同名的文件夹，请继续解决",
-                        Type = NotificationType.Warning
-                    });
-            }
-        }
-        #endregion
-
         #region AddCard
         private void AddGameCard(ListBox listBox, JsonDownloadIndex.GameInfo[] gameInfos)
         {
@@ -130,7 +89,7 @@ namespace PvzLauncherRemake.Pages
         #endregion
 
         #region Init
-        public async void InitializeLoaded()
+        public async void Initialize()
         {
             try
             {
@@ -168,7 +127,7 @@ namespace PvzLauncherRemake.Pages
 
         public PageDownload() => InitializeComponent();
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) => InitializeLoaded();
+        private void Page_Loaded(object sender, RoutedEventArgs e) => Initialize();
 
         private async void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -193,7 +152,20 @@ namespace PvzLauncherRemake.Pages
             if (!confirm) return;
 
             //处理同名
-            string savePath = await ResolveSameName(info.Name, baseDirectory);
+            string savePath = await GameManager.ResolveSameName(info.Name, baseDirectory);
+
+            //判断Downloader是否占用
+            if (AppDownloader.downloader != null)
+            {
+                new NotificationManager().Show(new NotificationContent
+                {
+                    Title = "启动下载任务失败",
+                    Message = "已经有一个下载任务在执行，请等待任务完成",
+                    Type = NotificationType.Error
+                });
+                return;
+            }
+
 
             //开始下载
             await StartDownloadAsync(info, savePath, isTrainer);
@@ -203,7 +175,7 @@ namespace PvzLauncherRemake.Pages
         {
             StartLoad(true);
 
-            string tempPath = Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERDOWNLOADCACHE.zip");
+            string tempPath = Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERDOWNLOADCACHE");
 
             try
             {
@@ -214,7 +186,7 @@ namespace PvzLauncherRemake.Pages
                 bool? isDownloadComplete = null;
                 string errorMessage = "";
                 //定义下载器
-                var downloader = new Downloader
+                AppDownloader.downloader = new Downloader
                 {
                     Url = info.Url,
                     SavePath = tempPath,
@@ -235,11 +207,13 @@ namespace PvzLauncherRemake.Pages
 
                     })
                 };
-                downloader.StartDownload();
+                AppDownloader.downloader.StartDownload();
 
                 //等待下载完毕
                 while (isDownloadComplete == null) 
                     await Task.Delay(1000);
+
+                AppDownloader.downloader = null;
 
                 //失败抛错误
                 if (isDownloadComplete == false)
