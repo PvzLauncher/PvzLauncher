@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <NoWarn>NU1701</NoWarn>
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
 
     <!-- 只保留指定的语言文化，其余全部排除 -->
     <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
