@@ -78,6 +78,18 @@ namespace PvzLauncherRemake.Pages
             {
                 logger.Info($"[关于] 用户尝试进入控制台");
 
+                if (Debugger.IsAttached)
+                {
+                    new NotificationManager().Show(new NotificationContent
+                    {
+                        Title = "开发者控制台",
+                        Message = "检测到调试器附加，自动进入开发者控制台",
+                        Type = NotificationType.Success
+                    });
+                    NavigationService?.Navigate(new PageDeveloper());
+                    return;
+                }
+
                 var textBox = new TextBox();
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
