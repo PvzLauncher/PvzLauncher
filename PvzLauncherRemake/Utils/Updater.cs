@@ -8,7 +8,10 @@ using PvzLauncherRemake.Class.JsonConfigs;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
 using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils
@@ -56,17 +59,28 @@ namespace PvzLauncherRemake.Utils
             if (AppInfo.Version != LatestVersion)
             {
                 logger.Info($"[更新器] 检测到更新，开始更新");
+
+                FlowDocumentScrollViewer docViewer = new FlowDocumentScrollViewer
+                {
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+                };
+
+                docViewer.Document = new Markdown().Transform(ChangeLog);
+                docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
+                foreach (Paragraph p in docViewer.Document.Blocks.OfType<Paragraph>())
+                {
+                    p.LineHeight = 10;
+                    p.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+                }
+
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = $"发现可用更新 - {LatestVersion}",
                     Content = new ScrollViewer
                     {
                         VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                        Content = new MarkdownScrollViewer
-                        {
-                            Markdown = ChangeLog,
-                            MarkdownStyleName = "GithubLike"
-                        }
+                        Content = docViewer
                     },
                     PrimaryButtonText = "立即更新",
                     CloseButtonText = "取消更新",
