@@ -170,6 +170,9 @@ namespace PvzLauncherRemake.Pages
         {
             if (IsInitialized)
             {
+                if (e.OriginalSource != sender)
+                    return;
+
                 var selectItem = ((TabControl)sender).SelectedContent;
                 ListBox animControl = null!;
 
