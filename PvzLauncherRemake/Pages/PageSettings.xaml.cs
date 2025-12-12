@@ -222,9 +222,40 @@ namespace PvzLauncherRemake.Pages
             Loaded += ((sender, e) => InitializeLoaded());
         }
 
+        //tabControl动画
+        private async void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsInitialized)
+            {
+                var tabItem = (ScrollViewer)tabControl.SelectedContent;
+
+
+                tabItem.BeginAnimation(MarginProperty, null);
+                tabItem.BeginAnimation(OpacityProperty, null);
+
+                tabItem.Margin = new Thickness(0, 25, 0, 0);
+                tabItem.Opacity = 0;
+
+                var margniAnim = new ThicknessAnimation
+                {
+                    To = new Thickness(0),
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+                var opacAnim = new DoubleAnimation
+                {
+                    To = 1,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+                tabItem.BeginAnimation(MarginProperty, margniAnim);
+                tabItem.BeginAnimation(OpacityProperty, opacAnim);
+            }
+        }
+
         #region 启动器设置
 
-        private void comboBox_LaunchedOperate_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Launcher_LaunchOperate(object sender, SelectionChangedEventArgs e)
         {
             if (isInitialized)
             {
@@ -241,7 +272,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void radioButton_Theme_Light_Click(object sender, RoutedEventArgs e)
+        private void Launcher_Theme(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -257,13 +288,13 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void button_TitleReset_Click(object sender, RoutedEventArgs e)
+        private void Launcher_TitleReset(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
                 textBox_WindowTitle.Text = new JsonConfig.Index().LauncherConfig.WindowTitle;
         }
 
-        private void textBox_WindowTitle_TextChanged(object sender, TextChangedEventArgs e)
+        private void Launcher_Title(object sender, TextChangedEventArgs e)
         {
             if (isInitialized)
             {
@@ -273,7 +304,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void radioButton_TitieImage_EN_Click(object sender, RoutedEventArgs e)
+        private void Launcher_TitleImageLanguage(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -292,7 +323,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void button_Background_Select_Click(object sender, RoutedEventArgs e)
+        private void Launcher_BackgroundCustom(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -311,7 +342,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void radioButton_Background_Default_Click(object sender, RoutedEventArgs e)
+        private void Launcher_BackgroundSelect(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -335,7 +366,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void radioButton_NavViewLeft_Checked(object sender, RoutedEventArgs e)
+        private void Launcher_NavigationViewAlign(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -345,7 +376,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private async void button_CheckUpdate_Click(object sender, RoutedEventArgs e)
+        private async void Launcher_CheckUpdate(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -365,7 +396,7 @@ namespace PvzLauncherRemake.Pages
 
         }
 
-        private void comboBox_UpdateChannel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Launcher_UpdateChannel(object sender, SelectionChangedEventArgs e)
         {
             if (isInitialized)
             {
@@ -374,7 +405,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void checkBox_StartUpCheckUpdate_Click(object sender, RoutedEventArgs e)
+        private void Launcher_StartUpCheckUpdate(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -383,7 +414,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void checkBox_DownloadTipGame_Click(object sender, RoutedEventArgs e)
+        private void Launcher_DownloadTips(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -397,7 +428,7 @@ namespace PvzLauncherRemake.Pages
 
         #region 存档设置
 
-        private async void button_SaveDelete_Click(object sender, RoutedEventArgs e)
+        private async void Save_DeleteSave(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -457,7 +488,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private async void checkBox_EnableIsolationSave_Click(object sender, RoutedEventArgs e)
+        private async void Save_EnabledSaveIsolation(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -488,9 +519,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        #endregion
-
-        private async void button_SaveMove_Click(object sender, RoutedEventArgs e)
+        private async void Save_Move(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -662,5 +691,10 @@ namespace PvzLauncherRemake.Pages
                 }
             }
         }
+
+        #endregion
+
+
+
     }
 }
