@@ -13,7 +13,7 @@
     <Grid>
         <TabControl x:Name="tabControl_Main" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_Main_SelectionChanged">
             <TabItem Header="游戏下载">
-                <TabControl Style="{StaticResource TabControlPivotStyle}" Margin="0,0,0,10">
+                <TabControl Style="{StaticResource TabControlPivotStyle}" Margin="0,0,0,10" SelectionChanged="tabControl_Main_SelectionChanged">
                     <TabItem Header="中文原版">
                         <ListBox x:Name="listBox_zhOrigin" Tag="game" SelectionChanged="listBox_SelectionChanged" Background="Transparent">
                         </ListBox>
