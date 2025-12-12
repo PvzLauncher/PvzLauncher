@@ -11,7 +11,7 @@
       Title="PageDownload" Loaded="Page_Loaded">
 
     <Grid>
-        <TabControl x:Name="tabControl_Main" Style="{StaticResource TabControlPivotStyle}">
+        <TabControl x:Name="tabControl_Main" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_Main_SelectionChanged">
             <TabItem Header="游戏下载">
                 <TabControl Style="{StaticResource TabControlPivotStyle}" Margin="0,0,0,10">
                     <TabItem Header="中文原版">

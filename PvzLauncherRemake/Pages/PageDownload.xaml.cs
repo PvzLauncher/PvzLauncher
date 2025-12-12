@@ -14,8 +14,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using static PvzLauncherRemake.Class.AppLogger;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -125,6 +127,51 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
+
+        //Tab动画
+        private void tabControl_Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsInitialized)
+            {
+                var selectItem = ((TabControl)sender).SelectedContent;
+                ListBox animControl = null!;
+
+                if (selectItem is ListBox)
+                {
+                    animControl = (ListBox)selectItem;
+                }
+                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is ListBox)
+                {
+                    animControl = (ListBox)tabcontrol.SelectedContent;
+                }
+                else
+                {
+                    return;
+                }
+
+                animControl.BeginAnimation(MarginProperty, null);
+                animControl.BeginAnimation(OpacityProperty, null);
+
+                animControl.Margin = new Thickness(0, 25, 0, 0);
+                animControl.Opacity = 0;
+
+                var margniAnim = new ThicknessAnimation
+                {
+                    To = new Thickness(0),
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+                var opacAnim = new DoubleAnimation
+                {
+                    To = 1,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+                animControl.BeginAnimation(MarginProperty, margniAnim);
+                animControl.BeginAnimation(OpacityProperty, opacAnim);
+            }
+        }
+
         public PageDownload() => InitializeComponent();
 
         private void Page_Loaded(object sender, RoutedEventArgs e) => Initialize();
@@ -210,7 +257,7 @@ namespace PvzLauncherRemake.Pages
                 AppDownloader.downloader.StartDownload();
 
                 //等待下载完毕
-                while (isDownloadComplete == null) 
+                while (isDownloadComplete == null)
                     await Task.Delay(1000);
 
                 AppDownloader.downloader = null;
