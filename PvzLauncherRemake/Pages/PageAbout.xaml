@@ -136,9 +136,10 @@
             <TextBlock Text="作者" FontSize="15" FontWeight="Bold"/>
             <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen" Content="isHuaMouRen"/>
             <TextBlock Text="项目储存库" FontSize="15" FontWeight="Bold"/>
-            <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen/PvzLauncher-Remake" Content="isHuaMouRen/PvzLauncher-Remake"/>
-            <TextBlock Text="UI库" FontSize="15" FontWeight="Bold" Cursor="Hand"/>
-            <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf" Cursor="Hand"/>
+            <ui:HyperlinkButton NavigateUri="https://github.com/PvzLauncher/PvzLauncher" Content="PvzLauncher/PvzLauncher"/>
+            <TextBlock Text="UI" FontSize="15" FontWeight="Bold" Cursor="Hand"/>
+            <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf - 主UI库" Cursor="Hand"/>
+            <ui:HyperlinkButton NavigateUri="https://github.com/TwilightLemon/FluentScrollViewer" Content="TwilightLemon/FluentScrollViewer - ScrollViewer平滑滚动" Cursor="Hand"/>
         </StackPanel>
 
         <TextBlock Text="版权所有 ©️ 2025 HuaMouRen 保留所有权益" Foreground="#FF646464" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
