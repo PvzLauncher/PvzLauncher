@@ -1,12 +1,187 @@
 ﻿using HuaZi.Library.Downloader;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using HuaZi.Library.Json;
+using Notifications.Wpf;
+using PvzLauncherRemake.Class.JsonConfigs;
+using SharpCompress.Archives;
+using SharpCompress.Common;
+using System.IO;
+using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Class
 {
     public class AppDownloader
     {
-        public static Downloader? downloader = null;
+        //主任务列表
+        public static List<DownloadTaskInfo> DownloadTaskList = new List<DownloadTaskInfo>();
+
+        /// <summary>
+        /// 向任务列表添加任务
+        /// </summary>
+        /// <param name="taskInfo"></param>
+        /// <returns></returns>
+        public static void AddTask(DownloadTaskInfo taskInfo)
+        {
+            var originDownloader = taskInfo.Downloader;
+            taskInfo.Downloader = new Downloader
+            {
+                Completed = (async (s, e) =>
+                {
+                    if (!s)
+                    {
+                        new NotificationManager().Show(new NotificationContent
+                        {
+                            Title = "下载失败",
+                            Message = $"无法下载 {taskInfo.TaskName}\n\n错误信息: {e}",
+                            Type = NotificationType.Error
+                        });
+                        return;
+                    }
+
+                    logger.Info($"[任务中心] 任务 {taskInfo.TaskName} 完成下载");
+
+                    await Task.Delay(1000);
+
+                    if (!Directory.Exists(taskInfo.SavePath))
+                        Directory.CreateDirectory(taskInfo.SavePath);
+
+                    //解压
+                    await Task.Run(() =>
+                    {
+                        ArchiveFactory.WriteToDirectory(originDownloader!.SavePath, taskInfo.SavePath, new ExtractionOptions
+                        {
+                            ExtractFullPath = true,
+                            Overwrite = true
+                        });
+                    });
+
+
+                    string configName = Path.GetFileName(taskInfo.SavePath);
+                    if (taskInfo.GameInfo != null) 
+                    {
+                        var cfg = new JsonGameInfo.Index
+                        {
+                            GameInfo = new JsonGameInfo.GameInfo
+                            {
+                                ExecuteName = taskInfo.GameInfo.ExecuteName,
+                                Version = taskInfo.GameInfo.Version,
+                                VersionType = taskInfo.GameInfo.VersionType,
+                                Name = configName
+                            },
+                            Record = new JsonGameInfo.Record
+                            {
+                                FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                PlayCount = 0,
+                                PlayTime = 0
+                            }
+                        };
+                        Json.WriteJson(Path.Combine(taskInfo.SavePath, ".pvzl.json"), cfg);
+                        AppInfo.Config.CurrentGame = configName;
+                    }
+                    else
+                    {
+                        var cfg = new JsonTrainerInfo.Index
+                        {
+                            ExecuteName = taskInfo.TrainerInfo!.ExecuteName,
+                            Version = taskInfo.TrainerInfo.Version,
+                            Name = configName
+                        };
+                        Json.WriteJson(Path.Combine(taskInfo.SavePath, ".pvzl.json"), cfg);
+                        AppInfo.Config.CurrentTrainer = configName;
+                    }
+
+                    new NotificationManager().Show(new NotificationContent
+                    {
+                        Title = "下载完成",
+                        Message = $"成功完成任务 \"{taskInfo.TaskName}\"",
+                        Type = NotificationType.Success
+                    });
+                }),
+                Progress = ((p, s) =>
+                {
+                    taskInfo.Progress = p;
+                    taskInfo.Speed = s / 1024;
+                }),
+                Url = originDownloader!.Url,
+                SavePath = originDownloader.SavePath
+            };
+
+            DownloadTaskList.Add(taskInfo);
+
+            StartTask(taskInfo);
+        }
+
+        /// <summary>
+        /// 开始所有任务
+        /// </summary>
+        public static void StartAllTask()
+        {
+            foreach (var task in DownloadTaskList)
+            {
+                task.Downloader?.StartDownload();
+            }
+        }
+
+        /// <summary>
+        /// 根据信息开始任务
+        /// </summary>
+        /// <param name="taskInfo"></param>
+        public static void StartTask(DownloadTaskInfo taskInfo)
+        {
+            var task = DownloadTaskList.FirstOrDefault(t => t == taskInfo);
+            if (task != null)
+            {
+                task.Downloader?.StartDownload();
+            }
+        }
+
+        /// <summary>
+        /// 结束所有任务
+        /// </summary>
+        public static void StopAllTask()
+        {
+            foreach (var task in DownloadTaskList)
+            {
+                task.Downloader?.StopDownload();
+            }
+            DownloadTaskList.Clear();
+        }
+
+
+        /// <summary>
+        /// 根据下载信息结束任务
+        /// </summary>
+        /// <param name="taskInfo"></param>
+        public static void StopTask(DownloadTaskInfo taskInfo)
+        {
+            var task = DownloadTaskList.FirstOrDefault(t => t == taskInfo);
+            if (task != null)
+            {
+                task.Downloader?.StopDownload();
+                DownloadTaskList.Remove(task);
+            }
+        }
+    }
+
+
+
+    public class DownloadTaskInfo
+    {
+        public Downloader? Downloader { get; set; } = null;//下载器
+        public JsonDownloadIndex.GameInfo? GameInfo { get; set; }//游戏信息
+        public JsonDownloadIndex.TrainerInfo? TrainerInfo { get; set; }//修改器信息
+        public string? TaskName { get; set; } = "未命名下载任务";//任务名
+        public string SavePath { get; set; }//保存路径
+        public TaskType TaskType { get; set; }
+        public bool? IsComplete { get; set; } = null;//是否完成  true=下载成功  false=下载失败
+        public string? ErrorMessage { get; set; } = null;//下载失败时的错误反馈
+
+        public double Progress { get; set; } = 0.0;//下载进度%
+        public double Speed { get; set; } = 0.0;//下载速度Mb/s
+    }
+
+    public enum TaskType
+    {
+        Game,
+        Trainer
     }
 }

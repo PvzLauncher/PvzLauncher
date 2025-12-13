@@ -110,22 +110,11 @@ namespace PvzLauncherRemake.Utils
 
             logger.Info($"[更新器] 准备更新...");
 
-            if (AppDownloader.downloader != null)
-            {
-                new NotificationManager().Show(new NotificationContent
-                {
-                    Title = "启动下载任务失败",
-                    Message = "已经有一个下载任务在执行，请等待任务完成",
-                    Type = NotificationType.Error
-                });
-                return;
-            }
-
             //开始更新
             bool? done = null;
             string errorMessage = null!;
 
-            AppDownloader.downloader = new Downloader
+            var downloader= new Downloader
             {
                 Url = Url,
                 SavePath = SavePath,
@@ -147,14 +136,11 @@ namespace PvzLauncherRemake.Utils
             };
             logger.Info($"[更新器] 开始下载更新文件");
 
-            AppDownloader.downloader.StartDownload();
+            downloader.StartDownload();
 
             //等待下载完毕
             while (done == null)
                 await Task.Delay(1000);
-
-            //清空
-            AppDownloader.downloader = null;
 
             logger.Info($"[更新器] 下载完成");
             //如下载失败抛错误

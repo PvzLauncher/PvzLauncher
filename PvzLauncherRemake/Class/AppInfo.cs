@@ -19,6 +19,7 @@ namespace PvzLauncherRemake.Class
         public static List<JsonGameInfo.Index> GameList = new List<JsonGameInfo.Index>();//游戏列表
         public static List<JsonTrainerInfo.Index> TrainerList = new List<JsonTrainerInfo.Index>();//修改器
         public static JsonConfig.Index Config = null!;//配置
+        public static Random Random = new Random();//随机数生成器
         
         //字符串
         public static readonly string Version = $"1.0.0-rc.5";//版本
