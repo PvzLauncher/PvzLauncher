@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PvzLauncherRemake.Pages"
       xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:ctrl="clr-namespace:PvzLauncherRemake.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="1000" d:DesignWidth="800"
       Title="PageSettings">
@@ -12,7 +13,7 @@
     <Grid>
         <TabControl x:Name="tabControl" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="启动器设置">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10,10,10,10">
                         <!--操作-->
                         <StackPanel Margin="0,0,0,10">
@@ -1029,11 +1030,11 @@
                         
 
                     </StackPanel>
-                </ScrollViewer>
+                </ctrl:UserScrollViewer>
 
             </TabItem>
             <TabItem Header="存档设置">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <!--操作-->
                         <StackPanel Margin="0,0,0,10">
@@ -1088,7 +1089,7 @@
                         
                         
                     </StackPanel>
-                </ScrollViewer>
+                </ctrl:UserScrollViewer>
             </TabItem>
         </TabControl>
         <Grid x:Name="grid_Loading" Visibility="Hidden">
