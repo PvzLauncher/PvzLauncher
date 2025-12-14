@@ -13,11 +13,19 @@
                 <ui:PathIcon Height="15" Width="15" Data="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
             </Button>
         </Grid>
-        <Grid Margin="10,10,10,10">
-            <ui:ProgressRing IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-            <ProgressBar x:Name="progressBar" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
-            <TextBlock x:Name="textBlock_Progress" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <TextBlock x:Name="textBlock_Speed" Text="100Mb/s" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,14"/>
-        </Grid>
+        <StackPanel Margin="10,10,10,10">
+            <Grid Margin="0,0,0,10">
+                <ui:ProgressRing x:Name="progressRing_Download" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <ProgressBar x:Name="progressBar_Download" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
+                <TextBlock x:Name="textBlock_Progress_Download" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="textBlock_Speed_Download" Text="100Mb/s" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,14"/>
+            </Grid>
+            <Grid>
+                <ui:ProgressRing x:Name="progressRing_Compress" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <ProgressBar x:Name="progressBar_Compress" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
+                <TextBlock x:Name="textBlock_Progress_Compress" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            </Grid>
+            
+        </StackPanel>
     </StackPanel>
 </UserControl>
