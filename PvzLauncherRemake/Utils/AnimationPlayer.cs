@@ -11,8 +11,12 @@ namespace PvzLauncherRemake.Utils
         {
             List<UserControl> animationControls = new List<UserControl>();
             animationControls.Clear();
+
             if (listBox.Items.Count > 0)
             {
+                if (listBox.Items[0] is not UserControl)
+                    return;
+
                 if (listBox.Items[0] is UserControl item)
                 {
                     animationControls.Add(item);
