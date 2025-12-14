@@ -53,8 +53,8 @@ namespace PvzLauncherRemake.Pages
                 StartLoad();
 
                 //清理
-                listBox.Items.Clear();
-                listBox_Trainer.Items.Clear();
+                stackPanel_Game.Children.Clear();
+                stackPanel_Trainer.Children.Clear();
                 //加载列表
                 logger.Info($"[管理] 开始加载游戏列表");
                 await GameManager.LoadGameListAsync();
@@ -81,12 +81,13 @@ namespace PvzLauncherRemake.Pages
                             isActive = game.GameInfo.Name == AppInfo.Config.CurrentGame ? true : false,
                             Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                             Background = System.Windows.Media.Brushes.Transparent,
-                            Tag = game
+                            Tag = game,
+                            Margin = new Thickness(0, 0, 0, 5)
                         };
                         card.PreviewMouseDoubleClick += SelectGame;
                         card.PreviewMouseRightButtonDown += SetGame;
                         logger.Info($"[管理] 添加游戏: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isActive}\"  Version=\"{card.Version}\"");
-                        listBox.Items.Add(card);//添加
+                        stackPanel_Game.Children.Add(card);//添加
 
                     }
                 }
@@ -128,12 +129,13 @@ namespace PvzLauncherRemake.Pages
                             isActive = trainer.Name == AppInfo.Config.CurrentTrainer ? true : false,
                             Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                             Background = System.Windows.Media.Brushes.Transparent,
-                            Tag = trainer
+                            Tag = trainer,
+                            Margin = new Thickness(0, 0, 0, 5)
                         };
                         card.PreviewMouseDoubleClick += SelectTrainer;
                         card.PreviewMouseRightButtonDown += SetTrainer;
                         logger.Info($"[管理] 添加修改器: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isActive}\"  Version=\"{card.Version}\"");
-                        listBox_Trainer.Items.Add(card);//添加
+                        stackPanel_Trainer.Children.Add(card);//添加
 
                     }
                 }
@@ -174,11 +176,11 @@ namespace PvzLauncherRemake.Pages
                     return;
 
                 var selectItem = ((TabControl)sender).SelectedContent;
-                ListBox animControl = null!;
+                UserScrollViewer animControl = null!;
 
-                if (selectItem is ListBox)
+                if (selectItem is UserScrollViewer)
                 {
-                    animControl = (ListBox)selectItem;
+                    animControl = (UserScrollViewer)selectItem;
                 }
                 else
                 {
@@ -217,26 +219,23 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                if (listBox.SelectedItem != null)
+                notificationManager.Show(new NotificationContent
                 {
-                    notificationManager.Show(new NotificationContent
-                    {
-                        Title = "选择游戏",
-                        Message = $"已选择 \"{((UserCard)sender).Title}\" 作为启动游戏",
-                        Type = NotificationType.Information
-                    });
+                    Title = "选择游戏",
+                    Message = $"已选择 \"{((UserCard)sender).Title}\" 作为启动游戏",
+                    Type = NotificationType.Information
+                });
 
-                    //更新控件
-                    foreach (var card in listBox.Items)
-                    {
-                        ((UserCard)card).isActive = (card == sender);
-                        ((UserCard)card).SetLabels();
-                    }
-
-                    AppInfo.Config.CurrentGame = $"{((UserCard)sender).Title}";
-                    ConfigManager.SaveConfig();
-                    logger.Info($"[管理] 选择游戏: {AppInfo.Config.CurrentGame}");
+                //更新控件
+                foreach (var card in stackPanel_Game.Children)
+                {
+                    ((UserCard)card).isActive = (card == sender);
+                    ((UserCard)card).SetLabels();
                 }
+
+                AppInfo.Config.CurrentGame = $"{((UserCard)sender).Title}";
+                ConfigManager.SaveConfig();
+                logger.Info($"[管理] 选择游戏: {AppInfo.Config.CurrentGame}");
             }
             catch (Exception ex)
             {
@@ -249,27 +248,24 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                if (listBox_Trainer.SelectedItem != null)
+                notificationManager.Show(new NotificationContent
                 {
-                    notificationManager.Show(new NotificationContent
-                    {
-                        Title = "选择修改器",
-                        Message = $"已选择 \"{((UserCard)sender).Title}\" 作为当前修改器",
-                        Type = NotificationType.Information
-                    });
+                    Title = "选择修改器",
+                    Message = $"已选择 \"{((UserCard)sender).Title}\" 作为当前修改器",
+                    Type = NotificationType.Information
+                });
 
-                    //更新控件
-                    foreach (var card in listBox_Trainer.Items)
-                    {
-                        ((UserCard)card).isActive = (card == sender);
-                        ((UserCard)card).SetLabels();
-                    }
-
-
-                    AppInfo.Config.CurrentTrainer = $"{((UserCard)sender).Title}";
-                    ConfigManager.SaveConfig();
-                    logger.Info($"[管理] 选择修改器: {AppInfo.Config.CurrentTrainer}");
+                //更新控件
+                foreach (var card in stackPanel_Trainer.Children)
+                {
+                    ((UserCard)card).isActive = (card == sender);
+                    ((UserCard)card).SetLabels();
                 }
+
+
+                AppInfo.Config.CurrentTrainer = $"{((UserCard)sender).Title}";
+                ConfigManager.SaveConfig();
+                logger.Info($"[管理] 选择修改器: {AppInfo.Config.CurrentTrainer}");
             }
             catch (Exception ex)
             {
