@@ -96,12 +96,14 @@ namespace PvzLauncherRemake.Pages
                     {
                         card.Progress = ((DownloadTaskInfo)card.Tag).Progress;
                         card.Speed = ((DownloadTaskInfo)card.Tag).Speed;
+                        card.ProgressCompress = ((DownloadTaskInfo)card.Tag).ExtractProgress;
                         card.UpdateControl();
                     }
                 }
                 foreach (var task in AppDownloader.DownloadTaskList)
-                    progressSum = progressSum + task.Progress;
-                progressAverage = progressSum / AppDownloader.DownloadTaskList.Count;
+                    progressSum = progressSum + task.Progress + task.ExtractProgress;
+
+                progressAverage = progressSum / (AppDownloader.DownloadTaskList.Count * 2);
 
                 textBlock_Average.Text = $"总进度: {(double.IsNaN(progressAverage) ? "0" : Math.Round(progressAverage, 2))}%";
                 progressBar_Average.Value = double.IsNaN(progressAverage) ? 0 : progressAverage;
