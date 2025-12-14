@@ -9,7 +9,7 @@
     <StackPanel>
         <Grid Margin="10,10,10,0">
             <TextBlock x:Name="textBlock_Title" Text="Title" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="18"/>
-            <Button x:Name="button_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click">
+            <Button x:Name="button_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="40" Width="40">
                 <ui:PathIcon Height="15" Width="15" Data="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
             </Button>
         </Grid>
