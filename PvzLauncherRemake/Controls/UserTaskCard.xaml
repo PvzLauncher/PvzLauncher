@@ -6,26 +6,48 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:local="clr-namespace:PvzLauncherRemake.Controls"
              mc:Ignorable="d">
-    <StackPanel>
-        <Grid Margin="10,10,10,0">
-            <TextBlock x:Name="textBlock_Title" Text="Title" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="18"/>
-            <Button x:Name="button_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="40" Width="40">
-                <ui:PathIcon Height="15" Width="15" Data="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-            </Button>
-        </Grid>
-        <StackPanel Margin="10,10,10,10">
-            <Grid Margin="0,0,0,10">
-                <ui:ProgressRing x:Name="progressRing_Download" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <ProgressBar x:Name="progressBar_Download" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
-                <TextBlock x:Name="textBlock_Progress_Download" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="textBlock_Speed_Download" Text="100Mb/s" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,14"/>
+    <Grid>
+        <Border BorderThickness="2,2,2,2" CornerRadius="3" Background="#19FFFFFF">
+            <Border.BorderBrush>
+                <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                    <LinearGradientBrush.RelativeTransform>
+                        <ScaleTransform CenterY="0.5" ScaleY="-1"/>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#33000000"/>
+                    <GradientStop Color="#0F000000" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+        </Border>
+        <StackPanel Margin="5,5,5,5">
+            <Grid Margin="10,10,10,0">
+                <TextBlock x:Name="textBlock_Title" Text="Title" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
+                <Button x:Name="button_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="40" Width="40">
+                    <Button.BorderBrush>
+                        <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                            <LinearGradientBrush.RelativeTransform>
+                                <ScaleTransform CenterY="0.5" ScaleY="-1"/>
+                            </LinearGradientBrush.RelativeTransform>
+                            <GradientStop Color="#33000000"/>
+                            <GradientStop Color="#0F000000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.BorderBrush>
+                    <ui:PathIcon Height="15" Width="15" Data="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                </Button>
             </Grid>
-            <Grid>
-                <ui:ProgressRing x:Name="progressRing_Compress" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <ProgressBar x:Name="progressBar_Compress" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
-                <TextBlock x:Name="textBlock_Progress_Compress" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            </Grid>
-            
+            <StackPanel Margin="10,10,10,10">
+                <Grid Margin="0,0,0,10">
+                    <ui:ProgressRing x:Name="progressRing_Download" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    <ProgressBar x:Name="progressBar_Download" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
+                    <TextBlock x:Name="textBlock_Progress_Download" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="textBlock_Speed_Download" Text="100Mb/s" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,14"/>
+                </Grid>
+                <Grid>
+                    <ui:ProgressRing x:Name="progressRing_Compress" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    <ProgressBar x:Name="progressBar_Compress" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
+                    <TextBlock x:Name="textBlock_Progress_Compress" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                </Grid>
+
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </UserControl>
