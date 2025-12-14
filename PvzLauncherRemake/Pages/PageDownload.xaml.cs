@@ -143,15 +143,15 @@ namespace PvzLauncherRemake.Pages
                     return;
 
                 var selectItem = ((TabControl)sender).SelectedContent;
-                ListBox animControl = null!;
+                UserScrollViewer animControl = null!;
 
-                if (selectItem is ListBox)
+                if (selectItem is UserScrollViewer)
                 {
-                    animControl = (ListBox)selectItem;
+                    animControl = (UserScrollViewer)selectItem;
                 }
-                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is ListBox)
+                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is UserScrollViewer)
                 {
-                    animControl = (ListBox)tabcontrol.SelectedContent;
+                    animControl = (UserScrollViewer)tabcontrol.SelectedContent;
                 }
                 else
                 {
