@@ -84,8 +84,8 @@ namespace PvzLauncherRemake.Pages
                             Tag = game,
                             Margin = new Thickness(0, 0, 0, 5)
                         };
-                        card.PreviewMouseDoubleClick += SelectGame;
-                        card.PreviewMouseRightButtonDown += SetGame;
+                        card.MouseDoubleClick += SelectGame;
+                        card.MouseRightButtonUp += SetGame;
                         logger.Info($"[管理] 添加游戏: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isActive}\"  Version=\"{card.Version}\"");
                         stackPanel_Game.Children.Add(card);//添加
 
@@ -132,8 +132,8 @@ namespace PvzLauncherRemake.Pages
                             Tag = trainer,
                             Margin = new Thickness(0, 0, 0, 5)
                         };
-                        card.PreviewMouseDoubleClick += SelectTrainer;
-                        card.PreviewMouseRightButtonDown += SetTrainer;
+                        card.MouseDoubleClick += SelectTrainer;
+                        card.MouseRightButtonUp += SetTrainer;
                         logger.Info($"[管理] 添加修改器: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isActive}\"  Version=\"{card.Version}\"");
                         stackPanel_Trainer.Children.Add(card);//添加
 
