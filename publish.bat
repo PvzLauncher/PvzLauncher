@@ -6,9 +6,14 @@ dotnet publish "ExecuteShell\ExecuteShell.csproj" -c Release -o "publish"
 dotnet publish "UpdateService\UpdateService.csproj" -c Release -o "publish\bin"
 
 
-set /p majorversion=MajorVersion: 
+set "DEFAULT_MAJORVERSION=1.0.0"
+set "DEFAULT_CODENAME=Release Candidate"
+
 set /p version=Version: 
-set /p codename=CodeName: 
+set /p codename=CodeName (%DEFAULT_CODENAME%): 
+set /p majorversion=MajorVersion (%DEFAULT_MAJORVERSION%): 
+if "%majorversion%"=="" set "majorversion=%DEFAULT_MAJORVERSION%"
+if "%codename%"=="" set "codename=%DEFAULT_CODENAME%"
 
 set "targetDir=Builds\%majorversion%\%codename%\%version%"
 
@@ -16,7 +21,7 @@ mkdir "%targetDir%" 2>nul
 
 xcopy "publish\*.*" "%targetDir%\" /s /e /y /i
 
-del "Builds\%majorVersion%\%codename%\%version%\PvzLauncher.deps.json"
-del "Builds\%majorVersion%\%codename%\%version%\PvzLauncher.pdb"
+del "%targetDir%\PvzLauncher.deps.json"
+del "%targetDir%\PvzLauncher.pdb"
 
 pause
