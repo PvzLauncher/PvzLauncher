@@ -72,7 +72,8 @@ namespace PvzLauncherRemake.Class
                                 ExecuteName = taskInfo.GameInfo.ExecuteName,
                                 Version = taskInfo.GameInfo.Version,
                                 VersionType = taskInfo.GameInfo.VersionType,
-                                Name = configName
+                                Name = configName,
+                                Icon = taskInfo.GameInfo.Icon
                             },
                             Record = new JsonGameInfo.Record
                             {
@@ -90,7 +91,8 @@ namespace PvzLauncherRemake.Class
                         {
                             ExecuteName = taskInfo.TrainerInfo!.ExecuteName,
                             Version = taskInfo.TrainerInfo.Version,
-                            Name = configName
+                            Name = configName,
+                            Icon = taskInfo.TrainerInfo.Icon
                         };
                         Json.WriteJson(Path.Combine(taskInfo.SavePath, ".pvzl.json"), cfg);
                         AppInfo.Config.CurrentTrainer = configName;
