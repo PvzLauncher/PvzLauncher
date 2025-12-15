@@ -38,8 +38,9 @@ namespace PvzLauncherRemake.Pages
                     Title = gameInfo.Name,
                     Description = gameInfo.Description,
                     Icon =
-                    gameInfo.Version.StartsWith("β") ? "Beta" :
-                    gameInfo.Version.StartsWith("TAT", StringComparison.OrdinalIgnoreCase) ? "Tat" : "Origin",
+                    gameInfo.Version.StartsWith("β") ? GameIcons.Beta :
+                    gameInfo.Version.StartsWith("TAT", StringComparison.OrdinalIgnoreCase) ? GameIcons.Tat :
+                    GameIcons.Origin,
                     Version = gameInfo.Version,
                     Size = gameInfo.Size.ToString(),
                     isNew = gameInfo.IsNew,
@@ -61,7 +62,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     Title = trainerInfo.Name,
                     Description = trainerInfo.Description,
-                    Icon = "Origin",
+                    Icon = GameIcons.Origin,
                     Version = trainerInfo.Version,
                     Size = trainerInfo.Size.ToString(),
                     SupportVersion = trainerInfo.SupportVersion,

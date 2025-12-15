@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PvzLauncherRemake.Controls.Icons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,24 @@ using System.Windows.Shapes;
 
 namespace PvzLauncherRemake.Controls
 {
+    public enum GameIcons
+    {
+        Origin,
+        Beta,
+        Tat
+    }
+
+
     /// <summary>
     /// UserCard.xaml 的交互逻辑
     /// </summary>
     public partial class UserCard : UserControl
     {
+        
+
         public string Title { get; set; } = "Title";
         public string Description { get; set; }
-        public string Icon { get; set; } = "Origin";
+        public GameIcons Icon { get; set; } = GameIcons.Origin;
         public string Version { get; set; }
         public string Size { get; set; }
         public string SupportVersion { get; set; }
@@ -42,13 +53,14 @@ namespace PvzLauncherRemake.Controls
                 textBlock_Description.Text = Description;
 
                 //图标
-                Viewbox[] icons = { viewBox_Origin, viewBox_Beta, viewBox_Tat };
-                foreach (var icon in icons)
+                switch (Icon)
                 {
-                    if ($"viewBox_{Icon}" == icon.Name)
-                        icon.Visibility = Visibility.Visible;
-                    else
-                        icon.Visibility = Visibility.Hidden;
+                    case GameIcons.Origin:
+                        viewBox_Icon.Child = new GameIconOrigin();break;
+                    case GameIcons.Beta:
+                        viewBox_Icon.Child = new GameIconBeta();break;
+                    case GameIcons.Tat:
+                        viewBox_Icon.Child = new GameIconTat();break;
                 }
 
                 SetLabels();

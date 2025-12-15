@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
 using System.IO;
@@ -58,7 +59,7 @@ namespace PvzLauncherRemake.Pages
                     GameInfo.GameInfo.VersionType == "en_origin" ? "英文原版" : "未知";
                 userGameCard.Version = $"{version} {GameInfo.GameInfo.Version}";
                 userGameCard.Icon =
-                    GameInfo.GameInfo.Version.StartsWith("β") ? "Beta" : "Origin";
+                    GameInfo.GameInfo.Version.StartsWith("β") ? GameIcons.Beta : GameIcons.Origin;
                 logger.Info($"[游戏设置] 传入的游戏信息: {JsonConvert.SerializeObject(GameInfo)}");
 
                 //统计信息

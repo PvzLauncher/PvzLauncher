@@ -77,7 +77,7 @@ namespace PvzLauncherRemake.Pages
                         var card = new UserCard
                         {
                             Title = game.GameInfo.Name,
-                            Icon = game.GameInfo.Version.StartsWith("β") ? "Beta" : "Origin",
+                            Icon = game.GameInfo.Version.StartsWith("β") ? GameIcons.Beta : GameIcons.Origin,
                             isActive = game.GameInfo.Name == AppInfo.Config.CurrentGame ? true : false,
                             Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                             Background = System.Windows.Media.Brushes.Transparent,
@@ -125,7 +125,7 @@ namespace PvzLauncherRemake.Pages
                         var card = new UserCard
                         {
                             Title = trainer.Name,
-                            Icon = "Origin",
+                            Icon = GameIcons.Origin,
                             isActive = trainer.Name == AppInfo.Config.CurrentTrainer ? true : false,
                             Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                             Background = System.Windows.Media.Brushes.Transparent,
