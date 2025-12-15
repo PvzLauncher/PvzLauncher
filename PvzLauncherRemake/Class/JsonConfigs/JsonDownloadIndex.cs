@@ -27,6 +27,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("description")]
             public string Description { get; set; }
 
+            [JsonProperty("icon")]
+            public string Icon { get; set; }
+
             [JsonProperty("version_type")]
             public string VersionType { get; set; }
 
