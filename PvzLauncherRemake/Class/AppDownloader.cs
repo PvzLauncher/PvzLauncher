@@ -26,6 +26,21 @@ namespace PvzLauncherRemake.Class
         /// <returns></returns>
         public static void AddTask(DownloadTaskInfo taskInfo)
         {
+            foreach (var task in DownloadTaskList)
+            {
+                if(task.TaskName == taskInfo.TaskName)
+                {
+                    new NotificationManager().Show(new NotificationContent
+                    {
+                        Title = "无法创建任务",
+                        Message = $"任务列表内已有与 \"{taskInfo.TaskName}\" 同名任务，请等待已有任务完成",
+                        Type = NotificationType.Error
+                    });
+                    return;
+                }
+
+            }
+
             var originDownloader = taskInfo.Downloader;
             taskInfo.Downloader = new Downloader
             {
