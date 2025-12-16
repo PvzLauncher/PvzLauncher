@@ -227,7 +227,7 @@ namespace PvzLauncherRemake.Pages
                     await Task.Run(() => File.Delete(tempPath));
 
                 //定义下载器
-                AppDownloader.AddTask(new DownloadTaskInfo
+                TaskManager.AddTask(new DownloadTaskInfo
                 {
                     Downloader = new Downloader
                     {

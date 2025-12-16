@@ -26,7 +26,7 @@ namespace PvzLauncherRemake.Pages
 
         private void ShowNoneTip()
         {
-            if (AppDownloader.DownloadTaskList.Count > 0)
+            if (TaskManager.DownloadTaskList.Count > 0)
                 textBlock_None.Visibility = Visibility.Hidden;
             else
                 textBlock_None.Visibility = Visibility.Visible;
@@ -39,7 +39,7 @@ namespace PvzLauncherRemake.Pages
             {
                 stackPanel_Tasks.Children.Clear();
 
-                foreach (var task in AppDownloader.DownloadTaskList)
+                foreach (var task in TaskManager.DownloadTaskList)
                 {
                     var card = new UserTaskCard
                     {
@@ -51,7 +51,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (card.Tag != null)
                         {
-                            AppDownloader.StopTask((DownloadTaskInfo)card.Tag);
+                            TaskManager.StopTask((DownloadTaskInfo)card.Tag);
                         }
                     };
 
@@ -80,8 +80,8 @@ namespace PvzLauncherRemake.Pages
             _timer.Tick += Timer_Tick;
             _timer.Start();
 
-            AppDownloader.TaskAdded += OnTaskAdded;
-            AppDownloader.TaskRemoved += OnTaskRemoved;
+            TaskManager.TaskAdded += OnTaskAdded;
+            TaskManager.TaskRemoved += OnTaskRemoved;
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -101,10 +101,10 @@ namespace PvzLauncherRemake.Pages
                         card.UpdateControl();
                     }
                 }
-                foreach (var task in AppDownloader.DownloadTaskList)
+                foreach (var task in TaskManager.DownloadTaskList)
                     progressSum = progressSum + task.Progress + task.ExtractProgress;
 
-                progressAverage = progressSum / (AppDownloader.DownloadTaskList.Count * 2);
+                progressAverage = progressSum / (TaskManager.DownloadTaskList.Count * 2);
 
                 textBlock_Average.Text = $"总进度: {(double.IsNaN(progressAverage) ? "0" : Math.Round(progressAverage, 2))}%";
                 progressBar_Average.Value = double.IsNaN(progressAverage) ? 0 : progressAverage;
@@ -129,7 +129,7 @@ namespace PvzLauncherRemake.Pages
                     Tag = task
                 };
 
-                card.button_Cancel.Click += (s, e) => AppDownloader.StopTask(task);
+                card.button_Cancel.Click += (s, e) => TaskManager.StopTask(task);
 
                 card.UpdateControl();
                 stackPanel_Tasks.Children.Add(card);
