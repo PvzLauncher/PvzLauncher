@@ -146,6 +146,11 @@ namespace PvzLauncherRemake.Utils
             logger.Info($"[启动] 启动次数+1, 现在为： {gameInfo.Record.PlayCount}");
             Json.WriteJson(System.IO.Path.Combine(AppInfo.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
 
+            //启动器整体次数
+            AppInfo.Config.Record.LaunchCount++;
+            ConfigManager.SaveConfig();
+            logger.Info($"[启动] 启动器总体启动数: {AppInfo.Config.Record.LaunchCount}");
+
             IsGameRuning = true;
 
             logger.Info($"[启动] 启动操作完毕，等待游戏结束...");
