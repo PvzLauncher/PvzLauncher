@@ -134,6 +134,14 @@ namespace PvzLauncherRemake.Class
             DownloadTaskList.Add(taskInfo);
             TaskAdded?.Invoke(taskInfo);
             StartTask(taskInfo);
+
+
+            new NotificationManager().Show(new NotificationContent
+            {
+                Title = "下载已开始",
+                Message = "您的下载任务已被添加进任务列表",
+                Type = NotificationType.Information
+            });
         }
 
         /// <summary>

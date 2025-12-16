@@ -240,13 +240,6 @@ namespace PvzLauncherRemake.Pages
                     TaskType = isTrainer ? TaskType.Trainer : TaskType.Game,
                     SavePath = savePath
                 });
-
-                new NotificationManager().Show(new NotificationContent
-                {
-                    Title = "下载已开始",
-                    Message = "您的下载任务已被添加进任务列表",
-                    Type = NotificationType.Information
-                });
             }
             catch (Exception ex)
             {
