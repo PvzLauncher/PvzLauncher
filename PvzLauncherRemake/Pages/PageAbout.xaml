@@ -138,12 +138,15 @@
 
         <ctrl:UserScrollViewer Margin="0,135,0,20">
             <StackPanel>
-                <TextBlock Text="作者" FontSize="15" FontWeight="Bold"/>
+                <!--开发者-->
+                <TextBlock Text="开发者" FontSize="15" FontWeight="Bold"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen" Content="isHuaMouRen"/>
-
+                
+                <!--项目仓库-->
                 <TextBlock Text="项目储存库" FontSize="15" FontWeight="Bold"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/PvzLauncher/PvzLauncher" Content="PvzLauncher/PvzLauncher"/>
-
+                
+                <!--UI-->
                 <TextBlock Text="UI" FontSize="15" FontWeight="Bold" Cursor="Hand"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf - 主UI库" Cursor="Hand"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/TwilightLemon/FluentScrollViewer" Content="TwilightLemon/FluentScrollViewer - ScrollViewer平滑滚动" Cursor="Hand"/>
