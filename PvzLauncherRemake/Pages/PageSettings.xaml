@@ -20,7 +20,7 @@
                             <TextBlock Text="操作" FontSize="25" FontWeight="Bold"/>
                             <!--启动后操作-->
                             <StackPanel x:Name="sp1" Orientation="Horizontal">
-                                <TextBlock Text="游戏启动后操作:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBlock Text="游戏启动后操作:" ToolTip="控制游戏启动后，启动器该干什么" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <ComboBox x:Name="comboBox_LaunchedOperate" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="Launcher_LaunchOperate">
                                     <ComboBoxItem Content="不执行任何操作"/>
                                     <ComboBoxItem Content="启动器关闭"/>
@@ -35,8 +35,8 @@
                             <!--主题-->
                             <StackPanel x:Name="sp2" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="颜色主题:" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="radioButton_Theme_Light" Tag="Light" Content="明亮" Click="Launcher_Theme"/>
-                                <RadioButton x:Name="radioButton_Theme_Dark" Tag="Dark" Content="暗黑" Click="Launcher_Theme"/>
+                                <RadioButton x:Name="radioButton_Theme_Light" ToolTip="明亮主题" Tag="Light" Content="明亮" Click="Launcher_Theme"/>
+                                <RadioButton x:Name="radioButton_Theme_Dark" ToolTip="暗黑主题" Tag="Dark" Content="暗黑" Click="Launcher_Theme"/>
                             </StackPanel>
                             <!--标题-->
                             <StackPanel x:Name="sp3" Orientation="Horizontal" Margin="0,0,0,10">
@@ -52,7 +52,7 @@
                                         </LinearGradientBrush>
                                     </TextBox.BorderBrush>
                                 </TextBox>
-                                <Button x:Name="button_TitleReset" Content="重置" Click="Launcher_TitleReset">
+                                <Button x:Name="button_TitleReset" ToolTip="重置为默认的Plants Vs. Zombies Launcher" Content="重置" Click="Launcher_TitleReset">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -68,7 +68,7 @@
                             <StackPanel x:Name="sp4" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="标题图片:" Margin="0,0,20,0" VerticalAlignment="Top"/>
                                 <StackPanel Margin="0,0,20,0">
-                                    <RadioButton x:Name="radioButton_TitieImage_EN" Tag="EN" Content="Plants Vs. Zombies" IsChecked="True" Click="Launcher_TitleImageLanguage"/>
+                                    <RadioButton x:Name="radioButton_TitieImage_EN" ToolTip="英文风格" Tag="EN" Content="Plants Vs. Zombies" IsChecked="True" Click="Launcher_TitleImageLanguage"/>
                                     <Viewbox x:Name="viewBox_Title_EN" Height="40">
                                         <Canvas UseLayoutRounding="False" Width="446.66922" Height="69.963036">
                                             <Canvas.Clip>
@@ -569,7 +569,7 @@
 
                                 </StackPanel>
                                 <StackPanel>
-                                    <RadioButton x:Name="radioButton_TitleImage_ZH" Tag="ZH" Content="植物大战僵尸" IsChecked="False" Click="Launcher_TitleImageLanguage"/>
+                                    <RadioButton x:Name="radioButton_TitleImage_ZH" ToolTip="中文风格" Tag="ZH" Content="植物大战僵尸" IsChecked="False" Click="Launcher_TitleImageLanguage"/>
                                     <Viewbox x:Name="viewBox_Title_ZH" Height="40">
                                         <Canvas UseLayoutRounding="False" Width="450.25116" Height="96.68676">
                                             <Canvas.Clip>
@@ -955,9 +955,9 @@
                             <!--背景图-->
                             <StackPanel x:Name="sp5" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="背景图:" Margin="0,0,10,0"/>
-                                <RadioButton x:Name="radioButton_Background_Default" Tag="Default" Content="默认" IsChecked="True" VerticalAlignment="Top" Click="Launcher_BackgroundSelect"/>
+                                <RadioButton x:Name="radioButton_Background_Default" ToolTip="无背景" Tag="Default" Content="默认" IsChecked="True" VerticalAlignment="Top" Click="Launcher_BackgroundSelect"/>
                                 <StackPanel>
-                                    <RadioButton x:Name="radioButton_Background_Custom" Tag="Custom" Content="自定义" IsChecked="False" Click="Launcher_BackgroundSelect"/>
+                                    <RadioButton x:Name="radioButton_Background_Custom" ToolTip="自选背景" Tag="Custom" Content="自定义" IsChecked="False" Click="Launcher_BackgroundSelect"/>
                                     <Border BorderBrush="Black" BorderThickness="1,1,1,1" Margin="0,0,0,10">
                                         <Image x:Name="image_Background" Height="128" Width="256" Stretch="UniformToFill"/>
                                     </Border>
@@ -977,8 +977,8 @@
                             <!--NavigationView位置-->
                             <StackPanel x:Name="sp6" Orientation="Horizontal">
                                 <TextBlock Text="导航栏位置:" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="radioButton_NavViewLeft" Content="左侧" Tag="Left" Checked="Launcher_NavigationViewAlign"/>
-                                <RadioButton x:Name="radioButton_NavViewTop" Content="顶部" Tag="Top" Checked="Launcher_NavigationViewAlign"/>
+                                <RadioButton x:Name="radioButton_NavViewLeft" ToolTip="左侧导航栏" Content="左侧" Tag="Left" Checked="Launcher_NavigationViewAlign"/>
+                                <RadioButton x:Name="radioButton_NavViewTop" ToolTip="顶部导航栏" Content="顶部" Tag="Top" Checked="Launcher_NavigationViewAlign"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -988,7 +988,7 @@
                             <!--检测更新-->
                             <StackPanel x:Name="sp7" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="检测更新:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <Button x:Name="button_CheckUpdate" Content="检测更新" Click="Launcher_CheckUpdate">
+                                <Button x:Name="button_CheckUpdate" ToolTip="检测是否可更新到新版本" Content="检测更新" Click="Launcher_CheckUpdate">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -1003,15 +1003,15 @@
                             <!--更新通道-->
                             <StackPanel x:Name="sp8" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="更新通道:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <ComboBox x:Name="comboBox_UpdateChannel" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="Launcher_UpdateChannel">
-                                    <ComboBoxItem Content="Stable (稳定版, 更新慢)" Tag="Stable"/>
-                                    <ComboBoxItem Content="Development (开发版, 更新快)" Tag="Development"/>
+                                <ComboBox x:Name="comboBox_UpdateChannel" ToolTip="选择不同的更新通道，获取不同的更新内容: Stable-更新慢但稳定 Development-更新快但不怎么稳定" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="Launcher_UpdateChannel">
+                                    <ComboBoxItem Content="Stable" Tag="Stable"/>
+                                    <ComboBoxItem Content="Development" Tag="Development"/>
                                 </ComboBox>
                             </StackPanel>
                             <!--启动时检查更新-->
                             <StackPanel x:Name="sp9" Orientation="Horizontal">
                                 <TextBlock Text="启动时检查更新:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <CheckBox x:Name="checkBox_StartUpCheckUpdate" Content="启用" Click="Launcher_StartUpCheckUpdate"/>
+                                <CheckBox x:Name="checkBox_StartUpCheckUpdate" ToolTip="在启动器启东时是否检测更新" Content="启用" Click="Launcher_StartUpCheckUpdate"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -1022,8 +1022,8 @@
                             <StackPanel x:Name="sp10" Orientation="Horizontal">
                                 <TextBlock Text="下载通知:" Margin="0,0,10,0" VerticalAlignment="Center"/>
 
-                                <CheckBox x:Name="checkBox_DownloadTipGame" Content="游戏下载通知" Tag="Game" IsChecked="False" Click="Launcher_DownloadTips"/>
-                                <CheckBox x:Name="checkBox_DownloadTipTrainer" Content="修改器下载通知" Tag="Trainer" IsChecked="False" Click="Launcher_DownloadTips"/>
+                                <CheckBox x:Name="checkBox_DownloadTipGame" ToolTip="在库内没有游戏时，是否提示去下载游戏" Content="游戏下载通知" Tag="Game" IsChecked="False" Click="Launcher_DownloadTips"/>
+                                <CheckBox x:Name="checkBox_DownloadTipTrainer" ToolTip="在库内没有修改器时，是否提示去下载游戏" Content="修改器下载通知" Tag="Trainer" IsChecked="False" Click="Launcher_DownloadTips"/>
                             </StackPanel>
                         </StackPanel>
                         
@@ -1034,7 +1034,7 @@
                             <!--下载缓存-->
                             <StackPanel x:Name="sp11" Orientation="Horizontal">
                                 <TextBlock Text="下载缓存:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <Button Content="清理" Click="Launcher_ClearTemp">
+                                <Button Content="清理" ToolTip="清理启动器的更新缓存以及下载缓存" Click="Launcher_ClearTemp">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -1061,7 +1061,7 @@
                             <!--操作-->
                             <StackPanel Orientation="Horizontal">
                                 <!--删除-->
-                                <Button x:Name="button_SaveDelete" Foreground="#E4FF0000" FontWeight="Bold" Margin="0,0,10,0" Click="Save_DeleteSave">
+                                <Button x:Name="button_SaveDelete" ToolTip="移除当前存档(不会移除存档隔离下的独立存档)" Foreground="#E4FF0000" FontWeight="Bold" Margin="0,0,10,0" Click="Save_DeleteSave">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -1077,7 +1077,7 @@
                                     </StackPanel>
                                 </Button>
                                 <!--迁移-->
-                                <Button x:Name="button_SaveMove" Margin="0,0,10,0" Click="Save_Move">
+                                <Button x:Name="button_SaveMove" ToolTip="将某个游戏的独立存档复制到另一个游戏" Margin="0,0,10,0" Click="Save_Move">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -1098,11 +1098,10 @@
                         <!--版本隔离-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="存档隔离" FontSize="25" FontWeight="Bold"/>
-                            <TextBlock TextWrapping="Wrap" Text="启用存档隔离后，每个版本使用独立的存档，不会发生串档现象，这仅适用于原版或基于原版存档系统制作的改版。其他引擎重写的或更改了存档系统的版本无效" Margin="0,0,0,10"/>
                             <!--开启存档隔离-->
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="启用存档隔离:" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                <CheckBox x:Name="checkBox_EnableIsolationSave" Content="启用" Click="Save_EnabledSaveIsolation"/>
+                                <CheckBox x:Name="checkBox_EnableIsolationSave" ToolTip="启用存档隔离，也就是多个游戏不共用一个存档，有效的避免了串档问题。此功能仅对使用原版存档系统的游戏生效。如果某些改版改动了存档系统，那么此功能将没有任何用处" Content="启用" Click="Save_EnabledSaveIsolation"/>
                             </StackPanel>
                         </StackPanel>
                         
