@@ -8,6 +8,7 @@ using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using System.IO;
+using System.Net.Quic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,13 +43,13 @@ namespace PvzLauncherRemake.Pages
             {
                 To = new Thickness(0, sp.Margin.Top, sp.Margin.Right, sp.Margin.Bottom),
                 Duration = TimeSpan.FromMilliseconds(500),
-                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             });
             sp.BeginAnimation(OpacityProperty, new DoubleAnimation
             {
                 To = 1,
                 Duration = TimeSpan.FromMilliseconds(500),
-                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             });
         }
         #endregion
