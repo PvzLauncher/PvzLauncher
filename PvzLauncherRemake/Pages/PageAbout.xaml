@@ -7,11 +7,11 @@
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:ctrl="clr-namespace:PvzLauncherRemake.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1000" d:DesignWidth="800"
       Title="PageAbout">
 
     <Grid Margin="10,10,10,10">
-        <Viewbox Height="100" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Viewbox Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,10,0">
             <Canvas UseLayoutRounding="False" Width="407.65085" Height="350.34695" RenderTransformOrigin="0.5,0.5" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseRightButtonDown="Canvas_MouseRightButtonDown">
                 <Canvas.RenderTransform>
                     <TransformGroup>
@@ -106,10 +106,10 @@
             </Canvas>
         </Viewbox>
 
-        <TextBlock Text="Plants vs. Zombies Launcher - Remake" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,0,0,0" FontSize="25" FontWeight="Bold"/>
-        <TextBlock x:Name="textBlock_Version" Text="Version" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,37,0,0" Foreground="#FF646464"/>
+        <TextBlock Text="Plants vs. Zombies Launcher" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Margin="0,100,0,0"/>
+        <TextBlock x:Name="textBlock_Version" Text="Version" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF646464" Margin="0,130,0,0"/>
 
-        <StackPanel Orientation="Horizontal" Margin="0,100,0,0" VerticalAlignment="Top">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
             <Button x:Name="button_ReportIssue" Content="反馈问题" Margin="0,0,10,0" Tag="https://github.com/isHuaMouRen/PvzLauncher-Remake/issues/new/choose" Click="GoToUrl">
                 <Button.BorderBrush>
                     <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
@@ -136,31 +136,31 @@
 
         </StackPanel>
 
-        <ctrl:UserScrollViewer Margin="0,135,0,20">
+        <ctrl:UserScrollViewer Margin="0,150,0,0" Cursor="Hand">
             <StackPanel>
                 <!--开发者-->
-                <TextBlock Text="开发者" FontSize="15" FontWeight="Bold"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen" Content="isHuaMouRen - 主开发人员 (也是唯一的开发人员)"/>
-                
+                <TextBlock Text="开发者" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/isHuaMouRen" Content="isHuaMouRen - 主开发人员 (也是唯一的开发人员)" HorizontalAlignment="Center"/>
+
                 <!--项目仓库-->
-                <TextBlock Text="项目储存库" FontSize="15" FontWeight="Bold"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/PvzLauncher/PvzLauncher" Content="PvzLauncher/PvzLauncher"/>
-                
+                <TextBlock Text="项目储存库" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/PvzLauncher/PvzLauncher" Content="PvzLauncher/PvzLauncher" HorizontalAlignment="Center"/>
+
                 <!--UI-->
-                <TextBlock Text="UI" FontSize="15" FontWeight="Bold" Cursor="Hand"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/dotnet/wpf" Content="dotnet/wpf - UI框架" Cursor="Hand"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf - 主UI库" Cursor="Hand"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/TwilightLemon/FluentScrollViewer" Content="TwilightLemon/FluentScrollViewer - ScrollViewer平滑滚动" Cursor="Hand"/>
-                <ui:HyperlinkButton NavigateUri="https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/" Content="microsoft/WebView2 - 网页渲染" Cursor="Hand"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/Federerer/Notifications.Wpf" Content="Federerer/Notifications.Wpf - 通知弹窗" Cursor="Hand"/>
+                <TextBlock Text="UI" FontSize="15" FontWeight="Bold" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/dotnet/wpf" Content="dotnet/wpf - UI框架" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf - 主UI库" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/TwilightLemon/FluentScrollViewer" Content="TwilightLemon/FluentScrollViewer - ScrollViewer平滑滚动" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/" Content="microsoft/WebView2 - 网页渲染" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/Federerer/Notifications.Wpf" Content="Federerer/Notifications.Wpf - 通知弹窗" Cursor="Hand" HorizontalAlignment="Center"/>
 
                 <!--程序-->
-                <TextBlock Text="程序" FontSize="15" FontWeight="Bold" Cursor="Hand"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="JamesNK/Newtonsoft.Json - Json读写" Cursor="Hand"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="adamhathcock/sharpcompress - 压缩包操作" Cursor="Hand"/>
+                <TextBlock Text="程序" FontSize="15" FontWeight="Bold" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="JamesNK/Newtonsoft.Json - Json读写" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="adamhathcock/sharpcompress - 压缩包操作" Cursor="Hand" HorizontalAlignment="Center"/>
             </StackPanel>
         </ctrl:UserScrollViewer>
 
-        <TextBlock Text="版权所有 ©️ 2025 HuaMouRen 保留所有权益" Foreground="#FF646464" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+        <TextBlock Text="版权所有 ©️ 2025 HuaMouRen 保留所有权益" Foreground="#FF646464" VerticalAlignment="Top" HorizontalAlignment="Left"/>
     </Grid>
 </ui:Page>
