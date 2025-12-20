@@ -20,7 +20,8 @@
         </Border>
         <StackPanel Margin="5,5,5,5">
             <Grid Margin="10,10,10,0">
-                <TextBlock x:Name="textBlock_Title" Text="Title" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
+                <Viewbox x:Name="viewBox_Icon" Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textBlock_Title" Text="Title" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" Margin="45,0,0,0"/>
                 <Button x:Name="button_Cancel" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="40" Width="40">
                     <Button.BorderBrush>
                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">

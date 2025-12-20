@@ -45,6 +45,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         Title = task.TaskName!,
                         Tag = task,
+                        Icon = task.TaskIcon,
                         Margin = new Thickness(5, 5, 5, 5)
                     };
                     card.button_Cancel.Click += (s, e) =>

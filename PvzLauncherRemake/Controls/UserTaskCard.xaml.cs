@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PvzLauncherRemake.Class;
+using PvzLauncherRemake.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -22,6 +24,7 @@ namespace PvzLauncherRemake.Controls
         public double Progress { get; set; }
         public double ProgressCompress { get; set; }
         public double Speed { get; set; }
+        public GameIcons Icon { get; set; } = GameIcons.Unknown;
 
 
         public UserTaskCard()
@@ -31,6 +34,8 @@ namespace PvzLauncherRemake.Controls
 
         public void UpdateControl()
         {
+            viewBox_Icon.Child = GameManager.ParseToUserControl(Icon);
+
             textBlock_Title.Text = Title;
 
             textBlock_Progress_Download.Text = Progress == 100 ? "下载完成" : $"下载中... {Math.Round(Progress, 2)}%";

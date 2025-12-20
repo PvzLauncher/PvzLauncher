@@ -206,6 +206,7 @@ namespace PvzLauncherRemake.Utils
         public JsonDownloadIndex.GameInfo? GameInfo { get; set; }//游戏信息
         public JsonDownloadIndex.TrainerInfo? TrainerInfo { get; set; }//修改器信息
         public string? TaskName { get; set; } = "未命名下载任务";//任务名
+        public GameIcons TaskIcon { get; set; } = GameIcons.Unknown;//任务图标
         public string SavePath { get; set; }//保存路径
         public TaskType TaskType { get; set; }
         public bool? IsComplete { get; set; } = null;//是否完成  true=下载成功  false=下载失败
