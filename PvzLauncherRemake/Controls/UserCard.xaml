@@ -28,20 +28,20 @@
             
             
             <!--图标-->
-            <Grid Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,5,5">
+            <Grid x:Name="grid_Icon" Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,5,5">
                 <Viewbox x:Name="viewBox_Icon">
                     <gi:GameIconOrigin/>
                 </Viewbox>
             </Grid>
 
             <!--标题与描述-->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,5,5,0">
+            <StackPanel x:Name="stackPanel_Title" Orientation="Horizontal" VerticalAlignment="Top" Margin="50,5,5,5">
                 <TextBlock x:Name="textBlock_Title" Text="Title" FontSize="15" Margin="0,0,10,0"/>
                 <TextBlock x:Name="textBlock_Description" Text="Description" VerticalAlignment="Bottom" FontSize="10"/>
             </StackPanel>
 
             <!--标签-->
-            <StackPanel x:Name="stackPanel_Labels" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,0,5,5">
+            <StackPanel x:Name="stackPanel_Labels" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="50,5,5,5">
                 <Grid Margin="0,0,5,0">
                     <Rectangle Height="20" RadiusY="3" RadiusX="3" Fill="#CC969696"/>
                     <TextBlock Text="Version" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0"/>

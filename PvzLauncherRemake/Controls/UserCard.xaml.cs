@@ -36,12 +36,23 @@ namespace PvzLauncherRemake.Controls
         public bool isNew { get; set; }
         public bool isActive { get; set; }
         public object AttachedProperty { get; set; }
+        public bool BigIconMode { get; set; } = false;
 
         public UserCard()
         {
             InitializeComponent();
             Loaded += ((s, e) =>
             {
+                if (BigIconMode)
+                {
+                    this.Height = 100;
+                    grid_Icon.Height = 80; grid_Icon.Width = 80;
+                    stackPanel_Title.Margin = new Thickness(90, 5, 5, 5);
+                    stackPanel_Labels.Margin = new Thickness(90, 5, 5, 5);
+                }
+
+
+
                 textBlock_Title.Text = Title;
                 textBlock_Description.Text = Description;
 
