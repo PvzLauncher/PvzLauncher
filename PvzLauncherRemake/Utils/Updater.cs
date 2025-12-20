@@ -24,7 +24,7 @@ namespace PvzLauncherRemake.Utils
         public static string LatestVersion = null!;
         public static string ChangeLog = null!;
         public static string Url = null!;
-        public static string SavePath = Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHERUPDATECACHE");
+        public static string SavePath = Path.Combine(AppInfo.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE");
 
         public static bool isUpdate = false;
 
@@ -154,6 +154,7 @@ namespace PvzLauncherRemake.Utils
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = Path.Combine(AppInfo.ExecuteDirectory, "UpdateService.exe"),
+                    Arguments = $"-updatefile {SavePath}",
                     UseShellExecute = true
                 });
                 Environment.Exit(0);
