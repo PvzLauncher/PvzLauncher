@@ -49,20 +49,8 @@ namespace PvzLauncherRemake.Pages
             InitializeComponent();
             Loaded += (async (s, e) =>
             {
-                logger.Info($"[开发者控制面板] 初始化...");
-                logger.Info($"[开发者控制面板] 初始化WebView2...");
-
-                await webView2.EnsureCoreWebView2Async(null);
-                logger.Info($"[开发者控制面板] 初始化WebView2成功");
-
                 isInitialize = true;
                 logger.Info($"[开发者控制面板] 完成初始化!");
-                new NotificationManager().Show(new NotificationContent
-                {
-                    Title = "WebView2",
-                    Message = "完成初始化",
-                    Type = NotificationType.Success
-                });
             });
             MainCycle();
 
@@ -71,14 +59,6 @@ namespace PvzLauncherRemake.Pages
         private void textBox_markdown_TextChanged(object sender, TextChangedEventArgs e)
         {
             markdownViewer.Markdown = textBox_markdown.Text;
-        }
-
-        private void textBox_WebView_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (isInitialize)
-            {
-                webView2.CoreWebView2.NavigateToString(textBox_WebView.Text);
-            }
         }
 
         private void textBox_Md2_TextChanged(object sender, TextChangedEventArgs e)
