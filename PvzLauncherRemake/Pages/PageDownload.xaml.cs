@@ -214,8 +214,6 @@ namespace PvzLauncherRemake.Pages
 
         private async Task StartDownloadAsync(dynamic info, string savePath, bool isTrainer)
         {
-            StartLoad(true);
-
             string tempPath = Path.Combine(AppInfo.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{AppInfo.Random.Next(Int32.MinValue, Int32.MaxValue) + AppInfo.Random.Next(Int32.MinValue, Int32.MaxValue)}");
 
             logger.Info($"[下载] 生成随机临时名: {tempPath}");
@@ -246,8 +244,6 @@ namespace PvzLauncherRemake.Pages
             {
                 ErrorReportDialog.Show("发生错误", null!, ex);
             }
-
-            EndLoad();
         }
     }
 }
