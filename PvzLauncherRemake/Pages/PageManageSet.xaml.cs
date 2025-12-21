@@ -55,11 +55,37 @@ namespace PvzLauncherRemake.Pages
                 userGameCard.Icon = GameManager.ParseToGameIcons(GameInfo.GameInfo.Icon);
                 logger.Info($"[游戏设置] 传入的游戏信息: {JsonConvert.SerializeObject(GameInfo)}");
 
+                //判断游玩时间显示
+                string? playTimeUnit = null;
+                string? playTimeDisply = null;
+                if (GameInfo.Record.PlayTime < 0)
+                {
+                    playTimeUnit = null;
+                    playTimeDisply = "你是怎么玩到负数的，都说了不要乱改配置文件!";
+                }
+                else if (GameInfo.Record.PlayTime >= 0 && GameInfo.Record.PlayTime < 60)//0s ~ 1min
+                {
+                    playTimeUnit = "秒";
+                    playTimeDisply = $"{GameInfo.Record.PlayTime}";
+                }
+                else if (GameInfo.Record.PlayTime >= 60 && GameInfo.Record.PlayTime < 3600)//1min ~ 1h
+                {
+                    playTimeUnit = "分钟";
+                    playTimeDisply = $"{GameInfo.Record.PlayTime / 60}";
+                }
+                else if (GameInfo.Record.PlayTime >= 3600)//1h+
+                {
+                    playTimeUnit = "小时";
+                    playTimeDisply = $"{Math.Round(GameInfo.Record.PlayTime / 3600.0, 2)}";
+                }
+
+
+
                 //统计信息
                 textBlock_Record.Text =
                     $"首次启动: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
-                    $"游玩时间: {(GameInfo.Record.PlayTime >= 60 ? GameInfo.Record.PlayTime / 60 : GameInfo.Record.PlayTime >= (60 * 60) ? GameInfo.Record.PlayTime / (60 * 60) : GameInfo.Record.PlayTime)}{(GameInfo.Record.PlayTime >= 60 ? "分钟" : GameInfo.Record.PlayTime >= (60 * 60) ? "小时" : "秒")}\n" +
-                    $"启动次数: {GameInfo.Record.PlayCount}";
+                    $"游玩时间: {playTimeDisply} {playTimeUnit}\n" +
+                    $"启动次数: {GameInfo.Record.PlayCount}";   
 
                 logger.Info($"[游戏设置] 结束初始化");
             }
@@ -84,7 +110,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (Directory.Exists(System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name)))
                 {
-                    
+
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name),
@@ -104,7 +130,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                
+
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "确定操作",
@@ -180,7 +206,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                
+
 
                 //VersionType
                 var comboBox = new ComboBox
@@ -243,7 +269,7 @@ namespace PvzLauncherRemake.Pages
                     GameInfo.GameInfo.Version = textBox.Text;
                     GameInfo.GameInfo.VersionType = (string)((ComboBoxItem)comboBox.SelectedItem).Tag;
                     Json.WriteJson(System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-                    
+
                     notificationManage.Show(new NotificationContent
                     {
                         Title = "成功",
@@ -264,7 +290,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                
+
 
                 string[] files = Directory.GetFiles(System.IO.Path.Combine(AppInfo.GameDirectory, GameInfo.GameInfo.Name));
                 List<string> exes = new List<string>();
@@ -354,9 +380,9 @@ namespace PvzLauncherRemake.Pages
                     DefaultButton = ContentDialogButton.Primary
                 }, (() =>
                 {
-                    if (textBox.Text != null) 
+                    if (textBox.Text != null)
                     {
-                        if(!Directory.Exists(Path.Combine(AppInfo.GameDirectory, textBox.Text)))
+                        if (!Directory.Exists(Path.Combine(AppInfo.GameDirectory, textBox.Text)))
                         {
                             string lastName = GameInfo.GameInfo.Name;
                             GameInfo.GameInfo.Name = textBox.Text;
