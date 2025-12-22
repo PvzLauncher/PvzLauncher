@@ -2,9 +2,9 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ main ]
+    branches: [main, shell, update-service, feat/i18n]
   pull_request:
-    branches: [ main ]
+    branches: [main, shell, update-service, feat/i18n]
 
 jobs:
   build:
@@ -12,25 +12,39 @@ jobs:
     timeout-minutes: 15
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup .NET 10
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '10.0.x'
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
 
-    - name: Build CI
-      run: >
-        dotnet publish 
-        "PvzLauncherRemake\PvzLauncherRemake.csproj" 
-        -c CI 
-        -o "CI" 
+      - name: Build PvzLauncher
+        run: >
+          dotnet publish 
+          "PvzLauncherRemake\PvzLauncherRemake.csproj" 
+          -c CI 
+          -o "CI\bin"
 
-    - name: Upload CI Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: CI-build-output
-        path: CI/**
+      - name: Build ExecuteShell
+        run: >
+          dotnet publish 
+          "ExecuteShell\ExecuteShell.csproj" 
+          -c CI 
+          -o "CI"
+
+      - name: Build UpdateService
+        run: >
+          dotnet publish 
+          "UpdateService\UpdateService.csproj" 
+          -c CI 
+          -o "CI\bin"
+
+      - name: Upload CI Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CI-build-output
+          path: CI/**
