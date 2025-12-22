@@ -118,7 +118,7 @@ namespace PvzLauncherRemake
 
                 //是否CI构建
 #if CI
-                AppInfo.IsCIBuild = true;
+                AppInfo.Arguments.isCIBuild = true;
 #endif
 
 
@@ -144,7 +144,7 @@ namespace PvzLauncherRemake
                 logger.Info($"[主窗口] isShell={AppInfo.Arguments.isShell}");
                 logger.Info($"[主窗口] isUpdate={AppInfo.Arguments.isUpdate}");
                 logger.Info($"[主窗口] ");
-                logger.Info($"[主窗口] IsCIBuild={AppInfo.IsCIBuild}");
+                logger.Info($"[主窗口] IsCIBuild={AppInfo.Arguments.isCIBuild}");
                 logger.Info($"[主窗口] {new string('=', 30)}");
 
                 //是否外壳启动
@@ -182,7 +182,7 @@ namespace PvzLauncherRemake
 
 
                 //CI构建
-                if (AppInfo.IsCIBuild)
+                if (AppInfo.Arguments.isCIBuild)
                 {
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
