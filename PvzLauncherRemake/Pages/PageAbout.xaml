@@ -1,4 +1,4 @@
-﻿<ui:Page x:Class="PvzLauncherRemake.Pages.PageAbout"
+<ui:Page x:Class="PvzLauncherRemake.Pages.PageAbout"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -69,6 +69,12 @@
                 <ui:HyperlinkButton NavigateUri="https://github.com/qaiu/netdisk-fast-download" Content="qaiu/netdisk-fast-download - 网盘直链解析" Cursor="Hand" HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="JamesNK/Newtonsoft.Json - Json读写" Cursor="Hand" HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="adamhathcock/sharpcompress - 压缩包操作" Cursor="Hand" HorizontalAlignment="Center"/>
+                
+                <!--宝贵意见提出者-->
+                <TextBlock Text="意见反馈" FontSize="15" FontWeight="Bold" Cursor="Hand" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/Xiaowang0229" Content="Xiaowang0229 - 在 Release Candidate 阶段提出宝贵建议" Cursor="Hand" HorizontalAlignment="Center"/>
+
+
             </StackPanel>
         </ctrl:UserScrollViewer>
 
