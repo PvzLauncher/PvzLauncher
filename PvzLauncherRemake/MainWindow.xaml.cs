@@ -190,7 +190,7 @@ namespace PvzLauncherRemake
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "警告",
-                        Content = $"您使用的是基于 {AppInfo.Version} 构建的CI版本\nCI构建每个提交的临时测试版本，因此CI版本及其不稳定，仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
+                        Content = $"您使用的是基于 {AppInfo.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
                         PrimaryButtonText = "我明确风险且遇到BUG会反馈开发者",
                         CloseButtonText = "我明确风险并了解处理BUG的方法",
                         DefaultButton = ContentDialogButton.Primary
