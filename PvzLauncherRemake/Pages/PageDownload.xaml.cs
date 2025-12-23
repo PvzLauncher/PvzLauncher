@@ -20,8 +20,6 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownload : ModernWpf.Controls.Page
     {
-        private JsonDownloadIndex.Index DownloadIndex = null!;
-
         #region AddCard
         private void AddGameCard(StackPanel stackPanel, JsonDownloadIndex.GameInfo[] gameInfos)
         {
@@ -96,11 +94,14 @@ namespace PvzLauncherRemake.Pages
                 logger.Info($"[下载] 开始初始化...");
                 StartLoad();
 
-                using (var client = new HttpClient())
+                if (AppInfo.DownloadIndex == null)
                 {
-                    string indexString = await client.GetStringAsync(AppInfo.DownloadIndexUrl);
-                    logger.Info($"[下载] 获取下载索引: {indexString}");
-                    DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
+                    using (var client = new HttpClient())
+                    {
+                        string indexString = await client.GetStringAsync(AppInfo.DownloadIndexUrl);
+                        logger.Info($"[下载] 获取下载索引: {indexString}");
+                        AppInfo.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
+                    }
                 }
 
                 //中文原版
@@ -110,10 +111,10 @@ namespace PvzLauncherRemake.Pages
                 stackPanel_enOrigin.Children.Clear();
                 stackPanel_trainer.Children.Clear();
 
-                AddGameCard(stackPanel_zhOrigin, DownloadIndex.ZhOrigin);
-                AddGameCard(stackPanel_zhRevision, DownloadIndex.ZhRevision);
-                AddGameCard(stackPanel_enOrigin, DownloadIndex.EnOrigin);
-                AddTrainerCard(stackPanel_trainer, DownloadIndex.Trainer);
+                AddGameCard(stackPanel_zhOrigin, AppInfo.DownloadIndex.ZhOrigin);
+                AddGameCard(stackPanel_zhRevision, AppInfo.DownloadIndex.ZhRevision);
+                AddGameCard(stackPanel_enOrigin, AppInfo.DownloadIndex.EnOrigin);
+                AddTrainerCard(stackPanel_trainer, AppInfo.DownloadIndex.Trainer);
 
                 EndLoad();
                 logger.Info($"[下载] 结束初始化");
