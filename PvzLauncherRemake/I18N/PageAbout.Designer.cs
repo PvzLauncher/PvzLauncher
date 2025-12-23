@@ -79,6 +79,42 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 代码 的本地化字符串。
+        /// </summary>
+        public static string List_Code {
+            get {
+                return ResourceManager.GetString("List_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 开发者 的本地化字符串。
+        /// </summary>
+        public static string List_Developer {
+            get {
+                return ResourceManager.GetString("List_Developer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 意见反馈 的本地化字符串。
+        /// </summary>
+        public static string List_Feedback {
+            get {
+                return ResourceManager.GetString("List_Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 项目储存库 的本地化字符串。
+        /// </summary>
+        public static string List_Repository {
+            get {
+                return ResourceManager.GetString("List_Repository", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 提供游戏版本 的本地化字符串。
         /// </summary>
         public static string ProvideGame {

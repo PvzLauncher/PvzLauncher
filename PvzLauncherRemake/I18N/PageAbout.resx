@@ -106,4 +106,16 @@
   <data name="ProvideGame" xml:space="preserve">
     <value>提供游戏版本</value>
   </data>
+  <data name="List_Developer" xml:space="preserve">
+    <value>开发者</value>
+  </data>
+  <data name="List_Repository" xml:space="preserve">
+    <value>项目储存库</value>
+  </data>
+  <data name="List_Code" xml:space="preserve">
+    <value>代码</value>
+  </data>
+  <data name="List_Feedback" xml:space="preserve">
+    <value>意见反馈</value>
+  </data>
 </root>

@@ -106,4 +106,16 @@
   <data name="ProvideGame" xml:space="preserve">
     <value>Provide games</value>
   </data>
+  <data name="List_Developer" xml:space="preserve">
+    <value>Developer</value>
+  </data>
+  <data name="List_Repository" xml:space="preserve">
+    <value>Project repository</value>
+  </data>
+  <data name="List_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="List_Feedback" xml:space="preserve">
+    <value>Provider of feedback</value>
+  </data>
 </root>
