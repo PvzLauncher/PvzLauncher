@@ -36,7 +36,7 @@
                     </LinearGradientBrush>
                 </Button.BorderBrush>
             </Button>
-            <Button x:Name="button_UploadVersion" Content="{lex:Loc ProvideGame}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml" Click="GoToUrl">
+            <Button x:Name="button_UploadVersion" Content="{lex:Loc ProvideGame}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml" Click="GoToUrl" Margin="0,0,10,0">
                 <Button.BorderBrush>
                     <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                         <LinearGradientBrush.RelativeTransform>
@@ -47,7 +47,17 @@
                     </LinearGradientBrush>
                 </Button.BorderBrush>
             </Button>
-
+            <Button x:Name="button_i18nReport" Content="{lex:Loc i18nReport}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new?template=i18n.yml" Click="GoToUrl">
+                <Button.BorderBrush>
+                    <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                        <LinearGradientBrush.RelativeTransform>
+                            <ScaleTransform CenterY="0.5" ScaleY="-1"/>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#33000000"/>
+                        <GradientStop Color="#0F000000" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.BorderBrush>
+            </Button>
 
         </StackPanel>
 

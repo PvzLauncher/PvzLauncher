@@ -79,6 +79,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 本地化反馈 的本地化字符串。
+        /// </summary>
+        public static string i18nReport {
+            get {
+                return ResourceManager.GetString("i18nReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 代码 的本地化字符串。
         /// </summary>
         public static string List_Code {
