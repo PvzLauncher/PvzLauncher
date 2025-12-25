@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using WPFLocalizeExtension.Engine;
+using WPFLocalizeExtension.Extensions;
 
 namespace PvzLauncherRemake.Utils
 {
@@ -15,6 +16,11 @@ namespace PvzLauncherRemake.Utils
             Thread.CurrentThread.CurrentUICulture = newCulture;
 
             LocalizeDictionary.Instance.Culture = newCulture;
+        }
+
+        public static string GetLoc(string key)
+        {
+            return LocExtension.GetLocalizedValue<string>(key);
         }
     }
 }
