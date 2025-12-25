@@ -263,6 +263,9 @@ namespace PvzLauncherRemake.Pages
         //tabControl动画
         private async void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.OriginalSource != sender) 
+                return;
+
             if (IsInitialized)
             {
                 var tabItem = (ScrollViewer)tabControl.SelectedContent;
