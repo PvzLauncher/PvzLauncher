@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
 using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Utils.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -65,17 +66,17 @@ namespace PvzLauncherRemake.Pages
                 }
                 else if (GameInfo.Record.PlayTime >= 0 && GameInfo.Record.PlayTime < 60)//0s ~ 1min
                 {
-                    playTimeUnit = "秒";
+                    playTimeUnit = GetLoc("Record_Second");
                     playTimeDisply = $"{GameInfo.Record.PlayTime}";
                 }
                 else if (GameInfo.Record.PlayTime >= 60 && GameInfo.Record.PlayTime < 3600)//1min ~ 1h
                 {
-                    playTimeUnit = "分钟";
+                    playTimeUnit = GetLoc("Record_Minute");
                     playTimeDisply = $"{GameInfo.Record.PlayTime / 60}";
                 }
                 else if (GameInfo.Record.PlayTime >= 3600)//1h+
                 {
-                    playTimeUnit = "小时";
+                    playTimeUnit = GetLoc("Record_Hour");
                     playTimeDisply = $"{Math.Round(GameInfo.Record.PlayTime / 3600.0, 2)}";
                 }
 
@@ -83,9 +84,9 @@ namespace PvzLauncherRemake.Pages
 
                 //统计信息
                 textBlock_Record.Text =
-                    $"首次启动: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
-                    $"游玩时间: {playTimeDisply} {playTimeUnit}\n" +
-                    $"启动次数: {GameInfo.Record.PlayCount}";   
+                    $"{GetLoc("Record_FirstPlay")}: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
+                    $"{GetLoc("Record_PlayTime")}: {playTimeDisply} {playTimeUnit}\n" +
+                    $"{GetLoc("Record_PlayCount")}: {GameInfo.Record.PlayCount}";   
 
                 logger.Info($"[游戏设置] 结束初始化");
             }
