@@ -365,6 +365,8 @@ namespace PvzLauncherRemake.Utils
                 case GameIcons.Fusion: return new GameIconFusion();
                 case GameIcons.Tat: return new GameIconTat();
 
+                case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
+
                 default: return new GameIconUnknown();
             }
         }
