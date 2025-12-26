@@ -8,39 +8,45 @@
       xmlns:ctrl="clr-namespace:PvzLauncherRemake.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="1000" d:DesignWidth="800"
-      Title="PageSettings">
+      Title="PageSettings"
+         
+         
+         xmlns:lex="http://wpflocalizeextension.codeplex.com"
+         lex:LocalizeDictionary.DesignCulture="en-US"
+         lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
+         lex:ResxLocalizationProvider.DefaultDictionary="I18N.PageSettings">
 
     <Grid>
         <TabControl x:Name="tabControl" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_SelectionChanged">
-            <TabItem Header="启动器设置">
+            <TabItem Header="{lex:Loc Tab_LauncherSettings}">
                 <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10,10,10,10">
                         <!--操作-->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="操作" FontSize="25" FontWeight="Bold"/>
+                            <TextBlock Text="{lex:Loc General_Operate}" FontSize="25" FontWeight="Bold"/>
                             <!--启动后操作-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
-                                <TextBlock Text="游戏启动后操作:" ToolTip="控制游戏启动后，启动器该干什么" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBlock Text="{lex:Loc Launcher_Operate_LaunchOperate}" ToolTip="控制游戏启动后，启动器该干什么" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <ComboBox x:Name="comboBox_LaunchedOperate" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="Launcher_LaunchOperate">
-                                    <ComboBoxItem Content="不执行任何操作"/>
-                                    <ComboBoxItem Content="启动器关闭"/>
-                                    <ComboBoxItem Content="启动器隐藏，等待游戏结束后显示"/>
+                                    <ComboBoxItem Content="{lex:Loc Launcher_Operate_LaunchOperate_None}"/>
+                                    <ComboBoxItem Content="{lex:Loc Launcher_Operate_LaunchOperate_Close}"/>
+                                    <ComboBoxItem Content="{lex:Loc Launcher_Operate_LaunchOperate_HideAndShow}"/>
                                 </ComboBox>
                             </StackPanel>
                         </StackPanel>
 
                         <!--外观-->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="外观" FontSize="25" FontWeight="Bold"/>
+                            <TextBlock Text="{lex:Loc Launcher_Appearance}" FontSize="25" FontWeight="Bold"/>
                             <!--主题-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBlock Text="颜色主题:" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="radioButton_Theme_Light" ToolTip="明亮主题" Tag="Light" Content="明亮" Click="Launcher_Theme"/>
-                                <RadioButton x:Name="radioButton_Theme_Dark" ToolTip="暗黑主题" Tag="Dark" Content="暗黑" Click="Launcher_Theme"/>
+                                <TextBlock Text="{lex:Loc Launcher_Appearance_Theme}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <RadioButton x:Name="radioButton_Theme_Light" ToolTip="明亮主题" Tag="Light" Content="{lex:Loc Launcher_Appearance_Theme_Light}" Click="Launcher_Theme"/>
+                                <RadioButton x:Name="radioButton_Theme_Dark" ToolTip="暗黑主题" Tag="Dark" Content="{lex:Loc Launcher_Appearance_Theme_Dark}" Click="Launcher_Theme"/>
                             </StackPanel>
                             <!--语言-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBlock Text="语言:" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{lex:Loc Launcher_Appearance_Language}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <ComboBox x:Name="comboBox_Launcher_Language" ToolTip="启动器显示的语言" SelectedIndex="0" SelectionChanged="Launcher_Language">
                                     <ComboBoxItem Content="简体中文 (中国大陆)" Tag="zh-CN"/>
                                     <ComboBoxItem Content="English (US)" Tag="en-US"/>
@@ -48,7 +54,7 @@
                             </StackPanel>
                             <!--标题-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBlock Text="启动器标题:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBlock Text="{lex:Loc Launcher_Appearance_WindowTitle}" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <TextBox x:Name="textBox_WindowTitle" Text="Plants Vs. Zombies Launcher" Margin="0,0,10,0" TextChanged="Launcher_Title">
                                     <TextBox.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,2" MappingMode="Absolute">
@@ -60,7 +66,7 @@
                                         </LinearGradientBrush>
                                     </TextBox.BorderBrush>
                                 </TextBox>
-                                <Button x:Name="button_TitleReset" ToolTip="重置为默认的Plants Vs. Zombies Launcher" Content="重置" Click="Launcher_TitleReset">
+                                <Button x:Name="button_TitleReset" ToolTip="重置为默认的Plants Vs. Zombies Launcher" Content="{lex:Loc General_Reset}" Click="Launcher_TitleReset">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -74,7 +80,7 @@
                             </StackPanel>
                             <!--标题图片-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBlock Text="标题图片:" Margin="0,0,20,0" VerticalAlignment="Top"/>
+                                <TextBlock Text="{lex:Loc Launcher_Appearance_TitleImage}" Margin="0,0,20,0" VerticalAlignment="Top"/>
                                 <StackPanel Margin="0,0,20,0">
                                     <RadioButton x:Name="radioButton_TitieImage_EN" ToolTip="英文风格" Tag="EN" Content="Plants Vs. Zombies" IsChecked="True" Click="Launcher_TitleImageLanguage"/>
                                     <Viewbox x:Name="viewBox_Title_EN" Height="40">
@@ -962,14 +968,14 @@
                             </StackPanel>
                             <!--背景图-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBlock Text="背景图:" Margin="0,0,10,0"/>
-                                <RadioButton x:Name="radioButton_Background_Default" ToolTip="无背景" Tag="Default" Content="默认" IsChecked="True" VerticalAlignment="Top" Click="Launcher_BackgroundSelect"/>
+                                <TextBlock Text="{lex:Loc Launcher_Appearance_Background}" Margin="0,0,10,0"/>
+                                <RadioButton x:Name="radioButton_Background_Default" ToolTip="无背景" Tag="Default" Content="{lex:Loc General_Default}" IsChecked="True" VerticalAlignment="Top" Click="Launcher_BackgroundSelect"/>
                                 <StackPanel>
-                                    <RadioButton x:Name="radioButton_Background_Custom" ToolTip="自选背景" Tag="Custom" Content="自定义" IsChecked="False" Click="Launcher_BackgroundSelect"/>
+                                    <RadioButton x:Name="radioButton_Background_Custom" ToolTip="自选背景" Tag="Custom" Content="{lex:Loc General_Custom}" IsChecked="False" Click="Launcher_BackgroundSelect"/>
                                     <Border BorderBrush="Black" BorderThickness="1,1,1,1" Margin="0,0,0,10">
                                         <Image x:Name="image_Background" Height="128" Width="256" Stretch="UniformToFill"/>
                                     </Border>
-                                    <Button x:Name="button_Background_Select" Content="选择" VerticalAlignment="Top" Click="Launcher_BackgroundCustom">
+                                    <Button x:Name="button_Background_Select" Content="{lex:Loc General_Select}" VerticalAlignment="Top" Click="Launcher_BackgroundCustom">
                                         <Button.BorderBrush>
                                             <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                                 <LinearGradientBrush.RelativeTransform>
@@ -984,19 +990,19 @@
                             </StackPanel>
                             <!--NavigationView位置-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
-                                <TextBlock Text="导航栏位置:" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                <RadioButton x:Name="radioButton_NavViewLeft" ToolTip="左侧导航栏" Content="左侧" Tag="Left" Checked="Launcher_NavigationViewAlign"/>
-                                <RadioButton x:Name="radioButton_NavViewTop" ToolTip="顶部导航栏" Content="顶部" Tag="Top" Checked="Launcher_NavigationViewAlign"/>
+                                <TextBlock Text="{lex:Loc Launcher_Appearance_NavViewLocation}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <RadioButton x:Name="radioButton_NavViewLeft" ToolTip="左侧导航栏" Content="{lex:Loc Launcher_Appearance_NavViewLocation_Left}" Tag="Left" Checked="Launcher_NavigationViewAlign"/>
+                                <RadioButton x:Name="radioButton_NavViewTop" ToolTip="顶部导航栏" Content="{lex:Loc Launcher_Appearance_NavViewLocation_Top}" Tag="Top" Checked="Launcher_NavigationViewAlign"/>
                             </StackPanel>
                         </StackPanel>
 
                         <!--更新-->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="更新" FontSize="25" FontWeight="Bold"/>
+                            <TextBlock Text="{lex:Loc Launcher_Update}" FontSize="25" FontWeight="Bold"/>
                             <!--检测更新-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBlock Text="检测更新:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <Button x:Name="button_CheckUpdate" ToolTip="检测是否可更新到新版本" Content="检测更新" Click="Launcher_CheckUpdate">
+                                <TextBlock Text="{lex:Loc Launcher_Update_CheckUpdate}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Button x:Name="button_CheckUpdate" ToolTip="检测是否可更新到新版本" Content="{lex:Loc Launcher_Update_CheckUpdate_Check}" Click="Launcher_CheckUpdate">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -1010,7 +1016,7 @@
                             </StackPanel>
                             <!--更新通道-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBlock Text="更新通道:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBlock Text="{lex:Loc Launcher_Update_Channel}" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <ComboBox x:Name="comboBox_UpdateChannel" ToolTip="选择不同的更新通道，获取不同的更新内容: Stable-更新慢但稳定 Development-更新快但不怎么稳定" BorderBrush="#33000000" SelectedIndex="0" SelectionChanged="Launcher_UpdateChannel">
                                     <ComboBoxItem Content="Stable" Tag="Stable"/>
                                     <ComboBoxItem Content="Development" Tag="Development"/>
@@ -1018,31 +1024,31 @@
                             </StackPanel>
                             <!--启动时检查更新-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
-                                <TextBlock Text="启动时检查更新:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <CheckBox x:Name="checkBox_StartUpCheckUpdate" ToolTip="在启动器启东时是否检测更新" Content="启用" Click="Launcher_StartUpCheckUpdate"/>
+                                <TextBlock Text="{lex:Loc Launcher_Update_StartUpCheck}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <CheckBox x:Name="checkBox_StartUpCheckUpdate" ToolTip="在启动器启东时是否检测更新" Content="{lex:Loc General_Enabled}" Click="Launcher_StartUpCheckUpdate"/>
                             </StackPanel>
                         </StackPanel>
 
                         <!--通知-->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="通知" FontSize="25" FontWeight="Bold"/>
+                            <TextBlock Text="{lex:Loc Launcher_Notification}" FontSize="25" FontWeight="Bold"/>
                             <!--下载通知-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
-                                <TextBlock Text="下载通知:" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{lex:Loc Launcher_Notification_DownloadNotice}" Margin="0,0,10,0" VerticalAlignment="Center"/>
 
-                                <CheckBox x:Name="checkBox_DownloadTipGame" ToolTip="在库内没有游戏时，是否提示去下载游戏" Content="游戏下载通知" Tag="Game" IsChecked="False" Click="Launcher_DownloadTips"/>
-                                <CheckBox x:Name="checkBox_DownloadTipTrainer" ToolTip="在库内没有修改器时，是否提示去下载游戏" Content="修改器下载通知" Tag="Trainer" IsChecked="False" Click="Launcher_DownloadTips"/>
+                                <CheckBox x:Name="checkBox_DownloadTipGame" ToolTip="在库内没有游戏时，是否提示去下载游戏" Content="{lex:Loc Launcher_Notification_DownloadNotice_Game}" Tag="Game" IsChecked="False" Click="Launcher_DownloadTips"/>
+                                <CheckBox x:Name="checkBox_DownloadTipTrainer" ToolTip="在库内没有修改器时，是否提示去下载游戏" Content="{lex:Loc Launcher_Notification_DownloadNotice_Trainer}" Tag="Trainer" IsChecked="False" Click="Launcher_DownloadTips"/>
                             </StackPanel>
                         </StackPanel>
                         
                         <!--存储-->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="存储" FontWeight="Bold" FontSize="25"/>
+                            <TextBlock Text="{lex:Loc Launcher_Storage}" FontWeight="Bold" FontSize="25"/>
                             
                             <!--下载缓存-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
-                                <TextBlock Text="下载缓存:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <Button Content="清理" ToolTip="清理启动器的更新缓存以及下载缓存" Click="Launcher_ClearTemp">
+                                <TextBlock Text="{lex:Loc Launcher_Storage_DownloadCache}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Button Content="{lex:Loc Launcher_Storage_DownloadCache_Clear}" ToolTip="清理启动器的更新缓存以及下载缓存" Click="Launcher_ClearTemp">
                                     <Button.BorderBrush>
                                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
                                             <LinearGradientBrush.RelativeTransform>
@@ -1060,7 +1066,7 @@
                 </ctrl:UserScrollViewer>
 
             </TabItem>
-            <TabItem Header="游戏设置">
+            <TabItem Header="{lex:Loc Tab_GameSettings}">
                 <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <!--游戏配置-->
@@ -1088,7 +1094,7 @@
                     </StackPanel>
                 </ctrl:UserScrollViewer>
             </TabItem>
-            <TabItem Header="存档设置">
+            <TabItem Header="{lex:Loc Tab_SaveSettings}">
                 <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
                         <!--操作-->

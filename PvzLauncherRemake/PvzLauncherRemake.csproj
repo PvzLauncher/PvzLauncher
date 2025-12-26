@@ -63,6 +63,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PageManageSet.resx</DependentUpon>
     </Compile>
+    <Compile Update="I18N\PageSettings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PageSettings.resx</DependentUpon>
+    </Compile>
     <Compile Update="I18N\WindowMain.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -90,6 +95,10 @@
     <EmbeddedResource Update="I18N\PageManageSet.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PageManageSet.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="I18N\PageSettings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PageSettings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="I18N\WindowMain.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
