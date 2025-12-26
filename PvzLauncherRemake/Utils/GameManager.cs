@@ -361,6 +361,7 @@ namespace PvzLauncherRemake.Utils
                 case GameIcons.Ghtr: return new GameIconGhtr();
                 case GameIcons.Dream: return new GameIconDream();
                 case GameIcons.NineFive: return new GameIconNineFive();
+                case GameIcons.Hybrid: return new GameIconHybrid();
                 case GameIcons.Tat: return new GameIconTat();
 
                 default: return new GameIconUnknown();
