@@ -366,6 +366,7 @@ namespace PvzLauncherRemake.Utils
                 case GameIcons.Tat: return new GameIconTat();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
+                case GameIcons.CheatEngine: return new GameIconCheatEngine();
 
                 default: return new GameIconUnknown();
             }
