@@ -8,7 +8,12 @@
       xmlns:controls="clr-namespace:PvzLauncherRemake.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PageTask">
+      Title="PageTask"
+         
+         
+      xmlns:lex="http://wpflocalizeextension.codeplex.com"
+      lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
+      lex:ResxLocalizationProvider.DefaultDictionary="I18N.PageTask">
 
     <Grid>
         <Grid>
@@ -25,8 +30,8 @@
                 </Border.BorderBrush>
                 
                 <Grid Margin="10" VerticalAlignment="Top" >
-                    <TextBlock x:Name="textBlock_ProgressAverage" Text="总进度: %" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,10"/>
-                    <TextBlock x:Name="textBlock_SpeedSum" Text="总速度: Mb/s" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,10"/>
+                    <TextBlock x:Name="textBlock_ProgressAverage" Text="{lex:Loc Total_Progress}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,10"/>
+                    <TextBlock x:Name="textBlock_SpeedSum" Text="{lex:Loc Total_Speed}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,10"/>
                     <ProgressBar x:Name="progressBar_Average" Background="#19000000" VerticalAlignment="Bottom"/>
                 </Grid>
             </Border>
@@ -38,6 +43,6 @@
         </Grid>
 
         <!--空提示-->
-        <TextBlock x:Name="textBlock_None" Text="这里似乎什么都没有，去下载页看看吧！" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="25" Visibility="Hidden"/>
+        <TextBlock x:Name="textBlock_None" Text="{lex:Loc NullTip}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="25" Visibility="Hidden"/>
     </Grid>
 </ui:Page>

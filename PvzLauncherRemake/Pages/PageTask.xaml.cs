@@ -2,6 +2,7 @@
 using PvzLauncherRemake.Utils;
 using System.Windows;
 using System.Windows.Threading;
+using static PvzLauncherRemake.Utils.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -99,8 +100,8 @@ namespace PvzLauncherRemake.Pages
 
                 progressAverage = progressSum / (TaskManager.DownloadTaskList.Count * 2);
 
-                textBlock_ProgressAverage.Text = $"总进度: {(double.IsNaN(progressAverage) ? "0" : Math.Round(progressAverage, 2))}%";
-                textBlock_SpeedSum.Text = $"总速度: {(double.IsNaN(speedSum) ? "0" : Math.Round(speedSum, 2))}Mb/s";
+                textBlock_ProgressAverage.Text = $"{GetLoc("Total_Progress")}: {(double.IsNaN(progressAverage) ? "0" : Math.Round(progressAverage, 2))}%";
+                textBlock_SpeedSum.Text = $"{GetLoc("Total_Speed")}: {(double.IsNaN(speedSum) ? "0" : Math.Round(speedSum, 2))}Mb/s";
                 progressBar_Average.Value = double.IsNaN(progressAverage) ? 0 : progressAverage;
 
             }
