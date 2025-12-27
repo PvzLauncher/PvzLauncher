@@ -10,46 +10,47 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PageDownload" Loaded="Page_Loaded"
          
-         xmlns:lex="http://wpflocalizeextension.codeplex.com"
-         lex:LocalizeDictionary.DesignCulture="en-US"
-         lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
-         lex:ResxLocalizationProvider.DefaultDictionary="I18N.PageDownload">
+      xmlns:lex="http://wpflocalizeextension.codeplex.com"
+      lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
+      lex:ResxLocalizationProvider.DefaultDictionary="I18N.PageDownload">
 
     <Grid>
         <TabControl x:Name="tabControl_Main" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_Main_SelectionChanged">
+            <!--游戏下载-->
             <TabItem Header="{lex:Loc GameDownload}">
                 <TabControl Style="{StaticResource TabControlPivotStyle}" Margin="0,0,0,10" SelectionChanged="tabControl_Main_SelectionChanged">
+                    <!--中文原版-->
                     <TabItem Header="{lex:Loc ChineseOriginalEdition}">
                         <ctrl:UserScrollViewer>
-                            <StackPanel x:Name="stackPanel_zhOrigin" Tag="game" Background="Transparent" VirtualizingPanel.ScrollUnit="Pixel">
-                            </StackPanel>
+                            <StackPanel x:Name="stackPanel_zhOrigin" Tag="game"/>
                         </ctrl:UserScrollViewer>
                     </TabItem>
+                    <!--中文改版-->
                     <TabItem Header="{lex:Loc ChineseRevisionEdition}">
                         <ctrl:UserScrollViewer>
-                            <StackPanel x:Name="stackPanel_zhRevision" Tag="game" Background="#00000000" VirtualizingPanel.ScrollUnit="Pixel">
-                            </StackPanel>
+                            <StackPanel x:Name="stackPanel_zhRevision" Tag="game"/>
                         </ctrl:UserScrollViewer>
                     </TabItem>
+                    <!--英文原版-->
                     <TabItem Header="{lex:Loc EnglishOriginalEdition}">
                         <ctrl:UserScrollViewer>
-                            <StackPanel x:Name="stackPanel_enOrigin" Tag="game" Background="#00000000" VirtualizingPanel.ScrollUnit="Pixel">
-                            </StackPanel>
+                            <StackPanel x:Name="stackPanel_enOrigin" Tag="game"/>
                         </ctrl:UserScrollViewer>
                     </TabItem>
                 </TabControl>
             </TabItem>
+            <!--修改器下载-->
             <TabItem Header="{lex:Loc TrainerDownload}">
                 <ctrl:UserScrollViewer>
-                    <StackPanel x:Name="stackPanel_trainer" Tag="trainer" Background="#00000000" VirtualizingPanel.ScrollUnit="Pixel">
-                    </StackPanel>
+                    <StackPanel x:Name="stackPanel_trainer" Tag="trainer"/>
                 </ctrl:UserScrollViewer>
             </TabItem>
         </TabControl>
+        
+        <!--加载屏幕-->
         <Grid x:Name="grid_Loading" Visibility="Hidden">
             <ui:ProgressRing IsActive="True" Width="50" Height="50"/>
             <TextBlock x:Name="textBlock_Loading" Text="加载中..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,80,0,0"/>
-            <ui:ProgressBar x:Name="progressBar_Loading" HorizontalAlignment="Center" Width="250" Margin="0,120,0,0" Background="#66C8C8C8" Visibility="Hidden"/>
         </Grid>
     </Grid>
 </ui:Page>

@@ -76,20 +76,17 @@ namespace PvzLauncherRemake.Pages
         #endregion
 
         #region Load
-        public void StartLoad(bool showProgressBar = false)
+        public void StartLoad()
         {
             tabControl_Main.IsEnabled = false;
             tabControl_Main.Effect = new BlurEffect { Radius = 10 };
             grid_Loading.Visibility = Visibility.Visible;
-            if (showProgressBar)
-                progressBar_Loading.Visibility = Visibility.Visible;
         }
         public void EndLoad()
         {
             tabControl_Main.IsEnabled = true;
             tabControl_Main.Effect = null;
             grid_Loading.Visibility = Visibility.Hidden;
-            progressBar_Loading.Visibility = Visibility.Hidden;
         }
         #endregion
 
