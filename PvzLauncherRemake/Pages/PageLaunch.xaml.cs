@@ -41,19 +41,22 @@ namespace PvzLauncherRemake.Pages
                 case "ZH":
                     viewBox_Icon.Child = new TitleImageZh(); break;
             }
-            viewBox_Icon.Margin = new Thickness(0, -10 - viewBox_Icon.Height, 0, 0);
-            stackPanel_LaunchButtons.Margin = new Thickness(0, 0, -50 - button_Launch.Width, 0);
+
+            viewBox_Icon.Margin = new Thickness(0, -10 - viewBox_Icon.ActualHeight, 0, 0);
+            stackPanel_LaunchButtons.Margin = new Thickness(0, 0, -50 - button_Launch.ActualWidth, 0);
+            grid_Announcements.Margin = new Thickness(-50 - grid_Announcements.MaxWidth, 0, 0, 0);
 
             await Task.Delay(200);//等待Frame动画播放完毕
 
             var animation = new ThicknessAnimation
             {
                 To = new Thickness(0),
-                Duration = TimeSpan.FromMilliseconds(500),
+                Duration = TimeSpan.FromMilliseconds(600),
                 EasingFunction = new BackEase { Amplitude = 0.2, EasingMode = EasingMode.EaseOut }
             };
             viewBox_Icon.BeginAnimation(MarginProperty, animation);
             stackPanel_LaunchButtons.BeginAnimation(MarginProperty, animation);
+            grid_Announcements.BeginAnimation(MarginProperty, animation);
         }
         #endregion
 

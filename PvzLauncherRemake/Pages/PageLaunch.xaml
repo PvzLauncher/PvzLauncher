@@ -48,7 +48,7 @@
             
             
             <!--公告-->
-            <Grid x:Name="grid_Announcements" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Grid x:Name="grid_Announcements" VerticalAlignment="Bottom" HorizontalAlignment="Left" MaxWidth="400" MaxHeight="250">
                 <Border BorderThickness="2" CornerRadius="3" Background="#19FFFFFF">
                     <Border.BorderBrush>
                         <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
@@ -62,7 +62,7 @@
 
                 </Border>
 
-                <TabControl x:Name="tabControl_Announcements" TabStripPlacement="Bottom" MaxWidth="400" MaxHeight="250"/>
+                <TabControl x:Name="tabControl_Announcements" TabStripPlacement="Bottom"/>
             </Grid>
         </Grid>
     </Grid>
