@@ -73,6 +73,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PageTask.resx</DependentUpon>
     </Compile>
+    <Compile Update="I18N\UserCard.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserCard.resx</DependentUpon>
+    </Compile>
     <Compile Update="I18N\WindowMain.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -108,6 +113,10 @@
     <EmbeddedResource Update="I18N\PageTask.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PageTask.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="I18N\UserCard.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserCard.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="I18N\WindowMain.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

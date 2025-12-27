@@ -6,8 +6,13 @@
              xmlns:local="clr-namespace:PvzLauncherRemake.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:gi="clr-namespace:PvzLauncherRemake.Controls.Icons"
-             mc:Ignorable="d" Height="60">
+             mc:Ignorable="d" Height="60"
+             
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
+             lex:ResxLocalizationProvider.DefaultDictionary="I18N.UserCard">
     <Grid>
+        <!--背景-->
         <Border x:Name="border" Opacity="0" BorderThickness="2,2,2,2" CornerRadius="3" Background="#19FFFFFF">
             <Border.BorderBrush>
                 <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
@@ -20,6 +25,7 @@
             </Border.BorderBrush>
         </Border>
 
+        <!--主内容-->
         <Grid x:Name="grid_Content" Margin="5,5,5,5" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <ScaleTransform x:Name="grid_Content_ScaleTransform"/>
@@ -71,6 +77,7 @@
 
 
 
+        <!--点击触发器-->
         <Rectangle x:Name="rectangle_MouseTrigger" Fill="Transparent"
                    MouseEnter="rectangle_MouseTrigger_MouseEnter"
                    MouseLeave="rectangle_MouseTrigger_MouseLeave"

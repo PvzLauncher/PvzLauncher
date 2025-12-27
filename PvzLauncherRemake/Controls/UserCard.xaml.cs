@@ -6,6 +6,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils;
+using static PvzLauncherRemake.Utils.LocalizeManager;
 
 namespace PvzLauncherRemake.Controls
 {
@@ -62,13 +63,13 @@ namespace PvzLauncherRemake.Controls
             if (!string.IsNullOrEmpty(Size))
                 AddLabel($"{Size} MB", Color.FromArgb(204, 0, 150, 150), false);
             if (!string.IsNullOrEmpty(SupportVersion))
-                AddLabel($"支持版本: {SupportVersion}", Color.FromArgb(204, 0, 0, 255), false);
+                AddLabel($"{GetLoc("SupportVersion")}: {SupportVersion}", Color.FromArgb(204, 0, 0, 255), false);
             if (isRecommend)
-                AddLabel($"推荐", Color.FromArgb(204, 0, 255, 0), true);
+                AddLabel($"{GetLoc("Recommend")}", Color.FromArgb(204, 0, 255, 0), true);
             if (isNew)
-                AddLabel($"新", Color.FromArgb(204, 100, 0, 255), true);
+                AddLabel($"{GetLoc("New")}", Color.FromArgb(204, 100, 0, 255), true);
             if (isActive)
-                AddLabel($"活动", Color.FromArgb(204, 255, 0, 0), true);
+                AddLabel($"{GetLoc("Active")}", Color.FromArgb(204, 255, 0, 0), true);
         }
 
         public void AddLabel(string content, Color color, bool textBold)
