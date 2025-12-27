@@ -1,6 +1,7 @@
 ﻿using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Controls.Icons;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
 using System.Globalization;
@@ -24,15 +25,28 @@ namespace PvzLauncherRemake.Pages
         private NotificationManager notifi = new NotificationManager();
 
         #region Animation
-        public void StartAnimation()
+        public async void StartAnimation()
         {
+            logger.Info($"[启动] 标题语言: {AppGlobals.Config.LauncherConfig.TitleImage}");
+            switch (AppGlobals.Config.LauncherConfig.TitleImage)//切换语言
+            {
+                case "EN":
+                    viewBox_Icon.Child = new TitleImageEn(); break;
+                case "ZH":
+                    viewBox_Icon.Child = new TitleImageZh(); break;
+            }
+            viewBox_Icon.Margin = new Thickness(0, -10 - viewBox_Icon.Height, 0, 0);
+            stackPanel_LaunchButtons.Margin = new Thickness(0, 0, -50 - button_Launch.Width, 0);
+
+            await Task.Delay(200);//等待Frame动画播放完毕
+
             var animation = new ThicknessAnimation
             {
                 To = new Thickness(0),
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new BackEase { Amplitude = 0.2, EasingMode = EasingMode.EaseOut }
             };
-            grid_Title.BeginAnimation(MarginProperty, animation);
+            viewBox_Icon.BeginAnimation(MarginProperty, animation);
             stackPanel_LaunchButtons.BeginAnimation(MarginProperty, animation);
         }
         #endregion
@@ -88,20 +102,6 @@ namespace PvzLauncherRemake.Pages
 
 
                 //播放动画
-                viewBox_Title_EN.Visibility = Visibility.Hidden;
-                viewBox_Title_ZH.Visibility = Visibility.Hidden;
-                logger.Info($"[启动] 标题语言: {AppGlobals.Config.LauncherConfig.TitleImage}");
-                switch (AppGlobals.Config.LauncherConfig.TitleImage)//切换语言
-                {
-                    case "EN":
-                        viewBox_Title_EN.Visibility = Visibility.Visible; break;
-                    case "ZH":
-                        viewBox_Title_ZH.Visibility = Visibility.Visible; break;
-                }
-                grid_Title.Margin = new Thickness(0, -10 - grid_Title.Height, 0, 0);
-                stackPanel_LaunchButtons.Margin = new Thickness(0, 0, -50 - button_Launch.Width, 0);
-
-                await Task.Delay(200);//等待Frame动画播放完毕
                 StartAnimation();
 
                 //设置背景
