@@ -23,6 +23,10 @@ namespace PvzLauncherRemake.Pages
         #region AddCard
         private void AddGameCard(StackPanel stackPanel, JsonDownloadIndex.GameInfo[] gameInfos)
         {
+            if (gameInfos == null || gameInfos.Length <= 0) 
+                return;
+
+
             foreach (var gameInfo in gameInfos)
             {
                 var card = new UserCard
@@ -45,6 +49,9 @@ namespace PvzLauncherRemake.Pages
         }
         private void AddTrainerCard(StackPanel stackPanel, JsonDownloadIndex.TrainerInfo[] trainerInfos)
         {
+            if (trainerInfos == null || trainerInfos.Length <= 0)
+                return;
+
             foreach (var trainerInfo in trainerInfos)
             {
                 var card = new UserCard
