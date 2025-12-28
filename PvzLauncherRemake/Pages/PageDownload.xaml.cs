@@ -23,7 +23,7 @@ namespace PvzLauncherRemake.Pages
         #region AddCard
         private void AddGameCard(StackPanel stackPanel, JsonDownloadIndex.GameInfo[] gameInfos)
         {
-            if (gameInfos == null || gameInfos.Length <= 0) 
+            if (gameInfos == null || gameInfos.Length <= 0)
                 return;
 
 

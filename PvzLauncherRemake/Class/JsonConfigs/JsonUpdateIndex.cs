@@ -6,7 +6,7 @@ namespace PvzLauncherRemake.Class.JsonConfigs
     {
         public class Index
         {
-            [JsonProperty("stable")]   
+            [JsonProperty("stable")]
             public ChannelInfo Stable { get; set; }
 
             [JsonProperty("development")]

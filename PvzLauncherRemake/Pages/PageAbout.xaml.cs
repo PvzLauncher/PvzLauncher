@@ -56,7 +56,7 @@ namespace PvzLauncherRemake.Pages
             _eggCount++;
             logger.Info($"[关于] 触发彩蛋，当前点击次数: {_eggCount}");
 
-            foreach (var (clicks, title, message, type, action) in EasterEggs) 
+            foreach (var (clicks, title, message, type, action) in EasterEggs)
             {
                 if (_eggCount == clicks)
                 {

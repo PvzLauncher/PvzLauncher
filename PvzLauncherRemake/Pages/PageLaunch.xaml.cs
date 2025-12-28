@@ -1,21 +1,17 @@
-﻿using HuaZi.Library.Json;
-using MdXaml;
+﻿using MdXaml;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Extensions;
 using static PvzLauncherRemake.Class.AppLogger;
 
@@ -110,7 +106,7 @@ namespace PvzLauncherRemake.Pages
                 catch (InvalidOperationException) { }
 
                 //显示公告
-                if (AppGlobals.AnnouncementsIndex != null) 
+                if (AppGlobals.AnnouncementsIndex != null)
                 {
                     tabControl_Announcements.Items.Clear();
 
@@ -124,7 +120,7 @@ namespace PvzLauncherRemake.Pages
 
                         docViewer.Document = new Markdown().Transform(announcement.Content);
                         docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
-                        foreach (var p in docViewer.Document.Blocks.OfType<Paragraph>()) 
+                        foreach (var p in docViewer.Document.Blocks.OfType<Paragraph>())
                         {
                             p.LineHeight = 10;
                             p.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
@@ -136,7 +132,7 @@ namespace PvzLauncherRemake.Pages
                             Content = docViewer
                         });
                     }
-                    
+
                 }
 
 
@@ -190,7 +186,7 @@ namespace PvzLauncherRemake.Pages
                             Title = "提示",
                             Message = $"游戏进程退出, 退出代码: {AppProcess.Process.ExitCode}",
                             Type = NotificationType.Warning
-                        }); 
+                        });
 
                         //保存存档
                         if (AppGlobals.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.SaveDirectory))
@@ -210,7 +206,7 @@ namespace PvzLauncherRemake.Pages
                     });
                 }
                 //运行就结束
-                else if (GameManager.IsGameRuning == true) 
+                else if (GameManager.IsGameRuning == true)
                 {
                     logger.Info($"[启动] 正在结束游戏...");
                     textBlock_LaunchText.Text = LocExtension.GetLocalizedValue<string>("LaunchGame");
@@ -232,7 +228,7 @@ namespace PvzLauncherRemake.Pages
                             Type = NotificationType.Error
                         });
                     }));
-                    
+
                 }
             }
             catch (Exception ex)

@@ -48,7 +48,7 @@ namespace PvzLauncherRemake.Utils
             {
                 logger.Info($"[文件夹管理器] 复制文件夹: \"{subDir.Name}\"");
                 string targetSubDir = Path.Combine(destDir, subDir.Name);
-                await CopyDirectoryAsync(subDir.FullName, targetSubDir,callBack);
+                await CopyDirectoryAsync(subDir.FullName, targetSubDir, callBack);
             }
         }
     }

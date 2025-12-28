@@ -1,13 +1,10 @@
-﻿using ModernWpf;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
-using Newtonsoft.Json;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Navigation;
 using static PvzLauncherRemake.Class.AppLogger;
@@ -38,7 +35,7 @@ namespace PvzLauncherRemake
                     case "Top":
                         navView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
                 }
-                
+
                 //注册事件
                 logger.Info($"[主窗口] 注册窗口大小改变事件...");
                 this.SizeChanged += ((sender, e) =>
@@ -197,7 +194,7 @@ namespace PvzLauncherRemake
                 ErrorReportDialog.Show("发生错误", $"加载 MainWindow 发生错误", ex);
             }
         }
-#endregion
+        #endregion
 
 
         public WindowMain() { InitializeComponent(); Initialize(); }

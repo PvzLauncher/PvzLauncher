@@ -86,7 +86,7 @@ namespace PvzLauncherRemake.Pages
                 textBlock_Record.Text =
                     $"{GetLoc("Record_FirstPlay")}: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
                     $"{GetLoc("Record_PlayTime")}: {playTimeDisply} {playTimeUnit}\n" +
-                    $"{GetLoc("Record_PlayCount")}: {GameInfo.Record.PlayCount}";   
+                    $"{GetLoc("Record_PlayCount")}: {GameInfo.Record.PlayCount}";
 
                 logger.Info($"[游戏设置] 结束初始化");
             }

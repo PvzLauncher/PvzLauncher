@@ -26,7 +26,7 @@ namespace PvzLauncherRemake.Utils
         {
             foreach (var task in DownloadTaskList)
             {
-                if(task.TaskName == taskInfo.TaskName)
+                if (task.TaskName == taskInfo.TaskName)
                 {
                     new NotificationManager().Show(new NotificationContent
                     {
@@ -76,7 +76,7 @@ namespace PvzLauncherRemake.Utils
 
 
                     string configName = Path.GetFileName(taskInfo.SavePath);
-                    if (taskInfo.GameInfo != null) 
+                    if (taskInfo.GameInfo != null)
                     {
                         var cfg = new JsonGameInfo.Index
                         {

@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using PvzLauncherRemake.Class;
+using PvzLauncherRemake.Utils;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Utils;
 using static PvzLauncherRemake.Utils.LocalizeManager;
 
 namespace PvzLauncherRemake.Controls

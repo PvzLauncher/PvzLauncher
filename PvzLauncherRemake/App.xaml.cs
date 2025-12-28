@@ -1,5 +1,4 @@
 ﻿using HuaZi.Library.Json;
-using HuaZi.Library.Logger;
 using ModernWpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
@@ -96,7 +95,7 @@ namespace PvzLauncherRemake
 
                     _splash?.FadeOutAndClose();
                     _splash = null;
-                    
+
                 });
             });
 

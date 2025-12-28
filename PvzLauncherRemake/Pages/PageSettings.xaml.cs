@@ -7,7 +7,6 @@ using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -41,7 +40,7 @@ namespace PvzLauncherRemake.Pages
 
             foreach (var controls in VisualTreeTools.GetVisualChildren(this))
             {
-                if (controls is StackPanel sp && sp.Tag != null && sp.Tag.ToString() == "aniSp") 
+                if (controls is StackPanel sp && sp.Tag != null && sp.Tag.ToString() == "aniSp")
                 {
                     animationStackPanels.Add(sp);
                     sp.Margin = new Thickness(-500, sp.Margin.Top, sp.Margin.Right, sp.Margin.Bottom);
@@ -135,9 +134,9 @@ namespace PvzLauncherRemake.Pages
                 switch (AppGlobals.Config.LauncherConfig.Language)
                 {
                     case "zh-CN":
-                        comboBox_Launcher_Language.SelectedIndex = 0;break;
+                        comboBox_Launcher_Language.SelectedIndex = 0; break;
                     case "en-US":
-                        comboBox_Launcher_Language.SelectedIndex = 1;break;
+                        comboBox_Launcher_Language.SelectedIndex = 1; break;
                 }
                 //### 窗口标题
                 textBox_WindowTitle.Text = AppGlobals.Config.LauncherConfig.WindowTitle;
@@ -209,11 +208,11 @@ namespace PvzLauncherRemake.Pages
                 switch (AppGlobals.Config.GameConfig.FullScreen)
                 {
                     case "Default":
-                        comboBox_Game_FullScreen.SelectedIndex = 0;break;
+                        comboBox_Game_FullScreen.SelectedIndex = 0; break;
                     case "FullScreen":
-                        comboBox_Game_FullScreen.SelectedIndex = 1;break;
+                        comboBox_Game_FullScreen.SelectedIndex = 1; break;
                     case "Windowed":
-                        comboBox_Game_FullScreen.SelectedIndex = 2;break;
+                        comboBox_Game_FullScreen.SelectedIndex = 2; break;
                 }
                 //### 位置
                 switch (AppGlobals.Config.GameConfig.StartUpLocation)
@@ -263,7 +262,7 @@ namespace PvzLauncherRemake.Pages
         //tabControl动画
         private async void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.OriginalSource != sender) 
+            if (e.OriginalSource != sender)
                 return;
 
             if (IsInitialized)
@@ -574,7 +573,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     ErrorReportDialog.Show("发生错误", null!, ex);
                 }
-                
+
             }
         }
 
@@ -582,7 +581,7 @@ namespace PvzLauncherRemake.Pages
 
         #region 游戏设置
 
-        private void Game_FullScreen(object sender,SelectionChangedEventArgs e)
+        private void Game_FullScreen(object sender, SelectionChangedEventArgs e)
         {
             if (isInitialized)
             {
@@ -591,7 +590,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Game_Location(object sender,SelectionChangedEventArgs e)
+        private void Game_Location(object sender, SelectionChangedEventArgs e)
         {
             if (isInitialized)
             {

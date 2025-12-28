@@ -113,7 +113,7 @@ namespace PvzLauncherRemake.Utils
             bool? done = null;
             string errorMessage = null!;
 
-            var downloader= new Downloader
+            var downloader = new Downloader
             {
                 Url = Url,
                 SavePath = SavePath,

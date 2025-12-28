@@ -11,7 +11,7 @@ namespace PvzLauncherRemake.Utils
         public static async void Show(string title, string message, Exception ex)
         {
             logger.Error(
-                $"{new string('=',10)}ERROR{new string('=', 10)}\n" +
+                $"{new string('=', 10)}ERROR{new string('=', 10)}\n" +
                 $"{title}\n" +
                 $"{message}\n" +
                 $"{ex}\n" +

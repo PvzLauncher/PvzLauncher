@@ -109,7 +109,7 @@ namespace PvzLauncherRemake.Pages
             {
                 ErrorReportDialog.Show("发生错误", null!, ex);
             }
-            
+
         }
 
         private void OnTaskAdded(DownloadTaskInfo task)
