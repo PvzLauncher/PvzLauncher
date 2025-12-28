@@ -34,7 +34,7 @@ namespace ExecuteShell
             {
                 MessageBox.Show($"在执行主程序时发生错误\n\n------------------------------\n\n{ex}", $"发生错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
     }
 }
