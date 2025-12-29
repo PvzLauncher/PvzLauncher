@@ -1,6 +1,6 @@
 # 行为准则
 
-> [! IMPORTANT]
+> [!IMPORTANT]
 > 在下载、或使用本软件之前请完整阅读并同意 `最终用户许可协议`
 
 ## **植物大战僵尸启动器 (Plants Vs. Zombies Launcher) 最终用户许可协议**
