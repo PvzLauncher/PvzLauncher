@@ -54,18 +54,6 @@ namespace PvzLauncherRemake
             //加载列表
             await GameManager.LoadGameListAsync();
             await GameManager.LoadTrainerListAsync();
-
-            //获取公告
-            if (AppGlobals.AnnouncementsIndex == null)
-            {
-                using var client = new HttpClient();
-                AppGlobals.AnnouncementsIndex = Json.ReadJson<JsonAnnouncements.Index>(await client.GetStringAsync(AppGlobals.AnnouncementsIndexUrl));
-
-                foreach (var announcment in AppGlobals.AnnouncementsIndex.Announcements)
-                {
-                    announcment.Content = await client.GetStringAsync($"{AppGlobals.AnnouncementsRootUrl}{announcment.Content}");
-                }
-            }
         }
         #endregion
 

@@ -40,7 +40,6 @@ namespace PvzLauncherRemake.Pages
 
             viewBox_Icon.Margin = new Thickness(0, -10 - viewBox_Icon.ActualHeight, 0, 0);
             stackPanel_LaunchButtons.Margin = new Thickness(0, 0, -50 - button_Launch.ActualWidth, 0);
-            grid_Announcements.Margin = new Thickness(-50 - grid_Announcements.MaxWidth, 0, 0, 0);
 
             await Task.Delay(200);//等待Frame动画播放完毕
 
@@ -52,7 +51,6 @@ namespace PvzLauncherRemake.Pages
             };
             viewBox_Icon.BeginAnimation(MarginProperty, animation);
             stackPanel_LaunchButtons.BeginAnimation(MarginProperty, animation);
-            grid_Announcements.BeginAnimation(MarginProperty, animation);
         }
         #endregion
 
@@ -104,38 +102,6 @@ namespace PvzLauncherRemake.Pages
                     }
                 }
                 catch (InvalidOperationException) { }
-
-                //显示公告
-                if (AppGlobals.AnnouncementsIndex != null)
-                {
-                    tabControl_Announcements.Items.Clear();
-
-                    foreach (var announcement in AppGlobals.AnnouncementsIndex.Announcements)
-                    {
-                        var docViewer = new FlowDocumentScrollViewer
-                        {
-                            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
-                        };
-
-                        docViewer.Document = new Markdown().Transform(announcement.Content);
-                        docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
-                        foreach (var p in docViewer.Document.Blocks.OfType<Paragraph>())
-                        {
-                            p.LineHeight = 10;
-                            p.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
-                        }
-
-                        tabControl_Announcements.Items.Add(new TabItem
-                        {
-                            Header = announcement.Title,
-                            Content = docViewer
-                        });
-                    }
-
-                }
-
-
 
                 //播放动画
                 StartAnimation();
