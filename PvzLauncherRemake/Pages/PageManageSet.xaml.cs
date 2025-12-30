@@ -66,17 +66,17 @@ namespace PvzLauncherRemake.Pages
                 }
                 else if (GameInfo.Record.PlayTime >= 0 && GameInfo.Record.PlayTime < 60)//0s ~ 1min
                 {
-                    playTimeUnit = GetLoc("Record_Second");
+                    playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Second");
                     playTimeDisply = $"{GameInfo.Record.PlayTime}";
                 }
                 else if (GameInfo.Record.PlayTime >= 60 && GameInfo.Record.PlayTime < 3600)//1min ~ 1h
                 {
-                    playTimeUnit = GetLoc("Record_Minute");
+                    playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Minute");
                     playTimeDisply = $"{GameInfo.Record.PlayTime / 60}";
                 }
                 else if (GameInfo.Record.PlayTime >= 3600)//1h+
                 {
-                    playTimeUnit = GetLoc("Record_Hour");
+                    playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Hour");
                     playTimeDisply = $"{Math.Round(GameInfo.Record.PlayTime / 3600.0, 2)}";
                 }
 
@@ -84,9 +84,9 @@ namespace PvzLauncherRemake.Pages
 
                 //统计信息
                 textBlock_Record.Text =
-                    $"{GetLoc("Record_FirstPlay")}: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
-                    $"{GetLoc("Record_PlayTime")}: {playTimeDisply} {playTimeUnit}\n" +
-                    $"{GetLoc("Record_PlayCount")}: {GameInfo.Record.PlayCount}";
+                    $"{GetLoc("I18N.PageManageSet", "Record_FirstPlay")}: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
+                    $"{GetLoc("I18N.PageManageSet", "Record_PlayTime")}: {playTimeDisply} {playTimeUnit}\n" +
+                    $"{GetLoc("I18N.PageManageSet", "Record_PlayCount")}: {GameInfo.Record.PlayCount}";
 
                 logger.Info($"[游戏设置] 结束初始化");
             }

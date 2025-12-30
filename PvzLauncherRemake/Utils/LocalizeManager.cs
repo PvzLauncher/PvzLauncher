@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Reflection;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Extensions;
 
@@ -6,6 +7,8 @@ namespace PvzLauncherRemake.Utils
 {
     public class LocalizeManager
     {
+        private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
+
         public static void SwitchLanguage(string languageCode = "zh-CN")
         {
             var newCulture = new CultureInfo(languageCode);
@@ -17,7 +20,14 @@ namespace PvzLauncherRemake.Utils
 
         public static string GetLoc(string key)
         {
-            return LocExtension.GetLocalizedValue<string>(key);
+            return LocExtension.GetLocalizedValue<string>(key) ?? key;
+        }
+
+        public static string GetLoc(string directory, string key)
+        {
+            string fullKey = $"{AssemblyName}:{directory}:{key}";
+            string value = LocExtension.GetLocalizedValue<string>(fullKey);
+            return value ?? fullKey;
         }
     }
 }
