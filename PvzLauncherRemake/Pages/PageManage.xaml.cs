@@ -66,18 +66,13 @@ namespace PvzLauncherRemake.Pages
                     //添加卡片
                     foreach (var game in AppGlobals.GameList)
                     {
-                        //判断版本
-                        string version =
-                            game.GameInfo.VersionType == "en_origin" ? "英文原版" :
-                            game.GameInfo.VersionType == "zh_origin" ? "中文原版" :
-                            game.GameInfo.VersionType == "zh_revision" ? "中文改版" : "未知";
                         //定义卡片
                         var card = new UserCard
                         {
                             Title = game.GameInfo.Name,
                             Icon = GameManager.ParseToGameIcons(game.GameInfo.Icon),
                             isActive = game.GameInfo.Name == AppGlobals.Config.CurrentGame ? true : false,
-                            Version = $"{version} {game.GameInfo.Version}", //拼接，示例:"英文原版 1.0.0.1051"
+                            Version = $"{game.GameInfo.Version}", 
                             Background = System.Windows.Media.Brushes.Transparent,
                             Tag = game,
                             Margin = new Thickness(0, 0, 0, 5)
