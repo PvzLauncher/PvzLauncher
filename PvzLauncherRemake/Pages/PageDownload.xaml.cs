@@ -192,23 +192,15 @@ namespace PvzLauncherRemake.Pages
                 isTrainer ? AppGlobals.TrainerDirectory :
                 AppGlobals.GameDirectory;
 
-            //确认下载
-            bool confirm = false;
-            await DialogManager.ShowDialogAsync(new ContentDialog
+
+            this.NavigationService.Navigate(new PageDownloadConfirm
             {
-                Title = "下载确认",
-                Content = $"是否下载 \"{info.Name}\"",
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消",
-                DefaultButton = ContentDialogButton.Primary
-            }, (() => confirm = true));
-            if (!confirm) return;
+                Info = info,
+                BaseDirectory = baseDirectory,
+                IsTrainer = isTrainer
+            });
 
-            //处理同名
-            string savePath = await GameManager.ResolveSameName(info.Name, baseDirectory);
-
-            //开始下载
-            await GameManager.StartDownloadAsync(info, savePath, isTrainer);
+            return;
         }
     }
 }
