@@ -25,9 +25,9 @@ namespace PvzLauncherRemake.Class
 
         //字符串
         public static readonly string Version = $"1.0.0-rc.23";//版本
-        public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/UpdateService/raw/main/PvzLauncherRemake";//服务根Url
-        public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library.json";//下载索引
-        public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update.json";//更新索引
+        public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";//服务根Url
+        public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
+        public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
 
         //启动参数配置
         public static class Arguments

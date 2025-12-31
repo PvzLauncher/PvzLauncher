@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Pages
         public string BaseDirectory { get; set; }
         public bool IsTrainer { get; set; }
 
-        private string ScreeshotRootUrl = $"{AppGlobals.ServiceRootUrl}/screenshots";
+        private string ScreeshotRootUrl = $"{AppGlobals.ServiceRootUrl}/game-library/screenshots";
 
         #region animation
         private void StartImageAnimation(Image image)
