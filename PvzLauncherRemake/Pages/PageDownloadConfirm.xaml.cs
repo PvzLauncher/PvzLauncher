@@ -50,7 +50,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     for (int i = 0; i < Info.Screenshot; i++)
                     {
-                        using (Stream stream = await client.GetStreamAsync($"{ScreeshotRootUrl}/{Info.Version}/{i}.png"))
+                        using (Stream stream = await client.GetStreamAsync($"{ScreeshotRootUrl}/{Info.Version}/{i + 1}.png")) 
                         {
                             BitmapImage bitmap = new BitmapImage();
                             bitmap.BeginInit();
