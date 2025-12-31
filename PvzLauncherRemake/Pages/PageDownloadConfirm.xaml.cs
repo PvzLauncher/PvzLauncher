@@ -41,7 +41,7 @@ namespace PvzLauncherRemake.Pages
             var animation = new DoubleAnimation
             {
                 From = 250,
-                To = 300,
+                To = 280,
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             };
@@ -53,7 +53,7 @@ namespace PvzLauncherRemake.Pages
         {
             var animation = new DoubleAnimation
             {
-                From = 300,
+                From = 280,
                 To = 250,
                 Duration = TimeSpan.FromMilliseconds(1000),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
