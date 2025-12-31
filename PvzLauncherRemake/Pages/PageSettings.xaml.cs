@@ -131,12 +131,10 @@ namespace PvzLauncherRemake.Pages
                         radioButton_Theme_Dark.IsChecked = true; break;
                 }
                 //### 语言
-                switch (AppGlobals.Config.LauncherConfig.Language)
+                foreach (ComboBoxItem item in comboBox_Launcher_Language.Items)
                 {
-                    case "zh-CN":
-                        comboBox_Launcher_Language.SelectedIndex = 0; break;
-                    case "en-US":
-                        comboBox_Launcher_Language.SelectedIndex = 1; break;
+                    if (item.Tag.ToString() == AppGlobals.Config.LauncherConfig.Language)
+                        comboBox_Launcher_Language.SelectedItem = item;
                 }
                 //### 窗口标题
                 textBox_WindowTitle.Text = AppGlobals.Config.LauncherConfig.WindowTitle;
