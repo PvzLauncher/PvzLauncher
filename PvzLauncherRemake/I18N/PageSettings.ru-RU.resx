@@ -139,7 +139,7 @@
     <value>Лаунчер закрывается</value>
   </data>
   <data name="Launcher_Operate_LaunchOperate_HideAndShow" xml:space="preserve">
-    <value>Лаунчер скрыт и будет отображаться после завершения игры.</value>
+    <value>Лаунчер скрыт и будет отображаться после завершения игры</value>
   </data>
   <data name="Launcher_Appearance" xml:space="preserve">
     <value>Появление</value>
