@@ -24,7 +24,7 @@ namespace PvzLauncherRemake.Class
         public static JsonAnnouncements.Index? AnnouncementsIndex = null;//公告索引
 
         //字符串
-        public static readonly string Version = $"1.0.0-rc.22";//版本
+        public static readonly string Version = $"1.0.0-rc.23";//版本
         public static readonly string DownloadIndexUrl = "https://gitee.com/huamouren110/UpdateService/raw/main/PvzLauncherRemake/game-library.json";//下载索引
         public static readonly string UpdateIndexUrl = "https://gitee.com/huamouren110/UpdateService/raw/main/PvzLauncherRemake/update.json";//更新索引
 
