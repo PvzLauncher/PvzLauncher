@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static PvzLauncherRemake.Utils.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -30,10 +31,16 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                //卡片
                 userCard.Title = Info.Name;
                 userCard.Icon = GameManager.ParseToGameIcons(Info.Icon);
                 userCard.Version = Info.Version;
 
+
+                //简介
+                textBlock_Description.Text = Info.Description;
+
+                
             }
             catch (Exception ex)
             {

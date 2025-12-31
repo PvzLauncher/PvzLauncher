@@ -26,14 +26,8 @@
         <ctrl:UserScrollViewer>
             <StackPanel Margin="0,0,0,10">
                 <!--简介-->
+                <TextBlock Text="{lex:Loc Description}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
                 <TextBlock x:Name="textBlock_Description" Margin="0,0,0,10"/>
-
-                <!--信息-->
-                <TextBlock x:Name="textBlock_Information" Margin="0,0,0,10">
-                <Bold>作者:</Bold> xxx<LineBreak/>
-                <Bold>大小:</Bold> xxxMb<LineBreak/>
-                <Bold>发布日期:</Bold> xxxx-xx-xx xx:xx<LineBreak/>
-                </TextBlock>
 
                 <!--屏幕截图-->
                 <TextBlock Text="{lex:Loc ScreenShots}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>

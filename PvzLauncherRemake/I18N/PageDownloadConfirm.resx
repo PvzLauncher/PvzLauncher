@@ -103,4 +103,7 @@
   <data name="ScreenShots" xml:space="preserve">
     <value>屏幕截图</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>简介</value>
+  </data>
 </root>

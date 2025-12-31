@@ -123,4 +123,7 @@
   <data name="ScreenShots" xml:space="preserve">
     <value>Screenshot</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Einführung</value>
+  </data>
 </root>
