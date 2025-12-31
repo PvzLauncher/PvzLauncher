@@ -53,6 +53,7 @@
                                 <TextBlock Text="{lex:Loc Launcher_Appearance_Language}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <ComboBox x:Name="comboBox_Launcher_Language" ToolTip="启动器显示的语言" SelectedIndex="0" SelectionChanged="Launcher_Language">
                                     <ComboBoxItem Content="简体中文 (中国大陆)" Tag="zh-CN"/>
+                                    <ComboBoxItem Content="繁體中文 (中國臺灣)" Tag="zh-TW"/>
                                     <ComboBoxItem Content="English (US)" Tag="en-US"/>
                                     <ComboBoxItem Content="日本語 (日本)" Tag="ja-JP"/>
                                     <ComboBoxItem Content="Français (France)" Tag="fr-FR"/>
