@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<Viewbox xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Name="essence">
+    <Canvas UseLayoutRounding="False" Width="512.0" Height="512.0">
+        <Canvas.Clip>
+            <RectangleGeometry Rect="0,0,512.0,512.0"/>
+        </Canvas.Clip>
+        <Canvas UseLayoutRounding="False">
+            <Canvas UseLayoutRounding="False">
+                <Path Fill="#ffffff32" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 281.184 186.458 l -113.838 0.9899 l 1.97977 173.231 l 120.767 2.96967 z"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas UseLayoutRounding="False">
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M 223.771 211.205 C 207.256 57.4394 299.741 76.0797 346.162 129.458 c 46.1134 53.0251 60.9709 164.437 -77.4659 138.81 c -6.56868 -5.95511 -12.8888 -10.7799 -18.693 -19.9428 c -14.0344 -7.32374 -22.4618 -19.9997 -26.2321 -37.1209 z"/>
+                    </Path.Data>
+                </Path>
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 255.171 254.073 c -8.04063 -23.1039 -1.5007 -44.1488 5.24969 -65.7961"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas UseLayoutRounding="False">
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 267.078 269.114 c -19.4581 62.0741 21.4905 66.8897 30.1917 93.5447"/>
+                    </Path.Data>
+                </Path>
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 262.521 295.02 c -19.9564 47.0979 -1.31962 102.801 55.2894 135.446 c 32.691 44.0635 131.582 -160.291 13.3635 -158.383 c -23.6497 4.92202 -46.9872 3.66992 -63.353 -3.46463 c -1.73242 9.12779 -6.41031 15.7467 -5.29987 26.4015 z"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas UseLayoutRounding="False">
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 254.472 345.067 c -14.5825 2.10216 -29.9074 0.28097 -44.4898 -11.9842 l -19.3723 64.9639 c -1.32061 111.514 103.231 66.0841 125.221 32.9139 c -32.3313 -23.5613 -54.4549 -52.2496 -61.3591 -85.8936 z"/>
+                    </Path.Data>
+                </Path>
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 235.402 345.335 c -6.21688 35.3235 9.28229 58.0746 14.3534 86.863"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas UseLayoutRounding="False">
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 209.912 333.456 c -14.0704 -18.5976 -34.111 -30.9537 -20.5403 -78.4489 l -46.7724 -1.73231 c -79.1917 60.2013 12.0627 179.8 46.0299 145.514 c 10.1736 -22.8974 14.3346 -43.6084 21.2827 -65.3328 z"/>
+                    </Path.Data>
+                </Path>
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 152.103 326.168 c 10.974 -11.1788 15.4058 -33.8724 33.423 -33.0731"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas UseLayoutRounding="False">
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="m 190.362 255.503 c 6.98258 -16.3672 16.9414 -30.7346 33.1613 -43.8027 c -4.91326 -28.1898 -5.45442 -58.0339 6.79966 -92.7194 c -33.8891 -49.962 -167.223 36.4277 -88.7132 133.8 z"/>
+                    </Path.Data>
+                </Path>
+                <Path Fill="#ffffffff" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="5.3168" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M 201.251 232.982 C 184.901 216.222 171.278 195.321 172.544 151.811"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+        <Canvas UseLayoutRounding="False">
+            <Path Fill="#fffadc00" Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="9.71345" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                <Path.Data>
+                    <PathGeometry Figures="m 147.971 108.658 c -95.3261 -4.09902 -21.5708 55.6797 84.5264 51.7312 C 423.848 153.268 409.128 66.5368 341.571 97.6575 C 373.15 21.7186 273.87 3.57454 241.258 57.8145 C 207.51 -14.6211 86.5126 70.1292 147.971 108.658 Z"/>
+                </Path.Data>
+            </Path>
+            <Path Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="9.71345" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                <Path.Data>
+                    <PathGeometry Figures="m 150.928 111.796 c 35.2044 11.6512 53.2397 9.96626 61.824 -13.0711 c 5.26988 -21.45 -21.1329 -43.8991 -39.4452 -14.103"/>
+                </Path.Data>
+            </Path>
+            <Path Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="9.71345" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                <Path.Data>
+                    <PathGeometry Figures="m 338.43 100.344 c -24.3673 12.3604 -62.2634 29.5886 -71.6124 -7.33029 c -5.06797 -15.5691 21.3532 -44.8162 39.5624 -9.99051"/>
+                </Path.Data>
+            </Path>
+            <Path Fill="#ff000000">
+                <Path.Data>
+                    <PathGeometry Figures="m 242.041 105.402 l -13.1875 23.178 h 27.5738 c -7.23717 -7.28204 -11.2626 -15.1481 -14.3863 -23.178 z"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Canvas>
+</Viewbox>
