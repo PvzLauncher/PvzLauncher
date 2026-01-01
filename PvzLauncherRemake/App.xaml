@@ -12,6 +12,8 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+
+            <LinearGradientBrush x:Key="BorderBrush"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
