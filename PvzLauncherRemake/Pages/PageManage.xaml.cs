@@ -405,7 +405,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             AppGlobals.Config.CurrentTrainer = null!;
                         }
-
+                        ConfigManager.SaveConfig();
                         notificationManager.Show(new NotificationContent
                         {
                             Title = "删除成功",
