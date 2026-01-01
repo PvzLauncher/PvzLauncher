@@ -1,12 +1,9 @@
-﻿using HuaZi.Library.Json;
-using ModernWpf;
+﻿using ModernWpf;
 using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Windows;
 using System.IO;
-using System.Net.Http;
 using System.Windows;
 
 namespace PvzLauncherRemake

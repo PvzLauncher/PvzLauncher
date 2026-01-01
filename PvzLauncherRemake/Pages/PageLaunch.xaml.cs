@@ -1,5 +1,4 @@
-﻿using MdXaml;
-using Notifications.Wpf;
+﻿using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
@@ -8,9 +7,6 @@ using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using WPFLocalizeExtension.Extensions;

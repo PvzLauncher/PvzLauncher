@@ -1,7 +1,6 @@
 ﻿using ModernWpf.Controls;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.Windows;

@@ -6,7 +6,6 @@ using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
@@ -76,7 +75,7 @@ namespace PvzLauncherRemake.Pages
                             Title = game.GameInfo.Name,
                             Icon = GameManager.ParseToGameIcons(game.GameInfo.Icon),
                             isActive = game.GameInfo.Name == AppGlobals.Config.CurrentGame ? true : false,
-                            Version = $"{game.GameInfo.Version}", 
+                            Version = $"{game.GameInfo.Version}",
                             Background = System.Windows.Media.Brushes.Transparent,
                             Tag = game,
                             Margin = new Thickness(0, 0, 0, 5)

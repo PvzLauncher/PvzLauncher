@@ -3,7 +3,6 @@ using ModernWpf.Media.Animation;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Pages;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
@@ -236,7 +235,7 @@ namespace PvzLauncherRemake
             {
                 //判断是否显示返回箭头
 
-                if (frame.Content is PageManageSet || frame.Content is PageDeveloper || frame.Content is PageDownloadConfirm) 
+                if (frame.Content is PageManageSet || frame.Content is PageDeveloper || frame.Content is PageDownloadConfirm)
                 {
                     navView.IsBackButtonVisible = NavigationViewBackButtonVisible.Visible;
                     navView.IsBackEnabled = true;
