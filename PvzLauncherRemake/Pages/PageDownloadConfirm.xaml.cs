@@ -43,7 +43,7 @@ namespace PvzLauncherRemake.Pages
             var animation = new DoubleAnimation
             {
                 From = 250,
-                To = 280,
+                To = 260,
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             };
@@ -55,7 +55,7 @@ namespace PvzLauncherRemake.Pages
         {
             var animation = new DoubleAnimation
             {
-                From = 280,
+                From = 260,
                 To = 250,
                 Duration = TimeSpan.FromMilliseconds(1000),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
@@ -118,7 +118,7 @@ namespace PvzLauncherRemake.Pages
                             var bitmap = new BitmapImage();
                             bitmap.BeginInit();
                             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                            bitmap.StreamSource = memoryStream;           
+                            bitmap.StreamSource = memoryStream;
                             bitmap.EndInit();
                             bitmap.Freeze();
 
@@ -138,7 +138,7 @@ namespace PvzLauncherRemake.Pages
                         }
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
