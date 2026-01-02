@@ -45,6 +45,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("title_image")]
             public string TitleImage { get; set; } = "EN";
 
+            [JsonProperty("background_mode")]
+            public string BackgroundMode { get; set; } = "default";
+
             [JsonProperty("background")]
             public string Background { get; set; } = null!;
 
