@@ -19,7 +19,7 @@
             <StackPanel x:Name="stackpanel" Margin="10">
                 <!--Pak操作-->
                 <Grid Margin="0,0,0,10">
-                    <Border BorderThickness="1.5" CornerRadius="5" BorderBrush="{DynamicResource BorderBrush}"/>
+                    <Border BorderThickness="1.5" CornerRadius="5" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}"/>
 
 
                     <StackPanel Margin="10">

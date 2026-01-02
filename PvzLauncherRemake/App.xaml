@@ -14,6 +14,7 @@
             <!-- Other app resources here -->
 
             <LinearGradientBrush x:Key="BorderBrush"/>
+            <SolidColorBrush x:Key="BackgroundBrush"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

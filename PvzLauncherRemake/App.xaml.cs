@@ -103,6 +103,10 @@ namespace PvzLauncherRemake
                     new GradientStop{Color=(Color)ColorConverter.ConvertFromString($"#19{new string(colorFill,6)}"),Offset=1},
                 }
             };
+            this.Resources["BackgroundBrush"] = new SolidColorBrush
+            {
+                Color = (Color)ColorConverter.ConvertFromString($"#0C{new string(colorFill, 6)}")
+            };
 
         }
     }
