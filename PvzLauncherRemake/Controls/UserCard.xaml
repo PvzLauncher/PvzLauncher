@@ -13,7 +13,7 @@
              lex:ResxLocalizationProvider.DefaultDictionary="I18N.UserCard">
     <Grid>
         <!--背景-->
-        <Border x:Name="border" BorderThickness="1.5" CornerRadius="5" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource BackgroundBrush}"/>
+        <Border x:Name="border" Opacity="0" BorderThickness="1.5" CornerRadius="5" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource BackgroundBrush}"/>
 
         <!--主内容-->
         <Grid x:Name="grid_Content" Margin="5,5,5,5" RenderTransformOrigin="0.5,0.5">
