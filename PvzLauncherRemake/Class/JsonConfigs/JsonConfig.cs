@@ -27,6 +27,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
         public class LauncherConfig
         {
+            [JsonProperty("eula")]
+            public bool Eula { get; set; } = false;
+            
             [JsonProperty("window_size")]
             public WindowSize WindowSize { get; set; } = new WindowSize();
 

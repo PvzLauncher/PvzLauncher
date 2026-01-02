@@ -1,4 +1,5 @@
-﻿using ModernWpf.Controls;
+﻿using MdXaml;
+using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
@@ -7,7 +8,11 @@ using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using static PvzLauncherRemake.Class.AppLogger;
 
@@ -176,7 +181,31 @@ namespace PvzLauncherRemake
 
 
 
+                //EULA检测
+                if (!AppGlobals.Config.LauncherConfig.Eula)
+                {
+                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "texts", "eula.md");
+                    string eulaText = $"无法加载{eulaPath}";
+                    eulaText = await File.ReadAllTextAsync(eulaPath);
 
+                    var docViewer = new FlowDocumentScrollViewer
+                    {
+                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                        HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+                    };
+                    docViewer.Document = new Markdown().Transform(eulaText);
+                    docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
+
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "请阅读并同意《Plants Vs. Zombies Launcher - 最终用户许可协议》",
+                        Content = docViewer,
+                        PrimaryButtonText = "同意",
+                        CloseButtonText = "拒绝",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() => AppGlobals.Config.LauncherConfig.Eula = true), null, (() => Environment.Exit(0)));
+                    ConfigManager.SaveConfig();
+                }
 
 
 
