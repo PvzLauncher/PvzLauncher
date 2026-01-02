@@ -2,9 +2,11 @@
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
+using System.Buffers;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace PvzLauncherRemake
 {
@@ -16,6 +18,13 @@ namespace PvzLauncherRemake
         #region init
         private async void Initialize()
         {
+            //绑定事件
+            Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler ;
+
+
+
             //初始化配置文件
             if (!File.Exists(System.IO.Path.Combine(AppGlobals.ExecuteDirectory, "config.json")))
             {
@@ -51,7 +60,7 @@ namespace PvzLauncherRemake
             switch (AppGlobals.Config.LauncherConfig.Theme)
             {
                 case "Light":
-                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;OnThemeChanged(null!,null!   ); break;
+                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; OnThemeChanged(null!, null!); break;
                 case "Dark":
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark; break;
             }
@@ -109,5 +118,23 @@ namespace PvzLauncherRemake
             };
 
         }
+
+        #region 错误捕获
+
+        private void DispatcherUnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e)
+        => ProcessUnhandledException(e.Exception);
+
+        private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        => ProcessUnhandledException((Exception)e.ExceptionObject);
+
+        private void UnobservedTaskExceptionHandler(object? sender, UnobservedTaskExceptionEventArgs e)
+        => ProcessUnhandledException(e.Exception);
+
+        private void ProcessUnhandledException(Exception ex)
+        {
+            MessageBox.Show($"发生了未捕获的错误\n\n\n{ex}\n\n\n程序即将崩溃...", "PvzLauncher", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        #endregion
     }
 }
