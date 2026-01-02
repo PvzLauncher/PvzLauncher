@@ -1,6 +1,7 @@
 ﻿using MdXaml;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
+using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Pages;
@@ -157,25 +158,21 @@ namespace PvzLauncherRemake
                 //构建检测
                 if (AppGlobals.Arguments.isCIBuild)//CI
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    new NotificationManager().Show(new NotificationContent
                     {
+                        Message = $"您使用的是基于 {AppGlobals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
                         Title = "警告",
-                        Content = $"您使用的是基于 {AppGlobals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
-                        PrimaryButtonText = "我明确风险且遇到BUG会反馈开发者",
-                        CloseButtonText = "我明确风险并了解处理BUG的方法",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() => Environment.Exit(0)));
+                        Type = NotificationType.Warning
+                    });
                 }
                 else if (AppGlobals.Arguments.isDebugBuild)//DEBUG
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    new NotificationManager().Show(new NotificationContent
                     {
+                        Message = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
                         Title = "警告",
-                        Content = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
-                        PrimaryButtonText = "我明确风险且遇到BUG会反馈开发者",
-                        CloseButtonText = "我明确风险并了解处理BUG的方法",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() => Environment.Exit(0)));
+                        Type = NotificationType.Warning
+                    });
                 }
 
 
