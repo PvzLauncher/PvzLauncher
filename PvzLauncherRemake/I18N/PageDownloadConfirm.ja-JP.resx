@@ -126,4 +126,7 @@
   <data name="Description" xml:space="preserve">
     <value>導入</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>著者</value>
+  </data>
 </root>

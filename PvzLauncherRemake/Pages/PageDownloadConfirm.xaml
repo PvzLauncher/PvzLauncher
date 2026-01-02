@@ -27,6 +27,7 @@
             <!--简介-->
             <TextBlock Text="{lex:Loc Description}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
             <TextBlock x:Name="textBlock_Description" Margin="0,0,0,10"/>
+            <TextBlock x:Name="textBlock_Information" Margin="0,0,0,10"/>
 
             <!--屏幕截图-->
             <TextBlock Text="{lex:Loc ScreenShots}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>

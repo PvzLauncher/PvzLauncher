@@ -126,4 +126,7 @@
   <data name="Description" xml:space="preserve">
     <value>Einführung</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
 </root>

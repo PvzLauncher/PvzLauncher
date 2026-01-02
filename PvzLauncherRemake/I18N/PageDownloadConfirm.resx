@@ -106,4 +106,7 @@
   <data name="Description" xml:space="preserve">
     <value>简介</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>作者</value>
+  </data>
 </root>

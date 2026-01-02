@@ -61,6 +61,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 作者 的本地化字符串。
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 简介 的本地化字符串。
         /// </summary>
         public static string Description {
