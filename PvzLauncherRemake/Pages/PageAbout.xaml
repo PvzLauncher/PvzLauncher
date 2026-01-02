@@ -57,6 +57,7 @@
                 <ui:HyperlinkButton NavigateUri="https://github.com/qaiu/netdisk-fast-download" Content="qaiu/netdisk-fast-download - 网盘直链解析"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="JamesNK/Newtonsoft.Json - Json读写"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="adamhathcock/sharpcompress - 压缩包操作"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://counterapi.dev" Content="CounterAPI - 计数器服务"  HorizontalAlignment="Center"/>
 
                 <!--宝贵意见提出者-->
                 <TextBlock Text="{lex:Loc List_Feedback}" FontSize="15" FontWeight="Bold"  HorizontalAlignment="Center"/>
