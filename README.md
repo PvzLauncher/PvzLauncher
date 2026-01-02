@@ -9,4 +9,4 @@
 
 </div>
 
-![主界面](/docs/image/MainWindow.png)
+<img src="docs/image/MainWindow.png" alt="主界面" style="display: block; margin: 0 auto;">
