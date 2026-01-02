@@ -290,7 +290,7 @@ namespace PvzLauncherRemake.Utils.Services
 
         #endregion
 
-        #region 其他
+        #region 重名解决
 
         /// <summary>
         /// 解决重名
@@ -336,6 +336,10 @@ namespace PvzLauncherRemake.Utils.Services
                     });
             }
         }
+
+        #endregion
+
+        #region 图标转换
 
         /// <summary>
         /// 将图标字符串转换为枚举类型
@@ -406,6 +410,10 @@ namespace PvzLauncherRemake.Utils.Services
             }
         }
 
+        #endregion
+
+        #region 注册表控制
+        
         /// <summary>
         /// 设置游戏屏幕模式
         /// </summary>
