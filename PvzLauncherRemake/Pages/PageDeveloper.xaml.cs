@@ -1,5 +1,8 @@
-﻿using PvzLauncherRemake.Class;
+﻿using ModernWpf.Controls;
+using PvzLauncherRemake.Class;
+using PvzLauncherRemake.Utils.UI;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -75,6 +78,36 @@ namespace PvzLauncherRemake.Pages
                 }
 
                 flowDocumentScrollViewer_Md2.Document = doc;
+            }
+        }
+
+        private async void button_Dialog_Show_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                async void ShowDialog(ContentDialog dialog)
+                {
+                    await DialogManager.ShowDialogAsync(dialog);
+                }
+                int count = 0;
+                switch ((string)button.Tag)
+                {
+                    case "1": count = 1; break;
+                    case "5": count = 5; break;
+                    case "10": count = 10; break;
+                    case "50": count = 50; break;
+                }
+
+                for (int i = 0; i < count; i++)
+                {
+                    ShowDialog(new ContentDialog
+                    {
+                        Title = textBox_Dialog_Title.Text,
+                        Content = textBox_Dialog_Content.Text,
+                        PrimaryButtonText = textBox_Dialog_Button.Text,
+                        DefaultButton = ContentDialogButton.Primary
+                    });
+                }
             }
         }
     }

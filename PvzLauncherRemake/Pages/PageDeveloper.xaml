@@ -57,6 +57,18 @@
 
                 </Grid>
             </TabItem>
+            <!--对话框测试-->
+            <TabItem Header="对话框测试">
+                <StackPanel>
+                    <TextBox x:Name="textBox_Dialog_Title" Text="Title"/>
+                    <TextBox x:Name="textBox_Dialog_Content" Text="Content"/>
+                    <TextBox x:Name="textBox_Dialog_Button" Text="Button"/>
+                    <Button x:Name="button_Dialog_Show" Tag="1" Content="Show1" Click="button_Dialog_Show_Click"/>
+                    <Button x:Name="button_Dialog_Show5" Tag="5" Content="Show5" Click="button_Dialog_Show_Click"/>
+                    <Button x:Name="button_Dialog_Show10" Tag="10" Content="Show10" Click="button_Dialog_Show_Click"/>
+                    <Button x:Name="button_Dialog_Show50" Tag="50" Content="Show50" Click="button_Dialog_Show_Click"/>
+                </StackPanel>
+            </TabItem>
 
         </TabControl>
     </Grid>
