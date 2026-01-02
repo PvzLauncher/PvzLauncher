@@ -68,20 +68,11 @@ namespace PvzLauncherRemake.Utils.Services
 
                 docViewer.Document = new Markdown().Transform(ChangeLog);
                 docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
-                foreach (Paragraph p in docViewer.Document.Blocks.OfType<Paragraph>())
-                {
-                    p.LineHeight = 10;
-                    p.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
-                }
 
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = $"发现可用更新 - {LatestVersion}",
-                    Content = new ScrollViewer
-                    {
-                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                        Content = docViewer
-                    },
+                    Content = docViewer,
                     PrimaryButtonText = "立即更新",
                     CloseButtonText = "取消更新",
                     DefaultButton = ContentDialogButton.Primary
