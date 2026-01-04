@@ -27,6 +27,8 @@ namespace PvzLauncherRemake.Pages
         private JsonTrainerInfo.Index currentTrainerInfo = null!;
         private NotificationManager notifi = new NotificationManager();
 
+        private List<string> echoCaveTemp = new List<string>();
+
         private async Task RefreshEchoCave()
         {
             try
@@ -37,7 +39,17 @@ namespace PvzLauncherRemake.Pages
                     {
                         AppGlobals.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(AppGlobals.EchoCaveIndexUrl));
                     }
+
+                    foreach (var echoCave in AppGlobals.EchoCaveIndex.Data)
+                        echoCaveTemp.Add(echoCave);
                 }
+
+                if (echoCaveTemp.Count == 0)
+                {
+                    foreach (var echoCave in AppGlobals.EchoCaveIndex.Data)
+                        echoCaveTemp.Add(echoCave);
+                }
+
 
                 var animation = new DoubleAnimation
                 {
@@ -51,7 +63,9 @@ namespace PvzLauncherRemake.Pages
 
                 await Task.Delay(500);
 
-                button_EchoCave.Content = AppGlobals.EchoCaveIndex.Data[AppGlobals.Random.Next(0, AppGlobals.EchoCaveIndex.Data.Length - 1)];
+                button_EchoCave.Content = echoCaveTemp[AppGlobals.Random.Next(0, echoCaveTemp.Count - 1)];
+                echoCaveTemp.Remove((string)button_EchoCave.Content);
+
                 animation.From = 0;animation.To = 1;
 
                 button_EchoCave.BeginAnimation(OpacityProperty, null);
