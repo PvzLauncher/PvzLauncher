@@ -21,6 +21,7 @@ namespace PvzLauncherRemake.Class
         public static JsonConfig.Index Config = null!;//配置
         public static Random Random = new Random();//随机数生成器
         public static JsonDownloadIndex.Index? DownloadIndex = null;//下载索引
+        public static JsonEchoCave.Index? EchoCaveIndex = null;//回声洞索引
 
         //字符串
         public static readonly string Version = $"1.0.0-pre.2";//版本
@@ -28,6 +29,7 @@ namespace PvzLauncherRemake.Class
         public static readonly string CounterRootUrl = "https://api.counterapi.dev/v2/pvzlauncher";//计数器Url
         public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
         public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
+        public static readonly string EchoCaveIndexUrl = $"{ServiceRootUrl}/echo-cave/index.json";//回声洞索引
 
         //启动参数配置
         public static class Arguments

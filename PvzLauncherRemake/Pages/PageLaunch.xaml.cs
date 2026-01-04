@@ -1,4 +1,5 @@
-﻿using Notifications.Wpf;
+﻿using HuaZi.Library.Json;
+using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
@@ -6,6 +7,8 @@ using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -23,6 +26,42 @@ namespace PvzLauncherRemake.Pages
         private JsonGameInfo.Index currentGameInfo = null!;
         private JsonTrainerInfo.Index currentTrainerInfo = null!;
         private NotificationManager notifi = new NotificationManager();
+
+        private async Task RefreshEchoCave()
+        {
+            try
+            {
+                if (AppGlobals.EchoCaveIndex == null)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        AppGlobals.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(AppGlobals.EchoCaveIndexUrl));
+                    }
+                }
+
+                var animation = new DoubleAnimation
+                {
+                    From = 1,
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+                button_EchoCave.BeginAnimation(OpacityProperty, null);
+                button_EchoCave.BeginAnimation(OpacityProperty, animation);
+
+                await Task.Delay(500);
+
+                button_EchoCave.Content = AppGlobals.EchoCaveIndex.Data[AppGlobals.Random.Next(0, AppGlobals.EchoCaveIndex.Data.Length - 1)];
+                animation.From = 0;animation.To = 1;
+
+                button_EchoCave.BeginAnimation(OpacityProperty, null);
+                button_EchoCave.BeginAnimation(OpacityProperty, animation);
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", null!, ex);
+            }
+        }
 
         #region Animation
         public async void StartAnimation()
@@ -107,6 +146,10 @@ namespace PvzLauncherRemake.Pages
                 //设置背景
                 if (AppGlobals.Config.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background)) 
                     image.Source = new BitmapImage(new Uri(AppGlobals.Config.LauncherConfig.Background));
+
+                await RefreshEchoCave();
+                
+                
                 logger.Info($"[启动] 完成初始化");
 
             }
@@ -121,6 +164,7 @@ namespace PvzLauncherRemake.Pages
         {
             InitializeComponent();
             Loaded += ((sender, e) => Initialize());
+            button_EchoCave.Click += (async (s, e) => await RefreshEchoCave());
         }
 
         private async void button_Launch_Click(object sender, RoutedEventArgs e)
