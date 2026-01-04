@@ -67,6 +67,41 @@ namespace PvzLauncherRemake.Class
         }
 
         /// <summary>
+        /// 将枚举类型转换为字符串
+        /// </summary>
+        /// <param name="iconName">图标字符串，一般是下载索引获取的</param>
+        /// <returns></returns>
+        public static string ParseGameIconsToString(GameIcons icon)
+        {
+            switch (icon)
+            {
+                case GameIcons.Origin: return "origin";
+                case GameIcons.GOTY: return "goty";
+                case GameIcons.Steam: return "steam";
+                case GameIcons.Test: return "test";
+                case GameIcons.Beta: return "beta";
+                case GameIcons.Ghtr: return "ghtr";
+                case GameIcons.Dream: return "dream";
+                case GameIcons.NineFive: return "ninefive";
+                case GameIcons.Hybrid: return "he";
+                case GameIcons.Fusion: return "fe";
+                case GameIcons.Tat: return "tat";
+                case GameIcons.Eagrace: return "eagrace";
+                case GameIcons.Unnamed: return "unnamed";
+                case GameIcons.Ultimate: return "ultimate";
+                case GameIcons.Random: return "random";
+
+                case GameIcons.Guidance: return "guidance";
+                case GameIcons.PvzToolkit: return "pvztoolkit";
+                case GameIcons.CheatEngine: return "ce";
+
+                case GameIcons.Unknown: return "unknown";
+
+                default: return "unknown";
+            }
+        }
+
+        /// <summary>
         /// 将图标类型转换为UserControl
         /// </summary>
         /// <param name="gameIcons"></param>

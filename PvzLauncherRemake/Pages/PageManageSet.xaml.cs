@@ -211,6 +211,28 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                //Icon
+                var comboBox = new ComboBox
+                {
+                    Margin = new Thickness(0, 0, 0, 5)
+                };
+
+                comboBox.Items.Clear();
+                foreach (var icon in Enum.GetValues(typeof(GameIcons)))
+                {
+                    var item = new Viewbox
+                    {
+                        Height = 30,
+                        Width = 30,
+                        Tag = (GameIcons)icon,
+                        Margin = new Thickness(0, 0, 10, 0),
+                        Child = GameIconConverter.ParseGameIconToUserControl((GameIcons)icon)
+                    };
+                    comboBox.Items.Add(item);
+                    if (GameInfo.GameInfo.Icon == GameIconConverter.ParseGameIconsToString((GameIcons)icon))
+                        comboBox.SelectedItem = item;
+                }
+
 
                 //Version
                 var textBox = new TextBox
@@ -228,6 +250,12 @@ namespace PvzLauncherRemake.Pages
                         {
                             new TextBlock
                             {
+                                Text="图标:",
+                                Margin=new Thickness(0,0,0,5)
+                            },
+                            comboBox,
+                            new TextBlock
+                            {
                                 Text="版本号:",
                                 Margin=new Thickness(0,0,0,5)
                             },
@@ -240,6 +268,7 @@ namespace PvzLauncherRemake.Pages
                 }, (() =>
                 {
                     GameInfo.GameInfo.Version = textBox.Text;
+                    GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Viewbox)comboBox.SelectedItem).Tag);
                     Json.WriteJson(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
                     notificationManage.Show(new NotificationContent
