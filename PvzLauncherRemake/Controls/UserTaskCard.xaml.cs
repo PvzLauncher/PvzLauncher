@@ -24,7 +24,7 @@ namespace PvzLauncherRemake.Controls
 
         public void UpdateControl()
         {
-            viewBox_Icon.Child = GameIconConverter.ParseToUserControl(Icon);
+            viewBox_Icon.Child = GameIconConverter.ParseGameIconToUserControl(Icon);
 
             textBlock_Title.Text = Title;
 

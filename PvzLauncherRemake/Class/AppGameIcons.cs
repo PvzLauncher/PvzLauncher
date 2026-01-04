@@ -35,7 +35,7 @@ namespace PvzLauncherRemake.Class
         /// </summary>
         /// <param name="iconName">图标字符串，一般是下载索引获取的</param>
         /// <returns></returns>
-        public static GameIcons ParseToGameIcons(string iconName)
+        public static GameIcons ParseStringToGameIcons(string iconName)
         {
             switch (iconName)
             {
@@ -71,7 +71,7 @@ namespace PvzLauncherRemake.Class
         /// </summary>
         /// <param name="gameIcons"></param>
         /// <returns></returns>
-        public static UserControl ParseToUserControl(GameIcons gameIcons)
+        public static UserControl ParseGameIconToUserControl(GameIcons gameIcons)
         {
             switch (gameIcons)
             {

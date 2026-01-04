@@ -53,7 +53,7 @@ namespace PvzLauncherRemake.Controls
                 textBlock_Description.Text = Description;
 
                 //图标
-                viewBox_Icon.Child = GameIconConverter.ParseToUserControl(Icon);
+                viewBox_Icon.Child = GameIconConverter.ParseGameIconToUserControl(Icon);
 
                 SetLabels();
             });

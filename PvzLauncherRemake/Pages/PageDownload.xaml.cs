@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Pages
                 var card = new UserCard
                 {
                     Title = gameInfo.Name,
-                    Icon = GameIconConverter.ParseToGameIcons(gameInfo.Icon),
+                    Icon = GameIconConverter.ParseStringToGameIcons(gameInfo.Icon),
                     Version = gameInfo.Version,
                     Size = gameInfo.Size.ToString(),
                     isNew = gameInfo.IsNew,
@@ -55,7 +55,7 @@ namespace PvzLauncherRemake.Pages
                 var card = new UserCard
                 {
                     Title = trainerInfo.Name,
-                    Icon = GameIconConverter.ParseToGameIcons(trainerInfo.Icon),
+                    Icon = GameIconConverter.ParseStringToGameIcons(trainerInfo.Icon),
                     Version = trainerInfo.Version,
                     Size = trainerInfo.Size.ToString(),
                     SupportVersion = trainerInfo.SupportVersion,

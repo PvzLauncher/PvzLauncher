@@ -85,7 +85,7 @@ namespace PvzLauncherRemake.Pages
             {
                 //卡片
                 userCard.Title = Info.Name;
-                userCard.Icon = GameIconConverter.ParseToGameIcons(Info.Icon);
+                userCard.Icon = GameIconConverter.ParseStringToGameIcons(Info.Icon);
                 userCard.Version = Info.Version;
                 userCard.isNew = Info.IsNew;
                 userCard.isRecommend = Info.IsRecommend;
