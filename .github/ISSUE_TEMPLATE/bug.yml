@@ -23,12 +23,3 @@ body:
         3. 程序崩溃
     validations:
       required: true
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: 日志
-      description: 请把程序的日志粘贴到此处到此处
-      placeholder: 1970-1-1.log
-    validations:
-      required: true
