@@ -34,7 +34,7 @@
         </StackPanel>
 
         <!--名单-->
-        <ctrl:UserScrollViewer Margin="0,150,0,0">
+        <ctrl:UserScrollViewer Margin="0,150,0,20" VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <!--开发者-->
                 <TextBlock Text="{lex:Loc List_Developer}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
@@ -75,6 +75,6 @@
         </ctrl:UserScrollViewer>
 
         <!--版权信息-->
-        <TextBlock Text="{lex:Loc Copyright}" Foreground="#FF646464" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBlock Text="{lex:Loc Copyright}" Foreground="#FF646464" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
     </Grid>
 </ui:Page>
