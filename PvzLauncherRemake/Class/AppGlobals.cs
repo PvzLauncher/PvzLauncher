@@ -24,7 +24,7 @@ namespace PvzLauncherRemake.Class
         public static JsonEchoCave.Index? EchoCaveIndex = null;//回声洞索引
 
         //字符串
-        public static readonly string Version = $"1.0.0-pre.3";//版本
+        public static readonly string Version = $"1.0.0";//版本
         public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";//服务根Url
         public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
         public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
