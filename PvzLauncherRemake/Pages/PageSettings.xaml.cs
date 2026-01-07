@@ -428,6 +428,11 @@ namespace PvzLauncherRemake.Pages
                 AppGlobals.Config.LauncherConfig.NavigationViewAlign = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveConfig();
 
+                switch (AppGlobals.Config.LauncherConfig.NavigationViewAlign)
+                {
+                    case "Left":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left;break;
+                    case "Top":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top;break;
+                }
             }
         }
 
