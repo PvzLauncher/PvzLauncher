@@ -71,6 +71,14 @@ namespace PvzLauncherRemake
                 //选择默认页
                 navView.SelectedItem = navViewItem_Launch;
 
+
+                //禁用联网
+                if (AppGlobals.Config.LauncherConfig.OfflineMode)
+                {
+                    navViewItem_Download.IsEnabled = false;
+                    navViewItem_Task.IsEnabled = false;
+                }
+
                 logger.Info($"[主窗口] 构造完毕!");
             }
             catch (Exception ex)

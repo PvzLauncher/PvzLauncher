@@ -258,4 +258,10 @@
   <data name="SaveIsolation" xml:space="preserve">
     <value>Архив Карантин</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>сеть</value>
+  </data>
+  <data name="OfflineMode" xml:space="preserve">
+    <value>Офлайн-режим:</value>
+  </data>
 </root>

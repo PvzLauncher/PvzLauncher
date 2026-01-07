@@ -31,6 +31,22 @@ namespace PvzLauncherRemake.Utils.Services
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
             logger.Info($"[更新器] 开始检测更新");
+
+            if (AppGlobals.Config.LauncherConfig.OfflineMode)
+            {
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "更新不可用",
+                    Content = $"离线模式已启用。因此联网功能被禁用，如果你的设备可以正常联网。那么你可以前往设置关闭离线模式",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                });
+                return;
+            }
+
+
+
+
             //获取主索引
             string indexString = await Client.GetStringAsync(AppGlobals.UpdateIndexUrl);
             logger.Info($"[更新器] 获取更新索引: {indexString}");

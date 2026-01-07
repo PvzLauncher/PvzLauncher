@@ -176,6 +176,9 @@ namespace PvzLauncherRemake.Pages
                     case "Top":
                         radioButton_NavViewTop.IsChecked = true; break;
                 }
+                //## 网络
+                //### 离线模式
+                checkBox_Network_OfflineMode.IsChecked = AppGlobals.Config.LauncherConfig.OfflineMode;
                 //## 更新
                 //### 更新通道
                 switch (AppGlobals.Config.LauncherConfig.UpdateChannel)
@@ -432,6 +435,20 @@ namespace PvzLauncherRemake.Pages
                 {
                     case "Left":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left;break;
                     case "Top":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top;break;
+                }
+            }
+        }
+
+        private void Launcher_OfflineMode(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                if(sender is CheckBox cb)
+                {
+                    AppGlobals.Config.LauncherConfig.OfflineMode = cb.IsChecked == true ? true : false;
+                    ConfigManager.SaveConfig();
+
+                    ShowRestartTip();
                 }
             }
         }

@@ -60,6 +60,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("echo_cave_enabled")]
             public bool EchoCaveEnabled { get; set; } = true;
 
+            [JsonProperty("offline_mode")]
+            public bool OfflineMode { get; set; } = false;
+
             [JsonProperty("update_channel")]
             public string UpdateChannel { get; set; } = "Stable";
 

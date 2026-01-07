@@ -258,4 +258,10 @@
   <data name="SaveIsolation" xml:space="preserve">
     <value>Quarantaine des archives</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>réseau</value>
+  </data>
+  <data name="OfflineMode" xml:space="preserve">
+    <value>Mode hors ligne:</value>
+  </data>
 </root>

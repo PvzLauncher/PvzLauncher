@@ -331,6 +331,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 网络 的本地化字符串。
+        /// </summary>
+        public static string Network {
+            get {
+                return ResourceManager.GetString("Network", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 游戏下载通知 的本地化字符串。
         /// </summary>
         public static string NoticeGame {
@@ -354,6 +363,15 @@ namespace PvzLauncherRemake.I18N {
         public static string Notification {
             get {
                 return ResourceManager.GetString("Notification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 离线模式: 的本地化字符串。
+        /// </summary>
+        public static string OfflineMode {
+            get {
+                return ResourceManager.GetString("OfflineMode", resourceCulture);
             }
         }
         

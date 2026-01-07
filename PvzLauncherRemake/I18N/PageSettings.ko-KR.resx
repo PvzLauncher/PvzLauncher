@@ -258,4 +258,10 @@
   <data name="SaveIsolation" xml:space="preserve">
     <value>아카이브 격리</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>회로망</value>
+  </data>
+  <data name="OfflineMode" xml:space="preserve">
+    <value>오프라인 모드:</value>
+  </data>
 </root>

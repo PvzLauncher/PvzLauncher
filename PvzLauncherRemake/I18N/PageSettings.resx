@@ -258,4 +258,10 @@
   <data name="SaveIsolation" xml:space="preserve">
     <value>存档隔离</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="OfflineMode" xml:space="preserve">
+    <value>离线模式:</value>
+  </data>
 </root>

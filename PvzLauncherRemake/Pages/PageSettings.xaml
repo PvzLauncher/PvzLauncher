@@ -8,7 +8,7 @@
       xmlns:ctrl="clr-namespace:PvzLauncherRemake.Controls"
       xmlns:icons="clr-namespace:PvzLauncherRemake.Controls.Icons"
       mc:Ignorable="d" 
-      d:DesignHeight="1000" d:DesignWidth="800"
+      d:DesignHeight="1500" d:DesignWidth="800"
       Title="PageSettings"
          
          
@@ -138,6 +138,16 @@
                             </StackPanel>
                         </StackPanel>
 
+                        <!--网络-->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="{lex:Loc Network}" FontSize="25" FontWeight="Bold"/>
+                            <!--离线模式-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc OfflineMode}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkBox_Network_OfflineMode" Content="{lex:Loc Enabled}" Click="Launcher_OfflineMode"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
                         <!--通知-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Notification}" FontSize="25" FontWeight="Bold"/>

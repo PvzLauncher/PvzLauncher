@@ -31,6 +31,9 @@ namespace PvzLauncherRemake.Pages
 
         private async Task RefreshEchoCave()
         {
+            if (AppGlobals.Config.LauncherConfig.OfflineMode)
+                return;
+
             try
             {
                 if (AppGlobals.EchoCaveIndex == null)
