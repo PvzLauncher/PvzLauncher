@@ -56,15 +56,15 @@ namespace PvzLauncherRemake.Utils.UI
             };
 
             dialog.Buttons.Add(btnEnd);
+            dialog.Buttons.Add(btnCopyAndEnd);
 
             if (!isUnHandleException)
             {
-                dialog.Buttons.Add(btnCopyAndEnd);
                 dialog.Buttons.Add(btnCopyAndReportAndEnd);
                 dialog.Buttons.Add(btnContinue);
-
-                dialog.Buttons.Add(btnClose);
             }
+
+            dialog.Buttons.Add(btnClose);
 
 
             var result = dialog.ShowDialog();
