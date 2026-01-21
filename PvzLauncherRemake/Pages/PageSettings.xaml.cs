@@ -158,7 +158,7 @@ namespace PvzLauncherRemake.Pages
                     case "custom":radioButton_Background_Custom.IsChecked = true;button_Background_Select.IsEnabled = true; break;
                 }
 
-                if (AppGlobals.Config.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background)) 
+                if (!string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background)) 
                 {
                     if (File.Exists(AppGlobals.Config.LauncherConfig.Background))
                     {
