@@ -67,6 +67,12 @@ namespace PvzLauncherRemake.Utils.Services
                     ChangeLog = await Client.GetStringAsync(UpdateIndex.Development.ChangeLog);
                     Url = UpdateIndex.Development.Url;
                     break;
+
+                case "NewUI":
+                    LatestVersion = UpdateIndex.NewUI.LatestVersion;
+                    ChangeLog = await Client.GetStringAsync(UpdateIndex.NewUI.ChangeLog);
+                    Url = UpdateIndex.NewUI.Url;
+                    break;
             }
             logger.Info($"[更新器] 最新版本: {LatestVersion}  更新文件Url: {Url}");
 
