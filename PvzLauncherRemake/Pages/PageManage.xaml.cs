@@ -173,11 +173,11 @@ namespace PvzLauncherRemake.Pages
                     return;
 
                 var selectItem = ((TabControl)sender).SelectedContent;
-                UserScrollViewer animControl = null!;
+                Grid animControl = null!;
 
-                if (selectItem is UserScrollViewer)
+                if (selectItem is Grid)
                 {
-                    animControl = (UserScrollViewer)selectItem;
+                    animControl = (Grid)selectItem;
                 }
                 else
                 {
@@ -226,7 +226,12 @@ namespace PvzLauncherRemake.Pages
                 //更新控件
                 foreach (var card in stackPanel_Game.Children)
                 {
-                    ((UserCard)card).isActive = (card == sender);
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
+                    ((UserCard)card).SetLabels();
+                }
+                foreach (var card in stackPanel_Search.Children)
+                {
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
                     ((UserCard)card).SetLabels();
                 }
 
@@ -255,7 +260,12 @@ namespace PvzLauncherRemake.Pages
                 //更新控件
                 foreach (var card in stackPanel_Trainer.Children)
                 {
-                    ((UserCard)card).isActive = (card == sender);
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
+                    ((UserCard)card).SetLabels();
+                }
+                foreach (var card in stackPanel_Search.Children)
+                {
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
                     ((UserCard)card).SetLabels();
                 }
 
@@ -518,5 +528,71 @@ namespace PvzLauncherRemake.Pages
             EndLoad();
         }
 
+
+
+
+        //搜索
+        private void button_Search_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (stackPanel_Game.Children.Count <= 0 && stackPanel_Trainer.Children.Count <= 0)
+                    return;
+
+                stackPanel_Search.Children.Clear();
+
+                var allItem = new List<UserCard>();
+                allItem.Clear();
+
+                foreach (var item in stackPanel_Game.Children)
+                    if (item is UserCard card)
+                        allItem.Add(card);
+                foreach (var item in stackPanel_Trainer.Children)
+                    if (item is UserCard card)
+                        allItem.Add(card);
+
+
+
+                //寻找
+                foreach (var item in allItem)
+                {
+                    if (item.Title.Contains(textBox_Search.Text))
+                    {
+                        var card = new UserCard
+                        {
+                            Title = item.Title,
+                            Icon = item.Icon,
+                            isActive = item.isActive,
+                            Version = item.Version,
+                            Background = item.Background,
+                            Tag = item.Tag,
+                            Margin = item.Margin
+                        };
+                        if(card.Tag is JsonGameInfo.Index)
+                        {
+                            card.MouseDoubleClick += SelectGame;
+                            card.MouseRightButtonUp += SetGame;
+                        }
+                        else if(card.Tag is JsonTrainerInfo.Index)
+                        {
+                            card.MouseDoubleClick += SelectTrainer;
+                            card.MouseRightButtonUp += SetTrainer;
+                        }
+
+                        stackPanel_Search.Children.Add(card);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show("发生错误", null!, ex);
+            }
+        }
+
+        private void textBox_Search_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                button_Search_Click(button_Search, null!);
+        }
     }
 }

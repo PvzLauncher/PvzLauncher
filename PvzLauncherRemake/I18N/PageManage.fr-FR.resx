@@ -126,4 +126,7 @@
   <data name="ImportGame" xml:space="preserve">
     <value>importer</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>recherche</value>
+  </data>
 </root>

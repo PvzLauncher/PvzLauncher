@@ -19,15 +19,32 @@
             <TabControl x:Name="tabControl" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_SelectionChanged">
                 <!--游戏管理-->
                 <TabItem Header="{lex:Loc GameManage}">
-                    <ctrl:UserScrollViewer>
-                        <StackPanel x:Name="stackPanel_Game" Background="#00000000" Margin="0,0,0,10"/>
-                    </ctrl:UserScrollViewer>
+                    <Grid>
+                        <ctrl:UserScrollViewer>
+                            <StackPanel x:Name="stackPanel_Game" Background="#00000000" Margin="0,0,0,10"/>
+                        </ctrl:UserScrollViewer>
+                    </Grid>
                 </TabItem>
                 <!--修改器管理-->
                 <TabItem Header="{lex:Loc TrainerManage}">
-                    <ctrl:UserScrollViewer>
-                        <StackPanel x:Name="stackPanel_Trainer" Background="#00000000" Margin="0,0,0,10"/>
-                    </ctrl:UserScrollViewer>
+                    <Grid>
+                        <ctrl:UserScrollViewer>
+                            <StackPanel x:Name="stackPanel_Trainer" Background="#00000000" Margin="0,0,0,10"/>
+                        </ctrl:UserScrollViewer>
+                    </Grid>
+                </TabItem>
+                <!--搜索-->
+                <TabItem Header="{lex:Loc Search}">
+                    <Grid>
+                        <Grid VerticalAlignment="Top">
+                            <TextBox x:Name="textBox_Search" Margin="0,0,110,0" KeyUp="textBox_Search_KeyUp"/>
+                            <Button x:Name="button_Search" Style="{DynamicResource AccentButtonStyle}" Content="{lex:Loc Search}" MinWidth="100" HorizontalAlignment="Right" Click="button_Search_Click"/>
+                        </Grid>
+
+                        <ctrl:UserScrollViewer Margin="0,42,0,0">
+                            <StackPanel x:Name="stackPanel_Search"/>
+                        </ctrl:UserScrollViewer>
+                    </Grid>
                 </TabItem>
             </TabControl>
 
@@ -37,12 +54,12 @@
 
         </Grid>
 
-        
+
         <!--加载屏幕-->
         <Grid x:Name="grid_Loading" Visibility="Hidden">
             <ui:ProgressRing IsActive="True" Width="50" Height="50"/>
             <TextBlock x:Name="textBlock_Loading" Text="加载中..." VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0"/>
         </Grid>
-        
+
     </Grid>
 </ui:Page>
