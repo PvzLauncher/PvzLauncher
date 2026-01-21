@@ -159,7 +159,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "在加载后初始化 PageManage 发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
         #endregion
@@ -241,7 +241,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -276,7 +276,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -289,7 +289,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "在处理选择事件时发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -509,7 +509,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -585,7 +585,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 

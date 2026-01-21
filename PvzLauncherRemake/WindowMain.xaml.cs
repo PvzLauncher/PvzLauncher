@@ -83,7 +83,7 @@ namespace PvzLauncherRemake
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", $"初始化 MainWindow 发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -228,7 +228,7 @@ namespace PvzLauncherRemake
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", $"加载 MainWindow 发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
         #endregion
@@ -252,7 +252,7 @@ namespace PvzLauncherRemake
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -274,7 +274,7 @@ namespace PvzLauncherRemake
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理导航后事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 

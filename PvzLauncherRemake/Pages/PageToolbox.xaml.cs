@@ -81,7 +81,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         PakManager.Pack(dir, pak);
                     }
-                    catch (Exception ex) { ErrorReportDialog.Show("发生错误", null!, ex); }
+                    catch (Exception ex) { ErrorReportDialog.Show(ex); }
                 });
 
                 Process.Start(new ProcessStartInfo
@@ -94,7 +94,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
             finally
             {
@@ -130,7 +130,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         PakManager.Unpack(pak, dir);
                     }
-                    catch (Exception ex) { ErrorReportDialog.Show("发生错误", null!, ex); }
+                    catch (Exception ex) { ErrorReportDialog.Show(ex); }
                 });
 
                 Process.Start(new ProcessStartInfo
@@ -142,7 +142,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
             finally
             {

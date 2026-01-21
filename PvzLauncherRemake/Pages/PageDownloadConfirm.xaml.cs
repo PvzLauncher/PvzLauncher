@@ -141,7 +141,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show($"发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
         #endregion

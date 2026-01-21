@@ -270,7 +270,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -308,7 +308,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
