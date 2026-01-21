@@ -6,21 +6,18 @@
 
 <p style="text-align: center"><i>启动 ·管理 · 下载</i></p>
 
+> 提供丰富的游戏库与高速下载功能。还可以统一管理、启动游戏
+
 </div>
 
 <img src="docs/image/MainWindow.png" alt="主界面" style="display: block; margin: 0 auto; ">
 
-## 概述
+## 💻兼容情况
 
-**Plants Vs. Zombies Launcher *(植物大战僵尸启动器, PvzL)*** 是一款第三方植物大战僵尸启动器，提供了高速的游戏下载服务。聚合式的管理游戏、启动游戏
+|操作系统|支持情况|环境要求|
+|-|-|-|
+|Windows 7/8.1/10/11 64-bit|✅完全支持|[.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
+|Windows 32-bit / ARM|❌不支持|仅有x64版本|
+|Linux / macOS / Android / IOS / Web|❌不支持|仅支持Windows|
 
-### 游戏下载
-
-<img src="docs/image/DownloadPage.png" alt="下载页" style="display: block; margin: 0 auto; ">
-<img src="docs/image/DownloadConfirmPage.png" alt="下载确认页" style="display: block; margin: 0 auto; ">
-
-启动器提供了一个**丰富的游戏库**，涵盖了： `中文原版、中文改版、英文原版、与修改器` 的下载
-
-<img src="docs/image/TaskPage.png" alt="下载页" style="display: block; margin: 0 auto; ">
-
-并且还配套了内置一个自研的 **多线程高速下载引擎** ，轻松跑满你的网络！
+植物大战僵尸原版**仅支持Windows平台** `(不包含部分跨平台改版)`，因此启动器也**只支持Windows平台**。同时，游戏库也**不会上架**非Windows平台的游戏
