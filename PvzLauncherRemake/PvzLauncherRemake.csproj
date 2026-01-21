@@ -31,11 +31,19 @@
   <ItemGroup>
     <PackageReference Include="HuaZi.Library" Version="2025.12.18.2" />
     <PackageReference Include="MdXaml" Version="1.27.0" />
-    <PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Notifications.Wpf" Version="0.1.1" />
     <PackageReference Include="SharpCompress" Version="0.42.1" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ModernWpf">
+      <HintPath>Lib\ModernWpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernWpf.Controls">
+      <HintPath>Lib\ModernWpf.Controls.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
