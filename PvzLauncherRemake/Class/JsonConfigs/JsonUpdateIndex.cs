@@ -11,6 +11,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("development")]
             public ChannelInfo Development { get; set; }
+
+            [JsonProperty("new-ui")]
+            public ChannelInfo NewUI { get; set; }
         }
 
         public class ChannelInfo
