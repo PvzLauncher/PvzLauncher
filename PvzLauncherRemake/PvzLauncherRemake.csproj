@@ -35,7 +35,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.5-beta1" />
     <PackageReference Include="Notifications.Wpf" Version="0.1.1" />
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
-    <PackageReference Include="SharpCompress" Version="0.45.0-beta.132" />
+    <PackageReference Include="SharpCompress" Version="0.42.1" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
   </ItemGroup>
 
