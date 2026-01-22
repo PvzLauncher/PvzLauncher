@@ -25,7 +25,9 @@ namespace PvzLauncherRemake.Class
         Guidance,//guidance
 
         PvzToolkit,//pvztoolkit
-        CheatEngine//ce
+        CheatEngine,//ce
+
+        Application//app
     }
 
     public class GameIconConverter
@@ -59,6 +61,8 @@ namespace PvzLauncherRemake.Class
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
 
+                case "app": return GameIcons.Application;
+
                 case "unknown": return GameIcons.Unknown;
 
 
@@ -90,10 +94,12 @@ namespace PvzLauncherRemake.Class
                 case GameIcons.Unnamed: return "unnamed";
                 case GameIcons.Ultimate: return "ultimate";
                 case GameIcons.Random: return "random";
-
                 case GameIcons.Guidance: return "guidance";
+
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
+
+                case GameIcons.Application: return "app";
 
                 case GameIcons.Unknown: return "unknown";
 
@@ -131,6 +137,8 @@ namespace PvzLauncherRemake.Class
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
+
+                case GameIcons.Application: return new IconApplicationFull();
 
                 default: return new GameIconUnknown();
             }
