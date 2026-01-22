@@ -21,6 +21,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("subtitle")]
             public string Subtitle { get; set; }
 
+            [JsonProperty("icon")]
+            public string Icon { get; set; }
+
             [JsonProperty("childrens")]
             public CardInfo[] Childrens { get; set; }
 
