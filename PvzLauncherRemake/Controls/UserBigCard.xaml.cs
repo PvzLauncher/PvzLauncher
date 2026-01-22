@@ -40,6 +40,19 @@ namespace PvzLauncherRemake.Controls
             viewbox_Icon.Child = Icon;
         }
 
+        public void FadeIn()
+        {
+            var animation = new DoubleAnimation
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            grid_Content.BeginAnimation(OpacityProperty, null);
+            grid_Content.BeginAnimation(OpacityProperty, animation);
+        }
+
         private void rect_MouseTrigger_MouseEnter(object sender, MouseEventArgs e)
         {
             var animation = new DoubleAnimation
