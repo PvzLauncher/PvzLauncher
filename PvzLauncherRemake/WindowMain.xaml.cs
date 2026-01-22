@@ -1,4 +1,5 @@
-﻿using MdXaml;
+﻿using HuaZi.Library.Json;
+using MdXaml;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using Notifications.Wpf;
@@ -10,6 +11,7 @@ using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -221,6 +223,58 @@ namespace PvzLauncherRemake
                 {
                     logger.Info($"[主窗口] 检测更新");
                     await Updater.CheckUpdate(null!, true);
+                }
+
+
+
+
+
+                //公告获取
+                JsonNoticeIndex.Index noticeIndex;
+                using (var client = new HttpClient())
+                    noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.NoticeIndexUrl));
+
+                foreach (var notice in noticeIndex.Notices)
+                {
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = notice.Title,
+                        Content = notice.Content,
+                        PrimaryButtonText = notice.PrimaryButton,
+                        SecondaryButtonText = notice.SecondaryButton,
+                        CloseButtonText = "关闭",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() =>
+                    {
+                        foreach (var action in notice.PrimaryActions)
+                        {
+                            switch (action.Type)
+                            {
+                                case "to-url":
+                                    Process.Start(new ProcessStartInfo
+                                    {
+                                        FileName = action.Url,
+                                        UseShellExecute = true
+                                    });
+                                    break;
+                            }
+                        }
+                    }), (() =>
+                    {
+                        foreach (var action in notice.PrimaryActions)
+                        {
+                            switch (action.Type)
+                            {
+                                case "to-url":
+                                    Process.Start(new ProcessStartInfo
+                                    {
+                                        FileName = action.Url,
+                                        UseShellExecute = true
+                                    });
+                                    break;
+                            }
+                        }
+                    }));
                 }
 
 
