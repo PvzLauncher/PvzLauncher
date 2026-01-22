@@ -29,7 +29,8 @@ namespace PvzLauncherRemake.Controls
         {
             InitializeComponent();
 
-            UpdateControl();
+
+            Loaded += ((s, e) => UpdateControl());
         }
 
         public void UpdateControl()
@@ -46,7 +47,7 @@ namespace PvzLauncherRemake.Controls
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromMilliseconds(500),
+                Duration = TimeSpan.FromMilliseconds(1000),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             };
             grid_Content.BeginAnimation(OpacityProperty, null);
