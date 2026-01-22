@@ -138,4 +138,7 @@
   <data name="Toolbox" xml:space="preserve">
     <value>Werkzeugkasten</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>Hilfecenter</value>
+  </data>
 </root>

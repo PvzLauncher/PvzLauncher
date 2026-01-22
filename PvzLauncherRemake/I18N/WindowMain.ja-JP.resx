@@ -138,4 +138,7 @@
   <data name="Toolbox" xml:space="preserve">
     <value>ツールボックス</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>ヘルプセンター</value>
+  </data>
 </root>

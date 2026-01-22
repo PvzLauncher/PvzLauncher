@@ -79,6 +79,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 帮助中心 的本地化字符串。
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 启动 的本地化字符串。
         /// </summary>
         public static string Launch {
