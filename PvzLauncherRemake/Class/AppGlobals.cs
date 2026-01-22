@@ -22,6 +22,7 @@ namespace PvzLauncherRemake.Class
         public static Random Random = new Random();//随机数生成器
         public static JsonDownloadIndex.Index? DownloadIndex = null;//下载索引
         public static JsonEchoCave.Index? EchoCaveIndex = null;//回声洞索引
+        public static JsonHelpIndex.Index? HelpIndex = null;//帮助中心索引
 
         //字符串
         public static readonly string Version = $"1.1.0-beta.3";//版本
@@ -30,6 +31,7 @@ namespace PvzLauncherRemake.Class
         public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
         public static readonly string EchoCaveIndexUrl = $"{ServiceRootUrl}/echo-cave/index.json";//回声洞索引
         public static readonly string NoticeIndexUrl = $"{ServiceRootUrl}/notice/index.json";//公告索引
+        public static readonly string HelpIndexUrl = $"{ServiceRootUrl}/help/index.json";//帮助中心索引
 
         //启动参数配置
         public static class Arguments
