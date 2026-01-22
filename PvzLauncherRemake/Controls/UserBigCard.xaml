@@ -23,7 +23,7 @@
 
 
             <!--箭头-->
-            <ui:PathIcon Width="25" Height="25" Data="m560-240-56-58 142-142H160v-80h486L504-662l56-58 240 240-240 240Z" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20"/>
+            <ui:PathIcon x:Name="pathIcon_Arrow" Width="25" Height="25" Data="m560-240-56-58 142-142H160v-80h486L504-662l56-58 240 240-240 240Z" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20"/>
         </Grid>
 
         <!--点击触发器-->

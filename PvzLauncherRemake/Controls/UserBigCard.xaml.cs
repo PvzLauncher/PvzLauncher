@@ -23,6 +23,7 @@ namespace PvzLauncherRemake.Controls
         public string Title { get; set; } = "Title";
         public string Subtitle { get; set; } = "Subtitle";
         public UIElement Icon { get; set; } = new GameIconUnknown();
+        public bool ShowRightArrow { get; set; } = true;
 
 
         public UserBigCard()
@@ -39,6 +40,8 @@ namespace PvzLauncherRemake.Controls
             textblock_Subtitle.Text = Subtitle;
 
             viewbox_Icon.Child = Icon;
+
+            pathIcon_Arrow.Visibility = ShowRightArrow ? Visibility.Visible : Visibility.Hidden;
         }
 
         public void FadeIn()
