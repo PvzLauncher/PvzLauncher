@@ -10,6 +10,8 @@
       Title="PageHelp">
 
     <Grid>
-        
+        <StackPanel x:Name="stackPanel" Margin="10">
+            
+        </StackPanel>
     </Grid>
 </ui:Page>

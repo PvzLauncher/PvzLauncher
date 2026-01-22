@@ -1,6 +1,7 @@
 ﻿using HuaZi.Library.Json;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.UI;
 using System;
 using System.Collections.Generic;
@@ -47,14 +48,26 @@ namespace PvzLauncherRemake.Pages
         #endregion
 
         #region ChangePage
-        public void ChangePage(JsonHelpIndex.CardInfo[] cards)
+        public async void ChangePage(JsonHelpIndex.CardInfo[] cards)
         {
             try
             {
                 stackPanel.Children.Clear();
 
+                foreach (var card in cards)
+                {
+                    var userBigCard = new UserBigCard
+                    {
+                        Title = card.Title,
+                        Subtitle = card.Subtitle,
+                        Icon = GameIconConverter.ParseGameIconToUserControl(GameIconConverter.ParseStringToGameIcons(card.Icon)),
+                    };
+                    userBigCard.MouseUp += ((s, e) => ChangePage(card.Childrens));
+                    stackPanel.Children.Add(userBigCard);
+                    userBigCard.FadeIn();
 
-
+                    await Task.Delay(100);
+                }
             }
             catch (Exception ex)
             {
