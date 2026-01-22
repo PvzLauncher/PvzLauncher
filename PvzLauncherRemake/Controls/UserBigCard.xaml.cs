@@ -22,7 +22,7 @@ namespace PvzLauncherRemake.Controls
     {
         public string Title { get; set; } = "Title";
         public string Subtitle { get; set; } = "Subtitle";
-        public UIElement Icon { get; set; } = new GameIconUnknown();
+        public UIElement? Icon { get; set; } = null;
         public bool ShowRightArrow { get; set; } = true;
 
 
