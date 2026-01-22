@@ -52,5 +52,5 @@ body:
         at PvzLauncherRemake.Pages.PageDownload.Initialize()
 
         =========================
-      validations:
-        required: false
+    validations:
+      required: false
