@@ -106,6 +106,13 @@
                                 <CheckBox x:Name="checkBox_Launcher_EchoCave" Content="{lex:Loc Enabled}" Click="Launcher_EchoCave"/>
 
                             </StackPanel>
+                            
+                            <!--公告-->
+                            <StackPanel Tag="aniSp" Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc Notice}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkBox_Launcher_Notice" Content="{lex:Loc Enabled}" Click="Launcher_Notice"/>
+
+                            </StackPanel>
 
                             <!--NavigationView位置-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">

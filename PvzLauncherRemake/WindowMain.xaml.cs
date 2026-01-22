@@ -230,51 +230,54 @@ namespace PvzLauncherRemake
 
 
                 //公告获取
-                JsonNoticeIndex.Index noticeIndex;
-                using (var client = new HttpClient())
-                    noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.NoticeIndexUrl));
-
-                foreach (var notice in noticeIndex.Notices)
+                if (AppGlobals.Config.LauncherConfig.NoticeEnabled)
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    JsonNoticeIndex.Index noticeIndex;
+                    using (var client = new HttpClient())
+                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.NoticeIndexUrl));
+
+                    foreach (var notice in noticeIndex.Notices)
                     {
-                        Title = notice.Title,
-                        Content = notice.Content,
-                        PrimaryButtonText = notice.PrimaryButton,
-                        SecondaryButtonText = notice.SecondaryButton,
-                        CloseButtonText = "关闭",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() =>
-                    {
-                        foreach (var action in notice.PrimaryActions)
+                        await DialogManager.ShowDialogAsync(new ContentDialog
                         {
-                            switch (action.Type)
-                            {
-                                case "to-url":
-                                    Process.Start(new ProcessStartInfo
-                                    {
-                                        FileName = action.Url,
-                                        UseShellExecute = true
-                                    });
-                                    break;
-                            }
-                        }
-                    }), (() =>
-                    {
-                        foreach (var action in notice.PrimaryActions)
+                            Title = notice.Title,
+                            Content = notice.Content,
+                            PrimaryButtonText = notice.PrimaryButton,
+                            SecondaryButtonText = notice.SecondaryButton,
+                            CloseButtonText = "关闭",
+                            DefaultButton = ContentDialogButton.Primary
+                        }, (() =>
                         {
-                            switch (action.Type)
+                            foreach (var action in notice.PrimaryActions)
                             {
-                                case "to-url":
-                                    Process.Start(new ProcessStartInfo
-                                    {
-                                        FileName = action.Url,
-                                        UseShellExecute = true
-                                    });
-                                    break;
+                                switch (action.Type)
+                                {
+                                    case "to-url":
+                                        Process.Start(new ProcessStartInfo
+                                        {
+                                            FileName = action.Url,
+                                            UseShellExecute = true
+                                        });
+                                        break;
+                                }
                             }
-                        }
-                    }));
+                        }), (() =>
+                        {
+                            foreach (var action in notice.SecondaryActions)
+                            {
+                                switch (action.Type)
+                                {
+                                    case "to-url":
+                                        Process.Start(new ProcessStartInfo
+                                        {
+                                            FileName = action.Url,
+                                            UseShellExecute = true
+                                        });
+                                        break;
+                                }
+                            }
+                        }));
+                    }
                 }
 
 
