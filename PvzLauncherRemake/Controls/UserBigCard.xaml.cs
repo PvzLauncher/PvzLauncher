@@ -42,6 +42,7 @@ namespace PvzLauncherRemake.Controls
             viewbox_Icon.Child = Icon;
 
             pathIcon_Arrow.Visibility = ShowRightArrow ? Visibility.Visible : Visibility.Hidden;
+            pathicon_Left.Visibility = ShowRightArrow ? Visibility.Hidden : Visibility.Visible;
         }
 
         public void FadeIn()

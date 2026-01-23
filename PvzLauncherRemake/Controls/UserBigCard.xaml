@@ -16,6 +16,7 @@
             <!--图标-->
             <Viewbox x:Name="viewbox_Icon" Width="50" Height="50" HorizontalAlignment="Left" Margin="10">
             </Viewbox>
+            <ui:PathIcon x:Name="pathicon_Left" Visibility="Hidden" Height="50" Width="50" Data="M400-240 160-480l240-240 56 58-142 142h486v80H314l142 142-56 58Z" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,10"/>
 
             <!--标题-->
             <TextBlock x:Name="textblock_Title" Text="Title" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,10,10,10" FontSize="20" FontWeight="Bold"/>
