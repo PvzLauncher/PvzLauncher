@@ -102,8 +102,6 @@ namespace PvzLauncherRemake.Pages
                     userBigCard.MouseUp += ((s, e) => ChangePage(card.Childrens,card.Content));
                     stackPanel.Children.Add(userBigCard);
                     userBigCard.FadeIn();
-
-                    await Task.Delay(100);
                 }
 
                 if (contents != null)
