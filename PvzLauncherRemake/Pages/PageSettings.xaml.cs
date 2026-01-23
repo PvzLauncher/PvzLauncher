@@ -154,11 +154,11 @@ namespace PvzLauncherRemake.Pages
                 radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
                 switch (AppGlobals.Config.LauncherConfig.BackgroundMode)
                 {
-                    case "default":radioButton_Background_Default.IsChecked = true;button_Background_Select.IsEnabled = false; break;
-                    case "custom":radioButton_Background_Custom.IsChecked = true;button_Background_Select.IsEnabled = true; break;
+                    case "default": radioButton_Background_Default.IsChecked = true; button_Background_Select.IsEnabled = false; break;
+                    case "custom": radioButton_Background_Custom.IsChecked = true; button_Background_Select.IsEnabled = true; break;
                 }
 
-                if (!string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background)) 
+                if (!string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background))
                 {
                     if (File.Exists(AppGlobals.Config.LauncherConfig.Background))
                     {
@@ -416,7 +416,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Launcher_EchoCave(object sender,RoutedEventArgs e)
+        private void Launcher_EchoCave(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -428,7 +428,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Launcher_Notice(object sender,RoutedEventArgs e)
+        private void Launcher_Notice(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -449,8 +449,8 @@ namespace PvzLauncherRemake.Pages
 
                 switch (AppGlobals.Config.LauncherConfig.NavigationViewAlign)
                 {
-                    case "Left":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left;break;
-                    case "Top":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top;break;
+                    case "Left": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left; break;
+                    case "Top": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
                 }
             }
         }
@@ -459,7 +459,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                if(sender is CheckBox cb)
+                if (sender is CheckBox cb)
                 {
                     AppGlobals.Config.LauncherConfig.OfflineMode = cb.IsChecked == true ? true : false;
                     ConfigManager.SaveConfig();

@@ -145,7 +145,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     animControl = (Grid)selectItem;
                 }
-                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid ) 
+                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid)
                 {
                     animControl = (Grid)tabcontrol.SelectedContent;
                 }

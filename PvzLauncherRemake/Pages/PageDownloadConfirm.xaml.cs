@@ -100,7 +100,7 @@ namespace PvzLauncherRemake.Pages
                 textBlock_Information.Inlines.Add(new Bold(new Run($"{GetLoc("I18N.PageDownloadConfirm", "Author")}: ")));
                 for (int i = 0; i < Info.Author.Length; i++)
                 {
-                    textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length-1 ? " , " : null)}"));
+                    textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
                 }
 
                 stackPanel_Screenshot.Children.Clear();

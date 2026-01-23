@@ -69,7 +69,7 @@ namespace PvzLauncherRemake.Pages
                 button_EchoCave.Content = echoCaveTemp[AppGlobals.Random.Next(0, echoCaveTemp.Count - 1)];
                 echoCaveTemp.Remove((string)button_EchoCave.Content);
 
-                animation.From = 0;animation.To = 1;
+                animation.From = 0; animation.To = 1;
 
                 button_EchoCave.BeginAnimation(OpacityProperty, null);
                 button_EchoCave.BeginAnimation(OpacityProperty, animation);
@@ -161,7 +161,7 @@ namespace PvzLauncherRemake.Pages
                 StartAnimation();
 
                 //设置背景
-                if (AppGlobals.Config.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background)) 
+                if (AppGlobals.Config.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background))
                     image.Source = new BitmapImage(new Uri(AppGlobals.Config.LauncherConfig.Background));
 
                 //回声洞
@@ -174,8 +174,8 @@ namespace PvzLauncherRemake.Pages
                 {
                     button_EchoCave.Visibility = Visibility.Hidden;
                 }
-                
-                
+
+
                 logger.Info($"[启动] 完成初始化");
 
             }

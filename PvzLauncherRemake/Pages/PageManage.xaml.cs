@@ -568,12 +568,12 @@ namespace PvzLauncherRemake.Pages
                             Tag = item.Tag,
                             Margin = item.Margin
                         };
-                        if(card.Tag is JsonGameInfo.Index)
+                        if (card.Tag is JsonGameInfo.Index)
                         {
                             card.MouseDoubleClick += SelectGame;
                             card.MouseRightButtonUp += SetGame;
                         }
-                        else if(card.Tag is JsonTrainerInfo.Index)
+                        else if (card.Tag is JsonTrainerInfo.Index)
                         {
                             card.MouseDoubleClick += SelectTrainer;
                             card.MouseRightButtonUp += SetTrainer;

@@ -264,7 +264,7 @@ namespace PvzLauncherRemake.Utils.Services
 
 
 
-                return;              
+                return;
 
 
             }
@@ -509,7 +509,7 @@ namespace PvzLauncherRemake.Utils.Services
         #endregion
 
         #region 注册表控制
-        
+
         /// <summary>
         /// 设置游戏屏幕模式
         /// </summary>
