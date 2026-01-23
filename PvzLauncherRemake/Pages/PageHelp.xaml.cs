@@ -27,6 +27,10 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageHelp : ModernWpf.Controls.Page
     {
+        private List<JsonHelpIndex.CardInfo[]> _historyCards = new List<JsonHelpIndex.CardInfo[]>();
+        private List<JsonHelpIndex.ContentInfo[]?> _historyContents = new List<JsonHelpIndex.ContentInfo[]?>();
+
+
         #region Init
         public async void Initialize()
         {
@@ -50,11 +54,41 @@ namespace PvzLauncherRemake.Pages
         #endregion
 
         #region ChangePage
-        public async void ChangePage(JsonHelpIndex.CardInfo[] cards, JsonHelpIndex.ContentInfo[]? contents)
+        public async void ChangePage(JsonHelpIndex.CardInfo[] cards, JsonHelpIndex.ContentInfo[]? contents, bool isBack = false)
         {
             try
             {
+                if (!isBack)
+                {
+                    _historyCards.Add(cards);
+                    _historyContents.Add(contents);
+                }
+
+
                 stackPanel.Children.Clear();
+
+                if (_historyCards.Count > 1 && _historyContents.Count > 1) 
+                {
+                    var backCard = new UserBigCard
+                    {
+                        Title = "返回",
+                        Subtitle = "返回上一层级",
+                        ShowRightArrow = false
+                    };
+                    backCard.MouseUp += ((s, e) =>
+                    {
+                        _historyCards.RemoveAt(_historyCards.Count - 1);
+                        _historyContents.RemoveAt(_historyContents.Count - 1);
+
+                        ChangePage(_historyCards[^1], _historyContents[^1], true);
+                    });
+                    stackPanel.Children.Add(backCard);
+                }
+
+
+                
+
+
 
                 foreach (var card in cards)
                 {
