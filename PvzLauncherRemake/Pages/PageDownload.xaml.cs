@@ -190,7 +190,7 @@ namespace PvzLauncherRemake.Pages
                 AppGlobals.GameDirectory;
 
 
-            this.NavigationService.Navigate(new PageDownloadConfirm
+            this.NavigationService?.Navigate(new PageDownloadConfirm
             {
                 Info = info,
                 BaseDirectory = baseDirectory,
