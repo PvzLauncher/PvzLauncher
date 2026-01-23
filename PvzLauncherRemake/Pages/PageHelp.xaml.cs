@@ -43,7 +43,7 @@ namespace PvzLauncherRemake.Pages
                         AppGlobals.HelpIndex = Json.ReadJson<JsonHelpIndex.Index>(await client.GetStringAsync(AppGlobals.HelpIndexUrl));
                 }
 
-
+                //切换至主页
                 ChangePage(AppGlobals.HelpIndex.Root, null);
             }
             catch (Exception ex)
@@ -67,7 +67,8 @@ namespace PvzLauncherRemake.Pages
 
                 stackPanel.Children.Clear();
 
-                if (_historyCards.Count > 1 && _historyContents.Count > 1) 
+                //创建返回Card
+                if (_historyCards.Count > 1 && _historyContents.Count > 1)
                 {
                     var backCard = new UserBigCard
                     {
@@ -86,10 +87,10 @@ namespace PvzLauncherRemake.Pages
                 }
 
 
-                
 
 
 
+                //添加Card
                 foreach (var card in cards)
                 {
                     var userBigCard = new UserBigCard
@@ -99,11 +100,12 @@ namespace PvzLauncherRemake.Pages
                         Icon = GameIconConverter.ParseGameIconToUserControl(GameIconConverter.ParseStringToGameIcons(card.Icon)),
                         Margin = new Thickness(0, 0, 0, 10)
                     };
-                    userBigCard.MouseUp += ((s, e) => ChangePage(card.Childrens,card.Content));
+                    userBigCard.MouseUp += ((s, e) => ChangePage(card.Childrens, card.Content));
                     stackPanel.Children.Add(userBigCard);
                     userBigCard.FadeIn();
                 }
 
+                //添加Content
                 if (contents != null)
                 {
                     var animationFadeIn = new DoubleAnimation
@@ -117,6 +119,7 @@ namespace PvzLauncherRemake.Pages
 
                     foreach (var content in contents)
                     {
+                        //文本
                         if (content.Type == "text")
                         {
                             var textBlock = new TextBlock
@@ -129,12 +132,13 @@ namespace PvzLauncherRemake.Pages
                             textBlock.BeginAnimation(OpacityProperty, null);
                             textBlock.BeginAnimation(OpacityProperty, animationFadeIn);
                         }
-                        else if (content.Type == "image") 
+                        //图像
+                        else if (content.Type == "image")
                         {
-                            using(var client=new HttpClient())
+                            using (var client = new HttpClient())
                             {
                                 byte[] imageBytes = await client.GetByteArrayAsync(content.Content);
-                                using(var memoryStream=new MemoryStream(imageBytes))
+                                using (var memoryStream = new MemoryStream(imageBytes))
                                 {
                                     var bitmap = new BitmapImage();
                                     bitmap.BeginInit();
