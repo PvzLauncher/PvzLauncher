@@ -147,4 +147,7 @@
   <data name="ShowEula" xml:space="preserve">
     <value>最終用戶許可協議</value>
   </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>幫助中心</value>
+  </data>
 </root>

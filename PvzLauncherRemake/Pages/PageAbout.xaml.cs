@@ -51,6 +51,14 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
+        public void GoToHelpCenter(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                this.NavigationService.Navigate(new PageHelp());
+            }
+        }
+
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _eggCount++;
