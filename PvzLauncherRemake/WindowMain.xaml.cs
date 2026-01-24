@@ -191,7 +191,7 @@ namespace PvzLauncherRemake
                 //EULA检测
                 if (!AppGlobals.Config.LauncherConfig.Eula)
                 {
-                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "texts", "eula.md");
+                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "Documents", "EULA.md");
                     string eulaText = $"无法加载{eulaPath}";
                     eulaText = await File.ReadAllTextAsync(eulaPath);
 
