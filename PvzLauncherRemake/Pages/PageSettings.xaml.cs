@@ -189,8 +189,6 @@ namespace PvzLauncherRemake.Pages
                         comboBox_UpdateChannel.SelectedIndex = 0; break;
                     case "Development":
                         comboBox_UpdateChannel.SelectedIndex = 1; break;
-                    case "NewUI":
-                        comboBox_UpdateChannel.SelectedIndex = 2; break;
                 }
                 //### 启动时检查更新
                 checkBox_StartUpCheckUpdate.IsChecked = AppGlobals.Config.LauncherConfig.StartUpCheckUpdate;
