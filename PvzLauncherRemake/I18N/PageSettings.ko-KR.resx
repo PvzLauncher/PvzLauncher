@@ -264,4 +264,7 @@
   <data name="OfflineMode" xml:space="preserve">
     <value>오프라인 모드:</value>
   </data>
+  <data name="Notice" xml:space="preserve">
+    <value>발표:</value>
+  </data>
 </root>

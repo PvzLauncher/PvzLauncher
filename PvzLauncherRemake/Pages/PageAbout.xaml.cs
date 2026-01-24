@@ -51,6 +51,14 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
+        public void GoToHelpCenter(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                this.NavigationService.Navigate(new PageHelp());
+            }
+        }
+
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _eggCount++;
@@ -129,7 +137,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
     }

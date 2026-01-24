@@ -2,7 +2,6 @@
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils.UI;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;

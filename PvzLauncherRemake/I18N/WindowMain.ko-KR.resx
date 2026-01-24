@@ -138,4 +138,7 @@
   <data name="Toolbox" xml:space="preserve">
     <value>도구 상자</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>도움말 센터</value>
+  </data>
 </root>

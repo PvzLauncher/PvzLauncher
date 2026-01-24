@@ -127,4 +127,7 @@
   <data name="ShowEula" xml:space="preserve">
     <value>End User License Agreement</value>
   </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>Help Center</value>
+  </data>
 </root>

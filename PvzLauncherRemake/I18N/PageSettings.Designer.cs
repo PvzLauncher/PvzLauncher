@@ -340,6 +340,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 公告: 的本地化字符串。
+        /// </summary>
+        public static string Notice {
+            get {
+                return ResourceManager.GetString("Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 游戏下载通知 的本地化字符串。
         /// </summary>
         public static string NoticeGame {

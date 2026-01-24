@@ -147,4 +147,7 @@
   <data name="ShowEula" xml:space="preserve">
     <value>лицензионное соглашение с конечным пользователем</value>
   </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>Справочный центр</value>
+  </data>
 </root>

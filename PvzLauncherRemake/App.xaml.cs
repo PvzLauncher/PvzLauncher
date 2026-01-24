@@ -2,7 +2,7 @@
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
-using System.Buffers;
+using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -21,7 +21,7 @@ namespace PvzLauncherRemake
             //绑定事件
             Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
-            TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler ;
+            TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
 
 
 
@@ -132,7 +132,7 @@ namespace PvzLauncherRemake
 
         private void ProcessUnhandledException(Exception ex)
         {
-            MessageBox.Show($"发生了未捕获的错误\n\n\n{ex}\n\n\n程序即将退出...", "PvzLauncher", MessageBoxButton.OK, MessageBoxImage.Error);
+            ErrorReportDialog.Show(ex, true);
         }
 
         #endregion

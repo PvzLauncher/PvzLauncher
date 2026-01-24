@@ -1,18 +1,14 @@
 ﻿using HuaZi.Library.Json;
-using Microsoft.Win32;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Configuration;
-using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -159,7 +155,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "在加载后初始化 PageManage 发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
         #endregion
@@ -241,7 +237,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -276,7 +272,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -289,7 +285,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "在处理选择事件时发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -509,7 +505,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -568,12 +564,12 @@ namespace PvzLauncherRemake.Pages
                             Tag = item.Tag,
                             Margin = item.Margin
                         };
-                        if(card.Tag is JsonGameInfo.Index)
+                        if (card.Tag is JsonGameInfo.Index)
                         {
                             card.MouseDoubleClick += SelectGame;
                             card.MouseRightButtonUp += SetGame;
                         }
-                        else if(card.Tag is JsonTrainerInfo.Index)
+                        else if (card.Tag is JsonTrainerInfo.Index)
                         {
                             card.MouseDoubleClick += SelectTrainer;
                             card.MouseRightButtonUp += SetTrainer;
@@ -585,7 +581,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 

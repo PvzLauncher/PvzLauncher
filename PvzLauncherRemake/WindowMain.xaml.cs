@@ -1,4 +1,5 @@
-﻿using MdXaml;
+﻿using HuaZi.Library.Json;
+using MdXaml;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using Notifications.Wpf;
@@ -10,9 +11,9 @@ using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using static PvzLauncherRemake.Class.AppLogger;
@@ -64,6 +65,7 @@ namespace PvzLauncherRemake
                 AddType(typeof(PageDownload));
                 AddType(typeof(PageToolbox));
 
+                AddType(typeof(PageHelp));
                 AddType(typeof(PageTask));
                 AddType(typeof(PageSettings));
                 AddType(typeof(PageAbout));
@@ -83,7 +85,7 @@ namespace PvzLauncherRemake
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", $"初始化 MainWindow 发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -189,7 +191,7 @@ namespace PvzLauncherRemake
                 //EULA检测
                 if (!AppGlobals.Config.LauncherConfig.Eula)
                 {
-                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "texts", "eula.md");
+                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "Documents", "EULA.md");
                     string eulaText = $"无法加载{eulaPath}";
                     eulaText = await File.ReadAllTextAsync(eulaPath);
 
@@ -224,11 +226,66 @@ namespace PvzLauncherRemake
                 }
 
 
+
+
+
+                //公告获取
+                if (AppGlobals.Config.LauncherConfig.NoticeEnabled)
+                {
+                    JsonNoticeIndex.Index noticeIndex;
+                    using (var client = new HttpClient())
+                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.NoticeIndexUrl));
+
+                    foreach (var notice in noticeIndex.Notices)
+                    {
+                        await DialogManager.ShowDialogAsync(new ContentDialog
+                        {
+                            Title = notice.Title,
+                            Content = notice.Content,
+                            PrimaryButtonText = notice.PrimaryButton,
+                            SecondaryButtonText = notice.SecondaryButton,
+                            CloseButtonText = "关闭",
+                            DefaultButton = ContentDialogButton.Primary
+                        }, (() =>
+                        {
+                            foreach (var action in notice.PrimaryActions)
+                            {
+                                switch (action.Type)
+                                {
+                                    case "to-url":
+                                        Process.Start(new ProcessStartInfo
+                                        {
+                                            FileName = action.Url,
+                                            UseShellExecute = true
+                                        });
+                                        break;
+                                }
+                            }
+                        }), (() =>
+                        {
+                            foreach (var action in notice.SecondaryActions)
+                            {
+                                switch (action.Type)
+                                {
+                                    case "to-url":
+                                        Process.Start(new ProcessStartInfo
+                                        {
+                                            FileName = action.Url,
+                                            UseShellExecute = true
+                                        });
+                                        break;
+                                }
+                            }
+                        }));
+                    }
+                }
+
+
                 logger.Info($"[主窗口] 完成初始化!");
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", $"加载 MainWindow 发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
         #endregion
@@ -252,7 +309,7 @@ namespace PvzLauncherRemake
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理选择事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
@@ -261,7 +318,7 @@ namespace PvzLauncherRemake
             try
             {
                 //判断是否显示返回箭头
-                if (frame.Content is ModernWpf.Controls.Page page && page.Tag != null && page.Tag.ToString() == "sub") 
+                if (frame.Content is ModernWpf.Controls.Page page && page.Tag != null && page.Tag.ToString() == "sub")
                 {
                     navView.IsBackButtonVisible = NavigationViewBackButtonVisible.Visible;
                     navView.IsBackEnabled = true;
@@ -274,7 +331,7 @@ namespace PvzLauncherRemake
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "处理导航后事件发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 

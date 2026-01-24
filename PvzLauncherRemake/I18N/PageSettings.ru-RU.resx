@@ -264,4 +264,7 @@
   <data name="OfflineMode" xml:space="preserve">
     <value>Офлайн-режим:</value>
   </data>
+  <data name="Notice" xml:space="preserve">
+    <value>объявление:</value>
+  </data>
 </root>

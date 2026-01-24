@@ -154,11 +154,11 @@ namespace PvzLauncherRemake.Pages
                 radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
                 switch (AppGlobals.Config.LauncherConfig.BackgroundMode)
                 {
-                    case "default":radioButton_Background_Default.IsChecked = true;button_Background_Select.IsEnabled = false; break;
-                    case "custom":radioButton_Background_Custom.IsChecked = true;button_Background_Select.IsEnabled = true; break;
+                    case "default": radioButton_Background_Default.IsChecked = true; button_Background_Select.IsEnabled = false; break;
+                    case "custom": radioButton_Background_Custom.IsChecked = true; button_Background_Select.IsEnabled = true; break;
                 }
 
-                if (!string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background)) 
+                if (!string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background))
                 {
                     if (File.Exists(AppGlobals.Config.LauncherConfig.Background))
                     {
@@ -167,6 +167,8 @@ namespace PvzLauncherRemake.Pages
                 }
                 //### 回声洞
                 checkBox_Launcher_EchoCave.IsChecked = AppGlobals.Config.LauncherConfig.EchoCaveEnabled;
+                //### 公告
+                checkBox_Launcher_Notice.IsChecked = AppGlobals.Config.LauncherConfig.NoticeEnabled;
                 //### NavigationView位置
                 radioButton_NavViewLeft.IsChecked = false; radioButton_NavViewTop.IsChecked = false;
                 switch (AppGlobals.Config.LauncherConfig.NavigationViewAlign)
@@ -242,7 +244,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
         #endregion
@@ -414,7 +416,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Launcher_EchoCave(object sender,RoutedEventArgs e)
+        private void Launcher_EchoCave(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -422,6 +424,18 @@ namespace PvzLauncherRemake.Pages
                     return;
 
                 AppGlobals.Config.LauncherConfig.EchoCaveEnabled = checkBox.IsChecked == true ? true : false;
+                ConfigManager.SaveConfig();
+            }
+        }
+
+        private void Launcher_Notice(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                if (sender is not CheckBox checkBox)
+                    return;
+
+                AppGlobals.Config.LauncherConfig.NoticeEnabled = checkBox.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }
@@ -435,8 +449,8 @@ namespace PvzLauncherRemake.Pages
 
                 switch (AppGlobals.Config.LauncherConfig.NavigationViewAlign)
                 {
-                    case "Left":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left;break;
-                    case "Top":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top;break;
+                    case "Left": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left; break;
+                    case "Top": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
                 }
             }
         }
@@ -445,7 +459,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                if(sender is CheckBox cb)
+                if (sender is CheckBox cb)
                 {
                     AppGlobals.Config.LauncherConfig.OfflineMode = cb.IsChecked == true ? true : false;
                     ConfigManager.SaveConfig();
@@ -470,7 +484,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "更新时发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
 
         }
@@ -598,7 +612,7 @@ namespace PvzLauncherRemake.Pages
                 }
                 catch (Exception ex)
                 {
-                    ErrorReportDialog.Show("发生错误", null!, ex);
+                    ErrorReportDialog.Show(ex);
                 }
 
             }
@@ -682,7 +696,7 @@ namespace PvzLauncherRemake.Pages
                         }
                         catch (Exception ex)
                         {
-                            ErrorReportDialog.Show("发生错误", "发生错误", ex);
+                            ErrorReportDialog.Show(ex);
                         }
 
                     }));

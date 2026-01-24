@@ -17,24 +17,26 @@
 
     <Grid Margin="10,10,10,10">
         <!--图标-->
-        <Viewbox Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,10,0">
+        <Viewbox Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,32,10,0">
             <icons:IconApplicationFull MouseRightButtonDown="Canvas_MouseRightButtonDown" MouseLeftButtonDown="Canvas_MouseLeftButtonDown"/>
         </Viewbox>
 
         <!--标题与版本-->
-        <TextBlock Text="Plants vs. Zombies Launcher" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Margin="0,100,0,0"/>
-        <TextBlock x:Name="textBlock_Version" Text="Version" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF646464" Margin="0,130,0,0"/>
-
+        <TextBlock Text="Plants vs. Zombies Launcher" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Margin="0,132,0,0"/>
+        <TextBlock x:Name="textBlock_Version" Text="Version" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF646464" Margin="0,162,0,0"/>
+       
         <!--快捷按钮-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" FlowDirection="RightToLeft">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
             <Button x:Name="button_ReportIssue" Content="{lex:Loc FeedBack}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new/choose" Click="GoToUrl" Margin="0,0,10,0"/>
             <Button x:Name="button_UploadVersion" Content="{lex:Loc ProvideGame}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml" Click="GoToUrl" Margin="0,0,10,0"/>
             <Button x:Name="button_i18nReport" Content="{lex:Loc i18nReport}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new?template=i18n.yml" Click="GoToUrl" Margin="0,0,10,0"/>
             <Button x:Name="button_showEULA" Content="{lex:Loc ShowEula}" Tag="https://github.com/PvzLauncher/PvzLauncher/blob/main/CODE_OF_CONDUCT.md" Click="GoToUrl" Margin="0,0,10,0"/>
+            <Button x:Name="button_HelpCenter" Content="{lex:Loc HelpCenter}" Tag="" Click="GoToHelpCenter" Margin="0,0,0,0"/>
+
         </StackPanel>
 
         <!--名单-->
-        <ctrl:UserScrollViewer Margin="0,150,0,20" VerticalScrollBarVisibility="Hidden">
+        <ctrl:UserScrollViewer Margin="0,182,0,20" VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <!--开发者-->
                 <TextBlock Text="{lex:Loc List_Developer}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>

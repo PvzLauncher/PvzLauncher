@@ -29,7 +29,7 @@ namespace PvzLauncherRemake.Class.JsonConfigs
         {
             [JsonProperty("eula")]
             public bool Eula { get; set; } = false;
-            
+
             [JsonProperty("window_size")]
             public WindowSize WindowSize { get; set; } = new WindowSize();
 
@@ -59,6 +59,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("echo_cave_enabled")]
             public bool EchoCaveEnabled { get; set; } = true;
+
+            [JsonProperty("notice_enabled")]
+            public bool NoticeEnabled { get; set; } = true;
 
             [JsonProperty("offline_mode")]
             public bool OfflineMode { get; set; } = false;

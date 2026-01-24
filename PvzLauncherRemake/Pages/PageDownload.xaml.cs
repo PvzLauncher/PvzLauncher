@@ -2,7 +2,6 @@
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Net.Http;
 using System.Windows;
@@ -11,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using static PvzLauncherRemake.Class.AppLogger;
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -124,7 +122,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", "加载后初始化 PageDownload 发生错误", ex);
+                ErrorReportDialog.Show(ex);
             }
         }
         #endregion
@@ -145,7 +143,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     animControl = (Grid)selectItem;
                 }
-                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid ) 
+                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid)
                 {
                     animControl = (Grid)tabcontrol.SelectedContent;
                 }
@@ -192,7 +190,7 @@ namespace PvzLauncherRemake.Pages
                 AppGlobals.GameDirectory;
 
 
-            this.NavigationService.Navigate(new PageDownloadConfirm
+            this.NavigationService?.Navigate(new PageDownloadConfirm
             {
                 Info = info,
                 BaseDirectory = baseDirectory,
@@ -253,7 +251,7 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show("发生错误", null!, ex);
+                ErrorReportDialog.Show(ex);
             }
         }
 
