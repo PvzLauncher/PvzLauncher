@@ -150,4 +150,7 @@
   <data name="HelpCenter" xml:space="preserve">
     <value>幫助中心</value>
   </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>檢查更新</value>
+  </data>
 </root>

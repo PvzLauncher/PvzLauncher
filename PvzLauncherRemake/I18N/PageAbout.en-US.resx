@@ -130,4 +130,7 @@
   <data name="HelpCenter" xml:space="preserve">
     <value>Help Center</value>
   </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
 </root>

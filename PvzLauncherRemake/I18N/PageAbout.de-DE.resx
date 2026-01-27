@@ -150,4 +150,7 @@
   <data name="HelpCenter" xml:space="preserve">
     <value>Hilfecenter</value>
   </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>Suchen Sie nach Updates</value>
+  </data>
 </root>
