@@ -471,14 +471,17 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                StartLoad();
+                if (sender is not Button senderBtn)
+                    return;
+
+                senderBtn.IsEnabled = false;
 
                 await Updater.CheckUpdate((p, s) =>
                 {
                     textBlock_Loading.Text = $"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)";
                 });
 
-                EndLoad();
+                senderBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {
