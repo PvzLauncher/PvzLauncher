@@ -519,9 +519,12 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
+                if (sender is not Button senderBtn)
+                    return;
+
+                senderBtn.IsEnabled = false;
                 try
                 {
-                    StartLoad();
                     textBlock_Loading.Text = "扫描临时文件夹...";
 
                     string[] allTempFiles = { };//全部临时文件
@@ -542,7 +545,7 @@ namespace PvzLauncherRemake.Pages
                             Message = "临时文件夹是空的，无需清除",
                             Type = NotificationType.Success
                         });
-                        EndLoad();
+                        senderBtn.IsEnabled = true;
                         return;
                     }
 
@@ -564,7 +567,7 @@ namespace PvzLauncherRemake.Pages
                             Message = "没有需要清理的缓存文件",
                             Type = NotificationType.Success
                         });
-                        EndLoad();
+                        senderBtn.IsEnabled = true;
                         return;
                     }
 
@@ -580,7 +583,7 @@ namespace PvzLauncherRemake.Pages
 
                     if (!isClear)
                     {
-                        EndLoad();
+                        senderBtn.IsEnabled = true;
                         return;
                     }
 
@@ -604,15 +607,12 @@ namespace PvzLauncherRemake.Pages
                         Type = NotificationType.Success
                     });
 
-
-
-                    EndLoad();
                 }
                 catch (Exception ex)
                 {
                     ErrorReportDialog.Show(ex);
                 }
-
+                senderBtn.IsEnabled = true;
             }
         }
 
