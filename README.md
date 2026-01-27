@@ -16,11 +16,11 @@
 
 |操作系统|支持情况|环境要求|
 |-|-|-|
-|Windows 10(1809+) / 11 64-bit|✅完全支持|[. NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
-|Windows 7 / 8.1 / 10(1809-) 64-bit|⚠️部分支持|[. NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
-|Windows 32-bit / ARM|❌不支持|仅有x64版本|
-|Linux|❔理论支持|可以使用Wine此类兼容层运行|
-|macOS / Android / IOS / Web|❌不支持|永远也不会支持这些平台|
+|![win10](/docs/image/Icons/windows.png) Windows 10(1809+) / ![win11](/docs/image/Icons/windows11.png) 11 64-bit|✅完全支持|[. NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
+|![win7](/docs/image/Icons/windows7.png) Windows 7 / ![win8](/docs/image/Icons/windows8.png) 8.1 / ![win10-1809](/docs/image/Icons/windows10-1809-.png) 10(1809-) 64-bit|⚠️部分支持|[. NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
+|![win32bit](/docs/image/Icons/windows7.png) Windows 32-bit / ARM|❌不支持|仅有x64版本|
+|![linux](/docs/image/Icons/linux.png) Linux|❔理论支持|可以使用Wine此类兼容层运行|
+|![macos](/docs/image/Icons/macos.png) macOS / ![android](/docs/image/Icons/android.png) Android / ![ios](/docs/image/Icons/macos.png) IOS / ![web](/docs/image/Icons/web.png) Web|❌不支持|永远也不会支持这些平台|
 
 植物大战僵尸原版**仅支持Windows平台** `(不包含部分跨平台改版)` ，因此启动器也**只支持Windows平台**。同时，游戏库也**不会上架**非Windows平台的游戏
 
