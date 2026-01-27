@@ -136,7 +136,6 @@
                                 <ComboBox x:Name="comboBox_UpdateChannel" ToolTip="选择不同的更新通道，获取不同的更新内容: Stable-更新慢但稳定 Development-更新快但不怎么稳定" SelectedIndex="0" SelectionChanged="Launcher_UpdateChannel">
                                     <ComboBoxItem Content="Stable" Tag="Stable"/>
                                     <ComboBoxItem Content="Development" Tag="Development"/>
-                                    <ComboBoxItem Content="New UI Test" Tag="NewUI"/>
                                 </ComboBox>
                             </StackPanel>
                             <!--启动时检查更新-->

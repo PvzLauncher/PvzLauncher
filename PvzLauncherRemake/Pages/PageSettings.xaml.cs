@@ -154,11 +154,11 @@ namespace PvzLauncherRemake.Pages
                 radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
                 switch (AppGlobals.Config.LauncherConfig.BackgroundMode)
                 {
-                    case "default":radioButton_Background_Default.IsChecked = true;button_Background_Select.IsEnabled = false; break;
-                    case "custom":radioButton_Background_Custom.IsChecked = true;button_Background_Select.IsEnabled = true; break;
+                    case "default": radioButton_Background_Default.IsChecked = true; button_Background_Select.IsEnabled = false; break;
+                    case "custom": radioButton_Background_Custom.IsChecked = true; button_Background_Select.IsEnabled = true; break;
                 }
 
-                if (!string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background)) 
+                if (!string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background))
                 {
                     if (File.Exists(AppGlobals.Config.LauncherConfig.Background))
                     {
@@ -189,8 +189,6 @@ namespace PvzLauncherRemake.Pages
                         comboBox_UpdateChannel.SelectedIndex = 0; break;
                     case "Development":
                         comboBox_UpdateChannel.SelectedIndex = 1; break;
-                    case "NewUI":
-                        comboBox_UpdateChannel.SelectedIndex = 2; break;
                 }
                 //### 启动时检查更新
                 checkBox_StartUpCheckUpdate.IsChecked = AppGlobals.Config.LauncherConfig.StartUpCheckUpdate;
@@ -416,7 +414,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Launcher_EchoCave(object sender,RoutedEventArgs e)
+        private void Launcher_EchoCave(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -428,7 +426,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Launcher_Notice(object sender,RoutedEventArgs e)
+        private void Launcher_Notice(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -449,8 +447,8 @@ namespace PvzLauncherRemake.Pages
 
                 switch (AppGlobals.Config.LauncherConfig.NavigationViewAlign)
                 {
-                    case "Left":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left;break;
-                    case "Top":((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top;break;
+                    case "Left": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left; break;
+                    case "Top": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
                 }
             }
         }
@@ -459,7 +457,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                if(sender is CheckBox cb)
+                if (sender is CheckBox cb)
                 {
                     AppGlobals.Config.LauncherConfig.OfflineMode = cb.IsChecked == true ? true : false;
                     ConfigManager.SaveConfig();
@@ -473,14 +471,17 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                StartLoad();
+                if (sender is not Button senderBtn)
+                    return;
+
+                senderBtn.IsEnabled = false;
 
                 await Updater.CheckUpdate((p, s) =>
                 {
                     textBlock_Loading.Text = $"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)";
                 });
 
-                EndLoad();
+                senderBtn.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -521,9 +522,12 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
+                if (sender is not Button senderBtn)
+                    return;
+
+                senderBtn.IsEnabled = false;
                 try
                 {
-                    StartLoad();
                     textBlock_Loading.Text = "扫描临时文件夹...";
 
                     string[] allTempFiles = { };//全部临时文件
@@ -544,7 +548,7 @@ namespace PvzLauncherRemake.Pages
                             Message = "临时文件夹是空的，无需清除",
                             Type = NotificationType.Success
                         });
-                        EndLoad();
+                        senderBtn.IsEnabled = true;
                         return;
                     }
 
@@ -566,7 +570,7 @@ namespace PvzLauncherRemake.Pages
                             Message = "没有需要清理的缓存文件",
                             Type = NotificationType.Success
                         });
-                        EndLoad();
+                        senderBtn.IsEnabled = true;
                         return;
                     }
 
@@ -582,7 +586,7 @@ namespace PvzLauncherRemake.Pages
 
                     if (!isClear)
                     {
-                        EndLoad();
+                        senderBtn.IsEnabled = true;
                         return;
                     }
 
@@ -606,15 +610,12 @@ namespace PvzLauncherRemake.Pages
                         Type = NotificationType.Success
                     });
 
-
-
-                    EndLoad();
                 }
                 catch (Exception ex)
                 {
                     ErrorReportDialog.Show(ex);
                 }
-
+                senderBtn.IsEnabled = true;
             }
         }
 

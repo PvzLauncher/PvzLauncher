@@ -1,8 +1,10 @@
 ﻿using ModernWpf.Controls;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
+using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -48,6 +50,14 @@ namespace PvzLauncherRemake.Pages
                     FileName = button.Tag.ToString(),
                     UseShellExecute = true
                 });
+            }
+        }
+
+        public void GoToHelpCenter(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                this.NavigationService.Navigate(new PageHelp());
             }
         }
 
@@ -130,6 +140,26 @@ namespace PvzLauncherRemake.Pages
             catch (Exception ex)
             {
                 ErrorReportDialog.Show(ex);
+            }
+        }
+
+        private async void button_Update_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                button_Update.IsEnabled = false;
+
+                await Updater.CheckUpdate();
+
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
+            finally
+            {
+                button_Update.IsEnabled = true;
             }
         }
     }

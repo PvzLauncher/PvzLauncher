@@ -61,6 +61,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 检查更新 的本地化字符串。
+        /// </summary>
+        public static string CheckUpdate {
+            get {
+                return ResourceManager.GetString("CheckUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 版权所有 ©️ 2025 HuaMouRen 保留所有权益 的本地化字符串。
         /// </summary>
         public static string Copyright {
@@ -75,6 +84,15 @@ namespace PvzLauncherRemake.I18N {
         public static string FeedBack {
             get {
                 return ResourceManager.GetString("FeedBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帮助中心 的本地化字符串。
+        /// </summary>
+        public static string HelpCenter {
+            get {
+                return ResourceManager.GetString("HelpCenter", resourceCulture);
             }
         }
         

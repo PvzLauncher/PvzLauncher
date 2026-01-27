@@ -127,4 +127,10 @@
   <data name="ShowEula" xml:space="preserve">
     <value>最终用户许可协议</value>
   </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>帮助中心</value>
+  </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
 </root>

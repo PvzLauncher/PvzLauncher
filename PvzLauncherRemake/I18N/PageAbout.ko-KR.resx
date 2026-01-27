@@ -147,4 +147,10 @@
   <data name="ShowEula" xml:space="preserve">
     <value>최종 사용자 라이센스 계약</value>
   </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>도움말 센터</value>
+  </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>업데이트 확인</value>
+  </data>
 </root>

@@ -1,9 +1,6 @@
-﻿using ModernWpf.Controls;
-using Ookii.Dialogs.Wpf;
+﻿using Ookii.Dialogs.Wpf;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils.UI

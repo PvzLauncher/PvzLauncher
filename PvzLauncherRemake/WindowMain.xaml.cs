@@ -14,7 +14,6 @@ using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using static PvzLauncherRemake.Class.AppLogger;
@@ -192,7 +191,7 @@ namespace PvzLauncherRemake
                 //EULA检测
                 if (!AppGlobals.Config.LauncherConfig.Eula)
                 {
-                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "texts", "eula.md");
+                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "Documents", "EULA.md");
                     string eulaText = $"无法加载{eulaPath}";
                     eulaText = await File.ReadAllTextAsync(eulaPath);
 
@@ -319,7 +318,7 @@ namespace PvzLauncherRemake
             try
             {
                 //判断是否显示返回箭头
-                if (frame.Content is ModernWpf.Controls.Page page && page.Tag != null && page.Tag.ToString() == "sub") 
+                if (frame.Content is ModernWpf.Controls.Page page && page.Tag != null && page.Tag.ToString() == "sub")
                 {
                     navView.IsBackButtonVisible = NavigationViewBackButtonVisible.Visible;
                     navView.IsBackEnabled = true;

@@ -1,18 +1,14 @@
 ﻿using HuaZi.Library.Json;
-using Microsoft.Win32;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Configuration;
-using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -568,12 +564,12 @@ namespace PvzLauncherRemake.Pages
                             Tag = item.Tag,
                             Margin = item.Margin
                         };
-                        if(card.Tag is JsonGameInfo.Index)
+                        if (card.Tag is JsonGameInfo.Index)
                         {
                             card.MouseDoubleClick += SelectGame;
                             card.MouseRightButtonUp += SetGame;
                         }
-                        else if(card.Tag is JsonTrainerInfo.Index)
+                        else if (card.Tag is JsonTrainerInfo.Index)
                         {
                             card.MouseDoubleClick += SelectTrainer;
                             card.MouseRightButtonUp += SetTrainer;

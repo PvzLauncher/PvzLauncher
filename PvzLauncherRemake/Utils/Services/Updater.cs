@@ -10,7 +10,6 @@ using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using static PvzLauncherRemake.Class.AppLogger;
 
@@ -68,11 +67,15 @@ namespace PvzLauncherRemake.Utils.Services
                     Url = UpdateIndex.Development.Url;
                     break;
 
-                case "NewUI":
-                    LatestVersion = UpdateIndex.NewUI.LatestVersion;
-                    ChangeLog = await Client.GetStringAsync(UpdateIndex.NewUI.ChangeLog);
-                    Url = UpdateIndex.NewUI.Url;
-                    break;
+                default:
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "更新终止",
+                        Content = $"更新通道 \"{AppGlobals.Config.LauncherConfig.UpdateChannel}\" 无效！请重新选择有效的更新通道",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    });
+                    return;
             }
             logger.Info($"[更新器] 最新版本: {LatestVersion}  更新文件Url: {Url}");
 

@@ -1,15 +1,14 @@
-﻿using ModernWpf.Controls;
-using PvzLauncherRemake.Class;
+﻿using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Documents;
 using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
@@ -100,7 +99,7 @@ namespace PvzLauncherRemake.Pages
                 textBlock_Information.Inlines.Add(new Bold(new Run($"{GetLoc("I18N.PageDownloadConfirm", "Author")}: ")));
                 for (int i = 0; i < Info.Author.Length; i++)
                 {
-                    textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length-1 ? " , " : null)}"));
+                    textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
                 }
 
                 stackPanel_Screenshot.Children.Clear();

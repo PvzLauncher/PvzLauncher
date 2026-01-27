@@ -147,4 +147,10 @@
   <data name="ShowEula" xml:space="preserve">
     <value>エンドユーザー許可契約書です</value>
   </data>
+  <data name="HelpCenter" xml:space="preserve">
+    <value>ヘルプセンター</value>
+  </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>アップデートをチェックする</value>
+  </data>
 </root>

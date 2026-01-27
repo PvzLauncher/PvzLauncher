@@ -5,13 +5,11 @@ using ModernWpf.Controls;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
-using PvzLauncherRemake.Controls.Icons;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using static PvzLauncherRemake.Class.AppLogger;
@@ -264,7 +262,7 @@ namespace PvzLauncherRemake.Utils.Services
 
 
 
-                return;              
+                return;
 
 
             }
@@ -509,7 +507,7 @@ namespace PvzLauncherRemake.Utils.Services
         #endregion
 
         #region 注册表控制
-        
+
         /// <summary>
         /// 设置游戏屏幕模式
         /// </summary>
