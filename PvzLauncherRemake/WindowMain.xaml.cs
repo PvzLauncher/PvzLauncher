@@ -238,10 +238,16 @@ namespace PvzLauncherRemake
 
                     foreach (var notice in noticeIndex.Notices)
                     {
+                        string content = "";
+                        foreach (var contentL in notice.Contents)
+                        {
+                            content = $"{content}{contentL}\n";
+                        }
+
                         await DialogManager.ShowDialogAsync(new ContentDialog
                         {
                             Title = notice.Title,
-                            Content = notice.Content,
+                            Content = content,
                             PrimaryButtonText = notice.PrimaryButton,
                             SecondaryButtonText = notice.SecondaryButton,
                             CloseButtonText = "关闭",

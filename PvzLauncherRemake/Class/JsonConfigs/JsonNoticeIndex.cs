@@ -15,8 +15,8 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("title")]
             public string Title { get; set; }
 
-            [JsonProperty("content")]
-            public string Content { get; set; }
+            [JsonProperty("contents")]
+            public string[] Contents { get; set; }
 
             [JsonProperty("primary-button")]
             public string PrimaryButton { get; set; }
