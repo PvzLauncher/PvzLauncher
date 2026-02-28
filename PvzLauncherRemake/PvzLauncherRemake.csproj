@@ -14,6 +14,7 @@
     <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
     <ExcludeAllSatelliteAssemblies>true</ExcludeAllSatelliteAssemblies>
     <Configurations>Debug;Release;CI</Configurations>
+    <Platforms>AnyCPU;x86;x64;ARM32;ARM64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

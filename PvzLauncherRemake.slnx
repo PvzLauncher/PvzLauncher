@@ -3,8 +3,28 @@
     <BuildType Name="Debug" />
     <BuildType Name="Release" />
     <BuildType Name="CI" />
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM32" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
   </Configurations>
-  <Project Path="ExecuteShell/ExecuteShell.csproj" />
-  <Project Path="PvzLauncherRemake/PvzLauncherRemake.csproj" />
-  <Project Path="UpdateService/UpdateService.csproj" />
+  <Project Path="ExecuteShell/ExecuteShell.csproj">
+    <Platform Solution="*|ARM32" Project="ARM32" />
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
+  <Project Path="PvzLauncherRemake/PvzLauncherRemake.csproj">
+    <Platform Solution="*|ARM32" Project="ARM32" />
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
+  <Project Path="UpdateService/UpdateService.csproj">
+    <Platform Solution="*|ARM32" Project="ARM32" />
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
 </Solution>
