@@ -42,6 +42,17 @@ namespace PvzLauncherRemake.Utils.Services
                 });
                 return;
             }
+            if (AppGlobals.Arguments.isLongTimeSupport)
+            {
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "更新不可用",
+                    Content = "您目前使用的是长期支持版本，不接受新版本的更新。因此更新功能被禁用。",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                });
+                return;
+            }
 
 
 

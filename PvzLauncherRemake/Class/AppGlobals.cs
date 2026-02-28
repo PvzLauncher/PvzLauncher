@@ -41,6 +41,7 @@ namespace PvzLauncherRemake.Class
 
             public static bool isCIBuild = false;//是否CI构建
             public static bool isDebugBuild = false;//是调试版构建
+            public static bool isLongTimeSupport = false;//是否LTS版本
         }
     }
 }
