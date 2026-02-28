@@ -259,6 +259,9 @@ namespace PvzLauncherRemake
                                             UseShellExecute = true
                                         });
                                         break;
+                                    case "to-page":
+                                        NavigationController.Navigate(this, action.Url!);
+                                        break;
                                 }
                             }
                         }), (() =>
@@ -273,6 +276,9 @@ namespace PvzLauncherRemake
                                             FileName = action.Url,
                                             UseShellExecute = true
                                         });
+                                        break;
+                                    case "to-page":
+                                        NavigationController.Navigate(this, action.Url!);
                                         break;
                                 }
                             }
