@@ -25,7 +25,7 @@ namespace PvzLauncherRemake.Class
         public static JsonHelpIndex.Index? HelpIndex = null;//帮助中心索引
 
         //字符串
-        public static readonly string Version = $"1.1.1";//版本
+        public static readonly string Version = $"1.2.0 - LTS";//版本
         public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";//服务根Url
         public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
         public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
@@ -41,7 +41,7 @@ namespace PvzLauncherRemake.Class
 
             public static bool isCIBuild = false;//是否CI构建
             public static bool isDebugBuild = false;//是调试版构建
-            public static bool isLongTimeSupport = false;//是否LTS版本
+            public static bool isLongTimeSupport = true;//是否LTS版本
         }
     }
 }
