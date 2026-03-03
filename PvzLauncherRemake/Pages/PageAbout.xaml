@@ -22,7 +22,7 @@
             
             <!--图标-->
             <Viewbox Height="80" Width="80" HorizontalAlignment="Left" Margin="10">
-                <icons:IconApplicationFull/>
+                <icons:IconApplicationFull MouseRightButtonUp="Canvas_MouseRightButtonDown" MouseLeftButtonUp="Canvas_MouseLeftButtonDown"/>
             </Viewbox>
 
             <!--标题与版本-->
