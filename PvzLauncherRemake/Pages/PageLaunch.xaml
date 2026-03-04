@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PvzLauncherRemake.Pages"
       xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:icons="clr-namespace:PvzLauncherRemake.Controls.Icons"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PageLaunch"
@@ -21,8 +22,8 @@
                 <BlurEffect Radius="25"/>
             </Image.Effect>
         </Image>
-        
-        
+
+
         <Grid Margin="10,10,10,10">
             <!--启动按钮-->
             <StackPanel x:Name="stackPanel_LaunchButtons" VerticalAlignment="Bottom" HorizontalAlignment="Right">
@@ -47,6 +48,32 @@
 
             <!--回声洞-->
             <Button x:Name="button_EchoCave" Opacity="0" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="{x:Null}"/>
+        </Grid>
+
+        <!--动画-->
+        <Grid x:Name="grid_Animation" IsHitTestVisible="False" Visibility="Hidden">
+            <Rectangle x:Name="rect_ani_back" Fill="#FF0064FF" Opacity="0.2"/>
+            <Ellipse x:Name="elli_ani_1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="400" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.3" Stroke="#FF0096FF" StrokeThickness="5">
+                <Ellipse.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="elli_ani_2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" Height="350" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.5" Stroke="#FF0096FF" StrokeThickness="5">
+                <Ellipse.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="elli_ani_3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Height="250" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.5" Stroke="#FF0096FF" StrokeThickness="5">
+                <Ellipse.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Grid x:Name="grid_ani_content" HorizontalAlignment="Center" VerticalAlignment="Center" Height="200" Width="200" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Grid.RenderTransform>
+                <ui:PathIcon Foreground="White" Height="100" Width="100" Data="m226-559 78 33q14-28 29-54t33-52l-56-11-84 84Zm142 83 114 113q42-16 90-49t90-75q70-70 109.5-155.5T806-800q-72-5-158 34.5T492-656q-42 42-75 90t-49 90Zm155-121.5q0-33.5 23-56.5t57-23q34 0 57 23t23 56.5q0 33.5-23 56.5t-57 23q-34 0-57-23t-23-56.5ZM565-220l84-84-11-56q-26 18-52 32.5T532-299l33 79Zm313-653q19 121-23.5 235.5T708-419l20 99q4 20-2 39t-20 33L538-80l-84-197-171-171-197-84 167-168q14-14 33.5-20t39.5-2l99 20q104-104 218-147t235-24ZM157-321q35-35 85.5-35.5T328-322q35 35 34.5 85.5T327-151q-25 25-83.5 43T82-76q14-103 32-161.5t43-83.5Zm57 56q-10 10-20 36.5T180-175q27-4 53.5-13.5T270-208q12-12 13-29t-11-29q-12-12-29-11.5T214-265Z"/>
+            </Grid>
         </Grid>
     </Grid>
 </ui:Page>
