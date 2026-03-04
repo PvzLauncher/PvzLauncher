@@ -297,8 +297,9 @@ namespace PvzLauncherRemake.Pages
                     logger.Info($"[启动] 开始启动游戏");
 
                     textBlock_LaunchText.Text = LocExtension.GetLocalizedValue<string>("StopGame");
-
-                    await StartLaunchAnimation();
+                    
+                    if (AppGlobals.Config.LauncherConfig.LaunchAnimationEnabled)
+                        await StartLaunchAnimation();
 
                     //切换存档
                     if (AppGlobals.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppGlobals.GameDirectory, AppGlobals.Config.CurrentGame, ".save")))

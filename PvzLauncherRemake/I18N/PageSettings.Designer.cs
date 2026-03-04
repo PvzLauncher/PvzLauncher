@@ -232,6 +232,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 显示启动动画: 的本地化字符串。
+        /// </summary>
+        public static string LaunchAnimation {
+            get {
+                return ResourceManager.GetString("LaunchAnimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 启动器关闭 的本地化字符串。
         /// </summary>
         public static string LaunchClose {

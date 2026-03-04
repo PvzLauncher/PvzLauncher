@@ -267,4 +267,7 @@
   <data name="Notice" xml:space="preserve">
     <value>발표:</value>
   </data>
+  <data name="LaunchAnimation" xml:space="preserve">
+    <value>시작 애니메이션 표시:</value>
+  </data>
 </root>

@@ -63,6 +63,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("notice_enabled")]
             public bool NoticeEnabled { get; set; } = true;
 
+            [JsonProperty("launch_animation_enabled")]
+            public bool LaunchAnimationEnabled { get; set; } = true;
+
             [JsonProperty("offline_mode")]
             public bool OfflineMode { get; set; } = false;
 

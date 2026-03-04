@@ -113,6 +113,13 @@
                                 <CheckBox x:Name="checkBox_Launcher_Notice" Content="{lex:Loc Enabled}" Click="Launcher_Notice"/>
 
                             </StackPanel>
+                            
+                            <!--启动动画-->
+                            <StackPanel Tag="aniSp" Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc LaunchAnimation}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkBox_Launcher_LaunchAnimaiton" Content="{lex:Loc Enabled}" Click="Launcher_LaunchAnimation"/>
+
+                            </StackPanel>
 
                             <!--NavigationView位置-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">

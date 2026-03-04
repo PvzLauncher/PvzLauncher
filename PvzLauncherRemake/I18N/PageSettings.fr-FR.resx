@@ -267,4 +267,7 @@
   <data name="Notice" xml:space="preserve">
     <value>annonce:</value>
   </data>
+  <data name="LaunchAnimation" xml:space="preserve">
+    <value>Afficher l'animation de démarrage :</value>
+  </data>
 </root>
