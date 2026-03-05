@@ -153,4 +153,7 @@
   <data name="CheckUpdate" xml:space="preserve">
     <value>Vérifier les mises à jour</value>
   </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>parrainer</value>
+  </data>
 </root>

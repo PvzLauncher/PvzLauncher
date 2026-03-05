@@ -35,7 +35,7 @@
                 <Button x:Name="button_UploadVersion" Content="{lex:Loc ProvideGame}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml" Click="GoToUrl" Margin="0,0,10,0"/>
                 <Button x:Name="button_i18nReport" Content="{lex:Loc i18nReport}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new?template=i18n.yml" Click="GoToUrl" Margin="0,0,10,0"/>
                 <Button x:Name="button_showEULA" Content="{lex:Loc ShowEula}" Tag="https://github.com/PvzLauncher/PvzLauncher/blob/main/CODE_OF_CONDUCT.md" Click="GoToUrl" Margin="0,0,10,0"/>
-                
+                <Button x:Name="button_Sponsor" Content="{lex:Loc Sponsor}" Click="button_Sponsor_Click" Margin="0,0,10,0"/>
             </StackPanel>
             
             

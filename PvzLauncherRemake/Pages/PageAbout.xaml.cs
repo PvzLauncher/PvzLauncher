@@ -1,13 +1,17 @@
 ﻿using ModernWpf.Controls;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
+using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Pages
@@ -161,6 +165,31 @@ namespace PvzLauncherRemake.Pages
             {
                 button_Update.IsEnabled = true;
             }
+        }
+
+        private async void button_Sponsor_Click(object sender, RoutedEventArgs e)
+        {
+            string qrcodePath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "Images", "sponsor_qrcode.png");
+            if (!File.Exists(qrcodePath))
+                throw new FileNotFoundException("文件不存在", qrcodePath);
+            var bitmap = new BitmapImage(new Uri(qrcodePath));
+            var dialog = new ContentDialog
+            {
+                Title = "赞助",
+                Content = new UserScrollViewer {
+                    Content= new StackPanel
+                    {
+                        Children =
+                        {
+                            new TextBlock{Text="感谢您对 PvzLauncher 的赞助，您可以在赞助备注填写您的名称。我们会将您的名称列在程序的关于页内",TextWrapping=TextWrapping.Wrap},
+                            new Image{Source=bitmap}
+                        }
+                    }
+                },
+                CloseButtonText = "关闭",
+                DefaultButton = ContentDialogButton.Close
+            };
+            await DialogManager.ShowDialogAsync(dialog);
         }
     }
 }
