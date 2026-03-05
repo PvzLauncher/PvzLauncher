@@ -89,7 +89,7 @@
 
                 <!--赞助者-->
                 <TextBlock Text="{lex:Loc SponsorList}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
-                <StackPanel x:Name="stackpanel_SponsorList" HorizontalAlignment="Center"/>
+                <StackPanel x:Name="stackpanel_SponsorList" HorizontalAlignment="Center" Margin="0,5,0,0"/>
             </StackPanel>
         </ctrl:UserScrollViewer>
 
