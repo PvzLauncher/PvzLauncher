@@ -23,7 +23,7 @@
     <Content Include="Assets\Images\sponsor_qrcode.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="Assets\Documents\EULA.md">
+    <Content Include="Assets\Documents\EULA.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
