@@ -168,6 +168,9 @@ namespace PvzLauncherRemake.Pages
             //处理同名
             string savePath = await GameManager.ResolveSameName(Info.Name, BaseDirectory);
 
+            if (string.IsNullOrEmpty(savePath))
+                return;
+
             //开始下载
             await GameManager.StartDownloadAsync(Info, savePath, IsTrainer);
         }

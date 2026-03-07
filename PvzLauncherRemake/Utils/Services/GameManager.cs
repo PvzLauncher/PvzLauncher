@@ -151,7 +151,10 @@ namespace PvzLauncherRemake.Utils.Services
 
 
                 //解决重名
-                string savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? AppGlobals.TrainerDirectory : AppGlobals.GameDirectory));
+                string? savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? AppGlobals.TrainerDirectory : AppGlobals.GameDirectory));
+
+                if (string.IsNullOrEmpty(savePath))
+                    return;
 
                 //解决多exe
                 string? exeFile = null;
@@ -465,7 +468,7 @@ namespace PvzLauncherRemake.Utils.Services
         /// <param name="name">旧名</param>
         /// <param name="baseDir">基础文件夹</param>
         /// <returns>新名</returns>
-        public static async Task<string> ResolveSameName(string name, string baseDir)
+        public static async Task<string?> ResolveSameName(string name, string baseDir)
         {
             string path = Path.Combine(baseDir, name);
             if (!Directory.Exists(path)) return path;
@@ -473,6 +476,8 @@ namespace PvzLauncherRemake.Utils.Services
             while (true)
             {
                 var textBox = new TextBox { Text = name };
+
+                bool isContinue = false;
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "发现重名",
@@ -489,8 +494,13 @@ namespace PvzLauncherRemake.Utils.Services
                         }
                     },
                     PrimaryButtonText = "确定",
+                    CloseButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary
-                });
+                }, (() => isContinue = true));
+
+                if (!isContinue)
+                    return null;
+
 
                 if (!Directory.Exists(Path.Combine(baseDir, textBox.Text)))
                     return Path.Combine(baseDir, textBox.Text);
