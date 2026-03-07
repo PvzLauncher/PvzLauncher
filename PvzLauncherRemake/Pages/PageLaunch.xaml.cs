@@ -110,12 +110,24 @@ namespace PvzLauncherRemake.Pages
         public async Task StartLaunchAnimation()
         {
             //初始化状态
-            rect_ani_back.Opacity = 0;
-            elli_ani_1.Opacity = 0; elli_ani_2.Opacity = 0;elli_ani_3.Opacity = 0;grid_ani_content.Opacity = 0;
             var elli1Trans = elli_ani_1.RenderTransform as ScaleTransform;
             var elli2Trans = elli_ani_2.RenderTransform as ScaleTransform;
             var elli3Trans = elli_ani_3.RenderTransform as ScaleTransform;
             var contentTrans = grid_ani_content.RenderTransform as ScaleTransform;
+
+            elli1Trans?.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            elli1Trans?.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            elli2Trans?.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            elli2Trans?.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            elli3Trans?.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            elli3Trans?.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            contentTrans?.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            contentTrans?.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+
+
+            rect_ani_back.Opacity = 0;
+            elli_ani_1.Opacity = 0; elli_ani_2.Opacity = 0;elli_ani_3.Opacity = 0;grid_ani_content.Opacity = 0;
+            
             elli1Trans?.ScaleX = 1.5; elli1Trans?.ScaleY = 1.5;
             elli2Trans?.ScaleX = 2; elli2Trans?.ScaleY = 2;
             elli3Trans?.ScaleX = 2.5; elli3Trans?.ScaleY = 2.5;
@@ -297,7 +309,7 @@ namespace PvzLauncherRemake.Pages
                     logger.Info($"[启动] 开始启动游戏");
 
                     textBlock_LaunchText.Text = LocExtension.GetLocalizedValue<string>("StopGame");
-                    
+
                     if (AppGlobals.Config.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
 
