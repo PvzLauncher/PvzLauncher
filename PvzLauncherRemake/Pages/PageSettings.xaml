@@ -161,19 +161,7 @@
                                 <CheckBox x:Name="checkBox_Network_OfflineMode" Content="{lex:Loc Enabled}" Click="Launcher_OfflineMode"/>
                             </StackPanel>
                         </StackPanel>
-                        
-                        <!--通知-->
-                        <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="{lex:Loc Notification}" FontSize="25" FontWeight="Bold"/>
-                            <!--下载通知-->
-                            <StackPanel Tag="aniSp" Orientation="Horizontal">
-                                <TextBlock Text="{lex:Loc DownloadNotice}" Margin="0,0,10,0" VerticalAlignment="Center"/>
 
-                                <CheckBox x:Name="checkBox_DownloadTipGame" ToolTip="在库内没有游戏时，是否提示去下载游戏" Content="{lex:Loc NoticeGame}" Tag="Game" IsChecked="False" Click="Launcher_DownloadTips"/>
-                                <CheckBox x:Name="checkBox_DownloadTipTrainer" ToolTip="在库内没有修改器时，是否提示去下载游戏" Content="{lex:Loc NoticeTrainer}" Tag="Trainer" IsChecked="False" Click="Launcher_DownloadTips"/>
-                            </StackPanel>
-                        </StackPanel>
-                        
                         <!--存储-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Storage}" FontWeight="Bold" FontSize="25"/>

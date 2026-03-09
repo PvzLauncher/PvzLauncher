@@ -129,4 +129,16 @@
   <data name="Search" xml:space="preserve">
     <value>찾다</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>다운로드로 이동</value>
+  </data>
+  <data name="GotoImport" xml:space="preserve">
+    <value>가져오기로 이동</value>
+  </data>
+  <data name="NoneGame" xml:space="preserve">
+    <value>아직 라이브러리에 게임이 없는 것 같습니다. 직접 다운로드하거나 가져올 수 있습니다.</value>
+  </data>
+  <data name="NoneTrainer" xml:space="preserve">
+    <value>아직 라이브러리에 수정자가 없는 것 같습니다. 다운로드하거나 직접 가져올 수 있습니다.</value>
+  </data>
 </root>

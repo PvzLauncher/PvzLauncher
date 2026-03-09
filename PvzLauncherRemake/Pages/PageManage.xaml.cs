@@ -88,22 +88,9 @@ namespace PvzLauncherRemake.Pages
                 {
                     logger.Warn($"[管理] 在游戏库内未发现任何游戏");
                     AppGlobals.Config.CurrentGame = null!;
-                    if (AppGlobals.Config.LauncherConfig.DownloadTip.ShowGameDownloadTip)
-                        await DialogManager.ShowDialogAsync(new ContentDialog
-                        {
-                            Title = "提示",
-                            Content = "您的游戏库内还没有游戏！快去下载页面下载或导入一个游戏吧！",
-                            PrimaryButtonText = "去下载",
-                            SecondaryButtonText = "去导入",
-                            CloseButtonText = "稍后",
-                            DefaultButton = ContentDialogButton.Primary
-                        }, (() =>
-                        {
-                            NavigationController.Navigate("Download");
-                        }), (() =>
-                        {
-                            button_ImportGame_Click(button_ImportGame, null!);
-                        }));
+
+                    grid_NoneGame.Visibility = Visibility.Visible;
+                    grid_NoneGame.IsEnabled = true;
                 }
 
                 //添加修改器
@@ -136,18 +123,9 @@ namespace PvzLauncherRemake.Pages
                 {
                     logger.Warn($"[管理] 未发现任何修改器");
                     AppGlobals.Config.CurrentTrainer = null!;
-                    if (AppGlobals.Config.LauncherConfig.DownloadTip.ShowTrainerDownloadTip)
-                        await DialogManager.ShowDialogAsync(new ContentDialog
-                        {
-                            Title = "提示",
-                            Content = "您的修改器库内还没有修改器！快去下载页面下载吧！",
-                            PrimaryButtonText = "去下载",
-                            CloseButtonText = "稍后",
-                            DefaultButton = ContentDialogButton.Primary
-                        }, (() =>
-                        {
-                            NavigationController.Navigate("Download");
-                        }));
+
+                    grid_NoneTrainer.Visibility = Visibility.Visible;
+                    grid_NoneTrainer.IsEnabled = true;
                 }
 
                 EndLoad();
@@ -590,5 +568,7 @@ namespace PvzLauncherRemake.Pages
             if (e.Key == Key.Enter)
                 button_Search_Click(button_Search, null!);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e) => NavigationController.Navigate("Download");
     }
 }

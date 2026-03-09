@@ -129,4 +129,16 @@
   <data name="Search" xml:space="preserve">
     <value>поиск</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>Перейти к загрузке</value>
+  </data>
+  <data name="GotoImport" xml:space="preserve">
+    <value>Перейти к импорту</value>
+  </data>
+  <data name="NoneGame" xml:space="preserve">
+    <value>Кажется, в вашей библиотеке пока нет игр. Вы можете скачать или импортировать их напрямую.</value>
+  </data>
+  <data name="NoneTrainer" xml:space="preserve">
+    <value>Кажется, в вашей библиотеке пока нет модификатора. Вы можете скачать его или импортировать напрямую.</value>
+  </data>
 </root>

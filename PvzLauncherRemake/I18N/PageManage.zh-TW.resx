@@ -129,4 +129,16 @@
   <data name="Search" xml:space="preserve">
     <value>搜尋</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>前往下載</value>
+  </data>
+  <data name="GotoImport" xml:space="preserve">
+    <value>前往導入</value>
+  </data>
+  <data name="NoneGame" xml:space="preserve">
+    <value>您的庫裡似乎還沒有遊戲，你可以去下載或直接導入。</value>
+  </data>
+  <data name="NoneTrainer" xml:space="preserve">
+    <value>您的庫裡似乎還沒有修改器，你可以去下載或直接匯入。</value>
+  </data>
 </root>

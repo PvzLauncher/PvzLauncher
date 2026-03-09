@@ -194,10 +194,7 @@ namespace PvzLauncherRemake.Pages
                 }
                 //### 启动时检查更新
                 checkBox_StartUpCheckUpdate.IsChecked = AppGlobals.Config.LauncherConfig.StartUpCheckUpdate;
-                //## 通知
-                //### 下载通知
-                checkBox_DownloadTipGame.IsChecked = AppGlobals.Config.LauncherConfig.DownloadTip.ShowGameDownloadTip;
-                checkBox_DownloadTipTrainer.IsChecked = AppGlobals.Config.LauncherConfig.DownloadTip.ShowTrainerDownloadTip;
+
 
                 //# 游戏设置
                 //## 游戏配置
@@ -518,16 +515,6 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppGlobals.Config.LauncherConfig.StartUpCheckUpdate = (bool)checkBox_StartUpCheckUpdate.IsChecked!;
-                ConfigManager.SaveConfig();
-            }
-        }
-
-        private void Launcher_DownloadTips(object sender, RoutedEventArgs e)
-        {
-            if (isInitialized)
-            {
-                AppGlobals.Config.LauncherConfig.DownloadTip.ShowGameDownloadTip = (bool)checkBox_DownloadTipGame.IsChecked!;
-                AppGlobals.Config.LauncherConfig.DownloadTip.ShowTrainerDownloadTip = (bool)checkBox_DownloadTipTrainer.IsChecked!;
                 ConfigManager.SaveConfig();
             }
         }

@@ -70,11 +70,47 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 前往下载 的本地化字符串。
+        /// </summary>
+        public static string GotoDownload {
+            get {
+                return ResourceManager.GetString("GotoDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 前往导入 的本地化字符串。
+        /// </summary>
+        public static string GotoImport {
+            get {
+                return ResourceManager.GetString("GotoImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 导入 的本地化字符串。
         /// </summary>
         public static string ImportGame {
             get {
                 return ResourceManager.GetString("ImportGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您的库里似乎还没有游戏，你可以去下载或直接导入。 的本地化字符串。
+        /// </summary>
+        public static string NoneGame {
+            get {
+                return ResourceManager.GetString("NoneGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您的库里似乎还没有修改器，你可以去下载或直接导入。 的本地化字符串。
+        /// </summary>
+        public static string NoneTrainer {
+            get {
+                return ResourceManager.GetString("NoneTrainer", resourceCulture);
             }
         }
         

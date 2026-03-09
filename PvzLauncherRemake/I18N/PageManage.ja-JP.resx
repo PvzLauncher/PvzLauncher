@@ -129,4 +129,16 @@
   <data name="Search" xml:space="preserve">
     <value>検索</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>ダウンロードに行く</value>
+  </data>
+  <data name="GotoImport" xml:space="preserve">
+    <value>インポートに移動</value>
+  </data>
+  <data name="NoneGame" xml:space="preserve">
+    <value>ライブラリにはまだゲームがないようです。直接ダウンロードまたはインポートできます。</value>
+  </data>
+  <data name="NoneTrainer" xml:space="preserve">
+    <value>ライブラリにはまだモディファイアがないようです。ダウンロードすることも、直接インポートすることもできます。</value>
+  </data>
 </root>

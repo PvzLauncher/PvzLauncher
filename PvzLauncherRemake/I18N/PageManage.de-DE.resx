@@ -129,4 +129,16 @@
   <data name="Search" xml:space="preserve">
     <value>suchen</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>Gehen Sie zum Download</value>
+  </data>
+  <data name="GotoImport" xml:space="preserve">
+    <value>Gehen Sie zum Importieren</value>
+  </data>
+  <data name="NoneGame" xml:space="preserve">
+    <value>Es scheint, dass Ihre Bibliothek noch keine Spiele enthält. Sie können sie direkt herunterladen oder importieren.</value>
+  </data>
+  <data name="NoneTrainer" xml:space="preserve">
+    <value>Es scheint, dass Ihre Bibliothek noch keinen Modifikator enthält. Sie können es herunterladen oder direkt importieren.</value>
+  </data>
 </root>

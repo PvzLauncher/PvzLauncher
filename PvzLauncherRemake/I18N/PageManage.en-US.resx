@@ -109,4 +109,16 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>Go to download</value>
+  </data>
+  <data name="GotoImport" xml:space="preserve">
+    <value>Go to import</value>
+  </data>
+  <data name="NoneGame" xml:space="preserve">
+    <value>It seems that there are no games in your library yet. You can download or import them directly.</value>
+  </data>
+  <data name="NoneTrainer" xml:space="preserve">
+    <value>It seems that there is no modifier in your library yet. You can download it or import it directly.</value>
+  </data>
 </root>

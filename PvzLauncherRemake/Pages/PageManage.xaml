@@ -23,6 +23,25 @@
                         <ctrl:UserScrollViewer>
                             <StackPanel x:Name="stackPanel_Game" Background="#00000000" Margin="0,0,0,10"/>
                         </ctrl:UserScrollViewer>
+                        
+                        <StackPanel x:Name="grid_NoneGame" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" IsEnabled="False">
+                            <TextBlock Text="{lex:Loc NoneGame}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Style="{DynamicResource AccentButtonStyle}" Margin="0,0,10,0" Click="Button_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:PathIcon Width="12" Height="12" Margin="0,0,5,0" Data="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/>
+                                        <TextBlock Text="{lex:Loc GotoDownload}"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource AccentButtonStyle}" Click="button_ImportGame_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:PathIcon Width="12" Height="12" Margin="0,0,5,0" Data="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z"/>
+                                        <TextBlock Text="{lex:Loc GotoImport}"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
                     </Grid>
                 </TabItem>
                 <!--修改器管理-->
@@ -31,6 +50,25 @@
                         <ctrl:UserScrollViewer>
                             <StackPanel x:Name="stackPanel_Trainer" Background="#00000000" Margin="0,0,0,10"/>
                         </ctrl:UserScrollViewer>
+
+                        <StackPanel x:Name="grid_NoneTrainer" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" IsEnabled="False">
+                            <TextBlock Text="{lex:Loc NoneTrainer}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Style="{DynamicResource AccentButtonStyle}" Margin="0,0,10,0" Click="Button_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:PathIcon Width="12" Height="12" Margin="0,0,5,0" Data="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/>
+                                        <TextBlock Text="{lex:Loc GotoDownload}"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource AccentButtonStyle}" Click="button_ImportGame_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:PathIcon Width="12" Height="12" Margin="0,0,5,0" Data="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z"/>
+                                        <TextBlock Text="{lex:Loc GotoImport}"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
                     </Grid>
                 </TabItem>
                 <!--搜索-->
