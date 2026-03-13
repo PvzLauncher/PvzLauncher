@@ -6,6 +6,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Assets\Icons\App\Icon.ico</ApplicationIcon>
+    <AssemblyName>PvzLauncher</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Icons\App\Icon.ico" />
+  </ItemGroup>
 
 </Project>
