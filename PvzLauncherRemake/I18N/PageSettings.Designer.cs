@@ -286,6 +286,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 修改器随游戏启动: 的本地化字符串。
+        /// </summary>
+        public static string LaunchWithTrainer {
+            get {
+                return ResourceManager.GetString("LaunchWithTrainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 左上角 的本地化字符串。
         /// </summary>
         public static string LeftTop {

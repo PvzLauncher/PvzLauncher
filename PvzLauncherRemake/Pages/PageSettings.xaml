@@ -36,6 +36,12 @@
                                     <ComboBoxItem Content="{lex:Loc LaunchHideAndShow}"/>
                                 </ComboBox>
                             </StackPanel>
+                            
+                            <!--启动器随游戏启动-->
+                            <StackPanel Tag="aniSp" Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc LaunchWithTrainer}" ToolTip="在启动游戏后自动启动已选修改器" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <CheckBox x:Name="checkbox_Launcher_LaunchWithTrainer" Content="{lex:Loc Enabled}" IsChecked="False" Click="Launcher_LaunchWithTrainer"/>
+                            </StackPanel>
                         </StackPanel>
 
                         <!--外观-->

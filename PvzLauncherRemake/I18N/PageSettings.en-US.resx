@@ -270,4 +270,7 @@
   <data name="LaunchAnimation" xml:space="preserve">
     <value>Show launch animation:</value>
   </data>
+  <data name="LaunchWithTrainer" xml:space="preserve">
+    <value>The modifier is launched with the game:</value>
+  </data>
 </root>

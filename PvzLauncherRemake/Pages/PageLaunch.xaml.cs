@@ -342,6 +342,16 @@ namespace PvzLauncherRemake.Pages
                         }
                     }));
 
+                    //启动修改器(如果有)
+                    if (AppGlobals.Config.LauncherConfig.LaunchWithTrainer && !string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer)) 
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = System.IO.Path.Combine(AppGlobals.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
+                            UseShellExecute = true
+                        });
+                    }
+
                     /*//启动提示
                     notifi.Show(new NotificationContent
                     {

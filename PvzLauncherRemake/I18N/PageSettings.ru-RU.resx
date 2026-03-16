@@ -270,4 +270,7 @@
   <data name="LaunchAnimation" xml:space="preserve">
     <value>Показать анимацию запуска:</value>
   </data>
+  <data name="LaunchWithTrainer" xml:space="preserve">
+    <value>Модификатор запускается вместе с игрой:</value>
+  </data>
 </root>

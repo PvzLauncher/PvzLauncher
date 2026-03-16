@@ -270,4 +270,7 @@
   <data name="LaunchAnimation" xml:space="preserve">
     <value>顯示啟動動畫:</value>
   </data>
+  <data name="LaunchWithTrainer" xml:space="preserve">
+    <value>修改器隨​​遊戲啟動:</value>
+  </data>
 </root>

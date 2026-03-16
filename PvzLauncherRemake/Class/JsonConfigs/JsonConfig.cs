@@ -36,6 +36,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("launched_operate")]
             public string LaunchedOperate { get; set; } = "None";
 
+            [JsonProperty("launch_with_trainer")]
+            public bool LaunchWithTrainer { get; set; } = false;
+
             [JsonProperty("theme")]
             public string Theme { get; set; } = "Light";
 

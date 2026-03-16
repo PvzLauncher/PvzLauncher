@@ -122,6 +122,8 @@ namespace PvzLauncherRemake.Pages
                     case "HideAndDisplay":
                         comboBox_LaunchedOperate.SelectedIndex = 2; break;
                 }
+                //### 修改器随游戏启动
+                checkbox_Launcher_LaunchWithTrainer.IsChecked = AppGlobals.Config.LauncherConfig.LaunchWithTrainer;
                 //## 外观
                 //### 主题
                 radioButton_Theme_Light.IsChecked = false;
@@ -302,6 +304,15 @@ namespace PvzLauncherRemake.Pages
                     case 2:
                         AppGlobals.Config.LauncherConfig.LaunchedOperate = "HideAndDisplay"; break;
                 }
+                ConfigManager.SaveConfig();
+            }
+        }
+
+        private void Launcher_LaunchWithTrainer(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.LauncherConfig.LaunchWithTrainer = checkbox_Launcher_LaunchWithTrainer.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }
