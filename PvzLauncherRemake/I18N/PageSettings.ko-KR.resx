@@ -271,6 +271,6 @@
     <value>시작 애니메이션 표시:</value>
   </data>
   <data name="LaunchWithTrainer" xml:space="preserve">
-    <value>수정자는 게임과 함께 시작됩니다.</value>
+    <value>수정자는 게임과 함께 시작됩니다:</value>
   </data>
 </root>

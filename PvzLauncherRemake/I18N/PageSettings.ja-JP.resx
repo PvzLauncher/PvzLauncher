@@ -271,6 +271,6 @@
     <value>起動アニメーションを表示:</value>
   </data>
   <data name="LaunchWithTrainer" xml:space="preserve">
-    <value>モディファイアはゲームとともに起動されます。</value>
+    <value>モディファイアはゲームとともに起動されます:</value>
   </data>
 </root>
