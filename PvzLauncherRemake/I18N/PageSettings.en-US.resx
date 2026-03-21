@@ -129,72 +129,6 @@
   <data name="Operate" xml:space="preserve">
     <value>Operate</value>
   </data>
-  <data name="Appearance" xml:space="preserve">
-    <value>Appearance</value>
-  </data>
-  <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="Default" xml:space="preserve">
-    <value>Default</value>
-  </data>
-  <data name="Custom" xml:space="preserve">
-    <value>Customize</value>
-  </data>
-  <data name="Select" xml:space="preserve">
-    <value>Select</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="Enabled" xml:space="preserve">
-    <value>Enabled</value>
-  </data>
-  <data name="Notification" xml:space="preserve">
-    <value>Notify</value>
-  </data>
-  <data name="Storage" xml:space="preserve">
-    <value>Storage</value>
-  </data>
-  <data name="Theme" xml:space="preserve">
-    <value>Theme:</value>
-  </data>
-  <data name="Theme_Light" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="Theme_Dark" xml:space="preserve">
-    <value>Dark</value>
-  </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language:</value>
-  </data>
-  <data name="WindowTitle" xml:space="preserve">
-    <value>Window title:</value>
-  </data>
-  <data name="TitleImage" xml:space="preserve">
-    <value>Title image:</value>
-  </data>
-  <data name="Background" xml:space="preserve">
-    <value>Background:</value>
-  </data>
-  <data name="NavViewLocation" xml:space="preserve">
-    <value>Navigation view location:</value>
-  </data>
-  <data name="NavViewLocation_Left" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="NavViewLocation_Top" xml:space="preserve">
-    <value>Top</value>
-  </data>
-  <data name="EchoCave" xml:space="preserve">
-    <value>Echo Cave:</value>
-  </data>
-  <data name="DownloadCache" xml:space="preserve">
-    <value>Download cache:</value>
-  </data>
-  <data name="DownloadCache_Clear" xml:space="preserve">
-    <value>Clean up</value>
-  </data>
   <data name="LaunchOperate" xml:space="preserve">
     <value>Operations after starting the game:</value>
   </data>
@@ -207,8 +141,59 @@
   <data name="LaunchHideAndShow" xml:space="preserve">
     <value>The launcher is hidden and will be displayed after the game is over</value>
   </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme:</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Bright</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="WindowTitle" xml:space="preserve">
+    <value>Window title:</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="TitleImage" xml:space="preserve">
+    <value>Title image:</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background:</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="NavViewLocation" xml:space="preserve">
+    <value>Navigation bar location:</value>
+  </data>
+  <data name="NavViewLocation_Left" xml:space="preserve">
+    <value>Left side</value>
+  </data>
+  <data name="NavViewLocation_Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Updates</value>
+  </data>
   <data name="CheckUpdate" xml:space="preserve">
     <value>Check for updates:</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Check</value>
   </data>
   <data name="UpdateChannel" xml:space="preserve">
     <value>Update channel:</value>
@@ -216,17 +201,29 @@
   <data name="StartUpCheck" xml:space="preserve">
     <value>Check for updates on startup:</value>
   </data>
-  <data name="Check" xml:space="preserve">
-    <value>Detection</value>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enable</value>
   </data>
-  <data name="DownloadNotice" xml:space="preserve">
-    <value>Download notification:</value>
+  <data name="Notification" xml:space="preserve">
+    <value>Notify</value>
   </data>
   <data name="NoticeGame" xml:space="preserve">
     <value>Game download notification</value>
   </data>
   <data name="NoticeTrainer" xml:space="preserve">
     <value>Modifier download notification</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="DownloadCache" xml:space="preserve">
+    <value>Download cache:</value>
+  </data>
+  <data name="DownloadCache_Clear" xml:space="preserve">
+    <value>Clean up</value>
+  </data>
+  <data name="EchoCave" xml:space="preserve">
+    <value>Echo Cave:</value>
   </data>
   <data name="GameConfig" xml:space="preserve">
     <value>Game configuration</value>
@@ -250,13 +247,13 @@
     <value>Upper left corner</value>
   </data>
   <data name="DeleteSave" xml:space="preserve">
-    <value>Delete save</value>
+    <value>Delete archive</value>
   </data>
   <data name="MoveSave" xml:space="preserve">
-    <value>Save migration</value>
+    <value>Archive migration</value>
   </data>
   <data name="SaveIsolation" xml:space="preserve">
-    <value>Save Quarantine</value>
+    <value>Archive Quarantine</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Network</value>
@@ -272,5 +269,8 @@
   </data>
   <data name="LaunchWithTrainer" xml:space="preserve">
     <value>The modifier is launched with the game:</value>
+  </data>
+  <data name="DownloadNotice" xml:space="preserve">
+    <value>Download notification:</value>
   </data>
 </root>
