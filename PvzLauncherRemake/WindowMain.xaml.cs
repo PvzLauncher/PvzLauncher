@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using Wpf.Ui;
 using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake
@@ -27,6 +28,7 @@ namespace PvzLauncherRemake
     {
         private Dictionary<string, Type> PageMap = new Dictionary<string, Type>();//Page预加载
         private NavigationTransitionInfo FrameAnimation = new DrillInNavigationTransitionInfo();//Frame切换动画
+        public ISnackbarService _snackbarService;
 
         #region Init
         public async void Initialize()
@@ -80,6 +82,9 @@ namespace PvzLauncherRemake
                     navViewItem_Download.IsEnabled = false;
                     navViewItem_Task.IsEnabled = false;
                 }
+
+                _snackbarService = new SnackbarService();
+                _snackbarService.SetSnackbarPresenter(snackbarPersenter);
 
                 logger.Info($"[主窗口] 构造完毕!");
             }

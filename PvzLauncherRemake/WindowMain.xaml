@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PvzLauncherRemake"
         xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:wpfui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" ui:WindowHelper.UseModernWindowStyle="True" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Icon="/Assets/Icons/App/Icon.ico"
         
@@ -63,5 +64,17 @@
 
             <ui:Frame x:Name="frame" NavigationUIVisibility="Hidden" Navigated="frame_Navigated"/>
         </ui:NavigationView>
+
+
+        <wpfui:SnackbarPresenter x:Name="snackbarPersenter">
+            <wpfui:SnackbarPresenter.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <wpfui:ThemesDictionary Theme="Unknown" />
+                        <wpfui:ControlsDictionary />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </wpfui:SnackbarPresenter.Resources>
+        </wpfui:SnackbarPresenter>
     </Grid>
 </Window>
