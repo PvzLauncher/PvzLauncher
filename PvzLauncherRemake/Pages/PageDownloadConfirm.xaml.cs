@@ -1,4 +1,5 @@
-﻿using PvzLauncherRemake.Class;
+﻿using ModernWpf.Controls;
+using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
@@ -130,6 +131,7 @@ namespace PvzLauncherRemake.Pages
                             };
                             image.MouseEnter += ((s, e) => ImageMouseEnter(s));
                             image.MouseLeave += ((s, e) => ImageMouseLeave(s));
+                            image.MouseUp += ImagePreview;
 
                             stackPanel_Screenshot.Children.Add(image);
 
@@ -175,6 +177,24 @@ namespace PvzLauncherRemake.Pages
 
             //开始下载
             await GameManager.StartDownloadAsync(Info, savePath, IsTrainer);
+        }
+
+        private async void ImagePreview(Object sender, RoutedEventArgs e)
+        {
+            if (sender is not Image s)
+                return;
+
+            var dialog = new ContentDialog
+            {
+                Content = new ScrollViewer
+                {
+                    Content = new Image { Source = s.Source, Stretch = Stretch.None },
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Visible
+                },
+                CloseButtonText = "关闭"
+            };
+            await DialogManager.ShowDialogAsync(dialog);
         }
     }
 }
