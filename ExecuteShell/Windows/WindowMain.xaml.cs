@@ -79,7 +79,7 @@ namespace ExecuteShell.Windows
                 icon.BeginAnimation(OpacityProperty, opacityAnimation);
                 iconTrans.BeginAnimation(ScaleTransform.ScaleXProperty, transformAnimation);
                 iconTrans.BeginAnimation(ScaleTransform.ScaleYProperty, transformAnimation);
-                
+
                 ExecuteMainProgram();
 
                 await Task.Delay(1500);

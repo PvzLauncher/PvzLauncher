@@ -5,10 +5,8 @@ using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -214,8 +212,9 @@ namespace PvzLauncherRemake.Pages
             var dialog = new ContentDialog
             {
                 Title = "赞助",
-                Content = new UserScrollViewer {
-                    Content= new StackPanel
+                Content = new UserScrollViewer
+                {
+                    Content = new StackPanel
                     {
                         Children =
                         {

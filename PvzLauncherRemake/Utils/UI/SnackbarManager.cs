@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using Wpf.Ui.Controls;
 
 namespace PvzLauncherRemake.Utils.UI
@@ -15,8 +12,8 @@ namespace PvzLauncherRemake.Utils.UI
 
 
             var appearance = ControlAppearance.Info;
-            var symbolRegular = SymbolRegular.Info24;   
-            
+            var symbolRegular = SymbolRegular.Info24;
+
             switch (snackbar.Type)
             {
                 case SnackbarType.Info:

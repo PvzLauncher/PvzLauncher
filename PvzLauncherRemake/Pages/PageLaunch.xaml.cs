@@ -124,8 +124,8 @@ namespace PvzLauncherRemake.Pages
 
 
             rect_ani_back.Opacity = 0;
-            elli_ani_1.Opacity = 0; elli_ani_2.Opacity = 0;elli_ani_3.Opacity = 0;grid_ani_content.Opacity = 0;
-            
+            elli_ani_1.Opacity = 0; elli_ani_2.Opacity = 0; elli_ani_3.Opacity = 0; grid_ani_content.Opacity = 0;
+
             elli1Trans?.ScaleX = 1.5; elli1Trans?.ScaleY = 1.5;
             elli2Trans?.ScaleX = 2; elli2Trans?.ScaleY = 2;
             elli3Trans?.ScaleX = 2.5; elli3Trans?.ScaleY = 2.5;
@@ -341,7 +341,7 @@ namespace PvzLauncherRemake.Pages
                     }));
 
                     //启动修改器(如果有)
-                    if (AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer && !string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer)) 
+                    if (AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer && !string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer))
                     {
                         Process.Start(new ProcessStartInfo
                         {

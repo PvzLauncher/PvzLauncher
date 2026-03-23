@@ -63,7 +63,7 @@ namespace PvzLauncherRemake.Pages
         {
             ((TranslateTransform)sp.RenderTransform).BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation
             {
-                From=-sp.ActualWidth,
+                From = -sp.ActualWidth,
                 To = 0,
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }

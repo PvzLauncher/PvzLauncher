@@ -8,7 +8,6 @@ using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using static PvzLauncherRemake.Class.AppLogger;

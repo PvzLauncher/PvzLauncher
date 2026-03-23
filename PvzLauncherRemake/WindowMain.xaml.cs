@@ -304,7 +304,7 @@ namespace PvzLauncherRemake
                             }));
 
 
-                        if (chkBox.IsChecked==true)
+                        if (chkBox.IsChecked == true)
                             AppGlobals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
 
                         ConfigManager.SaveConfig();
