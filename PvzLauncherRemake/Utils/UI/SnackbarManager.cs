@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using PvzLauncherRemake.Windows;
+using System.Windows;
 using Wpf.Ui.Controls;
 
 namespace PvzLauncherRemake.Utils.UI

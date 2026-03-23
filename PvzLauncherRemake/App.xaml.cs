@@ -3,6 +3,7 @@ using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;

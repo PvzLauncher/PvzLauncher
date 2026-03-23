@@ -18,7 +18,7 @@ using System.Windows.Navigation;
 using Wpf.Ui;
 using static PvzLauncherRemake.Class.AppLogger;
 
-namespace PvzLauncherRemake
+namespace PvzLauncherRemake.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
