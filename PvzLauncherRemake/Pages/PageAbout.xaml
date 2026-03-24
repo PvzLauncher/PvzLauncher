@@ -56,21 +56,20 @@
 
                 <!--项目仓库-->
                 <TextBlock Text="{lex:Loc List_Repository}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/PvzLauncher/PvzLauncher" Content="PvzLauncher/PvzLauncher" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/PvzLauncher/PvzLauncher" Content="Github" HorizontalAlignment="Center"/>
 
                 <!--UI-->
                 <TextBlock Text="UI" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/dotnet/wpf" Content="dotnet/wpf - UI框架" HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="Kinnara/ModernWpf - 主UI库"  HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/lepoco/wpfui" Content="lepoco/wpfui - 辅助UI库"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/dotnet/wpf" Content="Windows Presentation Foundation - UI框架" HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="ModernWpfUI - 主UI库"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/lepoco/wpfui" Content="WPF-UI - 辅助UI库"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/TwilightLemon/FluentScrollViewer" Content="TwilightLemon/FluentScrollViewer - ScrollViewer平滑滚动"  HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/" Content="microsoft/WebView2 - 网页渲染"  HorizontalAlignment="Center"/>
 
                 <!--程序-->
                 <TextBlock Text="{lex:Loc List_Code}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/qaiu/netdisk-fast-download" Content="qaiu/netdisk-fast-download - 网盘直链解析"  HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="JamesNK/Newtonsoft.Json - Json读写"  HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="adamhathcock/sharpcompress - 压缩包操作"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/qaiu/netdisk-fast-download" Content="Netdisk-fast-download - 网盘直链解析"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="Newtonsoft.Json - Json读写"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="SharpCompress - 压缩包操作"  HorizontalAlignment="Center"/>
 
                 <!--宝贵意见提出者-->
                 <TextBlock Text="{lex:Loc List_Feedback}" FontSize="15" FontWeight="Bold"  HorizontalAlignment="Center"/>
