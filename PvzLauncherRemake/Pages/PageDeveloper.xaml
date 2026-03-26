@@ -21,60 +21,20 @@
         <TextBlock Text="此页为开发者控制台，如果乱改这里的设置造成的程序异常，请不要去项目仓库反馈！" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,37,0,0"/>
 
         <!--内容-->
-        <TabControl Margin="0,57,0,0" Style="{StaticResource TabControlPivotStyle}">
-            <!--变量指标-->
+        <TabControl Margin="0,60,0,0" Style="{StaticResource TabControlPivotStyle}">
             <TabItem Header="变量指标">
                 <ctrl:UserScrollViewer>
+                    <TextBlock x:Name="textblock_varinfos"/>
+                </ctrl:UserScrollViewer>
+            </TabItem>
+            <TabItem Header="导航">
+                <ctrl:UserScrollViewer>
                     <StackPanel>
-                        <TextBlock x:Name="textBlock_Variables"/>
+                        <ComboBox x:Name="comboBox_navigator"/>
+                        <Button x:Name="button_navigator" Content="前往目标页"/>
                     </StackPanel>
                 </ctrl:UserScrollViewer>
             </TabItem>
-            <!--Markdown渲染测试-->
-            <TabItem Header="Markdown渲染测试">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <TextBox x:Name="textBox_markdown" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" TextChanged="textBox_markdown_TextChanged">
-                            <TextBox.BorderBrush>
-                                <LinearGradientBrush EndPoint="0,2" MappingMode="Absolute">
-                                    <LinearGradientBrush.RelativeTransform>
-                                        <ScaleTransform CenterY="0.5" ScaleY="-1"/>
-                                    </LinearGradientBrush.RelativeTransform>
-                                    <GradientStop Color="#72000000"/>
-                                    <GradientStop Color="#33000000" Offset="1"/>
-                                </LinearGradientBrush>
-                            </TextBox.BorderBrush>
-                        </TextBox>
-                        <mdxaml:MarkdownScrollViewer x:Name="markdownViewer" xml:space="preserve" MarkdownStyleName="GithubLike"/>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
-            <!--Markdown渲染测试2-->
-            <TabItem Header="Markdown渲染测试2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBox x:Name="textBox_Md2" Text="# Title" Grid.Column="0" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="textBox_Md2_TextChanged"/>
-                    <FlowDocumentScrollViewer Grid.Column="1" x:Name="flowDocumentScrollViewer_Md2"/>
-
-                </Grid>
-            </TabItem>
-            <!--对话框测试-->
-            <TabItem Header="对话框测试">
-                <StackPanel>
-                    <TextBox x:Name="textBox_Dialog_Title" Text="Title"/>
-                    <TextBox x:Name="textBox_Dialog_Content" Text="Content"/>
-                    <TextBox x:Name="textBox_Dialog_Button" Text="Button"/>
-                    <Button x:Name="button_Dialog_Show" Tag="1" Content="Show1" Click="button_Dialog_Show_Click"/>
-                    <Button x:Name="button_Dialog_Show5" Tag="5" Content="Show5" Click="button_Dialog_Show_Click"/>
-                    <Button x:Name="button_Dialog_Show10" Tag="10" Content="Show10" Click="button_Dialog_Show_Click"/>
-                    <Button x:Name="button_Dialog_Show50" Tag="50" Content="Show50" Click="button_Dialog_Show_Click"/>
-                </StackPanel>
-            </TabItem>
-
         </TabControl>
     </Grid>
 </ui:Page>
