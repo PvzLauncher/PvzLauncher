@@ -1,7 +1,7 @@
 using HuaZi.Library.Logger;
 using System.IO;
 
-namespace PvzLauncherRemake.Class
+namespace PvzLauncherRemake.Classes
 {
     public static class AppLogger
     {

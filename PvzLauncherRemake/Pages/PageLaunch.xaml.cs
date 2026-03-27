@@ -1,6 +1,6 @@
 ﻿using HuaZi.Library.Json;
-using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using WPFLocalizeExtension.Extensions;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages

@@ -1,6 +1,6 @@
 ﻿using HuaZi.Library.Json;
-using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;

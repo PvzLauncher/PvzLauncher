@@ -1,6 +1,6 @@
 ﻿using HuaZi.Library.Json;
 using ModernWpf.Controls;
-using PvzLauncherRemake.Class;
+using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {

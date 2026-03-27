@@ -1,6 +1,6 @@
 ﻿using HuaZi.Library.Json;
-using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.UI;
 using System.Net.Http;
@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {

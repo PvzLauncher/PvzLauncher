@@ -2,8 +2,8 @@
 using HuaZi.Library.Json;
 using Microsoft.Win32;
 using ModernWpf.Controls;
-using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Utils.Services
 {

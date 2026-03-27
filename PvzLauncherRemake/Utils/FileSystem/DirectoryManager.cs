@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Utils.FileSystem
 {

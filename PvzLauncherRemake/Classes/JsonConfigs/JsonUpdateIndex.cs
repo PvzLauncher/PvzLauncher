@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace PvzLauncherRemake.Class.JsonConfigs
+namespace PvzLauncherRemake.Classes.JsonConfigs
 {
     public class JsonUpdateIndex
     {

@@ -1,5 +1,5 @@
 ﻿using ModernWpf.Controls;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Utils.UI
 {

@@ -1,7 +1,7 @@
 ﻿using Ookii.Dialogs.Wpf;
 using System.Diagnostics;
 using System.Windows;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Utils.UI
 {

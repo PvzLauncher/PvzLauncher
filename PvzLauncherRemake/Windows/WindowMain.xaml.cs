@@ -2,8 +2,8 @@
 using MdXaml;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
-using PvzLauncherRemake.Class;
-using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
@@ -16,7 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Wpf.Ui;
-using static PvzLauncherRemake.Class.AppLogger;
+using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Windows
 {

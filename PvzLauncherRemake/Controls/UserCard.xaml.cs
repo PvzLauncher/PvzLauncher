@@ -1,4 +1,4 @@
-﻿using PvzLauncherRemake.Class;
+﻿using PvzLauncherRemake.Classes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

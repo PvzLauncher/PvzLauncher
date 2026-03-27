@@ -1,8 +1,8 @@
-using PvzLauncherRemake.Class.JsonConfigs;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using System.IO;
 using System.Reflection;
 
-namespace PvzLauncherRemake.Class
+namespace PvzLauncherRemake.Classes
 {
     //全局类
     public static class AppGlobals

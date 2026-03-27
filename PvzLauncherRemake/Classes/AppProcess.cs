@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace PvzLauncherRemake.Class
+namespace PvzLauncherRemake.Classes
 {
     public static class AppProcess
     {
