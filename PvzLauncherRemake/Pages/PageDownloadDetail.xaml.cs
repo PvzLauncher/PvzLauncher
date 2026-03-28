@@ -88,8 +88,12 @@ namespace PvzLauncherRemake.Pages
                 userCard.Title = Info.Name;
                 userCard.Icon = GameIconConverter.ParseStringToGameIcons(Info.Icon);
                 userCard.Version = Info.Version;
+                userCard.Size = $"{Info.Size}";
                 userCard.isNew = Info.IsNew;
                 userCard.isRecommend = Info.IsRecommend;
+
+                if (Info is JsonDownloadIndex.TrainerInfo ti)
+                    userCard.SupportVersion = ti.SupportVersion;
 
 
                 //简介
