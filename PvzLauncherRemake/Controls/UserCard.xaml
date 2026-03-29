@@ -25,9 +25,7 @@
             
             <!--图标-->
             <Grid x:Name="grid_Icon" Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,5,5">
-                <Viewbox x:Name="viewBox_Icon">
-                    <gi:GameIconOrigin/>
-                </Viewbox>
+                <gi:GameIconOrigin/>
             </Grid>
 
             <!--标题与描述-->
