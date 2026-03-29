@@ -39,6 +39,25 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
+        private void SetNoneTipVisb()
+        {
+            grid_NoneGame.Visibility = Visibility.Hidden;
+            grid_NoneTrainer.Visibility = Visibility.Hidden;
+            grid_NoneGame.IsEnabled = false;
+            grid_NoneTrainer.IsEnabled = false;
+
+            if (AppGlobals.GameList.Count <= 0)
+            {
+                grid_NoneGame.Visibility = Visibility.Visible;
+                grid_NoneGame.IsEnabled = true;
+            }
+            if (AppGlobals.TrainerList.Count <= 0)
+            {
+                grid_NoneTrainer.Visibility = Visibility.Visible;
+                grid_NoneTrainer.IsEnabled = true;
+            }
+        }
+
         #region Initialize
         public async void Initialize()
         {
@@ -85,9 +104,6 @@ namespace PvzLauncherRemake.Pages
                 {
                     logger.Warn($"[管理] 在游戏库内未发现任何游戏");
                     AppGlobals.Config.CurrentGame = null!;
-
-                    grid_NoneGame.Visibility = Visibility.Visible;
-                    grid_NoneGame.IsEnabled = true;
                 }
 
                 //添加修改器
@@ -120,10 +136,9 @@ namespace PvzLauncherRemake.Pages
                 {
                     logger.Warn($"[管理] 未发现任何修改器");
                     AppGlobals.Config.CurrentTrainer = null!;
-
-                    grid_NoneTrainer.Visibility = Visibility.Visible;
-                    grid_NoneTrainer.IsEnabled = true;
                 }
+
+                SetNoneTipVisb();
 
                 EndLoad();
                 logger.Info($"[管理] ");
@@ -494,6 +509,7 @@ namespace PvzLauncherRemake.Pages
 
             await GameManager.ImportGameOrTrainer(((progress) => textBlock_Loading.Text = $"正在复制: {progress}"));
 
+            SetNoneTipVisb();
             NavigationService.Refresh();
 
             EndLoad();
