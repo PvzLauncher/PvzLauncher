@@ -49,8 +49,8 @@ namespace PvzLauncherRemake.Utils.Services
                     {
                         SnackbarManager.Show(new SnackbarContent
                         {
-                            Title = "下载失败",
-                            Content = $"无法下载 {taskInfo.TaskName}\n\n错误信息: {e}",
+                            Title = "任务失败",
+                            Content = $"执行 \"{taskInfo.TaskName}\" 失败\n\n错误信息: {e}",
                             Type = SnackbarType.Error
                         });
                         DownloadTaskList.Remove(taskInfo);
@@ -118,8 +118,8 @@ namespace PvzLauncherRemake.Utils.Services
 
                     SnackbarManager.Show(new SnackbarContent
                     {
-                        Title = "下载完成",
-                        Content = $"成功完成任务 \"{taskInfo.TaskName}\"",
+                        Title = "任务完成",
+                        Content = $"任务 \"{taskInfo.TaskName}\" 执行完毕",
                         Type = SnackbarType.Success
                     });
                     DownloadTaskList.Remove(taskInfo);
@@ -141,7 +141,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             SnackbarManager.Show(new SnackbarContent
             {
-                Title = "下载已开始",
+                Title = "任务已创建",
                 Content = "您的下载任务已被添加进任务列表",
                 Type = SnackbarType.Info
             });
