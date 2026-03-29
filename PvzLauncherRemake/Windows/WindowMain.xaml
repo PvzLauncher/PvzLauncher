@@ -66,7 +66,7 @@
         </ui:NavigationView>
 
 
-        <wpfui:SnackbarPresenter x:Name="snackbarPersenter">
+        <wpfui:SnackbarPresenter x:Name="snackbarPersenter" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <wpfui:SnackbarPresenter.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
