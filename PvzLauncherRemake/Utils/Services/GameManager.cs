@@ -341,6 +341,8 @@ namespace PvzLauncherRemake.Utils.Services
 
             LatestGameLaunchTime = DateTimeOffset.Now;
 
+            IsGameRuning = true;
+
             //启动后操作
             logger.Info($"[启动] 启动后操作为: {AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate}");
             switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
@@ -363,9 +365,7 @@ namespace PvzLauncherRemake.Utils.Services
             //启动器整体次数
             AppGlobals.Config.Record.LaunchCount++;
             ConfigManager.SaveConfig();
-            logger.Info($"[启动] 启动器总体启动数: {AppGlobals.Config.Record.LaunchCount}");
-
-            IsGameRuning = true;
+            logger.Info($"[启动] 启动器总体启动数: {AppGlobals.Config.Record.LaunchCount}");            
 
             logger.Info($"[启动] 启动操作完毕，等待游戏结束...");
             await WaitGameExit(gameInfo);
@@ -584,17 +584,27 @@ namespace PvzLauncherRemake.Utils.Services
         /// <summary>
         /// 设置全局Process对象的窗口标题
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="delayMs"></param>
-        public static async void SetGameTitle(string title, int delayMs = 2000)
+        public static async void SetGameTitle(string title, int delayMs = 1000, int retryCount = 10)
         {
-            await Task.Delay(2000);
-
             try
             {
-                Win32APIHelper.SetWindowTitle(AppProcess.Process, title);
+                for (int i = 0; i < retryCount; i++)
+                {
+                    if (!IsGameRuning)
+                        return;
+
+                    var result = Win32APIHelper.SetWindowTitle(AppProcess.Process.MainWindowHandle, title);
+                    if (result)
+                        return;
+
+                    await Task.Delay(delayMs);
+                }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                logger.Error($"窗口标题设置失败: {ex}");
+            }
+            
         }
         #endregion
 
