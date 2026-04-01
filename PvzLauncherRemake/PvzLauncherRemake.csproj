@@ -32,6 +32,7 @@
     <PackageReference Include="HuaZi.Library" Version="2025.12.18.2" />
     <PackageReference Include="MdXaml" Version="1.27.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NHotkey.Wpf" Version="4.0.0" />
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
     <PackageReference Include="SharpCompress" Version="0.42.1" />
     <PackageReference Include="WPF-UI" Version="4.2.0" />
