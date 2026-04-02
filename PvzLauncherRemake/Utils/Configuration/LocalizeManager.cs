@@ -20,7 +20,7 @@ namespace PvzLauncherRemake.Utils.Configuration
 
         public static string GetLoc(string key)
         {
-            return LocExtension.GetLocalizedValue<string>(key) ?? key;
+            return LocExtension.GetLocalizedValue<string>(key) ?? $"Key.{key}";
         }
 
         public static string GetLoc(string directory, string key)
