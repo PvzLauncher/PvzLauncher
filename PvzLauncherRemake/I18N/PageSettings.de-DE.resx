@@ -276,10 +276,10 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>Titel des Spielfensters (leer lassen, um nicht festzulegen):</value>
   </data>
-  <data name="OverlayUI" xml:space="preserve">
-    <value>Overlay-Schnittstelle im Spiel</value>
-  </data>
   <data name="OverlayUIText" xml:space="preserve">
     <value>Cover-Schnittstelle:</value>
+  </data>
+  <data name="OverlayUI" xml:space="preserve">
+    <value>Overlay-Schnittstelle im Spiel (Beta)</value>
   </data>
 </root>

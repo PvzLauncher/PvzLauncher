@@ -421,7 +421,7 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 游戏内覆盖界面 的本地化字符串。
+        ///   查找类似 游戏内覆盖界面 (测试) 的本地化字符串。
         /// </summary>
         public static string OverlayUI {
             get {

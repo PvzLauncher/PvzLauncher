@@ -276,10 +276,10 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>게임 창 제목(설정하지 않으려면 비워두세요):</value>
   </data>
-  <data name="OverlayUI" xml:space="preserve">
-    <value>게임 내 오버레이 인터페이스</value>
-  </data>
   <data name="OverlayUIText" xml:space="preserve">
     <value>커버 인터페이스:</value>
+  </data>
+  <data name="OverlayUI" xml:space="preserve">
+    <value>게임 내 오버레이 인터페이스(테스트)</value>
   </data>
 </root>

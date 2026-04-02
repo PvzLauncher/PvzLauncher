@@ -276,10 +276,10 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>Заголовок окна игры (оставьте пустым, чтобы не устанавливать):</value>
   </data>
-  <data name="OverlayUI" xml:space="preserve">
-    <value>Внутриигровой оверлейный интерфейс</value>
-  </data>
   <data name="OverlayUIText" xml:space="preserve">
     <value>Интерфейс крышки:</value>
+  </data>
+  <data name="OverlayUI" xml:space="preserve">
+    <value>Внутриигровой оверлейный интерфейс (тест)</value>
   </data>
 </root>

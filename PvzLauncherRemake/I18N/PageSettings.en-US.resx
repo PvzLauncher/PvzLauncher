@@ -276,10 +276,10 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>Game window title (leave blank to not set):</value>
   </data>
-  <data name="OverlayUI" xml:space="preserve">
-    <value>In-game overlay ui</value>
-  </data>
   <data name="OverlayUIText" xml:space="preserve">
     <value>Overlay interface:</value>
+  </data>
+  <data name="OverlayUI" xml:space="preserve">
+    <value>In-game overlay interface (beta)</value>
   </data>
 </root>

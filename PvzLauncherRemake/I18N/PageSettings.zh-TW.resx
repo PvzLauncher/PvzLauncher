@@ -276,10 +276,10 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>遊戲視窗標題(留空為不設定):</value>
   </data>
-  <data name="OverlayUI" xml:space="preserve">
-    <value>遊戲內覆蓋介面</value>
-  </data>
   <data name="OverlayUIText" xml:space="preserve">
     <value>覆蓋介面:</value>
+  </data>
+  <data name="OverlayUI" xml:space="preserve">
+    <value>遊戲內覆蓋介面 (測試)</value>
   </data>
 </root>

@@ -276,10 +276,10 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>Titre de la fenêtre de jeu (laisser vide pour ne pas définir) :</value>
   </data>
-  <data name="OverlayUI" xml:space="preserve">
-    <value>Interface de superposition dans le jeu</value>
-  </data>
   <data name="OverlayUIText" xml:space="preserve">
     <value>Interface de couverture :</value>
+  </data>
+  <data name="OverlayUI" xml:space="preserve">
+    <value>Interface de superposition dans le jeu (beta)</value>
   </data>
 </root>

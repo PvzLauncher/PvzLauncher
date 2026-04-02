@@ -277,7 +277,7 @@
     <value>游戏窗口标题(留空为不设置):</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>游戏内覆盖界面</value>
+    <value>游戏内覆盖界面 (测试)</value>
   </data>
   <data name="OverlayUIText" xml:space="preserve">
     <value>覆盖界面:</value>
