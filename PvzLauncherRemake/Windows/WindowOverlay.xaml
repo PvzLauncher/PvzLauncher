@@ -15,19 +15,26 @@
         lex:ResxLocalizationProvider.DefaultDictionary="I18N.WindowOverlay">
     <Grid Margin="3,26,3,3">
         <Rectangle Fill="#7F000000"/>
-        <TabControl Style="{StaticResource TabControlPivotStyle}">
+        <!--上栏-->
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0">
+            <TextBlock x:Name="textBlock_Time" Foreground="White" Text="12:00:00" FontSize="25" FontWeight="Bold" Margin="0,0,0,2"/>
+            <TextBlock x:Name="textBlock_Date" Foreground="White" Text="1970.1.1 星期一"/>
+        </StackPanel>
+        
+        <icons:TitleImageEn Width="350" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+        <Button x:Name="button_HideOverlay" Width="35" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0" Background="{x:Null}" Click="button_HideOverlay_Click">
+            <ui:PathIcon Height="10" Width="10" Data="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+        </Button>
+        <TabControl Style="{StaticResource TabControlPivotStyle}" Margin="0,100,0,0">
             <!--主页-->
             <TabItem Header="{lex:Loc Home}">
                 <StackPanel>
-                    <icons:TitleImageEn VerticalAlignment="Top" Width="400" HorizontalAlignment="Center" Margin="0,20,0,20"/>
                     <TextBlock Text="{lex:Loc Welcome1}" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
                     <TextBlock Text="{lex:Loc Welcome2}" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
                 </StackPanel>
             </TabItem>
         </TabControl>
 
-        <Button x:Name="button_HideOverlay" Width="35" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0" Background="{x:Null}" Click="button_HideOverlay_Click">
-            <ui:PathIcon Height="10" Width="10" Data="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-        </Button>
+        
     </Grid>
 </Window>

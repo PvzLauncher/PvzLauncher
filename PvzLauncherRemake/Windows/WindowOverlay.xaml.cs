@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 
 namespace PvzLauncherRemake.Windows
 {
@@ -61,6 +62,13 @@ namespace PvzLauncherRemake.Windows
             var activeWindow = Win32APIHelper.GetActiveWindowHandle();
             if (activeWindow != AppProcess.Process.MainWindowHandle && activeWindow != windowInteropHelper.Handle) 
                 ToggleOverlay(false);
+
+            //更新时间
+            var now = DateTimeOffset.Now;
+
+            textBlock_Time.Text = $"{now.ToString("HH:mm:ss")}";
+            textBlock_Date.Text = $"{now.ToString("yyyy.MM.dd dddd")}";
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
