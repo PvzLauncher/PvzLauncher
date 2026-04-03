@@ -85,6 +85,7 @@ namespace PvzLauncherRemake.Windows
         {
             _timer?.Stop();
             _timer = null;
+            HotkeyManager.Current.Remove("ToggleOverlay");
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)
