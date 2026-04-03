@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -26,6 +27,7 @@ namespace PvzLauncherRemake.Windows
     {
         private DispatcherTimer? _timer;
         private bool IsOverlayVisible = true;
+        private WindowInteropHelper windowInteropHelper;
 
         public WindowOverlay()
         {
@@ -46,6 +48,7 @@ namespace PvzLauncherRemake.Windows
             AppProcess.Process!.Refresh();
 
 
+            //同步窗口位置
             var result = Win32APIHelper.GetWindowArea(AppProcess.Process!.MainWindowHandle);
 
             this.Left = result.Left;
@@ -53,6 +56,11 @@ namespace PvzLauncherRemake.Windows
             this.Width = result.Width;
             this.Height = result.Height;
 
+
+            //判断是否失焦
+            var activeWindow = Win32APIHelper.GetActiveWindowHandle();
+            if (activeWindow != AppProcess.Process.MainWindowHandle && activeWindow != windowInteropHelper.Handle) 
+                ToggleOverlay(false);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -61,6 +69,8 @@ namespace PvzLauncherRemake.Windows
             ToggleOverlay(false);
 
             ThemeManager.SetRequestedTheme(this, ElementTheme.Dark);
+
+            windowInteropHelper = new WindowInteropHelper(this);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

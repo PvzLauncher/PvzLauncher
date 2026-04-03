@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 using System.Windows.Shapes;
 
 namespace PvzLauncherRemake.Utils.Services
@@ -25,6 +26,9 @@ namespace PvzLauncherRemake.Utils.Services
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
 
         /// <summary>
         /// 设置窗口标题
@@ -57,5 +61,11 @@ namespace PvzLauncherRemake.Utils.Services
             else
                 return new RECT { Left = 0, Right = 0, Top = 0, Bottom = 0 };
         }
+
+        /// <summary>
+        /// 获取当前活动窗口的句柄，即用户正在操作的窗口
+        /// </summary>
+        /// <returns>窗口句柄</returns>
+        public static IntPtr GetActiveWindowHandle() => GetForegroundWindow();
     }
 }
