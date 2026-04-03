@@ -120,4 +120,10 @@
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
   </data>
+  <data name="Welcome1" xml:space="preserve">
+    <value>Willkommen zur neuen Overlay-Oberfläche im Spiel!</value>
+  </data>
+  <data name="Welcome2" xml:space="preserve">
+    <value>Hier können Sie eine Reihe von Vorgängen im Spiel abschließen. Legen Sie jetzt los!</value>
+  </data>
 </root>

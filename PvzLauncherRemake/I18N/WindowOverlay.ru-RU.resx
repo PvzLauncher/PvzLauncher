@@ -120,4 +120,10 @@
   <data name="Home" xml:space="preserve">
     <value>Домашняя страница</value>
   </data>
+  <data name="Welcome1" xml:space="preserve">
+    <value>Добро пожаловать в новый игровой интерфейс!</value>
+  </data>
+  <data name="Welcome2" xml:space="preserve">
+    <value>Здесь вы можете выполнить ряд операций внутри игры. Начните прямо сейчас!</value>
+  </data>
 </root>

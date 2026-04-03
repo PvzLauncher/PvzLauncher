@@ -20,8 +20,8 @@
             <TabItem Header="{lex:Loc Home}">
                 <StackPanel>
                     <icons:TitleImageEn VerticalAlignment="Top" Width="400" HorizontalAlignment="Center" Margin="0,20,0,20"/>
-                    <TextBlock Text="欢迎使用全新的游戏内覆盖界面！" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
-                    <TextBlock Text="在这里你可以在游戏内完成一系列操作。现在开始吧！" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                    <TextBlock Text="{lex:Loc Welcome1}" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                    <TextBlock Text="{lex:Loc Welcome2}" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
                 </StackPanel>
             </TabItem>
         </TabControl>

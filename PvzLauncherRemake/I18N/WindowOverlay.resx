@@ -100,4 +100,10 @@
   <data name="Home" xml:space="preserve">
     <value>主页</value>
   </data>
+  <data name="Welcome1" xml:space="preserve">
+    <value>欢迎使用全新的游戏内覆盖界面！</value>
+  </data>
+  <data name="Welcome2" xml:space="preserve">
+    <value>在这里你可以在游戏内完成一系列操作。现在开始吧！</value>
+  </data>
 </root>

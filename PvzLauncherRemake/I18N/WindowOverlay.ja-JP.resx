@@ -120,4 +120,10 @@
   <data name="Home" xml:space="preserve">
     <value>ホームページ</value>
   </data>
+  <data name="Welcome1" xml:space="preserve">
+    <value>新しいゲーム内オーバーレイ インターフェイスへようこそ!</value>
+  </data>
+  <data name="Welcome2" xml:space="preserve">
+    <value>ここでゲーム内の一連の操作を完了できます。今すぐ始めましょう！</value>
+  </data>
 </root>

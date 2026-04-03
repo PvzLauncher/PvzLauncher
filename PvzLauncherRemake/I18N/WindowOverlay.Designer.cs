@@ -68,5 +68,23 @@ namespace PvzLauncherRemake.I18N {
                 return ResourceManager.GetString("Home", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 欢迎使用全新的游戏内覆盖界面！ 的本地化字符串。
+        /// </summary>
+        public static string Welcome1 {
+            get {
+                return ResourceManager.GetString("Welcome1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在这里你可以在游戏内完成一系列操作。现在开始吧！ 的本地化字符串。
+        /// </summary>
+        public static string Welcome2 {
+            get {
+                return ResourceManager.GetString("Welcome2", resourceCulture);
+            }
+        }
     }
 }
