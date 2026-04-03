@@ -264,49 +264,31 @@ namespace PvzLauncherRemake.Windows
                                 SecondaryButtonText = notice.SecondaryButton,
                                 CloseButtonText = "关闭",
                                 DefaultButton = ContentDialogButton.Primary
-                            }, (() =>
+                            }, (() => handleButtonActions(notice.PrimaryActions)
+                            ), (() => handleButtonActions(notice.SecondaryActions)));
+
+                        void handleButtonActions(JsonNoticeIndex.ButtonActionInfo[] actions)
+                        {
+                            foreach (var action in actions)
                             {
-                                foreach (var action in notice.PrimaryActions)
+                                switch (action.Type)
                                 {
-                                    switch (action.Type)
-                                    {
-                                        case "to-url":
-                                            Process.Start(new ProcessStartInfo
-                                            {
-                                                FileName = action.Url,
-                                                UseShellExecute = true
-                                            });
-                                            break;
-                                        case "to-page":
-                                            if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
-                                                NavigationController.Navigate(result);
-                                            else
-                                                throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
-                                            break;
-                                    }
+                                    case "to-url":
+                                        Process.Start(new ProcessStartInfo
+                                        {
+                                            FileName = action.Url,
+                                            UseShellExecute = true
+                                        });
+                                        break;
+                                    case "to-page":
+                                        if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
+                                            NavigationController.Navigate(result);
+                                        else
+                                            throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
+                                        break;
                                 }
-                            }), (() =>
-                            {
-                                foreach (var action in notice.SecondaryActions)
-                                {
-                                    switch (action.Type)
-                                    {
-                                        case "to-url":
-                                            Process.Start(new ProcessStartInfo
-                                            {
-                                                FileName = action.Url,
-                                                UseShellExecute = true
-                                            });
-                                            break;
-                                        case "to-page":
-                                            if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
-                                                NavigationController.Navigate(result);
-                                            else
-                                                throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
-                                            break;
-                                    }
-                                }
-                            }));
+                            }
+                        }
 
 
                         if (chkBox.IsChecked == true)
