@@ -371,7 +371,7 @@ namespace PvzLauncherRemake.Utils.Services
             //启动器整体次数
             AppGlobals.Config.Record.LaunchCount++;
             ConfigManager.SaveConfig();
-            logger.Info($"[启动] 启动器总体启动数: {AppGlobals.Config.Record.LaunchCount}");            
+            logger.Info($"[启动] 启动器总体启动数: {AppGlobals.Config.Record.LaunchCount}");
 
             logger.Info($"[启动] 启动操作完毕，等待游戏结束...");
             await WaitGameExit(gameInfo);
@@ -610,7 +610,7 @@ namespace PvzLauncherRemake.Utils.Services
             {
                 logger.Error($"窗口标题设置失败: {ex}");
             }
-            
+
         }
         #endregion
 

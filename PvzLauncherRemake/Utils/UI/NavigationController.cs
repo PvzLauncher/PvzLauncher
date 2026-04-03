@@ -1,7 +1,5 @@
-﻿using ModernWpf.Controls;
-using PvzLauncherRemake.Windows;
+﻿using PvzLauncherRemake.Windows;
 using System.Windows;
-using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Utils.UI
 {
@@ -28,7 +26,7 @@ namespace PvzLauncherRemake.Utils.UI
             switch (target)
             {
                 case NavigaionPages.Launch:
-                    navView.SelectedItem = window.navViewItem_Launch;break;
+                    navView.SelectedItem = window.navViewItem_Launch; break;
                 case NavigaionPages.Manage:
                     navView.SelectedItem = window.navViewItem_Manage; break;
                 case NavigaionPages.Download:

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
-using System.Windows.Shapes;
+﻿using System.Runtime.InteropServices;
 
 namespace PvzLauncherRemake.Utils.Services
 {
@@ -36,7 +30,7 @@ namespace PvzLauncherRemake.Utils.Services
         /// <param name="hWnd">目标窗口句柄</param>
         /// <param name="newTitle">新标题</param>
         /// <returns>是否成功</returns>
-        public static bool SetWindowTitle(IntPtr hWnd,string newTitle)
+        public static bool SetWindowTitle(IntPtr hWnd, string newTitle)
         {
             if (hWnd == IntPtr.Zero)
                 return false;

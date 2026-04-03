@@ -1,23 +1,11 @@
 ﻿using ModernWpf;
-using NHotkey;
 using NHotkey.Wpf;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Utils.Services;
-using PvzLauncherRemake.Utils.UI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 
 namespace PvzLauncherRemake.Windows
 {
@@ -60,7 +48,7 @@ namespace PvzLauncherRemake.Windows
 
             //判断是否失焦
             var activeWindow = Win32APIHelper.GetActiveWindowHandle();
-            if (activeWindow != AppProcess.Process.MainWindowHandle && activeWindow != windowInteropHelper.Handle) 
+            if (activeWindow != AppProcess.Process.MainWindowHandle && activeWindow != windowInteropHelper.Handle)
                 ToggleOverlay(false);
 
             //更新时间

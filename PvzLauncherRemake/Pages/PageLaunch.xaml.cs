@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using WPFLocalizeExtension.Extensions;
 using static PvzLauncherRemake.Classes.AppLogger;
 using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 
@@ -330,7 +329,7 @@ namespace PvzLauncherRemake.Pages
                             Type = SnackbarType.Warn
                         });
 
-                        textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch","LaunchGame");
+                        textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "LaunchGame");
 
                         //保存存档
                         if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.SaveDirectory))

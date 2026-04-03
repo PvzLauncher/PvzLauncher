@@ -665,12 +665,12 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.GameConfig.WindowTitle= textBox_GameWindowTitle.Text;
+                AppGlobals.Config.Settings.GameConfig.WindowTitle = textBox_GameWindowTitle.Text;
                 ConfigManager.SaveConfig();
             }
         }
 
-        private void Game_OverlayUIEnabled(object sender,RoutedEventArgs e)
+        private void Game_OverlayUIEnabled(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
