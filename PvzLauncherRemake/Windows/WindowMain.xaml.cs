@@ -256,7 +256,7 @@ namespace PvzLauncherRemake.Windows
                                 {
                                     Children =
                                 {
-                                    new TextBlock{Text = content},
+                                    new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
                                     chkBox
                                 }
                                 },
