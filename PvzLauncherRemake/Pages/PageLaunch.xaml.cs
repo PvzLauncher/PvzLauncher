@@ -307,7 +307,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     logger.Info($"[启动] 开始启动游戏");
 
-                    textBlock_LaunchText.Text = LocExtension.GetLocalizedValue<string>("StopGame");
+                    textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "StopGame");
 
                     if (AppGlobals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
@@ -363,7 +363,7 @@ namespace PvzLauncherRemake.Pages
                 else if (GameManager.IsGameRuning == true)
                 {
                     logger.Info($"[启动] 正在结束游戏...");
-                    textBlock_LaunchText.Text = LocExtension.GetLocalizedValue<string>("LaunchGame");
+                    textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "LaunchGame");
 
                     await GameManager.KillGame((() =>
                     {
