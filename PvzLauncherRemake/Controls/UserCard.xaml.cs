@@ -69,13 +69,13 @@ namespace PvzLauncherRemake.Controls
             if (!string.IsNullOrEmpty(Size))
                 AddLabel($"{Size} MB", Color.FromArgb(204, 0, 150, 150), false);
             if (!string.IsNullOrEmpty(SupportVersion))
-                AddLabel($"{GetLoc("SupportVersion")}: {SupportVersion}", Color.FromArgb(204, 0, 0, 255), false);
+                AddLabel($"{GetLoc("I18N.UserCard", "SupportVersion")}: {SupportVersion}", Color.FromArgb(204, 0, 0, 255), false);
             if (isRecommend)
-                AddLabel($"{GetLoc("Recommend")}", Color.FromArgb(204, 0, 255, 0), true);
+                AddLabel($"{GetLoc("I18N.UserCard", "Recommend")}", Color.FromArgb(204, 0, 255, 0), true);
             if (isNew)
-                AddLabel($"{GetLoc("New")}", Color.FromArgb(204, 100, 0, 255), true);
+                AddLabel($"{GetLoc("I18N.UserCard", "New")}", Color.FromArgb(204, 100, 0, 255), true);
             if (isActive)
-                AddLabel($"{GetLoc("Active")}", Color.FromArgb(204, 255, 0, 0), true);
+                AddLabel($"{GetLoc("I18N.UserCard", "Active")}", Color.FromArgb(204, 255, 0, 0), true);
         }
 
         public void AddLabel(string content, Color color, bool textBold)

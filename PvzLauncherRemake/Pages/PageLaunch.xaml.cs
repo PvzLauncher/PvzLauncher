@@ -330,7 +330,7 @@ namespace PvzLauncherRemake.Pages
                             Type = SnackbarType.Warn
                         });
 
-                        textBlock_LaunchText.Text = GetLoc("LaunchGame");
+                        textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch","LaunchGame");
 
                         //保存存档
                         if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.SaveDirectory))
