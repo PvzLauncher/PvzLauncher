@@ -1,4 +1,5 @@
-﻿using NHotkey;
+﻿using ModernWpf;
+using NHotkey;
 using NHotkey.Wpf;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Utils.Services;
@@ -58,6 +59,8 @@ namespace PvzLauncherRemake.Windows
         {
             _timer?.Start();
             ToggleOverlay(false);
+
+            ThemeManager.SetRequestedTheme(this, ElementTheme.Dark);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
