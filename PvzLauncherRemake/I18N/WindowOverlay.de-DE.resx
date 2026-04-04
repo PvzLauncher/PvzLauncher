@@ -126,4 +126,7 @@
   <data name="Welcome2" xml:space="preserve">
     <value>Hier können Sie eine Reihe von Vorgängen im Spiel abschließen. Legen Sie jetzt los!</value>
   </data>
+  <data name="KillGame" xml:space="preserve">
+    <value>Endspiel</value>
+  </data>
 </root>

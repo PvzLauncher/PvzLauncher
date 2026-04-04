@@ -70,6 +70,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 结束游戏 的本地化字符串。
+        /// </summary>
+        public static string KillGame {
+            get {
+                return ResourceManager.GetString("KillGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 欢迎使用全新的游戏内覆盖界面！ 的本地化字符串。
         /// </summary>
         public static string Welcome1 {

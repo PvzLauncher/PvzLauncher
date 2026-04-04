@@ -1,7 +1,9 @@
 ﻿using ModernWpf;
+using ModernWpf.Controls;
 using NHotkey.Wpf;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.UI;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -87,14 +89,27 @@ namespace PvzLauncherRemake.Windows
 
             if (IsOverlayVisible)
             {
-                this.Visibility = Visibility.Visible;
+                this.Show();
             }
             else
             {
-                this.Visibility = Visibility.Hidden;
+                this.Hide();
             }
         }
 
         private void button_HideOverlay_Click(object sender, RoutedEventArgs e) => ToggleOverlay(false);
+
+        private async void button_KillGame_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "结束游戏",
+                Content = "确定结束游戏吗？",
+                PrimaryButtonText = "确定",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary
+            };
+            await DialogManager.ShowDialogAsync(dialog, (async () => await GameManager.KillGame()), displayArea: DialogDisplayArea.Overlay);
+        }
     }
 }
