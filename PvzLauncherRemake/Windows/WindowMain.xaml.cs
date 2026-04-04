@@ -286,6 +286,8 @@ namespace PvzLauncherRemake.Windows
                                         else
                                             throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
                                         break;
+                                    default:
+                                        throw new Exception($"未知的操作类型: \"{action.Type}\"。这一般是编写失误或当前启动器版本过低导致的");
                                 }
                             }
                         }
