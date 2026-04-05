@@ -24,6 +24,7 @@ namespace PvzLauncherRemake.Classes
         Random,//random
         Guidance,//guidance
         EaE,//eae
+        Delturbia,//delturbia
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -59,6 +60,7 @@ namespace PvzLauncherRemake.Classes
                 case "random": return GameIcons.Random;
                 case "guidance": return GameIcons.Guidance;
                 case "eae": return GameIcons.EaE;
+                case "delturbia": return GameIcons.Delturbia;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -98,6 +100,7 @@ namespace PvzLauncherRemake.Classes
                 case GameIcons.Random: return "random";
                 case GameIcons.Guidance: return "guidance";
                 case GameIcons.EaE: return "eae";
+                case GameIcons.Delturbia: return "delturbia";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -138,6 +141,7 @@ namespace PvzLauncherRemake.Classes
                 case GameIcons.Random: return new GameIconRandom();
                 case GameIcons.Guidance: return new GameIconGuidance();
                 case GameIcons.EaE: return new GameIconEae();
+                case GameIcons.Delturbia: return new GameIconDelturbia();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
