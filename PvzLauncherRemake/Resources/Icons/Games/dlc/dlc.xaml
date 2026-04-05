@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<Viewbox xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Name="dlc">
+    <Canvas UseLayoutRounding="False" Width="512.0" Height="512.0">
+        <Canvas.Clip>
+            <RectangleGeometry Rect="0,0,512.0,512.0"/>
+        </Canvas.Clip>
+        <Canvas UseLayoutRounding="False">
+            <Path Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="3.51115" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                <Path.Fill>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="275.07635,-69.113129" EndPoint="275.07635,582.02509" Transform="1.1703842,0.0,0.0,1.1703842,-41.780798,-35.59864">
+                        <GradientStop Color="#ffaaafbe" Offset="0.46250001"/>
+                        <GradientStop Color="#ff8228b4" Offset="0.60500002"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <PathGeometry Figures="m 53.7495 187.049 c -17.8659 1.01145 -12.7336 18.1087 1.5407 16.95 c 14.1086 -0.37308 17.169 4.60275 18.2004 54.8115 c 0.60121 29.2691 5.49255 51.5035 -12.4216 55.3555 c -17.1191 2.56802 -11.491 17.4634 -0.386319 19.2611 h 87.8268 c 28.989 -22.9823 44.9012 -32.4219 42.2138 -79.353 c -1.22907 -21.4641 -5.3725 -48.9162 -51.8443 -65.4844 z m 63.5596 27.3509 c 26.6105 6.13666 28.5416 25.1067 30.046 44.2986 c -0.64418 41.4671 -14.4174 43.5512 -25.8102 52.7724 z"/>
+                </Path.Data>
+            </Path>
+            <Path Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="3.51115" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                <Path.Fill>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="275.07635,-69.113129" EndPoint="275.07635,582.02509" Transform="1.1703842,0.0,0.0,1.1703842,-41.780798,-35.59864">
+                        <GradientStop Color="#ffaaafbe" Offset="0.46250001"/>
+                        <GradientStop Color="#ff8228b4" Offset="0.60500002"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <PathGeometry Figures="m 194.734 185.123 c -11.2 0.68072 -10.8909 14.1633 -1.15562 13.4822 l 11.1709 0.7704 l 2.69643 110.939 c -12.4697 9.50547 -40.3817 25.0123 -1.15561 23.8826 l 104.775 2.31122 l 1.15562 -52.3877 c -14.7889 24.2603 -38.3447 21.8602 -67.4107 21.9566 l 0.38521 -107.087 l 21.1862 -1.15562 c 7.01421 -0.16817 12.2773 -13.2098 -1.15561 -12.7117 z"/>
+                </Path.Data>
+            </Path>
+            <Path Stroke="#ff000000" StrokeLineJoin="Round" StrokeThickness="3.51115" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                <Path.Fill>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="275.07635,-69.113129" EndPoint="275.07635,582.02509" Transform="1.1703842,0.0,0.0,1.1703842,-41.780798,-35.59864">
+                        <GradientStop Color="#ffaaafbe" Offset="0.46250001"/>
+                        <GradientStop Color="#ff8228b4" Offset="0.60500002"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <PathGeometry Figures="m 423.931 220.177 c -6.36539 21.2396 5.86132 29.0378 17.3342 12.3265 l 21.5714 -23.1122 c 20.1412 -20.4008 6.85627 -29.069 -15.0229 -14.2526 c -9.96628 -12.7008 -46.9754 -5.93078 -73.1888 -6.93366 c -30.8086 12.6498 -59.8152 44.0545 -59.3214 72.0331 c 0.84049 47.6191 24.3267 61.451 46.131 70.2119 c 37.2224 14.9559 78.0141 9.39878 103.647 -7.74279 l -44.205 -48.1038 c -11.4218 7.84965 -9.60979 16.6913 -4.7319 23.0887 c 2.88271 3.78072 -9.6081 13.5538 -19.9485 13.7781 c -29.6563 0.64336 -40.0957 -29.7628 -41.2168 -50.8469 c -1.446 -27.1933 15.8621 -43.3893 40.0612 -52.773 c 50.0957 -2.7304 30.7004 6.28673 28.8903 12.3265 z"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Canvas>
+</Viewbox>
