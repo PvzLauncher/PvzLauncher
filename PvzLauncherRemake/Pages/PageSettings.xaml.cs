@@ -782,7 +782,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     if (AppGlobals.GameList.Count >= 2)
                     {
-                        var listBox = new ListBox();
+                        var listBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
                         string originGameName = null!;
                         string targetGameName = null!;
                         foreach (var game in AppGlobals.GameList)
@@ -793,14 +793,15 @@ namespace PvzLauncherRemake.Pages
                         await DialogManager.ShowDialogAsync(new ContentDialog
                         {
                             Title = "存档迁移",
-                            Content = new StackPanel
+                            Content = new Grid
                             {
                                 Children =
                             {
                                 new TextBlock
                                 {
                                     Text="存档迁移可以将某个游戏的存档复制到另一个游戏，请选择要复制的游戏",
-                                    Margin=new Thickness(0,0,0,5)
+                                    VerticalAlignment=VerticalAlignment.Top,
+                                    HorizontalAlignment=HorizontalAlignment.Stretch
                                 },
                                 listBox
                             }
@@ -817,7 +818,7 @@ namespace PvzLauncherRemake.Pages
                                 if (Directory.Exists(Path.Combine(AppGlobals.GameDirectory, originGameName, ".save")))
                                 {
 
-                                    var targetListBox = new ListBox();
+                                    var targetListBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
                                     foreach (var game in AppGlobals.GameList)
                                     {
                                         if (game.GameInfo.Name != originGameName)
@@ -827,14 +828,15 @@ namespace PvzLauncherRemake.Pages
                                     await DialogManager.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = "存档迁移",
-                                        Content = new StackPanel
+                                        Content = new Grid
                                         {
                                             Children =
                                         {
                                             new TextBlock
                                             {
                                                 Text="请选择要替换的游戏存档，此操作会将目标游戏的存档覆盖！",
-                                                Margin=new Thickness(0,0,0,5)
+                                                VerticalAlignment=VerticalAlignment.Top,
+                                                HorizontalAlignment=HorizontalAlignment.Stretch
                                             },
                                             targetListBox
                                         }
