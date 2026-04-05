@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:ExecuteShell.Windows"
         xmlns:icons="clr-namespace:ExecuteShell.Controls.Icons"
         mc:Ignorable="d"
-        Title="PvzLauncher - Shell" Height="500 " Width="500" WindowStyle="None" Background="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" AllowsTransparency="True" Topmost="True">
-    <Grid>
+        Title="PvzLauncher - Shell" Height="500 " Width="500" WindowStyle="None" Background="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" AllowsTransparency="True" Topmost="True">
+    <Grid IsHitTestVisible="False">
         <icons:IconApplication x:Name="icon" Height="200" Opacity="0" Width="200" RenderTransformOrigin="0.5,0.5">
             <icons:IconApplication.RenderTransform>
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
