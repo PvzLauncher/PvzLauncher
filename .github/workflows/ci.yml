@@ -37,7 +37,7 @@ jobs:
       - name: Build UpdateService
         run: >
           dotnet publish 
-          "UpdateService\UpdateService.csproj" 
+          "StdUpdateService\StdUpdateService.csproj" 
           -c CI 
           -o "CI\bin"
 
