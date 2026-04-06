@@ -48,6 +48,9 @@ bld/
 # Rider
 .idea/
 
+#Vscode
+.vscode
+
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
