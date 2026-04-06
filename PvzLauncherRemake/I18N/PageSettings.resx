@@ -282,4 +282,13 @@
   <data name="OverlayUIText" xml:space="preserve">
     <value>覆盖界面:</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3D加速:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>强制启用</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>强制禁用</value>
+  </data>
 </root>

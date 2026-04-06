@@ -282,4 +282,13 @@
   <data name="OverlayUI" xml:space="preserve">
     <value>In-game overlay interface (beta)</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3D acceleration:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>Force enable</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>Force disable</value>
+  </data>
 </root>

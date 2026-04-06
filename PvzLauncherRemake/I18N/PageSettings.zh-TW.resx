@@ -282,4 +282,13 @@
   <data name="OverlayUI" xml:space="preserve">
     <value>遊戲內覆蓋介面 (測試)</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3D加速:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>強制啟用</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>強制禁用</value>
+  </data>
 </root>

@@ -228,6 +228,16 @@ namespace PvzLauncherRemake.Pages
                     case "LeftTop":
                         comboBox_Game_Location.SelectedIndex = 2; break;
                 }
+                //### 3D加速
+                switch (AppGlobals.Config.Settings.GameConfig.ThreeDMode)
+                {
+                    case "Default":
+                        comboBox_Game_3DMode.SelectedIndex = 0;break;
+                    case "On":
+                        comboBox_Game_3DMode.SelectedIndex = 1;break;
+                    case "Off":
+                        comboBox_Game_3DMode.SelectedIndex = 2;break;
+                }
                 //## 外观
                 //### 窗口标题
                 textBox_GameWindowTitle.Text = AppGlobals.Config.Settings.GameConfig.WindowTitle;
@@ -662,6 +672,15 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppGlobals.Config.Settings.GameConfig.StartUpLocation = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
+                ConfigManager.SaveConfig();
+            }
+        }
+
+        private void Game_3DMode(object sender, SelectionChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.Settings.GameConfig.ThreeDMode = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
                 ConfigManager.SaveConfig();
             }
         }

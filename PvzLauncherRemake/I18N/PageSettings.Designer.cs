@@ -187,6 +187,24 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 强制禁用 的本地化字符串。
+        /// </summary>
+        public static string ForceOff {
+            get {
+                return ResourceManager.GetString("ForceOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 强制启用 的本地化字符串。
+        /// </summary>
+        public static string ForceOn {
+            get {
+                return ResourceManager.GetString("ForceOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 强制窗口化 的本地化字符串。
         /// </summary>
         public static string ForceWindowed {
@@ -516,6 +534,15 @@ namespace PvzLauncherRemake.I18N {
         public static string Theme_Light {
             get {
                 return ResourceManager.GetString("Theme_Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 3D加速: 的本地化字符串。
+        /// </summary>
+        public static string ThreeDMode {
+            get {
+                return ResourceManager.GetString("ThreeDMode", resourceCulture);
             }
         }
         

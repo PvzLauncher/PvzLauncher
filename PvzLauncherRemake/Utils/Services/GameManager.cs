@@ -371,6 +371,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
             SetGameFullScreen();
             SetGameLocation();
+            Set3DMode();
             if (!string.IsNullOrEmpty(AppGlobals.Config.Settings.GameConfig.WindowTitle))
                 SetGameTitle(AppGlobals.Config.Settings.GameConfig.WindowTitle);
             if (AppGlobals.Config.Settings.GameConfig.OverlayUIEnabled)
@@ -597,6 +598,29 @@ namespace PvzLauncherRemake.Utils.Services
                     key.SetValue(valueXName, gameWindowX, RegistryValueKind.DWord);
                     key.SetValue(valueYName, gameWindowY, RegistryValueKind.DWord);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 设置游戏3D加速
+        /// </summary>
+        /// <param name="value"></param>
+        public static void Set3DMode()
+        {
+            string registyPath = @"SOFTWARE\PopCap\PlantsVsZombies";
+            string valueName = "Is3D";
+
+            using (RegistryKey key = Registry.CurrentUser.CreateSubKey(registyPath))
+            {
+                int? valueData;
+                switch (AppGlobals.Config.Settings.GameConfig.ThreeDMode)
+                {
+                    case "On": valueData = 1; break;
+                    case "Off": valueData = 0; break;
+                    default: valueData = null; break;
+                }
+                if (valueData != null)
+                    key.SetValue(valueName, valueData, RegistryValueKind.DWord);
             }
         }
 

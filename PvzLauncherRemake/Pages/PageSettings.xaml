@@ -201,12 +201,21 @@
                                 </ComboBox>
                             </StackPanel>
                             <!--位置-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="{lex:Loc Location}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <ComboBox x:Name="comboBox_Game_Location" SelectedIndex="0" SelectionChanged="Game_Location">
                                     <ComboBoxItem Content="{lex:Loc Default}" Tag="Default"/>
                                     <ComboBoxItem Content="{lex:Loc Center}" Tag="Center"/>
                                     <ComboBoxItem Content="{lex:Loc LeftTop}" Tag="LeftTop"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <!--3D加速-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc ThreeDMode}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="comboBox_Game_3DMode" SelectedIndex="0" SelectionChanged="Game_3DMode">
+                                    <ComboBoxItem Content="{lex:Loc Default}" Tag="Default"/>
+                                    <ComboBoxItem Content="{lex:Loc ForceOn}" Tag="On"/>
+                                    <ComboBoxItem Content="{lex:Loc ForceOff}" Tag="Off"/>
                                 </ComboBox>
                             </StackPanel>
                         </StackPanel>

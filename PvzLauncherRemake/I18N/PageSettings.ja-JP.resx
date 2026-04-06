@@ -282,4 +282,13 @@
   <data name="OverlayUI" xml:space="preserve">
     <value>ゲーム内オーバーレイ インターフェイス (テスト)</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3Dアクセラレーション:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>強制的に有効にする</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>強制的に無効にする</value>
+  </data>
 </root>

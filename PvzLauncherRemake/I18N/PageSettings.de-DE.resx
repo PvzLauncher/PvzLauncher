@@ -282,4 +282,13 @@
   <data name="OverlayUI" xml:space="preserve">
     <value>Overlay-Schnittstelle im Spiel (Beta)</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3D-Beschleunigung:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>Aktivierung erzwingen</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>Deaktivierung erzwingen</value>
+  </data>
 </root>

@@ -282,4 +282,13 @@
   <data name="OverlayUI" xml:space="preserve">
     <value>Внутриигровой оверлейный интерфейс (тест)</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3D-ускорение:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>Принудительное включение</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>Принудительное отключение</value>
+  </data>
 </root>

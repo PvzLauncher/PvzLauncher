@@ -282,4 +282,13 @@
   <data name="OverlayUI" xml:space="preserve">
     <value>Interface de superposition dans le jeu (beta)</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>Accélération 3D :</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>Forcer l'activation</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>Forcer la désactivation</value>
+  </data>
 </root>
