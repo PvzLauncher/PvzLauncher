@@ -233,7 +233,7 @@ namespace PvzLauncherRemake.Windows
 
 
                 //公告获取
-                if (AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled)
+                if (AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled && !AppGlobals.Config.Settings.LauncherConfig.OfflineMode) 
                 {
                     JsonNoticeIndex.Index noticeIndex;
                     using (var client = new HttpClient())
