@@ -55,7 +55,20 @@ namespace PvzLauncherRemake.Utils.Services
                 return;
             }
 
-
+            //检查服务可用性
+            if(!await CheckService())
+            {
+                var result = await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "更新服务不可用",
+                    Content = "更新服务检查不通过，请检查 .NET 10 Runtime 是否正确安装",
+                    PrimaryButtonText = "忽略，继续尝试更新",
+                    CloseButtonText = "取消更新",
+                    DefaultButton = ContentDialogButton.Close
+                });
+                if (result == ContentDialogResult.None)
+                    return;
+            }
 
 
             //获取主索引
@@ -225,6 +238,38 @@ namespace PvzLauncherRemake.Utils.Services
             }
 
 
+        }
+
+        public static async Task<bool> CheckService()
+        {
+            try
+            {
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = Path.Combine(AppGlobals.ExecuteDirectory, "StdUpdateService.exe"),
+                        Arguments = "-test",
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        StandardOutputEncoding = System.Text.Encoding.UTF8,
+                        CreateNoWindow = true
+                    }
+                };
+
+                process.Start();
+
+                string output = process.StandardOutput.ReadToEnd();
+
+                await process.WaitForExitAsync();
+
+                return output == "done";
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+                return false;
+            }
         }
     }
 }
