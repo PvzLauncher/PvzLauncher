@@ -190,6 +190,11 @@ namespace PvzLauncherRemake.Pages
                 checkBox_Network_OfflineMode.IsChecked = AppGlobals.Config.Settings.LauncherConfig.OfflineMode;
                 //## 更新
                 //### 更新通道
+                if (!AppGlobals.IsStable)
+                {
+                    comboBox_UpdateChannel.IsEnabled = false;
+                    AppGlobals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
+                }
                 switch (AppGlobals.Config.Settings.LauncherConfig.UpdateChannel)
                 {
                     case "Stable":

@@ -4,6 +4,7 @@ using MdXaml;
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
@@ -70,6 +71,12 @@ namespace PvzLauncherRemake.Utils.Services
                     return;
             }
 
+            //如是Dev版强制使用Development分支
+            if (!AppGlobals.IsStable)
+            {
+                AppGlobals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
+                ConfigManager.SaveConfig();
+            }
 
             //获取主索引
             string indexString = await Client.GetStringAsync(AppGlobals.UpdateIndexUrl);

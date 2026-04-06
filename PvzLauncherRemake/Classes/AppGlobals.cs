@@ -26,6 +26,7 @@ namespace PvzLauncherRemake.Classes
 
         //字符串
         public static readonly string Version = $"1.5.1-beta.1";//版本
+        public static readonly bool IsStable = false;//是否稳定版
         public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";//服务根Url
         public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
         public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
