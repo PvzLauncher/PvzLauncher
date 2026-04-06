@@ -129,4 +129,7 @@
   <data name="Author" xml:space="preserve">
     <value>작가</value>
   </data>
+  <data name="Link" xml:space="preserve">
+    <value>공식 홈페이지로 이동</value>
+  </data>
 </root>

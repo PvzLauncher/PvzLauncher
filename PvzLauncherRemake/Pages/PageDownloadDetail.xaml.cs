@@ -1,8 +1,10 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
@@ -23,6 +25,7 @@ namespace PvzLauncherRemake.Pages
         public JsonDownloadIndex.GameInfo Info { get; set; }
         public string BaseDirectory { get; set; }
         public bool IsTrainer { get; set; }
+        private bool IsLink;
 
         private string ScreeshotRootUrl = $"{AppGlobals.ServiceRootUrl}/game-library/screenshots";
 
@@ -84,6 +87,8 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                IsLink = string.IsNullOrEmpty(Info.Url);
+
                 //卡片
                 userCard.Title = Info.Name;
                 userCard.Icon = GameIconConverter.ParseStringToGameIcons(Info.Icon);
@@ -109,6 +114,10 @@ namespace PvzLauncherRemake.Pages
                 {
                     textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
                 }
+                //下载按钮
+                pathIcon_Download.Visibility = IsLink ? Visibility.Hidden : Visibility.Visible;
+                pathIcon_Link.Visibility = IsLink ? Visibility.Visible : Visibility.Hidden;
+                textBlock_DownloadText.Text = GetLoc("I18N.PageDownloadConfirm", IsLink ? "Link" : "Download");
 
                 stackPanel_Screenshot.Children.Clear();
                 using (var client = new HttpClient())
@@ -162,6 +171,19 @@ namespace PvzLauncherRemake.Pages
 
         private async void button_Download_Click(object sender, RoutedEventArgs e)
         {
+            //跳转
+            if (IsLink)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Info.LinkUrl,
+                    UseShellExecute = true
+                });
+                return;
+            }
+
+
+
             /*//确认下载
             bool confirm = false;
             await DialogManager.ShowDialogAsync(new ContentDialog

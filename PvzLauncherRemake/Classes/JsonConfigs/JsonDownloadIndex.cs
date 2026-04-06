@@ -56,6 +56,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("url")]
             public string Url { get; set; }
+
+            [JsonProperty("link_url")]
+            public string LinkUrl { get; set; }
         }
 
         public partial class TrainerInfo : GameInfo

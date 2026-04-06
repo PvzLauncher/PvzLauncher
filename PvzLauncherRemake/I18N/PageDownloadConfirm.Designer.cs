@@ -88,6 +88,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 跳转官网 的本地化字符串。
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 屏幕截图 的本地化字符串。
         /// </summary>
         public static string ScreenShots {

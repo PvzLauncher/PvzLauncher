@@ -129,4 +129,7 @@
   <data name="Author" xml:space="preserve">
     <value>auteur</value>
   </data>
+  <data name="Link" xml:space="preserve">
+    <value>Aller au site officiel</value>
+  </data>
 </root>

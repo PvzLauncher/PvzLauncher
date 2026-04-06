@@ -129,4 +129,7 @@
   <data name="Author" xml:space="preserve">
     <value>作者</value>
   </data>
+  <data name="Link" xml:space="preserve">
+    <value>跳轉官網</value>
+  </data>
 </root>

@@ -129,4 +129,7 @@
   <data name="Author" xml:space="preserve">
     <value>著者</value>
   </data>
+  <data name="Link" xml:space="preserve">
+    <value>公式サイトへジャンプ</value>
+  </data>
 </root>
