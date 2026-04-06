@@ -69,9 +69,9 @@
                 <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="Newtonsoft.Json - Json读写"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="SharpCompress - 压缩包操作"  HorizontalAlignment="Center"/>
 
-                <!--宝贵意见提出者-->
+                <!--意见反馈-->
                 <TextBlock Text="{lex:Loc List_Feedback}" FontSize="15" FontWeight="Bold"  HorizontalAlignment="Center"/>
-                <ui:HyperlinkButton NavigateUri="https://github.com/Xiaowang0229" Content="Xiaowang0229 - 在 Release Candidate 阶段提出宝贵建议"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton Content="QQ交流群内每一位提出建议的用户"  HorizontalAlignment="Center"/>
 
                 <!--软件-->
                 <TextBlock Text="{lex:Loc List_Software}" FontSize="15" FontWeight="Bold"  HorizontalAlignment="Center"/>
