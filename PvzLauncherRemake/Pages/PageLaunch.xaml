@@ -47,7 +47,9 @@
             <Viewbox x:Name="viewBox_Icon" VerticalAlignment="Top" HorizontalAlignment="Center" Height="60" Margin="0,10,0,0"/>
 
             <!--回声洞-->
+            <!--
             <Button x:Name="button_EchoCave" Opacity="0" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            -->
         </Grid>
 
         <!--动画-->

@@ -26,7 +26,7 @@ namespace PvzLauncherRemake.Pages
 
         private List<string> echoCaveTemp = new List<string>();
 
-        private async Task RefreshEchoCave()
+        /*private async Task RefreshEchoCave()
         {
             if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
                 return;
@@ -76,7 +76,7 @@ namespace PvzLauncherRemake.Pages
             {
                 ErrorReportDialog.Show(ex);
             }
-        }
+        }*/
 
         #region Animation
         public async void StartAnimation()
@@ -266,7 +266,7 @@ namespace PvzLauncherRemake.Pages
                 if (AppGlobals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.Settings.LauncherConfig.Background))
                     image.Source = new BitmapImage(new Uri(AppGlobals.Config.Settings.LauncherConfig.Background));
 
-                //回声洞
+                /*//回声洞
                 if (AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled)
                 {
                     button_EchoCave.Visibility = Visibility.Visible;
@@ -275,7 +275,7 @@ namespace PvzLauncherRemake.Pages
                 else
                 {
                     button_EchoCave.Visibility = Visibility.Hidden;
-                }
+                }*/
 
 
                 logger.Info($"[启动] 完成初始化");
@@ -292,7 +292,7 @@ namespace PvzLauncherRemake.Pages
         {
             InitializeComponent();
             Loaded += ((sender, e) => Initialize());
-            button_EchoCave.Click += (async (s, e) => await RefreshEchoCave());
+            //button_EchoCave.Click += (async (s, e) => await RefreshEchoCave());
         }
 
         private async void button_Launch_Click(object sender, RoutedEventArgs e)

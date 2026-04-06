@@ -171,7 +171,7 @@ namespace PvzLauncherRemake.Pages
                     }
                 }
                 //### 回声洞
-                checkBox_Launcher_EchoCave.IsChecked = AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled;
+                //checkBox_Launcher_EchoCave.IsChecked = AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled;
                 //### 公告
                 checkBox_Launcher_Notice.IsChecked = AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled;
                 //### 启动动画
@@ -432,7 +432,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Launcher_EchoCave(object sender, RoutedEventArgs e)
+        /*private void Launcher_EchoCave(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -442,7 +442,7 @@ namespace PvzLauncherRemake.Pages
                 AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled = checkBox.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
-        }
+        }*/
 
         private void Launcher_Notice(object sender, RoutedEventArgs e)
         {

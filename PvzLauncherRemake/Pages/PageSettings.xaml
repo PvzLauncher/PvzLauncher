@@ -107,11 +107,11 @@
                             </StackPanel>
 
                             <!--回声洞-->
-                            <StackPanel Tag="aniSp" Orientation="Horizontal">
+                            <!--<StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc EchoCave}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <CheckBox x:Name="checkBox_Launcher_EchoCave" Content="{lex:Loc Enabled}" Click="Launcher_EchoCave"/>
 
-                            </StackPanel>
+                            </StackPanel>-->
                             
                             <!--公告-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">

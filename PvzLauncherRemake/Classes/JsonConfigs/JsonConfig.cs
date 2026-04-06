@@ -66,8 +66,8 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("navigation_view_align")]
             public string NavigationViewAlign { get; set; } = "Top";
 
-            [JsonProperty("echo_cave_enabled")]
-            public bool EchoCaveEnabled { get; set; } = true;
+            /*[JsonProperty("echo_cave_enabled")]
+            public bool EchoCaveEnabled { get; set; } = true;*/
 
             [JsonProperty("notice_enabled")]
             public bool NoticeEnabled { get; set; } = true;
