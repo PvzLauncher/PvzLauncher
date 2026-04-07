@@ -94,13 +94,13 @@ namespace PvzLauncherRemake.Pages
                 logger.Info($"[下载] 开始初始化...");
                 StartLoad();
 
-                if (AppGlobals.DownloadIndex == null)
+                if (AppGlobals.Indexes.DownloadIndex == null)
                 {
                     using (var client = new HttpClient())
                     {
-                        string indexString = await client.GetStringAsync(AppGlobals.DownloadIndexUrl);
+                        string indexString = await client.GetStringAsync(AppGlobals.Urls.DownloadIndexUrl);
                         logger.Info($"[下载] 获取下载索引: {indexString}");
-                        AppGlobals.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
+                        AppGlobals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
                     }
                 }
 
@@ -112,11 +112,11 @@ namespace PvzLauncherRemake.Pages
                 stackPanel_enRevision.Children.Clear();
                 stackPanel_trainer.Children.Clear();
 
-                AddGameCard(stackPanel_zhOrigin, AppGlobals.DownloadIndex.ZhOrigin);
-                AddGameCard(stackPanel_zhRevision, AppGlobals.DownloadIndex.ZhRevision);
-                AddGameCard(stackPanel_enOrigin, AppGlobals.DownloadIndex.EnOrigin);
-                AddGameCard(stackPanel_enRevision, AppGlobals.DownloadIndex.EnRevision);
-                AddTrainerCard(stackPanel_trainer, AppGlobals.DownloadIndex.Trainer);
+                AddGameCard(stackPanel_zhOrigin, AppGlobals.Indexes.DownloadIndex.ZhOrigin);
+                AddGameCard(stackPanel_zhRevision, AppGlobals.Indexes.DownloadIndex.ZhRevision);
+                AddGameCard(stackPanel_enOrigin, AppGlobals.Indexes.DownloadIndex.EnOrigin);
+                AddGameCard(stackPanel_enRevision, AppGlobals.Indexes.DownloadIndex.EnRevision);
+                AddTrainerCard(stackPanel_trainer, AppGlobals.Indexes.DownloadIndex.Trainer);
 
                 EndLoad();
 
@@ -188,8 +188,8 @@ namespace PvzLauncherRemake.Pages
             bool isTrainer = userCard.AttachedProperty.ToString() == "Trainer";
             var info = isTrainer ? (JsonDownloadIndex.TrainerInfo)userCard.Tag! : (JsonDownloadIndex.GameInfo)userCard.Tag!;
             string baseDirectory =
-                isTrainer ? AppGlobals.TrainerDirectory :
-                AppGlobals.GameDirectory;
+                isTrainer ? AppGlobals.Directories.TrainerDirectory :
+                AppGlobals.Directories.GameDirectory;
 
 
             this.NavigationService?.Navigate(new PageDownloadDetail

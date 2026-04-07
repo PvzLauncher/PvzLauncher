@@ -28,14 +28,14 @@ namespace PvzLauncherRemake.Pages
             try
             {
                 //获取Index
-                if (AppGlobals.HelpIndex == null)
+                if (AppGlobals.Indexes.HelpIndex == null)
                 {
                     using (var client = new HttpClient())
-                        AppGlobals.HelpIndex = Json.ReadJson<JsonHelpIndex.Index>(await client.GetStringAsync(AppGlobals.HelpIndexUrl));
+                        AppGlobals.Indexes.HelpIndex = Json.ReadJson<JsonHelpIndex.Index>(await client.GetStringAsync(AppGlobals.Urls.HelpIndexUrl));
                 }
 
                 //切换至主页
-                ChangePage(AppGlobals.HelpIndex.Root, null);
+                ChangePage(AppGlobals.Indexes.HelpIndex.Root, null);
             }
             catch (Exception ex)
             {

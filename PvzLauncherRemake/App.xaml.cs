@@ -28,19 +28,19 @@ namespace PvzLauncherRemake
                 ThemeManager.Current.AccentColor = Color.FromRgb(255, 0, 0);
 
             //初始化配置文件
-            if (!File.Exists(System.IO.Path.Combine(AppGlobals.ExecuteDirectory, "config.json")))
+            if (!File.Exists(System.IO.Path.Combine(AppGlobals.Directories.ExecuteDirectory, "config.json")))
             {
                 ConfigManager.CreateDefaultConfig();
             }
             //游戏目录
-            if (!Directory.Exists(AppGlobals.GameDirectory))
+            if (!Directory.Exists(AppGlobals.Directories.GameDirectory))
             {
-                Directory.CreateDirectory(AppGlobals.GameDirectory);
+                Directory.CreateDirectory(AppGlobals.Directories.GameDirectory);
             }
             //修改器目录
-            if (!Directory.Exists(AppGlobals.TrainerDirectory))
+            if (!Directory.Exists(AppGlobals.Directories.TrainerDirectory))
             {
-                Directory.CreateDirectory(AppGlobals.TrainerDirectory);
+                Directory.CreateDirectory(AppGlobals.Directories.TrainerDirectory);
             }
 
             //读配置

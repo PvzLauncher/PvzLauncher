@@ -206,7 +206,7 @@ namespace PvzLauncherRemake.Pages
 
         private async void button_Sponsor_Click(object sender, RoutedEventArgs e)
         {
-            string qrcodePath = Path.Combine(AppGlobals.ExecuteDirectory, "Resources", "Images", "sponsor_qrcode.png");
+            string qrcodePath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "Resources", "Images", "sponsor_qrcode.png");
             if (!File.Exists(qrcodePath))
                 throw new FileNotFoundException("文件不存在", qrcodePath);
             var bitmap = new BitmapImage(new Uri(qrcodePath));

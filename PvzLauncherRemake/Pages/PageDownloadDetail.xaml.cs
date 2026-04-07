@@ -27,7 +27,7 @@ namespace PvzLauncherRemake.Pages
         public bool IsTrainer { get; set; }
         private bool IsLink;
 
-        private string ScreeshotRootUrl = $"{AppGlobals.ServiceRootUrl}/game-library/screenshots";
+        private string ScreeshotRootUrl = $"{AppGlobals.Urls.ServiceRootUrl}/game-library/screenshots";
 
         #region image
         private void ImageMouseEnter(object sender)

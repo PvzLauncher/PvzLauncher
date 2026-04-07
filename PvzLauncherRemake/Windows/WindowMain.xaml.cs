@@ -150,7 +150,7 @@ namespace PvzLauncherRemake.Windows
                         //Primary=>改用外壳启动
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = System.IO.Path.Combine(AppGlobals.RootDirectory, "PvzLauncher.exe"),
+                            FileName = System.IO.Path.Combine(AppGlobals.Directories.RootDirectory, "PvzLauncher.exe"),
                             UseShellExecute = true
                         });
                         Environment.Exit(0);
@@ -194,7 +194,7 @@ namespace PvzLauncherRemake.Windows
                 //EULA检测
                 if (!AppGlobals.Config.Eula)
                 {
-                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Resources", "Documents", "EULA.md");
+                    string eulaPath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
                     string eulaText = $"无法加载{eulaPath}";
                     eulaText = await File.ReadAllTextAsync(eulaPath);
 
@@ -237,7 +237,7 @@ namespace PvzLauncherRemake.Windows
                 {
                     JsonNoticeIndex.Index noticeIndex;
                     using (var client = new HttpClient())
-                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.NoticeIndexUrl));
+                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.Urls.NoticeIndexUrl));
 
                     foreach (var notice in noticeIndex.Notices)
                     {

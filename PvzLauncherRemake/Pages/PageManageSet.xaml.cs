@@ -109,12 +109,12 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                if (Directory.Exists(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name)))
+                if (Directory.Exists(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name)))
                 {
 
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name),
+                        FileName = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name),
                         UseShellExecute = true
                     });
                 }
@@ -170,7 +170,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             StartLoad();
 
-                            await Task.Run(() => Directory.Delete(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name), true));
+                            await Task.Run(() => Directory.Delete(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name), true));
 
                             SnackbarManager.Show(new SnackbarContent
                             {
@@ -181,11 +181,11 @@ namespace PvzLauncherRemake.Pages
                             //刷新游戏列表
                             await GameManager.LoadGameListAsync();
 
-                            if (AppGlobals.GameList.Count > 0 && AppGlobals.Config.CurrentGame == GameInfo.GameInfo.Name)
+                            if (AppGlobals.Indexes.GameList.Count > 0 && AppGlobals.Config.CurrentGame == GameInfo.GameInfo.Name)
                             {
-                                AppGlobals.Config.CurrentGame = AppGlobals.GameList[0].GameInfo.Name;
+                                AppGlobals.Config.CurrentGame = AppGlobals.Indexes.GameList[0].GameInfo.Name;
                             }
-                            else if (AppGlobals.GameList.Count == 0)
+                            else if (AppGlobals.Indexes.GameList.Count == 0)
                             {
                                 AppGlobals.Config.CurrentGame = null!;
                             }
@@ -268,7 +268,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     GameInfo.GameInfo.Version = textBox.Text;
                     GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Grid)comboBox.SelectedItem).Tag);
-                    Json.WriteJson(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+                    Json.WriteJson(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
                     SnackbarManager.Show(new SnackbarContent
                     {
@@ -291,7 +291,7 @@ namespace PvzLauncherRemake.Pages
             {
 
 
-                string[] files = Directory.GetFiles(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name));
+                string[] files = Directory.GetFiles(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name));
                 List<string> exes = new List<string>();
                 //过滤exe
                 foreach (var file in files)
@@ -329,7 +329,7 @@ namespace PvzLauncherRemake.Pages
                         if (listBox.SelectedItem != null)
                         {
                             GameInfo.GameInfo.ExecuteName = (string)listBox.SelectedItem;
-                            Json.WriteJson(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+                            Json.WriteJson(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
                             SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "成功",
@@ -381,12 +381,12 @@ namespace PvzLauncherRemake.Pages
                 {
                     if (textBox.Text != null)
                     {
-                        if (!Directory.Exists(Path.Combine(AppGlobals.GameDirectory, textBox.Text)))
+                        if (!Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, textBox.Text)))
                         {
                             string lastName = GameInfo.GameInfo.Name;
                             GameInfo.GameInfo.Name = textBox.Text;
-                            Directory.Move(Path.Combine(AppGlobals.GameDirectory, lastName), Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name));
-                            Json.WriteJson(Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+                            Directory.Move(Path.Combine(AppGlobals.Directories.GameDirectory, lastName), Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name));
+                            Json.WriteJson(Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
                             SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "更名成功",

@@ -24,8 +24,8 @@ namespace PvzLauncherRemake.Utils.Services
         public static string ChangeLog = null!;
         public static string Url = null!;
         public static string UrlShell = null!;
-        public static string BinPackSavePath = Path.Combine(AppGlobals.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
-        public static string ShellPackSavePath = Path.Combine(AppGlobals.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
+        public static string BinPackSavePath = Path.Combine(AppGlobals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
+        public static string ShellPackSavePath = Path.Combine(AppGlobals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
 
         public static bool isUpdate = false;
 
@@ -79,7 +79,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
 
             //获取主索引
-            string indexString = await Client.GetStringAsync(AppGlobals.UpdateIndexUrl);
+            string indexString = await Client.GetStringAsync(AppGlobals.Urls.UpdateIndexUrl);
             logger.Info($"[更新器] 获取更新索引: {indexString}");
             UpdateIndex = Json.ReadJson<JsonUpdateIndex.Index>(indexString);
 
@@ -222,12 +222,12 @@ namespace PvzLauncherRemake.Utils.Services
             //下载成功↓
             //运行更新服务
             logger.Info($"[更新器] 下载完成，运行更新服务");
-            if (File.Exists(Path.Combine(AppGlobals.ExecuteDirectory, "StdUpdateService.exe")))
+            if (File.Exists(Path.Combine(AppGlobals.Directories.ExecuteDirectory, "StdUpdateService.exe")))
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = Path.Combine(AppGlobals.ExecuteDirectory, "StdUpdateService.exe"),
-                    Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{AppGlobals.ExecuteDirectory}\" -shellpath \"{AppGlobals.RootDirectory}\" -exepath \"{Path.Combine(AppGlobals.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
+                    FileName = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "StdUpdateService.exe"),
+                    Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{AppGlobals.Directories.ExecuteDirectory}\" -shellpath \"{AppGlobals.Directories.RootDirectory}\" -exepath \"{Path.Combine(AppGlobals.Directories.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
                     UseShellExecute = true
                 });
                 Environment.Exit(0);
@@ -237,7 +237,7 @@ namespace PvzLauncherRemake.Utils.Services
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "失败",
-                    Content = $"无法在 \"{Path.Combine(AppGlobals.ExecuteDirectory, "UpdateService.exe")}\" 找到更新服务",
+                    Content = $"无法在 \"{Path.Combine(AppGlobals.Directories.ExecuteDirectory, "UpdateService.exe")}\" 找到更新服务",
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 });
@@ -255,7 +255,7 @@ namespace PvzLauncherRemake.Utils.Services
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = Path.Combine(AppGlobals.ExecuteDirectory, "StdUpdateService.exe"),
+                        FileName = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "StdUpdateService.exe"),
                         Arguments = "-test",
                         UseShellExecute = false,
                         RedirectStandardOutput = true,

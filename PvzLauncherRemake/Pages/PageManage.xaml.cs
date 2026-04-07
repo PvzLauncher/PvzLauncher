@@ -46,12 +46,12 @@ namespace PvzLauncherRemake.Pages
             grid_NoneGame.IsEnabled = false;
             grid_NoneTrainer.IsEnabled = false;
 
-            if (AppGlobals.GameList.Count <= 0)
+            if (AppGlobals.Indexes.GameList.Count <= 0)
             {
                 grid_NoneGame.Visibility = Visibility.Visible;
                 grid_NoneGame.IsEnabled = true;
             }
-            if (AppGlobals.TrainerList.Count <= 0)
+            if (AppGlobals.Indexes.TrainerList.Count <= 0)
             {
                 grid_NoneTrainer.Visibility = Visibility.Visible;
                 grid_NoneTrainer.IsEnabled = true;
@@ -76,11 +76,11 @@ namespace PvzLauncherRemake.Pages
                 logger.Info($"[管理] 游戏列表加载完毕");
 
                 //游戏库里有东西才加
-                if (AppGlobals.GameList.Count > 0)
+                if (AppGlobals.Indexes.GameList.Count > 0)
                 {
                     logger.Info($"[管理] 开始添加卡片");
                     //添加卡片
-                    foreach (var game in AppGlobals.GameList)
+                    foreach (var game in AppGlobals.Indexes.GameList)
                     {
                         //定义卡片
                         var card = new UserCard
@@ -108,11 +108,11 @@ namespace PvzLauncherRemake.Pages
 
                 //添加修改器
                 //游戏库里有东西才加
-                if (AppGlobals.TrainerList.Count > 0)
+                if (AppGlobals.Indexes.TrainerList.Count > 0)
                 {
                     logger.Info($"[管理] 添加修改器列表");
                     //添加卡片
-                    foreach (var trainer in AppGlobals.TrainerList)
+                    foreach (var trainer in AppGlobals.Indexes.TrainerList)
                     {
                         //定义卡片
                         var card = new UserCard
@@ -390,13 +390,13 @@ namespace PvzLauncherRemake.Pages
                     {
                         logger.Info($"[管理: 修改器设置] 用户同意删除，开始删除...");
 
-                        await Task.Run(() => Directory.Delete(Path.Combine(AppGlobals.TrainerDirectory, trainerConfig.Name), true));
+                        await Task.Run(() => Directory.Delete(Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name), true));
                         logger.Info($"[管理: 修改器设置] 删除完毕");
                         await GameManager.LoadTrainerListAsync();
 
-                        if (AppGlobals.TrainerList.Count > 0 && AppGlobals.Config.CurrentTrainer == trainerConfig.Name)
+                        if (AppGlobals.Indexes.TrainerList.Count > 0 && AppGlobals.Config.CurrentTrainer == trainerConfig.Name)
                         {
-                            AppGlobals.Config.CurrentTrainer = AppGlobals.TrainerList[0].Name;
+                            AppGlobals.Config.CurrentTrainer = AppGlobals.Indexes.TrainerList[0].Name;
                         }
                         else
                         {
@@ -435,12 +435,12 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (textBox.Text != null)
                         {
-                            if (!Directory.Exists(Path.Combine(AppGlobals.TrainerDirectory, textBox.Text)))
+                            if (!Directory.Exists(Path.Combine(AppGlobals.Directories.TrainerDirectory, textBox.Text)))
                             {
                                 string lastName = trainerConfig.Name;
                                 trainerConfig.Name = textBox.Text;
-                                Directory.Move(Path.Combine(AppGlobals.TrainerDirectory, lastName), Path.Combine(AppGlobals.TrainerDirectory, trainerConfig.Name));
-                                Json.WriteJson(Path.Combine(AppGlobals.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
+                                Directory.Move(Path.Combine(AppGlobals.Directories.TrainerDirectory, lastName), Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name));
+                                Json.WriteJson(Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
                                 SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "更名成功",
@@ -485,7 +485,7 @@ namespace PvzLauncherRemake.Pages
                     dialog.Hide();
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = Path.Combine(AppGlobals.TrainerDirectory, trainerConfig.Name),
+                        FileName = Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name),
                         UseShellExecute = true
                     });
                 });

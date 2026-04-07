@@ -33,20 +33,20 @@ namespace PvzLauncherRemake.Pages
 
             try
             {
-                if (AppGlobals.EchoCaveIndex == null)
+                if (AppGlobals.Indexes.EchoCaveIndex == null)
                 {
                     using (var client = new HttpClient())
                     {
-                        AppGlobals.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(AppGlobals.EchoCaveIndexUrl));
+                        AppGlobals.Indexes.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(AppGlobals.Urls.EchoCaveIndexUrl));
                     }
 
-                    foreach (var echoCave in AppGlobals.EchoCaveIndex.Data)
+                    foreach (var echoCave in AppGlobals.Indexes.EchoCaveIndex.Data)
                         echoCaveTemp.Add(echoCave);
                 }
 
                 if (echoCaveTemp.Count == 0)
                 {
-                    foreach (var echoCave in AppGlobals.EchoCaveIndex.Data)
+                    foreach (var echoCave in AppGlobals.Indexes.EchoCaveIndex.Data)
                         echoCaveTemp.Add(echoCave);
                 }
 
@@ -222,7 +222,7 @@ namespace PvzLauncherRemake.Pages
                     logger.Info($"[启动] 当前选中游戏: {AppGlobals.Config.CurrentGame}");
 
                     //查找选择游戏信息
-                    foreach (var game in AppGlobals.GameList)
+                    foreach (var game in AppGlobals.Indexes.GameList)
                         if (game.GameInfo.Name == AppGlobals.Config.CurrentGame)
                             currentGameInfo = game;
 
@@ -239,7 +239,7 @@ namespace PvzLauncherRemake.Pages
                 if (!string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer))
                 {
                     logger.Info($"[启动] 当前选中修改器: {AppGlobals.Config.CurrentTrainer}");
-                    foreach (var trainer in AppGlobals.TrainerList)
+                    foreach (var trainer in AppGlobals.Indexes.TrainerList)
                         if (trainer.Name == AppGlobals.Config.CurrentTrainer)
                             currentTrainerInfo = trainer;
                 }
@@ -312,7 +312,7 @@ namespace PvzLauncherRemake.Pages
                         await StartLaunchAnimation();
 
                     //切换存档
-                    if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppGlobals.GameDirectory, AppGlobals.Config.CurrentGame, ".save")))
+                    if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, AppGlobals.Config.CurrentGame, ".save")))
                     {
                         logger.Info($"[启动] 已启用存档隔离，开始切换存档");
                         await GameManager.SwitchGameSave(currentGameInfo);
@@ -332,7 +332,7 @@ namespace PvzLauncherRemake.Pages
                         textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "LaunchGame");
 
                         //保存存档
-                        if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.SaveDirectory))
+                        if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.Directories.SaveDirectory))
                         {
                             logger.Info($"[启动] 存档隔离已开启，开始保存存档");
                             await GameManager.SaveGameSave(currentGameInfo);
@@ -345,7 +345,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = System.IO.Path.Combine(AppGlobals.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
+                            FileName = System.IO.Path.Combine(AppGlobals.Directories.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
                             UseShellExecute = true
                         });
                     }
@@ -400,7 +400,7 @@ namespace PvzLauncherRemake.Pages
 
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = System.IO.Path.Combine(AppGlobals.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
+                    FileName = System.IO.Path.Combine(AppGlobals.Directories.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
                     UseShellExecute = true
                 });
                 SnackbarManager.Show(new SnackbarContent

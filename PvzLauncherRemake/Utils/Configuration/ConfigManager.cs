@@ -8,7 +8,7 @@ namespace PvzLauncherRemake.Utils.Configuration
 {
     public static class ConfigManager
     {
-        public static string ConfigPath = Path.Combine(AppGlobals.ExecuteDirectory, "config.json");
+        public static string ConfigPath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "config.json");
 
         public static void CreateDefaultConfig()
         {

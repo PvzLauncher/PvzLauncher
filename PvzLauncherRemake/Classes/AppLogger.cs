@@ -8,7 +8,7 @@ namespace PvzLauncherRemake.Classes
         //日志记录器
         public static Logger logger = new Logger
         {
-            LogDirectory = Path.Combine(AppGlobals.ExecuteDirectory, "Logs"),
+            LogDirectory = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "Logs"),
             ShowCallerInfo = false,
             ShowDate = false
         };

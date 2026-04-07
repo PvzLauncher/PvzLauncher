@@ -33,7 +33,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             var validGames = new List<JsonGameInfo.Index>();
 
-            foreach (string dir in Directory.EnumerateDirectories(AppGlobals.GameDirectory))
+            foreach (string dir in Directory.EnumerateDirectories(AppGlobals.Directories.GameDirectory))
             {
                 string configPath = Path.Combine(dir, ".pvzl.json");
                 if (!File.Exists(configPath)) continue;
@@ -63,8 +63,8 @@ namespace PvzLauncherRemake.Utils.Services
                 }
             }
 
-            AppGlobals.GameList = validGames;
-            logger.Info($"[游戏管理器] 加载游戏版本完成，共 {AppGlobals.GameList.Count} 个有效版本");
+            AppGlobals.Indexes.GameList = validGames;
+            logger.Info($"[游戏管理器] 加载游戏版本完成，共 {AppGlobals.Indexes.GameList.Count} 个有效版本");
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             var validTrainers = new List<JsonTrainerInfo.Index>();
 
-            foreach (string dir in Directory.EnumerateDirectories(AppGlobals.TrainerDirectory))
+            foreach (string dir in Directory.EnumerateDirectories(AppGlobals.Directories.TrainerDirectory))
             {
                 string configPath = Path.Combine(dir, ".pvzl.json");
                 if (!File.Exists(configPath)) continue;
@@ -100,8 +100,8 @@ namespace PvzLauncherRemake.Utils.Services
                 }
             }
 
-            AppGlobals.TrainerList = validTrainers;
-            logger.Info($"[游戏管理器] 加载游戏版本完成，共 {AppGlobals.TrainerList.Count} 个有效版本");
+            AppGlobals.Indexes.TrainerList = validTrainers;
+            logger.Info($"[游戏管理器] 加载游戏版本完成，共 {AppGlobals.Indexes.TrainerList.Count} 个有效版本");
         }
 
         #endregion
@@ -151,10 +151,10 @@ namespace PvzLauncherRemake.Utils.Services
 
 
                 //特殊文件夹判断
-                if (openFolderDialog.FolderName == AppGlobals.ExecuteDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.RootDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.GameDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.TrainerDirectory)
+                if (openFolderDialog.FolderName == AppGlobals.Directories.ExecuteDirectory ||
+                    openFolderDialog.FolderName == AppGlobals.Directories.RootDirectory ||
+                    openFolderDialog.FolderName == AppGlobals.Directories.GameDirectory ||
+                    openFolderDialog.FolderName == AppGlobals.Directories.TrainerDirectory)
                 {
                     SnackbarManager.Show(new SnackbarContent
                     {
@@ -167,7 +167,7 @@ namespace PvzLauncherRemake.Utils.Services
 
 
                 //解决重名
-                string? savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? AppGlobals.TrainerDirectory : AppGlobals.GameDirectory));
+                string? savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? AppGlobals.Directories.TrainerDirectory : AppGlobals.Directories.GameDirectory));
 
                 if (string.IsNullOrEmpty(savePath))
                     return;
@@ -297,7 +297,7 @@ namespace PvzLauncherRemake.Utils.Services
 
         public static async Task StartDownloadAsync(dynamic info, string savePath, bool isTrainer)
         {
-            string tempPath = Path.Combine(AppGlobals.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{AppGlobals.Random.Next(Int32.MinValue, Int32.MaxValue) + AppGlobals.Random.Next(Int32.MinValue, Int32.MaxValue)}");
+            string tempPath = Path.Combine(AppGlobals.Directories.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{new Random().Next(Int32.MinValue, Int32.MaxValue) + new Random().Next(Int32.MinValue, Int32.MaxValue)}");
 
             logger.Info($"[下载] 生成随机临时名: {tempPath}");
 
@@ -340,7 +340,7 @@ namespace PvzLauncherRemake.Utils.Services
         public static async void LaunchGame(JsonGameInfo.Index gameInfo, Action? exitCallback = null)
         {
             //游戏exe路径
-            string gameExePath = System.IO.Path.Combine(AppGlobals.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
+            string gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
             logger.Info($"[游戏管理器] 设置游戏可执行文件路径: {gameExePath}");
             //定义Process
             AppProcess.Process = new Process
@@ -349,7 +349,7 @@ namespace PvzLauncherRemake.Utils.Services
                 {
                     FileName = gameExePath,
                     UseShellExecute = true,
-                    WorkingDirectory = System.IO.Path.Combine(AppGlobals.GameDirectory, gameInfo.GameInfo.Name)
+                    WorkingDirectory = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name)
                 }
             };
             logger.Info($"[游戏管理器] 启动进程");
@@ -383,7 +383,7 @@ namespace PvzLauncherRemake.Utils.Services
             //启动次数
             gameInfo.Record.PlayCount++;
             logger.Info($"[启动] 启动次数+1, 现在为： {gameInfo.Record.PlayCount}");
-            Json.WriteJson(System.IO.Path.Combine(AppGlobals.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            Json.WriteJson(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
 
             //启动器整体次数
             AppGlobals.Config.Record.LaunchCount++;
@@ -415,7 +415,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             //保存游玩时间
             gameInfo.Record.PlayTime = gameInfo.Record.PlayTime + ((long)(DateTimeOffset.Now - LatestGameLaunchTime!).Value.TotalSeconds);
-            Json.WriteJson(Path.Combine(AppGlobals.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            Json.WriteJson(Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
         }
 
         /// <summary>
@@ -465,9 +465,9 @@ namespace PvzLauncherRemake.Utils.Services
         /// <returns></returns>
         public static async Task SwitchGameSave(JsonGameInfo.Index gamInfo)
         {
-            if (Directory.Exists(AppGlobals.SaveDirectory))
-                Directory.Delete(AppGlobals.SaveDirectory, true);
-            await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.GameDirectory, gamInfo.GameInfo.Name, ".save"), AppGlobals.SaveDirectory);
+            if (Directory.Exists(AppGlobals.Directories.SaveDirectory))
+                Directory.Delete(AppGlobals.Directories.SaveDirectory, true);
+            await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), AppGlobals.Directories.SaveDirectory);
         }
 
         /// <summary>
@@ -477,9 +477,9 @@ namespace PvzLauncherRemake.Utils.Services
         /// <returns></returns>
         public static async Task SaveGameSave(JsonGameInfo.Index gamInfo)
         {
-            if (Directory.Exists(Path.Combine(AppGlobals.GameDirectory, gamInfo.GameInfo.Name, ".save")))
-                Directory.Delete(Path.Combine(AppGlobals.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);
-            await DirectoryManager.CopyDirectoryAsync(AppGlobals.SaveDirectory, Path.Combine(AppGlobals.GameDirectory, gamInfo.GameInfo.Name, ".save"));
+            if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save")))
+                Directory.Delete(Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);
+            await DirectoryManager.CopyDirectoryAsync(AppGlobals.Directories.SaveDirectory, Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"));
         }
 
         #endregion

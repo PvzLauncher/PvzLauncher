@@ -572,7 +572,7 @@ namespace PvzLauncherRemake.Pages
 
                     await Task.Run(() =>
                     {
-                        allTempFiles = Directory.GetFiles(AppGlobals.TempDiectory);
+                        allTempFiles = Directory.GetFiles(AppGlobals.Directories.TempDiectory);
                     });
 
                     if (!(allTempFiles.Length > 0))
@@ -732,12 +732,12 @@ namespace PvzLauncherRemake.Pages
                         try
                         {
 
-                            if (Directory.Exists(AppGlobals.SaveDirectory))
+                            if (Directory.Exists(AppGlobals.Directories.SaveDirectory))
                             {
                                 StartLoad();
                                 await Task.Run(() =>
                                 {
-                                    Directory.Delete(AppGlobals.SaveDirectory, true);
+                                    Directory.Delete(AppGlobals.Directories.SaveDirectory, true);
                                 });
                                 EndLoad();
                                 SnackbarManager.Show(new SnackbarContent
@@ -804,12 +804,12 @@ namespace PvzLauncherRemake.Pages
             {
                 if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation)
                 {
-                    if (AppGlobals.GameList.Count >= 2)
+                    if (AppGlobals.Indexes.GameList.Count >= 2)
                     {
                         var listBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
                         string originGameName = null!;
                         string targetGameName = null!;
-                        foreach (var game in AppGlobals.GameList)
+                        foreach (var game in AppGlobals.Indexes.GameList)
                         {
                             listBox.Items.Add(game.GameInfo.Name);
                         }
@@ -839,11 +839,11 @@ namespace PvzLauncherRemake.Pages
                             {
                                 originGameName = listBox.SelectedItem.ToString()!;
 
-                                if (Directory.Exists(Path.Combine(AppGlobals.GameDirectory, originGameName, ".save")))
+                                if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, originGameName, ".save")))
                                 {
 
                                     var targetListBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
-                                    foreach (var game in AppGlobals.GameList)
+                                    foreach (var game in AppGlobals.Indexes.GameList)
                                     {
                                         if (game.GameInfo.Name != originGameName)
                                             targetListBox.Items.Add(game.GameInfo.Name);
@@ -902,12 +902,12 @@ namespace PvzLauncherRemake.Pages
 
                                                 await Task.Run(() =>
                                                 {
-                                                    if (Directory.Exists(Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save")))
-                                                        Directory.Delete(Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save"), true);
+                                                    if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save")))
+                                                        Directory.Delete(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"), true);
                                                     else
-                                                        Directory.CreateDirectory(Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save"));
+                                                        Directory.CreateDirectory(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"));
                                                 });
-                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.GameDirectory, originGameName, ".save"), Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save"));
+                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"));
 
                                                 SnackbarManager.Show(new SnackbarContent
                                                 {
