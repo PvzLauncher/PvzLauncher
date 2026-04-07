@@ -291,4 +291,13 @@
   <data name="ForceOff" xml:space="preserve">
     <value>Принудительное отключение</value>
   </data>
+  <data name="SingleClick" xml:space="preserve">
+    <value>щелкнуть</value>
+  </data>
+  <data name="DoubleClick" xml:space="preserve">
+    <value>двойной щелчок</value>
+  </data>
+  <data name="ManageSelectMode" xml:space="preserve">
+    <value>Режим выбора страницы управления:</value>
+  </data>
 </root>

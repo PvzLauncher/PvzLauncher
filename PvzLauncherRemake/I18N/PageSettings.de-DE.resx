@@ -291,4 +291,13 @@
   <data name="ForceOff" xml:space="preserve">
     <value>Deaktivierung erzwingen</value>
   </data>
+  <data name="SingleClick" xml:space="preserve">
+    <value>klicken</value>
+  </data>
+  <data name="DoubleClick" xml:space="preserve">
+    <value>Doppelklick</value>
+  </data>
+  <data name="ManageSelectMode" xml:space="preserve">
+    <value>Auswahlmodus der Verwaltungsseite:</value>
+  </data>
 </root>

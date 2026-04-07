@@ -291,4 +291,13 @@
   <data name="ForceOff" xml:space="preserve">
     <value>강제 비활성화</value>
   </data>
+  <data name="SingleClick" xml:space="preserve">
+    <value>딸깍 하는 소리</value>
+  </data>
+  <data name="DoubleClick" xml:space="preserve">
+    <value>더블클릭</value>
+  </data>
+  <data name="ManageSelectMode" xml:space="preserve">
+    <value>관리 페이지 선택 모드:</value>
+  </data>
 </root>

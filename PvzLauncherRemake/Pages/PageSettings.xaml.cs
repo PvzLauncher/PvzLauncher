@@ -126,6 +126,16 @@ namespace PvzLauncherRemake.Pages
                 }
                 //### 修改器随游戏启动
                 checkbox_Launcher_LaunchWithTrainer.IsChecked = AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer;
+                //### 管理选择模式
+                radioButton_Launcher_ManageSelectMode_Single.IsChecked = false;
+                radioButton_Launcher_ManageSelectMode_Double.IsChecked = false;
+                switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
+                {
+                    case "Single":
+                        radioButton_Launcher_ManageSelectMode_Single.IsChecked = true;break;
+                    case "Double":
+                        radioButton_Launcher_ManageSelectMode_Double.IsChecked = true;break;
+                }
                 //## 外观
                 //### 主题
                 radioButton_Theme_Light.IsChecked = false;
@@ -335,6 +345,15 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer = checkbox_Launcher_LaunchWithTrainer.IsChecked == true ? true : false;
+                ConfigManager.SaveConfig();
+            }
+        }
+
+        private void Launcher_ManageSelectMode(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveConfig();
             }
         }

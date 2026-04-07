@@ -45,6 +45,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("launch_with_trainer")]
             public bool LaunchWithTrainer { get; set; } = false;
 
+            [JsonProperty("manage_select_mode")]
+            public string ManageSelectMode { get; set; } = "Single";
+
             [JsonProperty("theme")]
             public string Theme { get; set; } = "Light";
 

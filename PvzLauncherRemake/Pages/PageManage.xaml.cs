@@ -93,7 +93,15 @@ namespace PvzLauncherRemake.Pages
                             Tag = game,
                             Margin = new Thickness(0, 0, 0, 5)
                         };
-                        card.MouseLeftButtonUp += SelectGame;
+                        switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
+                        {
+                            case "Single":
+                                card.MouseLeftButtonUp += SelectGame;
+                                break;
+                            case "Double":
+                                card.MouseDoubleClick += SelectGame;
+                                break;
+                        }
                         card.MouseRightButtonUp += SetGame;
 
                         stackPanel_Game.Children.Add(card);//添加
@@ -125,7 +133,15 @@ namespace PvzLauncherRemake.Pages
                             Tag = trainer,
                             Margin = new Thickness(0, 0, 0, 5)
                         };
-                        card.MouseLeftButtonUp += SelectTrainer;
+                        switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
+                        {
+                            case "Single":
+                                card.MouseLeftButtonUp += SelectTrainer;
+                                break;
+                            case "Double":
+                                card.MouseDoubleClick += SelectTrainer;
+                                break;
+                        }
                         card.MouseRightButtonUp += SetTrainer;
 
                         stackPanel_Trainer.Children.Add(card);//添加

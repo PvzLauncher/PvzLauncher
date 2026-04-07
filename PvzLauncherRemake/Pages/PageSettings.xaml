@@ -42,6 +42,13 @@
                                 <TextBlock Text="{lex:Loc LaunchWithTrainer}" ToolTip="在启动游戏后自动启动已选修改器" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <CheckBox x:Name="checkbox_Launcher_LaunchWithTrainer" Content="{lex:Loc Enabled}" IsChecked="False" Click="Launcher_LaunchWithTrainer"/>
                             </StackPanel>
+                            
+                            <!--选择方式-->
+                            <StackPanel Tag="aniSp" Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc ManageSelectMode}" ToolTip="在启动游戏后自动启动已选修改器" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <RadioButton x:Name="radioButton_Launcher_ManageSelectMode_Single" Content="{lex:Loc SingleClick}" Tag="Single" Click="Launcher_ManageSelectMode"/>
+                                <RadioButton x:Name="radioButton_Launcher_ManageSelectMode_Double" Content="{lex:Loc DoubleClick}" Tag="Double" Click="Launcher_ManageSelectMode"/>
+                            </StackPanel>
                         </StackPanel>
 
                         <!--外观-->

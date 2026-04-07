@@ -291,4 +291,13 @@
   <data name="ForceOff" xml:space="preserve">
     <value>强制禁用</value>
   </data>
+  <data name="SingleClick" xml:space="preserve">
+    <value>单击</value>
+  </data>
+  <data name="DoubleClick" xml:space="preserve">
+    <value>双击</value>
+  </data>
+  <data name="ManageSelectMode" xml:space="preserve">
+    <value>管理页选择模式:</value>
+  </data>
 </root>
