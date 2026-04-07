@@ -25,7 +25,7 @@ namespace PvzLauncherRemake.Classes
         public static JsonHelpIndex.Index? HelpIndex = null;//帮助中心索引
 
         //字符串
-        public static readonly string Version = $"1.5.1-beta.1";//版本
+        public static readonly string Version = $"1.5.1-beta.2";//版本
         public static readonly bool IsStable = false;//是否稳定版
         public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";//服务根Url
         public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
