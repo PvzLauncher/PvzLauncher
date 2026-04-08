@@ -13,14 +13,15 @@ namespace ExecuteShell.Windows
     /// </summary>
     public partial class WindowMain : Window
     {
+        public static string executePath = AppDomain.CurrentDomain.BaseDirectory;
+        public static string binDirctory = Path.Combine(executePath, "bin");
+        public static string mainProgramPath = Path.Combine(binDirctory, "PvzLauncherRemake.exe");
+        public static string updateServicePath = Path.Combine(binDirctory, "StdUpdateService.exe");
+
         private void ExecuteMainProgram()
         {
             try
             {
-                string executePath = AppDomain.CurrentDomain.BaseDirectory;
-                string binDirctory = Path.Combine(executePath, "bin");
-                string mainProgramPath = Path.Combine(binDirctory, "PvzLauncherRemake.exe");
-
                 if (!Path.Exists(mainProgramPath))
                     throw new FileNotFoundException("The main program executable file does not exist.", mainProgramPath);
 
@@ -39,6 +40,37 @@ namespace ExecuteShell.Windows
             }
         }
 
+        private async Task UnlockFile(string filePath)
+        {
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"Unblock-File -Path '{filePath}'\"",
+                    UseShellExecute = true,
+                    CreateNoWindow = true
+                };
+
+                using var process = Process.Start(psi);
+                await process?.WaitForExitAsync()!;
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    //备选方案
+                    string zonePath = filePath + ":Zone.Identifier";
+                    if (File.Exists(zonePath))
+                        File.Delete(zonePath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"无法解锁文件 \"{filePath}\"，请尝试进入文件的属性，勾选\"解除锁定\"复选框并应用。随后再次尝试启动此程序\n\n详细信息: {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Shutdown(1);
+                }
+            }
+        }
 
         public WindowMain()
         {
@@ -56,7 +88,8 @@ namespace ExecuteShell.Windows
                     WinAPIHelper.SetWindowLong(hWnd, WinAPIHelper.GWL_EXSTYLE, extendedStyle | WinAPIHelper.WS_EX_LAYERED | WinAPIHelper.WS_EX_TRANSPARENT);
                 }
 
-
+                await UnlockFile(mainProgramPath);
+                await UnlockFile(updateServicePath);
 
 
                 var iconTrans = (ScaleTransform)icon.RenderTransform;
