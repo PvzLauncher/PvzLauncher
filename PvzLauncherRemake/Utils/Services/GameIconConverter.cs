@@ -1,7 +1,10 @@
 ﻿using PvzLauncherRemake.Controls.Icons;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows.Controls;
 
-namespace PvzLauncherRemake.Classes
+namespace PvzLauncherRemake.Utils.Services
 {
     public enum GameIcons
     {
@@ -33,7 +36,7 @@ namespace PvzLauncherRemake.Classes
         Application//app
     }
 
-    public class GameIconConverter
+    public static class GameIconConverter
     {
         /// <summary>
         /// 将图标字符串转换为枚举类型
