@@ -49,7 +49,9 @@ namespace ExecuteShell.Windows
                     FileName = "powershell.exe",
                     Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"Unblock-File -Path '{filePath}'\"",
                     UseShellExecute = true,
-                    CreateNoWindow = true
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
                 };
 
                 using var process = Process.Start(psi);
