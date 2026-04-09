@@ -261,9 +261,8 @@ namespace PvzLauncherRemake.Utils.Services
 
                 return output == "done";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ErrorReportDialog.Show(ex);
                 return false;
             }
         }
