@@ -35,6 +35,24 @@
                     </StackPanel>
                 </ctrl:UserScrollViewer>
             </TabItem>
+            <TabItem Header="服务器文件下载">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox x:Name="listBox_fileDownload_List" Grid.Column="0"/>
+
+                    <TextBlock x:Name="textBlock_FileDownload_Info" Grid.Column="1">
+                        OriginalFileName: UNKNOWN<LineBreak/>
+                        Size: UNKNOWN MB<LineBreak/>
+                        Url: UNKNOWN
+                    </TextBlock>
+
+                    <Button x:Name="button_FileDownload_DOWNLOAD" Grid.Column="1" Content="Download" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10"/>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </ui:Page>

@@ -59,19 +59,23 @@ namespace PvzLauncherRemake.Utils.Services
                         return;
                     }
 
-                    await Task.Delay(500);
 
-                    if (!Directory.Exists(taskInfo.SavePath))
-                        Directory.CreateDirectory(taskInfo.SavePath);
-
-                    //解压
-                    await Task.Run(() =>
+                    if (!string.IsNullOrEmpty(taskInfo.SavePath))
                     {
-                        CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
+                        await Task.Delay(500);
+
+                        if (!Directory.Exists(taskInfo.SavePath))
+                            Directory.CreateDirectory(taskInfo.SavePath);
+
+                        //解压
+                        await Task.Run(() =>
                         {
-                            taskInfo.ExtractProgress = p;
-                        }));
-                    });
+                            CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
+                            {
+                                taskInfo.ExtractProgress = p;
+                            }));
+                        });
+                    }
 
                     SnackbarManager.Show(new SnackbarContent
                     {
@@ -179,6 +183,7 @@ namespace PvzLauncherRemake.Utils.Services
     public enum TaskType
     {
         Game,
-        Trainer
+        Trainer,
+        File
     }
 }

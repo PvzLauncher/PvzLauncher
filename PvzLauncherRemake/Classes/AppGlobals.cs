@@ -38,6 +38,7 @@ namespace PvzLauncherRemake.Classes
             public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
             public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
             public static readonly string NoticeIndexUrl = $"{ServiceRootUrl}/notice/index.json";//公告索引
+            public static readonly string FileIndexUrl = $"{ServiceRootUrl}/files/index.json";//文件索引
         }
 
         //启动参数配置

@@ -1,7 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using HuaZi.Library.Downloader;
+using HuaZi.Library.Json;
+using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using System.IO;
+using System.Net.Http;
 using System.Reflection;
+using System.Security.Policy;
+using System.Windows;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -10,7 +18,7 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDeveloper : ModernWpf.Controls.Page
     {
-        public void Initialize()
+        public async void Initialize()
         {
             try
             {
@@ -51,6 +59,61 @@ namespace PvzLauncherRemake.Pages
                     if (Enum.TryParse<NavigaionPages>((string)comboBox_navigator.SelectedItem, out var result))
                         NavigationController.Navigate(result);
                 });
+                #endregion
+
+                #region 服务器文件下载
+
+                JsonFileIndex.Index index;
+                using (var client = new HttpClient())
+                    index = Json.ReadJson<JsonFileIndex.Index>(await client.GetStringAsync(AppGlobals.Urls.FileIndexUrl));
+                listBox_fileDownload_List.Items.Clear();
+                foreach (var file in index.List)
+                    listBox_fileDownload_List.Items.Add($"{file}");
+
+                listBox_fileDownload_List.SelectionChanged += ((s, e) =>
+                {
+                    var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
+
+                    textBlock_FileDownload_Info.Text = $"""
+                    OriginalFileName: {selected.OriginalFileName}
+                    Size: {Math.Round(selected.Size / 1024.0, 2)} KB
+                    Url: {selected.Url}
+                    """;
+
+                });
+
+                button_FileDownload_DOWNLOAD.Click += ((s, e) =>
+                {
+                    if (listBox_fileDownload_List.SelectedItem == null)
+                    {
+                        MessageBox.Show("no selected");
+                        return;
+                    }
+
+                    var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
+
+                    string savePath = Path.Combine(AppGlobals.Directories.TempDiectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{new Random().Next(int.MinValue, int.MaxValue)}");
+
+                    TaskManager.AddTask(new DownloadTaskInfo
+                    {
+                        Downloader = new Downloader
+                        {
+                            Url = selected.Url,
+                            SavePath = savePath
+                        },
+                        TaskName = $"[DEV] 下载 \"{selected.OriginalFileName}\"",
+                        TaskType = TaskType.File,
+                        TaskIcon = GameIcons.Unknown
+                    });
+
+                    SnackbarManager.Show(new SnackbarContent
+                    {
+                        Title = "下载已开始",
+                        Content = "",
+                        Type = SnackbarType.Info
+                    });
+                });
+
                 #endregion
             }
             catch (Exception ex)
