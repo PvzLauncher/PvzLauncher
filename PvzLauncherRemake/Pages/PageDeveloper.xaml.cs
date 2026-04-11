@@ -102,8 +102,7 @@ namespace PvzLauncherRemake.Pages
                             SavePath = savePath
                         },
                         TaskName = $"[DEV] 下载 \"{selected.OriginalFileName}\"",
-                        TaskType = TaskType.File,
-                        TaskIcon = GameIcons.Unknown
+                        TaskIcon = GameIconConverter.ParseGameIconToUserControl(GameIcons.Unknown)
                     });
 
                     SnackbarManager.Show(new SnackbarContent

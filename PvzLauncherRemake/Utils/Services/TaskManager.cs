@@ -7,6 +7,7 @@ using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Controls;
 
 
 namespace PvzLauncherRemake.Utils.Services
@@ -169,21 +170,13 @@ namespace PvzLauncherRemake.Utils.Services
         public Downloader? Downloader { get; set; } = null;//下载器
         public JsonDownloadIndex.GameInfo Info { get; set; }//游戏信息
         public string? TaskName { get; set; } = "未命名下载任务";//任务名
-        public GameIcons TaskIcon { get; set; } = GameIcons.Unknown;//任务图标
+        public UserControl TaskIcon { get; set; } = GameIconConverter.ParseGameIconToUserControl(GameIcons.Unknown);//任务图标
         public string SavePath { get; set; }//保存路径
-        public TaskType TaskType { get; set; }
         public bool? IsComplete { get; set; } = null;//是否完成  true=下载成功  false=下载失败
         public string? ErrorMessage { get; set; } = null;//下载失败时的错误反馈
 
         public double Progress { get; set; } = 0.0;//下载进度%
         public double Speed { get; set; } = 0.0;//下载速度Mb/s
         public double ExtractProgress { get; set; } = 0.0;//解压进度%
-    }
-
-    public enum TaskType
-    {
-        Game,
-        Trainer,
-        File
     }
 }
