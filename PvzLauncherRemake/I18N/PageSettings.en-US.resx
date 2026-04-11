@@ -300,13 +300,13 @@
   <data name="ManageSelectMode" xml:space="preserve">
     <value>Management page selection mode:</value>
   </data>
-  <data name="ServiceProvider" xml:space="preserve">
-    <value>Cloud service provider:</value>
+  <data name="ServiceSource" xml:space="preserve">
+    <value>Cloud service source:</value>
   </data>
-  <data name="Provider1" xml:space="preserve">
-    <value>Provider 1</value>
+  <data name="Source1" xml:space="preserve">
+    <value>Source 1</value>
   </data>
-  <data name="Provider2" xml:space="preserve">
-    <value>Provider 2</value>
+  <data name="Source2" xml:space="preserve">
+    <value>Source 2</value>
   </data>
 </root>

@@ -300,13 +300,13 @@
   <data name="ManageSelectMode" xml:space="preserve">
     <value>관리 페이지 선택 모드:</value>
   </data>
-  <data name="ServiceProvider" xml:space="preserve">
-    <value>클라우드 서비스 제공업체:</value>
+  <data name="ServiceSource" xml:space="preserve">
+    <value>클라우드 서비스 소스:</value>
   </data>
-  <data name="Provider1" xml:space="preserve">
-    <value>공급자 1</value>
+  <data name="Source1" xml:space="preserve">
+    <value>소스 1</value>
   </data>
-  <data name="Provider2" xml:space="preserve">
-    <value>공급자 2</value>
+  <data name="Source2" xml:space="preserve">
+    <value>소스 2</value>
   </data>
 </root>
