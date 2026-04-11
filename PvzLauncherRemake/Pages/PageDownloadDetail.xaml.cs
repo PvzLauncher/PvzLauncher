@@ -157,7 +157,10 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show(ex);
+                stackPanel_Screenshot.Children.Add(new TextBlock
+                {
+                    Text = $"无法获取图像文件: {ex}"
+                });
             }
         }
         #endregion
