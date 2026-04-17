@@ -195,6 +195,14 @@ namespace PvzLauncherRemake.Pages
                         radioButton_NavViewTop.IsChecked = true; break;
                 }
                 //## 网络
+                //### 提供方
+                switch (AppGlobals.Config.Settings.LauncherConfig.ServiceProvider)
+                {
+                    case "Gitee":
+                        comboBox_Launcher_ServiceProvider.SelectedIndex = 0;break;
+                    case "GitCode":
+                        comboBox_Launcher_ServiceProvider.SelectedIndex = 1;break;
+                }
                 //### 离线模式
                 checkBox_Network_OfflineMode.IsChecked = AppGlobals.Config.Settings.LauncherConfig.OfflineMode;
                 //## 更新
@@ -513,6 +521,16 @@ namespace PvzLauncherRemake.Pages
                     case "Left": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left; break;
                     case "Top": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
                 }
+            }
+        }
+
+        private void Launcher_ServiceProvider(object sender, SelectionChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.Settings.LauncherConfig.ServiceProvider = (string)(((ComboBoxItem)(comboBox_Launcher_ServiceProvider.SelectedItem)).Tag);
+                ConfigManager.SaveConfig();
+                ShowRestartTip();
             }
         }
 

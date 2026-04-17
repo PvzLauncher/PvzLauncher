@@ -168,6 +168,14 @@
                         <!--网络-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Network}" FontSize="25" FontWeight="Bold"/>
+                            <!--云服务提供方-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc ServiceSource}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="comboBox_Launcher_ServiceProvider" SelectedIndex="0" ToolTip="游戏列表、公告信息、更新服务等获取的源，若服务异常请尝试使用另一个源" SelectionChanged="Launcher_ServiceProvider">
+                                    <ComboBoxItem Content="{lex:Loc Source1}" Tag="Gitee"/>
+                                    <ComboBoxItem Content="{lex:Loc Source2}" Tag="GitCode"/>
+                                </ComboBox>
+                            </StackPanel>
                             <!--离线模式-->
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc OfflineMode}" Margin="0,0,10,0" VerticalAlignment="Center"/>

@@ -300,4 +300,13 @@
   <data name="ManageSelectMode" xml:space="preserve">
     <value>管理页选择模式:</value>
   </data>
+  <data name="ServiceSource" xml:space="preserve">
+    <value>云服务源:</value>
+  </data>
+  <data name="Source1" xml:space="preserve">
+    <value>源1</value>
+  </data>
+  <data name="Source2" xml:space="preserve">
+    <value>源2</value>
+  </data>
 </root>

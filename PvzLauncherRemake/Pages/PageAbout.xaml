@@ -24,7 +24,7 @@
             <icons:IconApplicationFull MouseRightButtonUp="Canvas_MouseRightButtonDown" Height="80" Width="80" HorizontalAlignment="Left" Margin="10"/>
 
             <!--标题与版本-->
-            <TextBlock Text="Plants vs. Zombies Launcher" FontSize="25" FontWeight="Bold" Margin="100,10,10,10"/>
+            <TextBlock Text="Plants Vs. Zombies Launcher" FontSize="25" FontWeight="Bold" Margin="100,10,10,10"/>
             <TextBlock x:Name="textBlock_Version" Text="Version" Foreground="#FF646464" Margin="100,40,10,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
             <!--快捷按钮-->

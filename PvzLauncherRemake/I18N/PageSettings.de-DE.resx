@@ -300,4 +300,13 @@
   <data name="ManageSelectMode" xml:space="preserve">
     <value>Auswahlmodus der Verwaltungsseite:</value>
   </data>
+  <data name="ServiceSource" xml:space="preserve">
+    <value>Cloud-Service-Quelle:</value>
+  </data>
+  <data name="Source1" xml:space="preserve">
+    <value>Quelle 1</value>
+  </data>
+  <data name="Source2" xml:space="preserve">
+    <value>Quelle 2</value>
+  </data>
 </root>

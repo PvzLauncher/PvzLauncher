@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="PvzLauncherRemake.Controls.Icons.IconFile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PvzLauncherRemake.Controls.Icons"
+             mc:Ignorable="d">
+    <Viewbox>
+        <Canvas UseLayoutRounding="False" Width="80.0" Height="80.0">
+            <Canvas.Clip>
+                <RectangleGeometry Rect="0.0,0.0,80.0,80.0"/>
+            </Canvas.Clip>
+            <Canvas UseLayoutRounding="False">
+                <Path Fill="#fff2c94c">
+                    <Path.Data>
+                        <PathGeometry Figures="M 45.17 15.176 a 4 4 0 0 0 -2.828 -1.171 L 24 14.003 a 4 4 0 0 0 -4 4 v 44 a 4 4 0 0 0 4 4 h 32 a 4 4 0 0 0 4 -4 V 31.66 a 4 4 0 0 0 -1.172 -2.83 l -0.2 -0.2 c 0.459 0.527 0.09 1.37 -0.628 1.37 H 48 a 4 4 0 0 1 -4 -4 V 16 c 0 -0.71 0.826 -1.08 1.353 -0.642 z"/>
+                    </Path.Data>
+                </Path>
+                <Path Fill="#fff2994a">
+                    <Path.Data>
+                        <PathGeometry Figures="M 58.586 28.586 L 45.414 15.414 A 0.828 0.828 0 0 0 44 16 v 10 a 4 4 0 0 0 4 4 h 10 a 0.828 0.828 0 0 0 0.586 -1.414" FillRule="Nonzero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+</UserControl>

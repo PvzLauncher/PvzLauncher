@@ -13,7 +13,7 @@ namespace PvzLauncherRemake.Controls
         public double Progress { get; set; }
         public double ProgressCompress { get; set; }
         public double Speed { get; set; }
-        public GameIcons Icon { get; set; } = GameIcons.Unknown;
+        public UserControl Icon { get; set; } = GameIconConverter.ParseGameIconToUserControl(GameIcons.Unknown);
 
 
         public UserTaskCard()
@@ -24,7 +24,7 @@ namespace PvzLauncherRemake.Controls
         public void UpdateControl()
         {
             grid_Icon.Children.Clear();
-            grid_Icon.Children.Add(GameIconConverter.ParseGameIconToUserControl(Icon));
+            grid_Icon.Children.Add(Icon);
 
             textBlock_Title.Text = Title;
 

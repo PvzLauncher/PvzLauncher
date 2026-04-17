@@ -34,10 +34,17 @@ namespace PvzLauncherRemake.Classes
         //字符串
         public static class Urls
         {
-            public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";//服务根Url
+            public static string ServiceRootUrl = ServiceRootUrls.Gitee;//服务根Url
             public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
             public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
             public static readonly string NoticeIndexUrl = $"{ServiceRootUrl}/notice/index.json";//公告索引
+            public static readonly string FileIndexUrl = $"{ServiceRootUrl}/files/index.json";//文件索引
+
+            public static class ServiceRootUrls
+            {
+                public static readonly string Gitee = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";
+                public static readonly string GitCode = "https://raw.gitcode.com/HuaMouRen/PvzLauncher.Service/raw/main";
+            }
         }
 
         //启动参数配置

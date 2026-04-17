@@ -78,6 +78,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("launch_animation_enabled")]
             public bool LaunchAnimationEnabled { get; set; } = true;
 
+            [JsonProperty("service_provider")]
+            public string ServiceProvider { get; set; } = "Gitee";
+
             [JsonProperty("offline_mode")]
             public bool OfflineMode { get; set; } = false;
 

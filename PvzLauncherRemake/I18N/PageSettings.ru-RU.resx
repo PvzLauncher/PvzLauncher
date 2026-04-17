@@ -300,4 +300,13 @@
   <data name="ManageSelectMode" xml:space="preserve">
     <value>Режим выбора страницы управления:</value>
   </data>
+  <data name="ServiceSource" xml:space="preserve">
+    <value>Источник облачного сервиса:</value>
+  </data>
+  <data name="Source1" xml:space="preserve">
+    <value>Источник 1</value>
+  </data>
+  <data name="Source2" xml:space="preserve">
+    <value>Источник 2</value>
+  </data>
 </root>

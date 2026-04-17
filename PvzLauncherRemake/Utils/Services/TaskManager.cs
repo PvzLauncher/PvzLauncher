@@ -5,7 +5,9 @@ using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
+using System.Diagnostics;
 using System.IO;
+using System.Windows.Controls;
 
 
 namespace PvzLauncherRemake.Utils.Services
@@ -23,7 +25,7 @@ namespace PvzLauncherRemake.Utils.Services
         /// </summary>
         /// <param name="taskInfo"></param>
         /// <returns></returns>
-        public static void AddTask(DownloadTaskInfo taskInfo)
+        public static void AddTask(DownloadTaskInfo taskInfo, Action? completeCallback = null)
         {
             foreach (var task in DownloadTaskList)
             {
@@ -59,62 +61,22 @@ namespace PvzLauncherRemake.Utils.Services
                     }
 
 
-
-                    await Task.Delay(1000);
-
-                    if (!Directory.Exists(taskInfo.SavePath))
-                        Directory.CreateDirectory(taskInfo.SavePath);
-
-                    //解压
-                    await Task.Run(() =>
+                    if (!string.IsNullOrEmpty(taskInfo.SavePath))
                     {
-                        CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
+                        await Task.Delay(500);
+
+                        if (!Directory.Exists(taskInfo.SavePath))
+                            Directory.CreateDirectory(taskInfo.SavePath);
+
+                        //解压
+                        await Task.Run(() =>
                         {
-                            taskInfo.ExtractProgress = p;
-
-                        }));
-                    });
-
-
-                    string configName = Path.GetFileName(taskInfo.SavePath);
-                    if (taskInfo.GameInfo != null)
-                    {
-                        var cfg = new JsonGameInfo.Index
-                        {
-                            GameInfo = new JsonGameInfo.GameInfo
+                            CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
                             {
-                                ExecuteName = taskInfo.GameInfo.ExecuteName,
-                                Version = taskInfo.GameInfo.Version,
-                                Name = configName,
-                                Icon = taskInfo.GameInfo.Icon
-                            },
-                            Record = new JsonGameInfo.Record
-                            {
-                                FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                PlayCount = 0,
-                                PlayTime = 0
-                            }
-                        };
-                        Json.WriteJson(Path.Combine(taskInfo.SavePath, ".pvzl.json"), cfg);
-                        AppGlobals.Config.CurrentGame = configName;
+                                taskInfo.ExtractProgress = p;
+                            }));
+                        });
                     }
-                    else
-                    {
-                        var cfg = new JsonTrainerInfo.Index
-                        {
-                            ExecuteName = taskInfo.TrainerInfo!.ExecuteName,
-                            Version = taskInfo.TrainerInfo.Version,
-                            Name = configName,
-                            Icon = taskInfo.TrainerInfo.Icon
-                        };
-                        Json.WriteJson(Path.Combine(taskInfo.SavePath, ".pvzl.json"), cfg);
-                        AppGlobals.Config.CurrentTrainer = configName;
-                    }
-
-                    ConfigManager.SaveConfig();
-                    //刷新列表
-                    await GameManager.LoadGameListAsync();
-                    await GameManager.LoadTrainerListAsync();
 
                     SnackbarManager.Show(new SnackbarContent
                     {
@@ -124,6 +86,7 @@ namespace PvzLauncherRemake.Utils.Services
                     });
                     DownloadTaskList.Remove(taskInfo);
                     TaskRemoved?.Invoke(taskInfo);
+                    completeCallback?.Invoke();
                 }),
                 Progress = ((p, s) =>
                 {
@@ -205,23 +168,15 @@ namespace PvzLauncherRemake.Utils.Services
     public class DownloadTaskInfo
     {
         public Downloader? Downloader { get; set; } = null;//下载器
-        public JsonDownloadIndex.GameInfo? GameInfo { get; set; }//游戏信息
-        public JsonDownloadIndex.TrainerInfo? TrainerInfo { get; set; }//修改器信息
+        public JsonDownloadIndex.GameInfo Info { get; set; }//游戏信息
         public string? TaskName { get; set; } = "未命名下载任务";//任务名
-        public GameIcons TaskIcon { get; set; } = GameIcons.Unknown;//任务图标
+        public UserControl TaskIcon { get; set; } = GameIconConverter.ParseGameIconToUserControl(GameIcons.Unknown);//任务图标
         public string SavePath { get; set; }//保存路径
-        public TaskType TaskType { get; set; }
         public bool? IsComplete { get; set; } = null;//是否完成  true=下载成功  false=下载失败
         public string? ErrorMessage { get; set; } = null;//下载失败时的错误反馈
 
         public double Progress { get; set; } = 0.0;//下载进度%
         public double Speed { get; set; } = 0.0;//下载速度Mb/s
         public double ExtractProgress { get; set; } = 0.0;//解压进度%
-    }
-
-    public enum TaskType
-    {
-        Game,
-        Trainer
     }
 }

@@ -296,7 +296,7 @@ namespace PvzLauncherRemake.Utils.Services
 
         #region 下载
 
-        public static async Task StartDownloadAsync(dynamic info, string savePath, bool isTrainer)
+        public static async Task StartDownloadAsync(JsonDownloadIndex.GameInfo info, string savePath, bool isTrainer)
         {
             string tempPath = Path.Combine(AppGlobals.Directories.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{new Random().Next(Int32.MinValue, Int32.MaxValue) + new Random().Next(Int32.MinValue, Int32.MaxValue)}");
 
@@ -316,13 +316,54 @@ namespace PvzLauncherRemake.Utils.Services
                         Url = info.Url,
                         SavePath = tempPath
                     },
-                    GameInfo = isTrainer ? null : info,
-                    TrainerInfo = isTrainer ? info : null,
+                    Info = info,
                     TaskName = $"下载 {Path.GetFileName(savePath)}",
-                    TaskType = isTrainer ? TaskType.Trainer : TaskType.Game,
                     SavePath = savePath,
-                    TaskIcon = GameIconConverter.ParseStringToGameIcons(info.Icon)
-                });
+                    TaskIcon = GameIconConverter.ParseGameIconToUserControl(GameIconConverter.ParseStringToGameIcons(info.Icon))
+                }, (async () =>
+                {
+                    string configName = Path.GetFileName(savePath);
+                    if (!isTrainer)
+                    {
+                        var cfg = new JsonGameInfo.Index
+                        {
+                            GameInfo = new JsonGameInfo.GameInfo
+                            {
+                                ExecuteName = info.ExecuteName,
+                                Version = info.Version,
+                                Name = configName,
+                                Icon = info.Icon
+                            },
+                            Record = new JsonGameInfo.Record
+                            {
+                                FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                PlayCount = 0,
+                                PlayTime = 0
+                            }
+                        };
+                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                        AppGlobals.Config.CurrentGame = configName;
+                    }
+                    else
+                    {
+                        var cfg = new JsonTrainerInfo.Index
+                        {
+                            ExecuteName = info.ExecuteName,
+                            Version = info.Version,
+                            Name = configName,
+                            Icon = info.Icon
+                        };
+                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                        AppGlobals.Config.CurrentTrainer = configName;
+                    }
+
+                    ConfigManager.SaveConfig();
+                    //刷新列表
+                    await LoadGameListAsync();
+                    await LoadTrainerListAsync();
+                }));
+
+                
             }
             catch (Exception ex)
             {

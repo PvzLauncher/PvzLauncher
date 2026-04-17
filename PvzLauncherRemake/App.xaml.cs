@@ -49,6 +49,15 @@ namespace PvzLauncherRemake
             //切换语言
             LocalizeManager.SwitchLanguage(AppGlobals.Config.Settings.LauncherConfig.Language);
 
+            //切换服务提供方
+            switch (AppGlobals.Config.Settings.LauncherConfig.ServiceProvider)
+            {
+                case "Gitee":
+                    AppGlobals.Urls.ServiceRootUrl = AppGlobals.Urls.ServiceRootUrls.Gitee; break;
+                case "GitCode":
+                    AppGlobals.Urls.ServiceRootUrl = AppGlobals.Urls.ServiceRootUrls.GitCode; break;
+            }
+
             //加载列表
             await GameManager.LoadGameListAsync();
             await GameManager.LoadTrainerListAsync();

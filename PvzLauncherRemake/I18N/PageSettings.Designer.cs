@@ -511,11 +511,38 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 云服务源: 的本地化字符串。
+        /// </summary>
+        public static string ServiceSource {
+            get {
+                return ResourceManager.GetString("ServiceSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 单击 的本地化字符串。
         /// </summary>
         public static string SingleClick {
             get {
                 return ResourceManager.GetString("SingleClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 源1 的本地化字符串。
+        /// </summary>
+        public static string Source1 {
+            get {
+                return ResourceManager.GetString("Source1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 源2 的本地化字符串。
+        /// </summary>
+        public static string Source2 {
+            get {
+                return ResourceManager.GetString("Source2", resourceCulture);
             }
         }
         

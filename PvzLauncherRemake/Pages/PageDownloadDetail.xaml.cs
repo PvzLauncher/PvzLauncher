@@ -124,7 +124,7 @@ namespace PvzLauncherRemake.Pages
                     for (int i = 0; i < Info.Screenshot; i++)
                     {
                         string url = $"{ScreeshotRootUrl}/{Info.Name}/{i + 1}.png";
-
+                        
                         byte[] imageBytes = await client.GetByteArrayAsync(url);
 
                         using (var memoryStream = new MemoryStream(imageBytes))
@@ -157,7 +157,10 @@ namespace PvzLauncherRemake.Pages
             }
             catch (Exception ex)
             {
-                ErrorReportDialog.Show(ex);
+                stackPanel_Screenshot.Children.Add(new TextBlock
+                {
+                    Text = $"无法获取图像文件: {ex}"
+                });
             }
         }
         #endregion
