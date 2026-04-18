@@ -53,9 +53,8 @@ PvzLauncher有多个更新通道，可供您选择，你可以根据下表来选
 
 |操作系统|支持情况|环境要求|
 |-|-|-|
-|![win10](/docs/image/Icons/windows.png) Windows 10(1809+) / ![win11](/docs/image/Icons/windows11.png) 11 64-bit|✅完全支持|[.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
-|![win7](/docs/image/Icons/windows7.png) Windows 7 / ![win8](/docs/image/Icons/windows8.png) 8.1 / ![win10-1809](/docs/image/Icons/windows10-1809-.png) 10(1809-) 64-bit|⚠️部分支持|[.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
-|![win32bit](/docs/image/Icons/windows7.png) Windows 32-bit / ARM|❌不支持|仅有x64版本|
+|![win10](/docs/image/Icons/windows.png) Windows 10(1809+) / ![win11](/docs/image/Icons/windows11.png) 11 64-bit / 32-bit|✅完全支持|[.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
+|![win7](/docs/image/Icons/windows7.png) Windows 7 / ![win8](/docs/image/Icons/windows8.png) 8.1 / ![win10-1809](/docs/image/Icons/windows10-1809-.png) 10(1809-) |❌不支持|.NET10 已放弃对这些平台的支持|
 |![linux](/docs/image/Icons/linux.png) Linux|❔理论支持|可以使用Wine此类兼容层运行|
 |![macos](/docs/image/Icons/macos.png) macOS / ![android](/docs/image/Icons/android.png) Android / ![ios](/docs/image/Icons/macos.png) IOS / ![web](/docs/image/Icons/web.png) Web|❌不支持|永远也不会支持这些平台|
 
