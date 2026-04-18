@@ -1,4 +1,4 @@
-﻿<ui:Page x:Class="PvzLauncherRemake.Pages.PageSettings"
+<ui:Page x:Class="PvzLauncherRemake.Pages.PageSettings"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -66,13 +66,10 @@
                                 <TextBlock Text="{lex:Loc Language}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <ComboBox x:Name="comboBox_Launcher_Language" ToolTip="启动器显示的语言" SelectedIndex="0" SelectionChanged="Launcher_Language">
                                     <ComboBoxItem Content="简体中文 (中国大陆)" Tag="zh-CN"/>
-                                    <ComboBoxItem Content="繁體中文 (中國臺灣)" Tag="zh-TW"/>
+                                    <ComboBoxItem Content="繁體中文 (中國香港/澳門/臺灣)" Tag="zh-TW"/>
                                     <ComboBoxItem Content="English (US)" Tag="en-US"/>
                                     <ComboBoxItem Content="日本語 (日本)" Tag="ja-JP"/>
-                                    <ComboBoxItem Content="Français (France)" Tag="fr-FR"/>
                                     <ComboBoxItem Content="한국어 (한국)" Tag="ko-KR"/>
-                                    <ComboBoxItem Content="Русский (Россия)" Tag="ru-RU"/>
-                                    <ComboBoxItem Content="Deutsch (deutschland)" Tag="de-DE"/>
                                 </ComboBox>
                             </StackPanel>
                             <!--标题-->
