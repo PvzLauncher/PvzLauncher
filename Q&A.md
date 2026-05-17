@@ -31,3 +31,7 @@
 #### Q7.The process cannot access the file 'AppData\Local\Temp\PVZLAUNCHER.UPDATE.CACHE' because it is being used by another process.
 
 更新包文件被异常占用。在点击一次 `检查更新` 后请不要再次点击。
+
+#### Q8.在检查更新时报错: `System.Net.Http.HttpRequestException: Response status code does not indicate success: 502 (Bad Gateway).`
+
+更新源服务器出现不稳定问题，过段时间再来检测更新即可
