@@ -7,8 +7,8 @@ namespace PvzLauncherRemake.Classes
     //全局类
     public static class AppGlobals
     {
-        public static readonly string Version = $"1.5.3-beta.3";//版本
-        public static readonly bool IsStable = false;//是否稳定版
+        public static readonly string Version = $"1.5.3";//版本
+        public static readonly bool IsStable = true;//是否稳定版
         public static JsonConfig.Index Config = null!;//配置
 
         //路径
