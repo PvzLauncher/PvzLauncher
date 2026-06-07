@@ -162,4 +162,7 @@
   <data name="DontClick" xml:space="preserve">
     <value>Klicken Sie niemals</value>
   </data>
+  <data name="GotoQA" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
 </root>

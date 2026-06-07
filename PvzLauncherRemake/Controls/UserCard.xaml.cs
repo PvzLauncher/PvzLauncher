@@ -25,6 +25,7 @@ namespace PvzLauncherRemake.Controls
         public bool isRecommend { get; set; }
         public bool isNew { get; set; }
         public bool isActive { get; set; }
+        public bool isVirtual { get; set; }
         public object AttachedProperty { get; set; }
         public bool BigIconMode { get; set; } = false;
         public bool IsReadOnly { get; set; } = false;
@@ -74,6 +75,8 @@ namespace PvzLauncherRemake.Controls
                 AddLabel($"{GetLoc("I18N.UserCard", "Recommend")}", Color.FromArgb(204, 0, 255, 0), true);
             if (isNew)
                 AddLabel($"{GetLoc("I18N.UserCard", "New")}", Color.FromArgb(204, 100, 0, 255), true);
+            if (isVirtual)
+                AddLabel($"{GetLoc("I18N.UserCard", "Virtual")}", Color.FromArgb(204, 200, 120, 255), true);
             if (isActive)
                 AddLabel($"{GetLoc("I18N.UserCard", "Active")}", Color.FromArgb(204, 255, 0, 0), true);
         }

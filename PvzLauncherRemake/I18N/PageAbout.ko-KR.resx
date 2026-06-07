@@ -162,4 +162,7 @@
   <data name="DontClick" xml:space="preserve">
     <value>절대 클릭하지 마세요</value>
   </data>
+  <data name="GotoQA" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
 </root>

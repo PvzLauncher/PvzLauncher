@@ -142,4 +142,7 @@
   <data name="DontClick" xml:space="preserve">
     <value>千万别点</value>
   </data>
+  <data name="GotoQA" xml:space="preserve">
+    <value>常见问题</value>
+  </data>
 </root>

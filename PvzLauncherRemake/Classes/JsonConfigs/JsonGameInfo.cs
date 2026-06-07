@@ -29,6 +29,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("execute_name")]
             public string ExecuteName { get; set; }
+
+            [JsonProperty("game_path")]
+            public string? GamePath { get; set; } = null;//普通游戏不写，仅虚拟导入
         }
 
         public partial class Record

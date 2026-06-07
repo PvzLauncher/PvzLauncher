@@ -399,7 +399,8 @@ namespace PvzLauncherRemake.Pages
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = System.IO.Path.Combine(AppGlobals.Directories.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
-                    UseShellExecute = true
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.Combine(AppGlobals.Directories.TrainerDirectory, currentTrainerInfo.Name)
                 });
                 SnackbarManager.Show(new SnackbarContent
                 {

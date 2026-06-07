@@ -31,6 +31,7 @@
             <StackPanel Orientation="Horizontal" Margin="100,10,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                 <Button x:Name="button_ReportIssue" Content="{lex:Loc FeedBack}" Tag="https://github.com/PvzLauncher/PvzLauncher/issues/new/choose" Click="GoToUrl" Margin="0,0,10,0"/>
                 <Button x:Name="button_showEULA" Content="{lex:Loc ShowEula}" Tag="https://github.com/PvzLauncher/PvzLauncher/blob/main/CODE_OF_CONDUCT.md" Click="GoToUrl" Margin="0,0,10,0"/>
+                <Button x:Name="button_gotoQA" Content="{lex:Loc GotoQA}" Tag="https://github.com/PvzLauncher/PvzLauncher/blob/main/Q%26A.md" Click="GoToUrl" Margin="0,0,10,0"/>
                 <Button x:Name="button_Sponsor" Content="{lex:Loc Sponsor}" Click="button_Sponsor_Click" Margin="0,0,10,0"/>
                 <!--<Button x:Name="button_DontClick" Content="{lex:Loc DontClick}" Click="button_DontClick_Click" Margin="0,0,10,0" Background="{x:Null}">
                     <Button.BorderBrush>

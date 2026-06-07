@@ -9,11 +9,23 @@ namespace PvzLauncherRemake.Utils.UI
     {
         public static async void Show(Exception ex, bool isUnHandleException = false)
         {
+            if (!isUnHandleException)
+            {
+                SnackbarManager.Show(new SnackbarContent
+                {
+                    Title = "发生错误",
+                    Content = $"{ex}",
+                    Type = SnackbarType.Error
+                });
+                return;
+            }
+
+
             var dialog = new TaskDialog
             {
-                WindowTitle = isUnHandleException ? "发生未捕获的错误" : "发生错误",
+                WindowTitle =  "发生未捕获的错误" ,
                 MainIcon = TaskDialogIcon.Error,
-                MainInstruction = isUnHandleException ? "程序在运行时发生了未捕获的错误" : "程序在运行时发生错误",
+                MainInstruction =  "程序在运行时发生了未捕获的错误" ,
                 Content = ex.ToString(),
                 AllowDialogCancellation = false,
                 ButtonStyle = TaskDialogButtonStyle.CommandLinks
@@ -49,12 +61,8 @@ namespace PvzLauncherRemake.Utils.UI
 
             dialog.Buttons.Add(btnEnd);
             dialog.Buttons.Add(btnCopyAndEnd);
-
-            if (!isUnHandleException)
-            {
-                dialog.Buttons.Add(btnCopyAndReportAndEnd);
-                dialog.Buttons.Add(btnContinue);
-            }
+            dialog.Buttons.Add(btnCopyAndReportAndEnd);
+            dialog.Buttons.Add(btnContinue);
 
             dialog.Buttons.Add(btnClose);
 

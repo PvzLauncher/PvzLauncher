@@ -97,6 +97,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 常见问题 的本地化字符串。
+        /// </summary>
+        public static string GotoQA {
+            get {
+                return ResourceManager.GetString("GotoQA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 帮助中心 的本地化字符串。
         /// </summary>
         public static string HelpCenter {

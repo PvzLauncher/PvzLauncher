@@ -129,4 +129,7 @@
   <data name="Active" xml:space="preserve">
     <value>활동</value>
   </data>
+  <data name="Virtual" xml:space="preserve">
+    <value>가상</value>
+  </data>
 </root>

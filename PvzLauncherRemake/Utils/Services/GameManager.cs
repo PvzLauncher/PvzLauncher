@@ -9,6 +9,7 @@ using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -118,6 +119,7 @@ namespace PvzLauncherRemake.Utils.Services
             try
             {
                 bool? isTrainer = null;
+                bool isVirtual = false;
 
                 //选择位置
                 var openFolderDialog = new OpenFolderDialog
@@ -130,14 +132,16 @@ namespace PvzLauncherRemake.Utils.Services
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
                 var radioButtonTrainer = new RadioButton { Content = "修改器" };
-                radioButtonGame.Click += ((s, e) => isTrainer = false);
-                radioButtonTrainer.Click += ((s, e) => isTrainer = true);
+                var checkBoxVirtual = new CheckBox { Content = "虚拟导入(仅游戏)", IsChecked = false, IsEnabled = false };
+                radioButtonGame.Click += ((s, e) => { isTrainer = false; checkBoxVirtual.IsEnabled = true; });
+                radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; checkBoxVirtual.IsChecked = false; });
+                checkBoxVirtual.Click += ((s, e) => isVirtual = checkBoxVirtual.IsChecked ?? false);
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "请选择类型",
                     Content = new StackPanel
                     {
-                        Children = { radioButtonGame, radioButtonTrainer }
+                        Children = { radioButtonGame, radioButtonTrainer, checkBoxVirtual }
                     },
                     PrimaryButtonText = "确定",
                     CloseButtonText = "取消导入",
@@ -152,19 +156,20 @@ namespace PvzLauncherRemake.Utils.Services
 
 
                 //特殊文件夹判断
-                if (openFolderDialog.FolderName == AppGlobals.Directories.ExecuteDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.Directories.RootDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.Directories.GameDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.Directories.TrainerDirectory)
-                {
-                    SnackbarManager.Show(new SnackbarContent
+                if (!isVirtual)
+                    if (openFolderDialog.FolderName == AppGlobals.Directories.ExecuteDirectory ||
+                        openFolderDialog.FolderName == AppGlobals.Directories.RootDirectory ||
+                        openFolderDialog.FolderName == AppGlobals.Directories.GameDirectory ||
+                        openFolderDialog.FolderName == AppGlobals.Directories.TrainerDirectory)
                     {
-                        Title = "导入失败",
-                        Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
-                        Type = SnackbarType.Error
-                    });
-                    return;
-                }
+                        SnackbarManager.Show(new SnackbarContent
+                        {
+                            Title = "导入失败",
+                            Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
+                            Type = SnackbarType.Error
+                        });
+                        return;
+                    }
 
 
                 //解决重名
@@ -224,37 +229,72 @@ namespace PvzLauncherRemake.Utils.Services
                 }
 
                 //导入确认
-                bool isImportConfirm = false;
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                if (!isVirtual)
                 {
-                    Title = "导入确认",
-                    Content = "此操作会将您选择的文件夹复制到启动器游戏库内，如果游戏过可能会需要很长时间，且此操作无法取消！\n\n确定开始导入？",
-                    PrimaryButtonText = "确定",
-                    CloseButtonText = "取消",
-                    DefaultButton = ContentDialogButton.Primary
-                }, (() => isImportConfirm = true));
-
-                if (!isImportConfirm)
-                    return;
-
-                await DirectoryManager.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
-
-
-
-                if (isTrainer == true)
-                {
-                    var config = new JsonTrainerInfo.Index
+                    bool isImportConfirm = false;
+                    await DialogManager.ShowDialogAsync(new ContentDialog
                     {
-                        ExecuteName = exeFile,
-                        Icon = "origin",
-                        Name = Path.GetFileName(savePath),
-                        Version = "1.0.0.0"
-                    };
-                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                        Title = "导入确认",
+                        Content = "此操作会将您选择的文件夹复制到启动器游戏库内，如果游戏过可能会需要很长时间，且此操作无法取消！\n\n确定开始导入？",
+                        PrimaryButtonText = "确定",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() => isImportConfirm = true));
+
+                    if (!isImportConfirm)
+                        return;
+
+                    await DirectoryManager.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+
+
+                    if (isTrainer == true)
+                    {
+                        var config = new JsonTrainerInfo.Index
+                        {
+                            ExecuteName = exeFile,
+                            Icon = "origin",
+                            Name = Path.GetFileName(savePath),
+                            Version = "1.0.0.0"
+                        };
+                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                    }
+                    else
+                    {
+                        var config = new JsonGameInfo.Index
+                        {
+                            GameInfo = new JsonGameInfo.GameInfo
+                            {
+                                ExecuteName = exeFile,
+                                Icon = "origin",
+                                Name = Path.GetFileName(savePath),
+                                Version = "1.0.0.0",
+                            },
+                            Record = new JsonGameInfo.Record
+                            {
+                                FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                PlayCount = 0,
+                                PlayTime = 0
+                            }
+                        };
+                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                    }
                 }
                 else
                 {
-                    var config = new JsonGameInfo.Index
+                    bool isImportConfirm = false;
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "虚拟导入确认",
+                        Content = "虚拟导入提供了一个新的导入方式，只在启动器目录创建一个引用链接。达到不复制源游戏文件即可启动游戏",
+                        PrimaryButtonText = "确定",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() => isImportConfirm = true));
+
+                    if (!isImportConfirm)
+                        return;
+
+                    var virtualConfig = new JsonGameInfo.Index
                     {
                         GameInfo = new JsonGameInfo.GameInfo
                         {
@@ -262,6 +302,7 @@ namespace PvzLauncherRemake.Utils.Services
                             Icon = "origin",
                             Name = Path.GetFileName(savePath),
                             Version = "1.0.0.0",
+                            GamePath = openFolderDialog.FolderName
                         },
                         Record = new JsonGameInfo.Record
                         {
@@ -270,8 +311,12 @@ namespace PvzLauncherRemake.Utils.Services
                             PlayTime = 0
                         }
                     };
-                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                    if (!Directory.Exists(savePath))
+                        Directory.CreateDirectory(savePath);
+                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
                 }
+
+
 
                 SnackbarManager.Show(new SnackbarContent
                 {
@@ -363,7 +408,7 @@ namespace PvzLauncherRemake.Utils.Services
                     await LoadTrainerListAsync();
                 }));
 
-                
+
             }
             catch (Exception ex)
             {
@@ -382,7 +427,11 @@ namespace PvzLauncherRemake.Utils.Services
         public static async void LaunchGame(JsonGameInfo.Index gameInfo, Action? exitCallback = null)
         {
             //游戏exe路径
-            string gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
+            string gameExePath;
+            if (gameInfo.GameInfo.GamePath != null) 
+                gameExePath = Path.Combine(gameInfo.GameInfo.GamePath, gameInfo.GameInfo.ExecuteName);
+            else
+                gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
 
             //定义Process
             GameProcess = new Process
@@ -391,7 +440,7 @@ namespace PvzLauncherRemake.Utils.Services
                 {
                     FileName = gameExePath,
                     UseShellExecute = true,
-                    WorkingDirectory = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name)
+                    WorkingDirectory = Path.GetDirectoryName(gameExePath)
                 }
             };
 

@@ -27,7 +27,7 @@ namespace PvzLauncherRemake.Utils.Services
         public static string BinPackSavePath = Path.Combine(AppGlobals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
         public static string ShellPackSavePath = Path.Combine(AppGlobals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
 
-        public static bool isUpdate = false;
+        private static bool isUpdating = false;//是否正在更新
 
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
@@ -59,6 +59,20 @@ namespace PvzLauncherRemake.Utils.Services
                 if (result == ContentDialogResult.None)
                     return;
             }
+            //是否正在更新
+            if (isUpdating)
+            {
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "无法更新",
+                    Content = $"已有一个更新实例正在运行。如果你之前没有点击过更新，请尝试重启启动器",
+                    PrimaryButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Primary
+                });
+                return;
+            }
+
+            isUpdating = true;
 
             //如是Dev版强制使用Development分支
             if (!AppGlobals.IsStable)
@@ -98,12 +112,13 @@ namespace PvzLauncherRemake.Utils.Services
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
                     });
+                    isUpdating = false;
                     return;
             }
 
 
             //判断版本
-
+            bool isUpdate = false;
             if (AppGlobals.Version != LatestVersion)
             {
 
@@ -122,9 +137,21 @@ namespace PvzLauncherRemake.Utils.Services
                     Title = $"发现可用更新 - {LatestVersion}",
                     Content = docViewer,
                     PrimaryButtonText = "立即更新",
+                    SecondaryButtonText = "前往Release页面",
                     CloseButtonText = "取消更新",
                     DefaultButton = ContentDialogButton.Primary
-                }, (() => { isUpdate = true; }));
+                }, (() =>
+                {
+                    isUpdate = true;
+                }), (() =>
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = $"https://github.com/PvzLauncher/PvzLauncher/releases/tag/{LatestVersion}",
+                        UseShellExecute = true
+                    });
+                }
+                ));
             }
             else
             {
@@ -143,7 +170,7 @@ namespace PvzLauncherRemake.Utils.Services
             //不更新直接return
             if (!isUpdate)
             {
-
+                isUpdating = false;
                 return;
             }
 
@@ -207,7 +234,10 @@ namespace PvzLauncherRemake.Utils.Services
 
             //如下载失败抛错误
             if (done == false)
+            {
+                isUpdating = false;
                 throw new Exception(errorMessage);
+            }
             //下载成功↓
             //运行更新服务
 

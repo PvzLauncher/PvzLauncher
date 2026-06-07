@@ -91,7 +91,8 @@ namespace PvzLauncherRemake.Pages
                             Version = $"{game.GameInfo.Version}",
                             Background = System.Windows.Media.Brushes.Transparent,
                             Tag = game,
-                            Margin = new Thickness(0, 0, 0, 5)
+                            Margin = new Thickness(0, 0, 0, 5),
+                            isVirtual = game.GameInfo.GamePath != null
                         };
                         switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
                         {

@@ -109,4 +109,7 @@
   <data name="Active" xml:space="preserve">
     <value>活动</value>
   </data>
+  <data name="Virtual" xml:space="preserve">
+    <value>虚拟</value>
+  </data>
 </root>

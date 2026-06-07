@@ -16,7 +16,7 @@ namespace PvzLauncherRemake.Utils.FileSystem
 
             Directory.CreateDirectory(extractionPath);
 
-            using var archive = ArchiveFactory.Open(archivePath);
+            using var archive = ArchiveFactory.OpenArchive(archivePath);
 
             // 第一步：预计算总未压缩大小
             long totalUncompressedSize = 0;

@@ -129,4 +129,7 @@
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="Virtual" xml:space="preserve">
+    <value>Virtual</value>
+  </data>
 </root>

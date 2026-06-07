@@ -108,12 +108,19 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                if (Directory.Exists(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name)))
-                {
+                string path;
+                if (GameInfo.GameInfo.GamePath == null)
+                    path = Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name);
+                else
+                    path = GameInfo.GameInfo.GamePath;
 
+
+
+                if (Directory.Exists(path))
+                {
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name),
+                        FileName = path,
                         UseShellExecute = true
                     });
                 }
@@ -290,7 +297,12 @@ namespace PvzLauncherRemake.Pages
             {
 
 
-                string[] files = Directory.GetFiles(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name));
+                string[] files;
+                if (GameInfo.GameInfo.GamePath == null)
+                    files = Directory.GetFiles(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, GameInfo.GameInfo.Name));
+                else
+                    files = Directory.GetFiles(GameInfo.GameInfo.GamePath);
+
                 List<string> exes = new List<string>();
                 //过滤exe
                 foreach (var file in files)

@@ -95,5 +95,14 @@ namespace PvzLauncherRemake.I18N {
                 return ResourceManager.GetString("SupportVersion", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 虚拟 的本地化字符串。
+        /// </summary>
+        public static string Virtual {
+            get {
+                return ResourceManager.GetString("Virtual", resourceCulture);
+            }
+        }
     }
 }
