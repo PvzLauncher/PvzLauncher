@@ -16,7 +16,7 @@
 
 ### 1. 安装 .NET 10 运行时
 
-此程序需要依赖 .NET 10 Desktop Runtime 运行，因此在使用之前你需要前往[此处](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)下载并安装，如果你已经安装，那么可以跳过此步骤
+此程序需要依赖 .NET 10 Desktop Runtime 运行，因此在使用之前你需要前往[此处](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)下载并安装，如果你已经安装，那么可以跳过此步骤
 
 接着，运行下方命令。检查安装是否成功
 
