@@ -4,7 +4,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 {
     public class JsonConfig
     {
-        public class Index
+        public class Root
         {
             [JsonProperty("current_game")]
             public string CurrentGame { get; set; } = null!;

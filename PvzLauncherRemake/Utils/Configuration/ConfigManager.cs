@@ -12,7 +12,7 @@ namespace PvzLauncherRemake.Utils.Configuration
 
         public static void CreateDefaultConfig()
         {
-            AppGlobals.Config = new JsonConfig.Index();
+            AppGlobals.Config = new JsonConfig.Root();
             SaveConfig();
         }
 
@@ -29,7 +29,7 @@ namespace PvzLauncherRemake.Utils.Configuration
                     return;
                 }
 
-                var config = Json.ReadJson<JsonConfig.Index>(ConfigPath);
+                var config = Json.ReadJson<JsonConfig.Root>(ConfigPath);
                 if (config == null)
                 {
 

@@ -4,7 +4,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 {
     public class JsonTrainerInfo
     {
-        public class Index
+        public class Root
         {
             [JsonProperty("name")]
             public string Name { get; set; }

@@ -19,8 +19,8 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageLaunch : ModernWpf.Controls.Page
     {
-        private JsonGameInfo.Index currentGameInfo = null!;
-        private JsonTrainerInfo.Index currentTrainerInfo = null!;
+        private JsonGameInfo.Root currentGameInfo = null!;
+        private JsonTrainerInfo.Root currentTrainerInfo = null!;
 
         private List<string> echoCaveTemp = new List<string>();
 

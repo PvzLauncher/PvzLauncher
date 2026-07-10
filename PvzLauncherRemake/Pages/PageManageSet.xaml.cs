@@ -20,7 +20,7 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageManageSet : ModernWpf.Controls.Page
     {
-        private JsonGameInfo.Index GameInfo = null!;
+        private JsonGameInfo.Root GameInfo = null!;
 
         #region Load
         public void StartLoad(bool isStart = true)
@@ -96,7 +96,7 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
-        public PageManageSet(JsonGameInfo.Index gameInfo)
+        public PageManageSet(JsonGameInfo.Root gameInfo)
         {
             InitializeComponent();
             Initialize();

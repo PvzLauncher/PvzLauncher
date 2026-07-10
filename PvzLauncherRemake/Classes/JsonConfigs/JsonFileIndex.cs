@@ -7,7 +7,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 {
     public class JsonFileIndex
     {
-        public class Index
+        public class Root
         {
             [JsonProperty("file-list")]
             public string[] List { get; set; }

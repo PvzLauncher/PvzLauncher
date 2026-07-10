@@ -234,9 +234,9 @@ namespace PvzLauncherRemake.Windows
                 //公告获取
                 if (AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled && !AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
                 {
-                    JsonNoticeIndex.Index noticeIndex;
+                    JsonNoticeIndex.Root noticeIndex;
                     using (var client = new HttpClient())
-                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.Urls.NoticeIndexUrl));
+                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(AppGlobals.Urls.NoticeIndexUrl));
 
                     foreach (var notice in noticeIndex.Notices)
                     {

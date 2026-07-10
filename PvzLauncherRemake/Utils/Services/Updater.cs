@@ -17,7 +17,7 @@ namespace PvzLauncherRemake.Utils.Services
 {
     public static class Updater
     {
-        public static JsonUpdateIndex.Index UpdateIndex = null!;
+        public static JsonUpdateIndex.Root UpdateIndex = null!;
         public static HttpClient Client = new HttpClient();
 
         public static string LatestVersion = null!;
@@ -84,7 +84,7 @@ namespace PvzLauncherRemake.Utils.Services
             //获取主索引
             string indexString = await Client.GetStringAsync(AppGlobals.Urls.UpdateIndexUrl);
 
-            UpdateIndex = Json.ReadJson<JsonUpdateIndex.Index>(indexString);
+            UpdateIndex = Json.ReadJson<JsonUpdateIndex.Root>(indexString);
 
             //判断更新通道
 

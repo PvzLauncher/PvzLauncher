@@ -4,7 +4,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 {
     public class JsonNoticeIndex
     {
-        public class Index
+        public class Root
         {
             [JsonProperty("notices")]
             public NoticeInfo[] Notices { get; set; }

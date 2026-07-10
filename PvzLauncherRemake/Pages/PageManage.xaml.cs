@@ -288,7 +288,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                this.NavigationService.Navigate(new PageManageSet((JsonGameInfo.Index)((UserCard)sender).Tag));
+                this.NavigationService.Navigate(new PageManageSet((JsonGameInfo.Root)((UserCard)sender).Tag));
             }
             catch (Exception ex)
             {
@@ -301,7 +301,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                var trainerConfig = (JsonTrainerInfo.Index)(((UserCard)sender).Tag);
+                var trainerConfig = (JsonTrainerInfo.Root)(((UserCard)sender).Tag);
 
 
                 //控件
@@ -572,12 +572,12 @@ namespace PvzLauncherRemake.Pages
                             Tag = item.Tag,
                             Margin = item.Margin
                         };
-                        if (card.Tag is JsonGameInfo.Index)
+                        if (card.Tag is JsonGameInfo.Root)
                         {
                             card.MouseDoubleClick += SelectGame;
                             card.MouseRightButtonUp += SetGame;
                         }
-                        else if (card.Tag is JsonTrainerInfo.Index)
+                        else if (card.Tag is JsonTrainerInfo.Root)
                         {
                             card.MouseDoubleClick += SelectTrainer;
                             card.MouseRightButtonUp += SetTrainer;

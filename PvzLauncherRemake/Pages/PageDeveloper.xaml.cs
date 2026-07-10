@@ -64,9 +64,9 @@ namespace PvzLauncherRemake.Pages
 
                 #region 服务器文件下载
 
-                JsonFileIndex.Index index;
+                JsonFileIndex.Root index;
                 using (var client = new HttpClient())
-                    index = Json.ReadJson<JsonFileIndex.Index>(await client.GetStringAsync(AppGlobals.Urls.FileIndexUrl));
+                    index = Json.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(AppGlobals.Urls.FileIndexUrl));
                 listBox_fileDownload_List.Items.Clear();
                 foreach (var file in index.List)
                     listBox_fileDownload_List.Items.Add($"{file}");

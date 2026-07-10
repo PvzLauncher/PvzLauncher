@@ -397,7 +397,7 @@ namespace PvzLauncherRemake.Pages
         private void Launcher_TitleReset(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
-                textBox_WindowTitle.Text = new JsonConfig.Index().Settings.LauncherConfig.WindowTitle;
+                textBox_WindowTitle.Text = new JsonConfig.Root().Settings.LauncherConfig.WindowTitle;
         }
 
         private void Launcher_Title(object sender, TextChangedEventArgs e)

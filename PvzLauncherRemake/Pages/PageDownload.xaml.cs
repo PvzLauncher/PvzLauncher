@@ -101,7 +101,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         string indexString = await client.GetStringAsync(AppGlobals.Urls.DownloadIndexUrl);
 
-                        AppGlobals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
+                        AppGlobals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
                     }
                 }
 

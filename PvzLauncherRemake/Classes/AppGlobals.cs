@@ -9,7 +9,7 @@ namespace PvzLauncherRemake.Classes
     {
         public static readonly string Version = $"1.5.4-beta.1";//版本
         public static readonly bool IsStable = false;//是否稳定版
-        public static JsonConfig.Index Config = null!;//配置
+        public static JsonConfig.Root Config = null!;//配置
 
         //路径
         public static class Directories
@@ -25,10 +25,10 @@ namespace PvzLauncherRemake.Classes
         //特殊
         public static class Indexes
         {
-            public static List<JsonGameInfo.Index> GameList = new List<JsonGameInfo.Index>();//游戏列表
-            public static List<JsonTrainerInfo.Index> TrainerList = new List<JsonTrainerInfo.Index>();//修改器
+            public static List<JsonGameInfo.Root> GameList = new List<JsonGameInfo.Root>();//游戏列表
+            public static List<JsonTrainerInfo.Root> TrainerList = new List<JsonTrainerInfo.Root>();//修改器
 
-            public static JsonDownloadIndex.Index? DownloadIndex = null;//下载索引
+            public static JsonDownloadIndex.Root? DownloadIndex = null;//下载索引
         }
 
         //字符串
