@@ -28,35 +28,6 @@ namespace PvzLauncherRemake.Pages
 
         private string ScreeshotRootUrl = $"{Globals.Urls.ServiceRootUrl}/game-library/screenshots";
 
-        #region image
-        private void ImageMouseEnter(object sender)
-        {
-            var animation = new DoubleAnimation
-            {
-                From = 250,
-                To = 260,
-                Duration = TimeSpan.FromMilliseconds(500),
-                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-            };
-            ((Image)sender).BeginAnimation(MaxHeightProperty, null);
-            ((Image)sender).BeginAnimation(MaxHeightProperty, animation);
-        }
-
-        private void ImageMouseLeave(object sender)
-        {
-            var animation = new DoubleAnimation
-            {
-                From = 260,
-                To = 250,
-                Duration = TimeSpan.FromMilliseconds(1000),
-                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-            };
-            ((Image)sender).BeginAnimation(MaxHeightProperty, null);
-            ((Image)sender).BeginAnimation(MaxHeightProperty, animation);
-        }
-        #endregion
-
-        #region animation
         private void StartImageAnimation(Image image)
         {
             //动画
@@ -79,96 +50,92 @@ namespace PvzLauncherRemake.Pages
             image.BeginAnimation(MarginProperty, thicknessAnimation);
             image.BeginAnimation(OpacityProperty, doubleAnimation);
         }
-        #endregion
 
-        #region init
-        public async void Initialize()
-        {
-            try
-            {
-                IsLink = string.IsNullOrEmpty(Info.Url);
-
-                //卡片
-                userCard.Title = Info.Name;
-                userCard.Icon = GameIconConverter.ParseStringToGameIcons(Info.Icon);
-                userCard.Version = Info.Version;
-                userCard.Size = $"{Info.Size}";
-                userCard.isNew = Info.IsNew;
-                userCard.isRecommend = Info.IsRecommend;
-
-                if (Info is JsonDownloadIndex.TrainerInfo ti)
-                    userCard.SupportVersion = ti.SupportVersion;
-
-
-                //简介
-                textBlock_Description.Text = "";
-                foreach (var line in Info.Descriptions)
-                    textBlock_Description.Text = $"{textBlock_Description.Text}{line}\n";
-
-                //信息
-                textBlock_Information.Inlines.Clear();
-                //作者
-                textBlock_Information.Inlines.Add(new Bold(new Run($"{GetLoc("I18N.PageDownloadConfirm", "Author")}: ")));
-                for (int i = 0; i < Info.Author.Length; i++)
-                {
-                    textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
-                }
-                //下载按钮
-                pathIcon_Download.Visibility = IsLink ? Visibility.Hidden : Visibility.Visible;
-                pathIcon_Link.Visibility = IsLink ? Visibility.Visible : Visibility.Hidden;
-                textBlock_DownloadText.Text = GetLoc("I18N.PageDownloadConfirm", IsLink ? "Link" : "Download");
-
-                stackPanel_Screenshot.Children.Clear();
-                using (var client = new HttpClient())
-                {
-                    for (int i = 0; i < Info.Screenshot; i++)
-                    {
-                        string url = $"{ScreeshotRootUrl}/{Info.Name}/{i + 1}.png";
-                        
-                        byte[] imageBytes = await client.GetByteArrayAsync(url);
-
-                        using (var memoryStream = new MemoryStream(imageBytes))
-                        {
-                            var bitmap = new BitmapImage();
-                            bitmap.BeginInit();
-                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                            bitmap.StreamSource = memoryStream;
-                            bitmap.EndInit();
-                            bitmap.Freeze();
-
-                            var image = new Image
-                            {
-                                MaxHeight = 250,
-                                Stretch = Stretch.Uniform,
-                                Source = bitmap
-                            };
-                            image.MouseEnter += ((s, e) => ImageMouseEnter(s));
-                            image.MouseLeave += ((s, e) => ImageMouseLeave(s));
-                            image.MouseUp += ImagePreview;
-
-                            stackPanel_Screenshot.Children.Add(image);
-
-                            StartImageAnimation(image);
-
-                        }
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                stackPanel_Screenshot.Children.Add(new TextBlock
-                {
-                    Text = $"无法获取图像文件: {ex}"
-                });
-            }
-        }
-        #endregion
 
         public PageDownloadDetail()
         {
             InitializeComponent();
-            Loaded += ((s, e) => Initialize());
+            Loaded += (async (s, e) =>
+            {
+                try
+                {
+                    IsLink = string.IsNullOrEmpty(Info!.Url);
+
+                    //卡片
+                    userCard.Title = Info.Name;
+                    userCard.Icon = GameIconConverter.ParseStringToGameIcons(Info.Icon);
+                    userCard.Version = Info.Version;
+                    userCard.Size = $"{Info.Size}";
+                    userCard.isNew = Info.IsNew;
+                    userCard.isRecommend = Info.IsRecommend;
+
+                    if (Info is JsonDownloadIndex.TrainerInfo ti)
+                        userCard.SupportVersion = ti.SupportVersion;
+
+
+                    //简介
+                    textBlock_Description.Text = "";
+                    foreach (var line in Info.Descriptions)
+                        textBlock_Description.Text = $"{textBlock_Description.Text}{line}\n";
+
+                    //信息
+                    textBlock_Information.Inlines.Clear();
+                    //作者
+                    textBlock_Information.Inlines.Add(new Bold(new Run($"{GetLoc("I18N.PageDownloadConfirm", "Author")}: ")));
+                    for (int i = 0; i < Info.Author.Length; i++)
+                    {
+                        textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
+                    }
+                    //下载按钮
+                    pathIcon_Download.Visibility = IsLink ? Visibility.Hidden : Visibility.Visible;
+                    pathIcon_Link.Visibility = IsLink ? Visibility.Visible : Visibility.Hidden;
+                    textBlock_DownloadText.Text = GetLoc("I18N.PageDownloadConfirm", IsLink ? "Link" : "Download");
+
+                    stackPanel_Screenshot.Children.Clear();
+                    using (var client = new HttpClient())
+                    {
+                        for (int i = 0; i < Info.Screenshot; i++)
+                        {
+                            string url = $"{ScreeshotRootUrl}/{Info.Name}/{i + 1}.png";
+
+                            byte[] imageBytes = await client.GetByteArrayAsync(url);
+
+                            using (var memoryStream = new MemoryStream(imageBytes))
+                            {
+                                var bitmap = new BitmapImage();
+                                bitmap.BeginInit();
+                                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                                bitmap.StreamSource = memoryStream;
+                                bitmap.EndInit();
+                                bitmap.Freeze();
+
+                                var image = new Image
+                                {
+                                    MaxHeight = 250,
+                                    Stretch = Stretch.Uniform,
+                                    Source = bitmap
+                                };
+                                image.MouseEnter += ((s, e) => ImageMouseEnter(s));
+                                image.MouseLeave += ((s, e) => ImageMouseLeave(s));
+                                image.MouseUp += ImagePreview;
+
+                                stackPanel_Screenshot.Children.Add(image);
+
+                                StartImageAnimation(image);
+
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    stackPanel_Screenshot.Children.Add(new TextBlock
+                    {
+                        Text = $"无法获取图像文件: {ex}"
+                    });
+                }
+            });
         }
 
         private async void button_Download_Click(object sender, RoutedEventArgs e)
@@ -224,6 +191,32 @@ namespace PvzLauncherRemake.Pages
                 CloseButtonText = "关闭"
             };
             await DialogManager.ShowDialogAsync(dialog);
+        }
+
+        private void ImageMouseEnter(object sender)
+        {
+            var animation = new DoubleAnimation
+            {
+                From = 250,
+                To = 260,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            ((Image)sender).BeginAnimation(MaxHeightProperty, null);
+            ((Image)sender).BeginAnimation(MaxHeightProperty, animation);
+        }
+
+        private void ImageMouseLeave(object sender)
+        {
+            var animation = new DoubleAnimation
+            {
+                From = 260,
+                To = 250,
+                Duration = TimeSpan.FromMilliseconds(1000),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            ((Image)sender).BeginAnimation(MaxHeightProperty, null);
+            ((Image)sender).BeginAnimation(MaxHeightProperty, animation);
         }
     }
 }

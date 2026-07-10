@@ -19,7 +19,6 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownload : ModernWpf.Controls.Page
     {
-        #region AddCard
         private void AddGameCard(StackPanel stackPanel, JsonDownloadIndex.GameInfo[] gameInfos)
         {
             if (gameInfos == null || gameInfos.Length <= 0)
@@ -70,9 +69,7 @@ namespace PvzLauncherRemake.Pages
                 stackPanel.Children.Add(card);
             }
         }
-        #endregion
 
-        #region Load
         public void StartLoad()
         {
             grid.IsEnabled = false;
@@ -85,53 +82,7 @@ namespace PvzLauncherRemake.Pages
             grid.Effect = null;
             grid_Loading.Visibility = Visibility.Hidden;
         }
-        #endregion
 
-        #region Init
-        public async void Initialize()
-        {
-            try
-            {
-
-                StartLoad();
-
-                if (Globals.Indexes.DownloadIndex == null)
-                {
-                    using (var client = new HttpClient())
-                    {
-                        string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
-
-                        Globals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
-                    }
-                }
-
-                //中文原版
-
-                stackPanel_zhOrigin.Children.Clear();
-                stackPanel_zhRevision.Children.Clear();
-                stackPanel_enOrigin.Children.Clear();
-                stackPanel_enRevision.Children.Clear();
-                stackPanel_trainer.Children.Clear();
-
-                AddGameCard(stackPanel_zhOrigin, Globals.Indexes.DownloadIndex.ZhOrigin);
-                AddGameCard(stackPanel_zhRevision, Globals.Indexes.DownloadIndex.ZhRevision);
-                AddGameCard(stackPanel_enOrigin, Globals.Indexes.DownloadIndex.EnOrigin);
-                AddGameCard(stackPanel_enRevision, Globals.Indexes.DownloadIndex.EnRevision);
-                AddTrainerCard(stackPanel_trainer, Globals.Indexes.DownloadIndex.Trainer);
-
-                EndLoad();
-
-
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
-        }
-        #endregion
-
-
-        //Tab动画
         private void tabControl_Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (IsInitialized)
@@ -178,9 +129,50 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        public PageDownload() => InitializeComponent();
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) => Initialize();
+        public PageDownload()
+        {
+            InitializeComponent();
+            Loaded += (async (s, e) =>
+            {
+                try
+                {
+                    StartLoad();
+
+                    if (Globals.Indexes.DownloadIndex == null)
+                    {
+                        using (var client = new HttpClient())
+                        {
+                            string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
+
+                            Globals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
+                        }
+                    }
+
+                    //中文原版
+
+                    stackPanel_zhOrigin.Children.Clear();
+                    stackPanel_zhRevision.Children.Clear();
+                    stackPanel_enOrigin.Children.Clear();
+                    stackPanel_enRevision.Children.Clear();
+                    stackPanel_trainer.Children.Clear();
+
+                    AddGameCard(stackPanel_zhOrigin, Globals.Indexes.DownloadIndex.ZhOrigin);
+                    AddGameCard(stackPanel_zhRevision, Globals.Indexes.DownloadIndex.ZhRevision);
+                    AddGameCard(stackPanel_enOrigin, Globals.Indexes.DownloadIndex.EnOrigin);
+                    AddGameCard(stackPanel_enRevision, Globals.Indexes.DownloadIndex.EnRevision);
+                    AddTrainerCard(stackPanel_trainer, Globals.Indexes.DownloadIndex.Trainer);
+
+                    EndLoad();
+
+
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
+            });
+        }
 
         private async void UserCard_Click(object sender, RoutedEventArgs e)
         {

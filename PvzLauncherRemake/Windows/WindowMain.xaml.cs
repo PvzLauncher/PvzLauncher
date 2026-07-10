@@ -90,228 +90,232 @@ namespace PvzLauncherRemake.Windows
                 ErrorReportDialog.Show(ex);
             }
         }
+        #endregion
 
-        public async Task InitializeLoaded()
+        public WindowMain()
         {
-            try
+            InitializeComponent();
+            Initialize();
+            Loaded += ((s, e) =>
             {
+                Dispatcher.BeginInvoke((async () =>
+                {
+                    try
+                    {
 
 
 
 
-                //是否CI构建
+                        //是否CI构建
 #if CI
                 Globals.Arguments.isCIBuild = true;
 #endif
-                //是否Debug构建
+                        //是否Debug构建
 #if DEBUG
-                Globals.Arguments.isDebugBuild = true;
+                        Globals.Arguments.isDebugBuild = true;
 #endif
 
 
-                //处理启动参数
-                string[] args = Environment.GetCommandLineArgs();
-                foreach (var arg in args)
-                {
-
-                    switch (arg)
-                    {
-                        //外壳启动
-                        case "-shell":
-                            Globals.Arguments.isShell = true; break;
-                        //更新启动，显示更新完毕对话框
-                        case "-update":
-                            Globals.Arguments.isUpdate = true; break;
-                    }
-                }
-
-
-
-
-
-
-
-
-
-
-                //参数检测
-                if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
-                {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
-                    {
-                        Title = "警告",
-                        Content = "检测到程序非外壳启动, 此启动方式可能会导致某些意外的事情发生",
-                        PrimaryButtonText = "改用外壳启动",
-                        CloseButtonText = "忽略",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() =>
-                    {
-                        //Primary=>改用外壳启动
-                        Process.Start(new ProcessStartInfo
+                        //处理启动参数
+                        string[] args = Environment.GetCommandLineArgs();
+                        foreach (var arg in args)
                         {
-                            FileName = System.IO.Path.Combine(Globals.Directories.RootDirectory, "PvzLauncher.exe"),
-                            UseShellExecute = true
-                        });
-                        Environment.Exit(0);
-                    }));
-                }
-                if (Globals.Arguments.isUpdate)//更新启动
-                {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
-                    {
-                        Title = "更新完毕",
-                        Content = $"您已更新到最新版 {Globals.Version} , 尽情享受吧！",
-                        PrimaryButtonText = "确定",
-                        DefaultButton = ContentDialogButton.Primary
-                    });
-                }
 
-
-                //构建检测
-                if (Globals.Arguments.isCIBuild)//CI
-                {
-                    SnackbarManager.Show(new SnackbarContent
-                    {
-                        Content = $"您使用的是基于 {Globals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
-                        Title = "警告",
-                        Type = SnackbarType.Warn
-                    });
-                }
-                else if (Globals.Arguments.isDebugBuild)//DEBUG
-                {
-                    SnackbarManager.Show(new SnackbarContent
-                    {
-                        Content = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
-                        Title = "警告",
-                        Type = SnackbarType.Warn
-                    });
-                }
-
-
-
-
-                //EULA检测
-                if (!Globals.Config.Eula)
-                {
-                    string eulaPath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
-                    string eulaText = $"无法加载{eulaPath}";
-                    eulaText = await File.ReadAllTextAsync(eulaPath);
-
-                    var docViewer = new FlowDocumentScrollViewer
-                    {
-                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                        HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
-                    };
-                    docViewer.Document = new Markdown().Transform(eulaText);
-                    docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
-
-                    await DialogManager.ShowDialogAsync(new ContentDialog
-                    {
-                        Title = "请阅读并同意《Plants Vs. Zombies Launcher - 最终用户许可协议》",
-                        Content = docViewer,
-                        PrimaryButtonText = "同意",
-                        CloseButtonText = "拒绝",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() => Globals.Config.Eula = true), null, (() => Environment.Exit(0)));
-                    ConfigManager.SaveConfig();
-                }
-
-
-
-
-
-                //检查更新
-                if (Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
-                {
-
-                    await Updater.CheckUpdate(null!, true);
-                }
-
-
-
-
-
-                //公告获取
-                if (Globals.Config.Settings.LauncherConfig.NoticeEnabled && !Globals.Config.Settings.LauncherConfig.OfflineMode)
-                {
-                    JsonNoticeIndex.Root noticeIndex;
-                    using (var client = new HttpClient())
-                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
-
-                    foreach (var notice in noticeIndex.Notices)
-                    {
-                        string content = "";
-                        foreach (var contentL in notice.Contents)
-                        {
-                            content = $"{content}{contentL}\n";
-                        }
-
-                        var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
-                        if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            switch (arg)
                             {
-                                Title = notice.Title,
-                                Content = new StackPanel
-                                {
-                                    Children =
-                                {
-                                    new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
-                                    chkBox
-                                }
-                                },
-                                PrimaryButtonText = notice.PrimaryButton,
-                                SecondaryButtonText = notice.SecondaryButton,
-                                CloseButtonText = "关闭",
-                                DefaultButton = ContentDialogButton.Primary
-                            }, (() => handleButtonActions(notice.PrimaryActions)
-                            ), (() => handleButtonActions(notice.SecondaryActions)));
-
-                        void handleButtonActions(JsonNoticeIndex.ButtonActionInfo[] actions)
-                        {
-                            foreach (var action in actions)
-                            {
-                                switch (action.Type)
-                                {
-                                    case "to-url":
-                                        Process.Start(new ProcessStartInfo
-                                        {
-                                            FileName = action.Url,
-                                            UseShellExecute = true
-                                        });
-                                        break;
-                                    case "to-page":
-                                        if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
-                                            NavigationController.Navigate(result);
-                                        else
-                                            throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
-                                        break;
-                                    default:
-                                        throw new Exception($"未知的操作类型: \"{action.Type}\"。这一般是编写失误或当前启动器版本过低导致的");
-                                }
+                                //外壳启动
+                                case "-shell":
+                                    Globals.Arguments.isShell = true; break;
+                                //更新启动，显示更新完毕对话框
+                                case "-update":
+                                    Globals.Arguments.isUpdate = true; break;
                             }
                         }
 
 
-                        if (chkBox.IsChecked == true)
-                            Globals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
 
-                        ConfigManager.SaveConfig();
+
+
+
+
+
+
+
+                        //参数检测
+                        if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
+                        {
+                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            {
+                                Title = "警告",
+                                Content = "检测到程序非外壳启动, 此启动方式可能会导致某些意外的事情发生",
+                                PrimaryButtonText = "改用外壳启动",
+                                CloseButtonText = "忽略",
+                                DefaultButton = ContentDialogButton.Primary
+                            }, (() =>
+                            {
+                                //Primary=>改用外壳启动
+                                Process.Start(new ProcessStartInfo
+                                {
+                                    FileName = System.IO.Path.Combine(Globals.Directories.RootDirectory, "PvzLauncher.exe"),
+                                    UseShellExecute = true
+                                });
+                                Environment.Exit(0);
+                            }));
+                        }
+                        if (Globals.Arguments.isUpdate)//更新启动
+                        {
+                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            {
+                                Title = "更新完毕",
+                                Content = $"您已更新到最新版 {Globals.Version} , 尽情享受吧！",
+                                PrimaryButtonText = "确定",
+                                DefaultButton = ContentDialogButton.Primary
+                            });
+                        }
+
+
+                        //构建检测
+                        if (Globals.Arguments.isCIBuild)//CI
+                        {
+                            SnackbarManager.Show(new SnackbarContent
+                            {
+                                Content = $"您使用的是基于 {Globals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
+                                Title = "警告",
+                                Type = SnackbarType.Warn
+                            });
+                        }
+                        else if (Globals.Arguments.isDebugBuild)//DEBUG
+                        {
+                            SnackbarManager.Show(new SnackbarContent
+                            {
+                                Content = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
+                                Title = "警告",
+                                Type = SnackbarType.Warn
+                            });
+                        }
+
+
+
+
+                        //EULA检测
+                        if (!Globals.Config.Eula)
+                        {
+                            string eulaPath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
+                            string eulaText = $"无法加载{eulaPath}";
+                            eulaText = await File.ReadAllTextAsync(eulaPath);
+
+                            var docViewer = new FlowDocumentScrollViewer
+                            {
+                                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+                            };
+                            docViewer.Document = new Markdown().Transform(eulaText);
+                            docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
+
+                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            {
+                                Title = "请阅读并同意《Plants Vs. Zombies Launcher - 最终用户许可协议》",
+                                Content = docViewer,
+                                PrimaryButtonText = "同意",
+                                CloseButtonText = "拒绝",
+                                DefaultButton = ContentDialogButton.Primary
+                            }, (() => Globals.Config.Eula = true), null, (() => Environment.Exit(0)));
+                            ConfigManager.SaveConfig();
+                        }
+
+
+
+
+
+                        //检查更新
+                        if (Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
+                        {
+
+                            await Updater.CheckUpdate(null!, true);
+                        }
+
+
+
+
+
+                        //公告获取
+                        if (Globals.Config.Settings.LauncherConfig.NoticeEnabled && !Globals.Config.Settings.LauncherConfig.OfflineMode)
+                        {
+                            JsonNoticeIndex.Root noticeIndex;
+                            using (var client = new HttpClient())
+                                noticeIndex = Json.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
+
+                            foreach (var notice in noticeIndex.Notices)
+                            {
+                                string content = "";
+                                foreach (var contentL in notice.Contents)
+                                {
+                                    content = $"{content}{contentL}\n";
+                                }
+
+                                var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
+                                if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
+                                    await DialogManager.ShowDialogAsync(new ContentDialog
+                                    {
+                                        Title = notice.Title,
+                                        Content = new StackPanel
+                                        {
+                                            Children =
+                                {
+                                    new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
+                                    chkBox
+                                }
+                                        },
+                                        PrimaryButtonText = notice.PrimaryButton,
+                                        SecondaryButtonText = notice.SecondaryButton,
+                                        CloseButtonText = "关闭",
+                                        DefaultButton = ContentDialogButton.Primary
+                                    }, (() => handleButtonActions(notice.PrimaryActions)
+                                    ), (() => handleButtonActions(notice.SecondaryActions)));
+
+                                void handleButtonActions(JsonNoticeIndex.ButtonActionInfo[] actions)
+                                {
+                                    foreach (var action in actions)
+                                    {
+                                        switch (action.Type)
+                                        {
+                                            case "to-url":
+                                                Process.Start(new ProcessStartInfo
+                                                {
+                                                    FileName = action.Url,
+                                                    UseShellExecute = true
+                                                });
+                                                break;
+                                            case "to-page":
+                                                if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
+                                                    NavigationController.Navigate(result);
+                                                else
+                                                    throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
+                                                break;
+                                            default:
+                                                throw new Exception($"未知的操作类型: \"{action.Type}\"。这一般是编写失误或当前启动器版本过低导致的");
+                                        }
+                                    }
+                                }
+
+
+                                if (chkBox.IsChecked == true)
+                                    Globals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
+
+                                ConfigManager.SaveConfig();
+                            }
+                        }
+
+
+
                     }
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
+                    catch (Exception ex)
+                    {
+                        ErrorReportDialog.Show(ex);
+                    }
+                }), System.Windows.Threading.DispatcherPriority.Normal);
+            });
         }
-        #endregion
-
-        public WindowMain() { InitializeComponent(); Initialize(); }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e) => Dispatcher.BeginInvoke((async () => await InitializeLoaded()), System.Windows.Threading.DispatcherPriority.Normal);
 
         private void navView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
         {

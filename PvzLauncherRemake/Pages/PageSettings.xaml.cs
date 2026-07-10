@@ -26,6 +26,24 @@ namespace PvzLauncherRemake.Pages
     {
         private bool isInitialized = false;
 
+        public void SetLoad(bool isLoad)
+        {
+            tabControl.IsEnabled = !isLoad;
+
+            if (isLoad)
+            {
+                grid_Loading.Visibility = Visibility.Visible;
+                tabControl.Effect = new BlurEffect { Radius = 10 };
+            }
+            else
+            {
+                grid_Loading.Visibility = Visibility.Hidden;
+                tabControl.Effect = null;
+            }
+        }
+
+        public void StartLoad() => SetLoad(true);
+        public void EndLoad() => SetLoad(false);
         public void ShowRestartTip()
         {
             SnackbarManager.Show(new SnackbarContent
@@ -77,222 +95,195 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
-        #region Load
-        public void SetLoad(bool isLoad)
-        {
-            tabControl.IsEnabled = !isLoad;
-
-            if (isLoad)
-            {
-                grid_Loading.Visibility = Visibility.Visible;
-                tabControl.Effect = new BlurEffect { Radius = 10 };
-            }
-            else
-            {
-                grid_Loading.Visibility = Visibility.Hidden;
-                tabControl.Effect = null;
-            }
-        }
-
-        public void StartLoad() => SetLoad(true);
-        public void EndLoad() => SetLoad(false);
-        #endregion
-
-        #region Init
-        public void Initialize() { }
-        public async void InitializeLoaded()
-        {
-            try
-            {
-
-
-
-
-
-                isInitialized = false;
-
-
-                //# 启动器设置
-                //## 操作
-                //### 游戏启动后操作
-                switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
-                {
-                    case "None":
-                        comboBox_LaunchedOperate.SelectedIndex = 0; break;
-                    case "Close":
-                        comboBox_LaunchedOperate.SelectedIndex = 1; break;
-                    case "HideAndDisplay":
-                        comboBox_LaunchedOperate.SelectedIndex = 2; break;
-                }
-                //### 修改器随游戏启动
-                checkbox_Launcher_LaunchWithTrainer.IsChecked = Globals.Config.Settings.LauncherConfig.LaunchWithTrainer;
-                //### 管理选择模式
-                radioButton_Launcher_ManageSelectMode_Single.IsChecked = false;
-                radioButton_Launcher_ManageSelectMode_Double.IsChecked = false;
-                switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
-                {
-                    case "Single":
-                        radioButton_Launcher_ManageSelectMode_Single.IsChecked = true;break;
-                    case "Double":
-                        radioButton_Launcher_ManageSelectMode_Double.IsChecked = true;break;
-                }
-                //## 外观
-                //### 主题
-                radioButton_Theme_Light.IsChecked = false;
-                radioButton_Theme_Dark.IsChecked = false;
-                switch (Globals.Config.Settings.LauncherConfig.Theme)
-                {
-                    case "Light":
-                        radioButton_Theme_Light.IsChecked = true; break;
-                    case "Dark":
-                        radioButton_Theme_Dark.IsChecked = true; break;
-                }
-                //### 语言
-                foreach (ComboBoxItem item in comboBox_Launcher_Language.Items)
-                {
-                    if (item.Tag.ToString() == Globals.Config.Settings.LauncherConfig.Language)
-                        comboBox_Launcher_Language.SelectedItem = item;
-                }
-                //### 窗口标题
-                textBox_WindowTitle.Text = Globals.Config.Settings.LauncherConfig.WindowTitle;
-                //### 标题图片
-                radioButton_TitieImage_EN.IsChecked = false; radioButton_TitleImage_ZH.IsChecked = false;
-                switch (Globals.Config.Settings.LauncherConfig.TitleImage)
-                {
-                    case "EN":
-                        radioButton_TitieImage_EN.IsChecked = true; break;
-                    case "ZH":
-                        radioButton_TitleImage_ZH.IsChecked = true; break;
-                }
-                //### 背景
-                radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
-                switch (Globals.Config.Settings.LauncherConfig.BackgroundMode)
-                {
-                    case "default": radioButton_Background_Default.IsChecked = true; button_Background_Select.IsEnabled = false; break;
-                    case "custom": radioButton_Background_Custom.IsChecked = true; button_Background_Select.IsEnabled = true; break;
-                }
-
-                if (!string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
-                {
-                    if (File.Exists(Globals.Config.Settings.LauncherConfig.Background))
-                    {
-                        image_Background.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
-                    }
-                }
-                //### 回声洞
-                //checkBox_Launcher_EchoCave.IsChecked = Globals.Config.Settings.LauncherConfig.EchoCaveEnabled;
-                //### 公告
-                checkBox_Launcher_Notice.IsChecked = Globals.Config.Settings.LauncherConfig.NoticeEnabled;
-                //### 启动动画
-                checkBox_Launcher_LaunchAnimaiton.IsChecked = Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled;
-                //### NavigationView位置
-                radioButton_NavViewLeft.IsChecked = false; radioButton_NavViewTop.IsChecked = false;
-                switch (Globals.Config.Settings.LauncherConfig.NavigationViewAlign)
-                {
-                    case "Left":
-                        radioButton_NavViewLeft.IsChecked = true; break;
-                    case "Top":
-                        radioButton_NavViewTop.IsChecked = true; break;
-                }
-                //## 网络
-                //### 提供方
-                switch (Globals.Config.Settings.LauncherConfig.ServiceProvider)
-                {
-                    case "Gitee":
-                        comboBox_Launcher_ServiceProvider.SelectedIndex = 0;break;
-                    case "GitCode":
-                        comboBox_Launcher_ServiceProvider.SelectedIndex = 1;break;
-                }
-                //### 离线模式
-                checkBox_Network_OfflineMode.IsChecked = Globals.Config.Settings.LauncherConfig.OfflineMode;
-                //## 更新
-                //### 更新通道
-                if (!Globals.IsStable)
-                {
-                    comboBox_UpdateChannel.IsEnabled = false;
-                    Globals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
-                }
-                switch (Globals.Config.Settings.LauncherConfig.UpdateChannel)
-                {
-                    case "Stable":
-                        comboBox_UpdateChannel.SelectedIndex = 0; break;
-                    case "Development":
-                        comboBox_UpdateChannel.SelectedIndex = 1; break;
-                }
-                //### 启动时检查更新
-                checkBox_StartUpCheckUpdate.IsChecked = Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate;
-
-
-                //# 游戏设置
-                //## 游戏配置
-                //### 全屏
-                switch (Globals.Config.Settings.GameConfig.FullScreen)
-                {
-                    case "Default":
-                        comboBox_Game_FullScreen.SelectedIndex = 0; break;
-                    case "FullScreen":
-                        comboBox_Game_FullScreen.SelectedIndex = 1; break;
-                    case "Windowed":
-                        comboBox_Game_FullScreen.SelectedIndex = 2; break;
-                }
-                //### 位置
-                switch (Globals.Config.Settings.GameConfig.StartUpLocation)
-                {
-                    case "Default":
-                        comboBox_Game_Location.SelectedIndex = 0; break;
-                    case "Center":
-                        comboBox_Game_Location.SelectedIndex = 1; break;
-                    case "LeftTop":
-                        comboBox_Game_Location.SelectedIndex = 2; break;
-                }
-                //### 3D加速
-                switch (Globals.Config.Settings.GameConfig.ThreeDMode)
-                {
-                    case "Default":
-                        comboBox_Game_3DMode.SelectedIndex = 0; break;
-                    case "On":
-                        comboBox_Game_3DMode.SelectedIndex = 1; break;
-                    case "Off":
-                        comboBox_Game_3DMode.SelectedIndex = 2; break;
-                }
-                //## 外观
-                //### 窗口标题
-                textBox_GameWindowTitle.Text = Globals.Config.Settings.GameConfig.WindowTitle;
-                //## 覆盖界面
-                //### 启用
-                checkbox_Game_Overlay_Enabled.IsChecked = Globals.Config.Settings.GameConfig.OverlayUIEnabled;
-
-                //# 存档设置
-                //## 存档隔离
-                //### 启用存档隔离
-                checkBox_EnableIsolationSave.IsChecked = Globals.Config.Settings.SaveConfig.EnableSaveIsolation;
-
-
-
-
-
-
-
-
-
-
-                await StartAnimation();
-
-                isInitialized = true;
-
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
-        }
-        #endregion
-
         public PageSettings()
         {
             InitializeComponent();
-            Initialize();
-            Loaded += ((sender, e) => InitializeLoaded());
+            Loaded += (async (s, e) =>
+            {
+                try
+                {
+
+
+
+
+
+                    isInitialized = false;
+
+
+                    //# 启动器设置
+                    //## 操作
+                    //### 游戏启动后操作
+                    switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
+                    {
+                        case "None":
+                            comboBox_LaunchedOperate.SelectedIndex = 0; break;
+                        case "Close":
+                            comboBox_LaunchedOperate.SelectedIndex = 1; break;
+                        case "HideAndDisplay":
+                            comboBox_LaunchedOperate.SelectedIndex = 2; break;
+                    }
+                    //### 修改器随游戏启动
+                    checkbox_Launcher_LaunchWithTrainer.IsChecked = Globals.Config.Settings.LauncherConfig.LaunchWithTrainer;
+                    //### 管理选择模式
+                    radioButton_Launcher_ManageSelectMode_Single.IsChecked = false;
+                    radioButton_Launcher_ManageSelectMode_Double.IsChecked = false;
+                    switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
+                    {
+                        case "Single":
+                            radioButton_Launcher_ManageSelectMode_Single.IsChecked = true; break;
+                        case "Double":
+                            radioButton_Launcher_ManageSelectMode_Double.IsChecked = true; break;
+                    }
+                    //## 外观
+                    //### 主题
+                    radioButton_Theme_Light.IsChecked = false;
+                    radioButton_Theme_Dark.IsChecked = false;
+                    switch (Globals.Config.Settings.LauncherConfig.Theme)
+                    {
+                        case "Light":
+                            radioButton_Theme_Light.IsChecked = true; break;
+                        case "Dark":
+                            radioButton_Theme_Dark.IsChecked = true; break;
+                    }
+                    //### 语言
+                    foreach (ComboBoxItem item in comboBox_Launcher_Language.Items)
+                    {
+                        if (item.Tag.ToString() == Globals.Config.Settings.LauncherConfig.Language)
+                            comboBox_Launcher_Language.SelectedItem = item;
+                    }
+                    //### 窗口标题
+                    textBox_WindowTitle.Text = Globals.Config.Settings.LauncherConfig.WindowTitle;
+                    //### 标题图片
+                    radioButton_TitieImage_EN.IsChecked = false; radioButton_TitleImage_ZH.IsChecked = false;
+                    switch (Globals.Config.Settings.LauncherConfig.TitleImage)
+                    {
+                        case "EN":
+                            radioButton_TitieImage_EN.IsChecked = true; break;
+                        case "ZH":
+                            radioButton_TitleImage_ZH.IsChecked = true; break;
+                    }
+                    //### 背景
+                    radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
+                    switch (Globals.Config.Settings.LauncherConfig.BackgroundMode)
+                    {
+                        case "default": radioButton_Background_Default.IsChecked = true; button_Background_Select.IsEnabled = false; break;
+                        case "custom": radioButton_Background_Custom.IsChecked = true; button_Background_Select.IsEnabled = true; break;
+                    }
+
+                    if (!string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
+                    {
+                        if (File.Exists(Globals.Config.Settings.LauncherConfig.Background))
+                        {
+                            image_Background.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
+                        }
+                    }
+                    //### 回声洞
+                    //checkBox_Launcher_EchoCave.IsChecked = Globals.Config.Settings.LauncherConfig.EchoCaveEnabled;
+                    //### 公告
+                    checkBox_Launcher_Notice.IsChecked = Globals.Config.Settings.LauncherConfig.NoticeEnabled;
+                    //### 启动动画
+                    checkBox_Launcher_LaunchAnimaiton.IsChecked = Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled;
+                    //### NavigationView位置
+                    radioButton_NavViewLeft.IsChecked = false; radioButton_NavViewTop.IsChecked = false;
+                    switch (Globals.Config.Settings.LauncherConfig.NavigationViewAlign)
+                    {
+                        case "Left":
+                            radioButton_NavViewLeft.IsChecked = true; break;
+                        case "Top":
+                            radioButton_NavViewTop.IsChecked = true; break;
+                    }
+                    //## 网络
+                    //### 提供方
+                    switch (Globals.Config.Settings.LauncherConfig.ServiceProvider)
+                    {
+                        case "Gitee":
+                            comboBox_Launcher_ServiceProvider.SelectedIndex = 0; break;
+                        case "GitCode":
+                            comboBox_Launcher_ServiceProvider.SelectedIndex = 1; break;
+                    }
+                    //### 离线模式
+                    checkBox_Network_OfflineMode.IsChecked = Globals.Config.Settings.LauncherConfig.OfflineMode;
+                    //## 更新
+                    //### 更新通道
+                    if (!Globals.IsStable)
+                    {
+                        comboBox_UpdateChannel.IsEnabled = false;
+                        Globals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
+                    }
+                    switch (Globals.Config.Settings.LauncherConfig.UpdateChannel)
+                    {
+                        case "Stable":
+                            comboBox_UpdateChannel.SelectedIndex = 0; break;
+                        case "Development":
+                            comboBox_UpdateChannel.SelectedIndex = 1; break;
+                    }
+                    //### 启动时检查更新
+                    checkBox_StartUpCheckUpdate.IsChecked = Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate;
+
+
+                    //# 游戏设置
+                    //## 游戏配置
+                    //### 全屏
+                    switch (Globals.Config.Settings.GameConfig.FullScreen)
+                    {
+                        case "Default":
+                            comboBox_Game_FullScreen.SelectedIndex = 0; break;
+                        case "FullScreen":
+                            comboBox_Game_FullScreen.SelectedIndex = 1; break;
+                        case "Windowed":
+                            comboBox_Game_FullScreen.SelectedIndex = 2; break;
+                    }
+                    //### 位置
+                    switch (Globals.Config.Settings.GameConfig.StartUpLocation)
+                    {
+                        case "Default":
+                            comboBox_Game_Location.SelectedIndex = 0; break;
+                        case "Center":
+                            comboBox_Game_Location.SelectedIndex = 1; break;
+                        case "LeftTop":
+                            comboBox_Game_Location.SelectedIndex = 2; break;
+                    }
+                    //### 3D加速
+                    switch (Globals.Config.Settings.GameConfig.ThreeDMode)
+                    {
+                        case "Default":
+                            comboBox_Game_3DMode.SelectedIndex = 0; break;
+                        case "On":
+                            comboBox_Game_3DMode.SelectedIndex = 1; break;
+                        case "Off":
+                            comboBox_Game_3DMode.SelectedIndex = 2; break;
+                    }
+                    //## 外观
+                    //### 窗口标题
+                    textBox_GameWindowTitle.Text = Globals.Config.Settings.GameConfig.WindowTitle;
+                    //## 覆盖界面
+                    //### 启用
+                    checkbox_Game_Overlay_Enabled.IsChecked = Globals.Config.Settings.GameConfig.OverlayUIEnabled;
+
+                    //# 存档设置
+                    //## 存档隔离
+                    //### 启用存档隔离
+                    checkBox_EnableIsolationSave.IsChecked = Globals.Config.Settings.SaveConfig.EnableSaveIsolation;
+
+
+
+
+
+
+
+
+
+
+                    await StartAnimation();
+
+                    isInitialized = true;
+
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
+            });
         }
 
         //tabControl动画

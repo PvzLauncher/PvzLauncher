@@ -28,47 +28,43 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        #region Init
-        public void Initialize()
-        {
-            try
-            {
-                stackPanel_Tasks.Children.Clear();
-
-                foreach (var task in TaskManager.DownloadTaskList)
-                {
-                    var card = new UserTaskCard
-                    {
-                        Title = task.TaskName!,
-                        Tag = task,
-                        Icon = task.TaskIcon,
-                        Margin = new Thickness(5, 5, 5, 5)
-                    };
-                    card.button_Cancel.Click += (s, e) =>
-                    {
-                        if (card.Tag != null)
-                        {
-                            TaskManager.StopTask((DownloadTaskInfo)card.Tag);
-                        }
-                    };
-
-                    card.UpdateControl();
-                    stackPanel_Tasks.Children.Add(card);
-                }
-
-                ShowNoneTip();
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
-        }
-        #endregion
-
         public PageTask()
         {
             InitializeComponent();
-            Loaded += ((s, e) => Initialize());
+            Loaded += ((s, e) =>
+            {
+                try
+                {
+                    stackPanel_Tasks.Children.Clear();
+
+                    foreach (var task in TaskManager.DownloadTaskList)
+                    {
+                        var card = new UserTaskCard
+                        {
+                            Title = task.TaskName!,
+                            Tag = task,
+                            Icon = task.TaskIcon,
+                            Margin = new Thickness(5, 5, 5, 5)
+                        };
+                        card.button_Cancel.Click += (s, e) =>
+                        {
+                            if (card.Tag != null)
+                            {
+                                TaskManager.StopTask((DownloadTaskInfo)card.Tag);
+                            }
+                        };
+
+                        card.UpdateControl();
+                        stackPanel_Tasks.Children.Add(card);
+                    }
+
+                    ShowNoneTip();
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
+            });
 
             _timer = new DispatcherTimer
             {

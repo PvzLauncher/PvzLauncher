@@ -19,114 +19,111 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDeveloper : ModernWpf.Controls.Page
     {
-        public async void Initialize()
+        public PageDeveloper()
         {
-            try
+            InitializeComponent();
+            Loaded += (async (s, e) =>
             {
-                #region 变量指标
-                string varText = "";
-
-                Type type = typeof(Globals);
-
-                FieldInfo[] staticFields = type.GetFields(
-                    BindingFlags.Public |
-                    BindingFlags.NonPublic |
-                    BindingFlags.Static |
-                    BindingFlags.DeclaredOnly
-                );
-
-                foreach (FieldInfo field in staticFields)
+                try
                 {
-                    string name = field.Name;
+                    #region 变量指标
+                    string varText = "";
 
-                    var value = JsonConvert.SerializeObject(field.GetValue(null), Formatting.Indented);
+                    Type type = typeof(Globals);
 
-                    string typeName = field.FieldType.Name;
+                    FieldInfo[] staticFields = type.GetFields(
+                        BindingFlags.Public |
+                        BindingFlags.NonPublic |
+                        BindingFlags.Static |
+                        BindingFlags.DeclaredOnly
+                    );
 
-                    varText = $"{varText}{name}({typeName}): {value}\n\n";
-                }
+                    foreach (FieldInfo field in staticFields)
+                    {
+                        string name = field.Name;
 
-                textblock_varinfos.Text = varText;
-                #endregion
+                        var value = JsonConvert.SerializeObject(field.GetValue(null), Formatting.Indented);
 
-                #region 导航
-                comboBox_navigator.Items.Clear();
-                foreach (var page in Enum.GetNames(typeof(NavigaionPages)))
-                    comboBox_navigator.Items.Add(page);
-                if (comboBox_navigator.Items.Count > 0) comboBox_navigator.SelectedIndex = 0;
+                        string typeName = field.FieldType.Name;
 
-                button_navigator.Click += ((s, e) =>
-                {
-                    if (Enum.TryParse<NavigaionPages>((string)comboBox_navigator.SelectedItem, out var result))
-                        NavigationController.Navigate(result);
-                });
-                #endregion
+                        varText = $"{varText}{name}({typeName}): {value}\n\n";
+                    }
 
-                #region 服务器文件下载
+                    textblock_varinfos.Text = varText;
+                    #endregion
 
-                JsonFileIndex.Root index;
-                using (var client = new HttpClient())
-                    index = Json.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
-                listBox_fileDownload_List.Items.Clear();
-                foreach (var file in index.List)
-                    listBox_fileDownload_List.Items.Add($"{file}");
+                    #region 导航
+                    comboBox_navigator.Items.Clear();
+                    foreach (var page in Enum.GetNames(typeof(NavigaionPages)))
+                        comboBox_navigator.Items.Add(page);
+                    if (comboBox_navigator.Items.Count > 0) comboBox_navigator.SelectedIndex = 0;
 
-                listBox_fileDownload_List.SelectionChanged += ((s, e) =>
-                {
-                    var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
+                    button_navigator.Click += ((s, e) =>
+                    {
+                        if (Enum.TryParse<NavigaionPages>((string)comboBox_navigator.SelectedItem, out var result))
+                            NavigationController.Navigate(result);
+                    });
+                    #endregion
 
-                    textBlock_FileDownload_Info.Text = $"""
+                    #region 服务器文件下载
+
+                    JsonFileIndex.Root index;
+                    using (var client = new HttpClient())
+                        index = Json.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
+                    listBox_fileDownload_List.Items.Clear();
+                    foreach (var file in index.List)
+                        listBox_fileDownload_List.Items.Add($"{file}");
+
+                    listBox_fileDownload_List.SelectionChanged += ((s, e) =>
+                    {
+                        var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
+
+                        textBlock_FileDownload_Info.Text = $"""
                     OriginalFileName: {selected.OriginalFileName}
                     Size: {Math.Round(selected.Size / 1024.0, 2)} KB
                     Url: {selected.Url}
                     """;
 
-                });
+                    });
 
-                button_FileDownload_DOWNLOAD.Click += ((s, e) =>
-                {
-                    if (listBox_fileDownload_List.SelectedItem == null)
+                    button_FileDownload_DOWNLOAD.Click += ((s, e) =>
                     {
-                        MessageBox.Show("no selected");
-                        return;
-                    }
-
-                    var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
-
-                    string savePath = Path.Combine(Globals.Directories.TempDiectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{new Random().Next(int.MinValue, int.MaxValue)}");
-
-                    TaskManager.AddTask(new DownloadTaskInfo
-                    {
-                        Downloader = new Downloader
+                        if (listBox_fileDownload_List.SelectedItem == null)
                         {
-                            Url = selected.Url,
-                            SavePath = savePath
-                        },
-                        TaskName = $"[DEV] 下载 \"{selected.OriginalFileName}\"",
-                        TaskIcon = new IconFile()
+                            MessageBox.Show("no selected");
+                            return;
+                        }
+
+                        var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
+
+                        string savePath = Path.Combine(Globals.Directories.TempDiectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{new Random().Next(int.MinValue, int.MaxValue)}");
+
+                        TaskManager.AddTask(new DownloadTaskInfo
+                        {
+                            Downloader = new Downloader
+                            {
+                                Url = selected.Url,
+                                SavePath = savePath
+                            },
+                            TaskName = $"[DEV] 下载 \"{selected.OriginalFileName}\"",
+                            TaskIcon = new IconFile()
+                        });
+
+                        SnackbarManager.Show(new SnackbarContent
+                        {
+                            Title = "下载已开始",
+                            Content = "",
+                            Type = SnackbarType.Info
+                        });
                     });
 
-                    SnackbarManager.Show(new SnackbarContent
-                    {
-                        Title = "下载已开始",
-                        Content = "",
-                        Type = SnackbarType.Info
-                    });
-                });
-
-                #endregion
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
-        }
-
-
-        public PageDeveloper()
-        {
-            InitializeComponent();
-            Loaded += ((s, e) => Initialize());
+                    #endregion
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
+            });
         }
     }
 }

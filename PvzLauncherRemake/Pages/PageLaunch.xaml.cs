@@ -208,88 +208,84 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
-        #region Init
-        public async void Initialize()
-        {
-            try
-            {
-
-
-                if (!string.IsNullOrEmpty(Globals.Config.CurrentGame))
-                {
-
-
-                    //查找选择游戏信息
-                    foreach (var game in Globals.Indexes.GameList)
-                        if (game.GameInfo.Name == Globals.Config.CurrentGame)
-                            currentGameInfo = game;
-
-                    //设置按钮文本
-                    textBlock_LaunchVersion.Text = Globals.Config.CurrentGame;
-
-                }
-                else
-                {
-                    button_Launch.IsEnabled = false;
-                    textBlock_LaunchVersion.Text = "请选择一个游戏";
-                }
-
-                if (!string.IsNullOrEmpty(Globals.Config.CurrentTrainer))
-                {
-
-                    foreach (var trainer in Globals.Indexes.TrainerList)
-                        if (trainer.Name == Globals.Config.CurrentTrainer)
-                            currentTrainerInfo = trainer;
-                }
-                else
-                {
-                    button_LaunchTrainer.IsEnabled = false;
-                }
-
-                //判断游戏是否运行
-                try
-                {
-                    if (GameManager.IsGameRuning == true)
-                    {
-
-                        textBlock_LaunchText.Text = I18N.PageLaunch.StopGame;
-                    }
-                }
-                catch (InvalidOperationException) { }
-
-                //播放动画
-                StartAnimation();
-
-                //设置背景
-                if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
-                    image.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
-
-                /*//回声洞
-                if (Globals.Config.Settings.LauncherConfig.EchoCaveEnabled)
-                {
-                    button_EchoCave.Visibility = Visibility.Visible;
-                    await RefreshEchoCave();
-                }
-                else
-                {
-                    button_EchoCave.Visibility = Visibility.Hidden;
-                }*/
-
-
-
-
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
-        }
-        #endregion
-
         public PageLaunch()
         {
             InitializeComponent();
-            Loaded += ((sender, e) => Initialize());
+            Loaded += ((sender, e) =>
+            {
+                try
+                {
+
+
+                    if (!string.IsNullOrEmpty(Globals.Config.CurrentGame))
+                    {
+
+
+                        //查找选择游戏信息
+                        foreach (var game in Globals.Indexes.GameList)
+                            if (game.GameInfo.Name == Globals.Config.CurrentGame)
+                                currentGameInfo = game;
+
+                        //设置按钮文本
+                        textBlock_LaunchVersion.Text = Globals.Config.CurrentGame;
+
+                    }
+                    else
+                    {
+                        button_Launch.IsEnabled = false;
+                        textBlock_LaunchVersion.Text = "请选择一个游戏";
+                    }
+
+                    if (!string.IsNullOrEmpty(Globals.Config.CurrentTrainer))
+                    {
+
+                        foreach (var trainer in Globals.Indexes.TrainerList)
+                            if (trainer.Name == Globals.Config.CurrentTrainer)
+                                currentTrainerInfo = trainer;
+                    }
+                    else
+                    {
+                        button_LaunchTrainer.IsEnabled = false;
+                    }
+
+                    //判断游戏是否运行
+                    try
+                    {
+                        if (GameManager.IsGameRuning == true)
+                        {
+
+                            textBlock_LaunchText.Text = I18N.PageLaunch.StopGame;
+                        }
+                    }
+                    catch (InvalidOperationException) { }
+
+                    //播放动画
+                    StartAnimation();
+
+                    //设置背景
+                    if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
+                        image.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
+
+                    /*//回声洞
+                    if (Globals.Config.Settings.LauncherConfig.EchoCaveEnabled)
+                    {
+                        button_EchoCave.Visibility = Visibility.Visible;
+                        await RefreshEchoCave();
+                    }
+                    else
+                    {
+                        button_EchoCave.Visibility = Visibility.Hidden;
+                    }*/
+
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
+            });
             //button_EchoCave.Click += (async (s, e) => await RefreshEchoCave());
         }
 

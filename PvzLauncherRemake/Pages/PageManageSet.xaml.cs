@@ -21,8 +21,6 @@ namespace PvzLauncherRemake.Pages
     public partial class PageManageSet : ModernWpf.Controls.Page
     {
         private JsonGameInfo.Root GameInfo = null!;
-
-        #region Load
         public void StartLoad(bool isStart = true)
         {
             if (isStart)
@@ -39,68 +37,62 @@ namespace PvzLauncherRemake.Pages
             }
         }
         public void EndLoad() => StartLoad(false);
-        #endregion
 
-        #region Init
-        public void Initialize() { }
-        public void InitializeLoaded()
-        {
-            try
-            {
-
-
-                //设置卡片
-                userGameCard.Title = GameInfo.GameInfo.Name;
-                userGameCard.Version = GameInfo.GameInfo.Version;
-                userGameCard.Icon = GameIconConverter.ParseStringToGameIcons(GameInfo.GameInfo.Icon);
-
-
-                //判断游玩时间显示
-                string? playTimeUnit = null;
-                string? playTimeDisply = null;
-                if (GameInfo.Record.PlayTime < 0)
-                {
-                    playTimeUnit = null;
-                    playTimeDisply = "你是怎么玩到负数的，都说了不要乱改配置文件!";
-                }
-                else if (GameInfo.Record.PlayTime >= 0 && GameInfo.Record.PlayTime < 60)//0s ~ 1min
-                {
-                    playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Second");
-                    playTimeDisply = $"{GameInfo.Record.PlayTime}";
-                }
-                else if (GameInfo.Record.PlayTime >= 60 && GameInfo.Record.PlayTime < 3600)//1min ~ 1h
-                {
-                    playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Minute");
-                    playTimeDisply = $"{GameInfo.Record.PlayTime / 60}";
-                }
-                else if (GameInfo.Record.PlayTime >= 3600)//1h+
-                {
-                    playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Hour");
-                    playTimeDisply = $"{Math.Round(GameInfo.Record.PlayTime / 3600.0, 2)}";
-                }
-
-
-
-                //统计信息
-                textBlock_Record.Text =
-                    $"{GetLoc("I18N.PageManageSet", "Record_FirstPlay")}: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
-                    $"{GetLoc("I18N.PageManageSet", "Record_PlayTime")}: {playTimeDisply} {playTimeUnit}\n" +
-                    $"{GetLoc("I18N.PageManageSet", "Record_PlayCount")}: {GameInfo.Record.PlayCount}";
-
-
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
-        }
-        #endregion
 
         public PageManageSet(JsonGameInfo.Root gameInfo)
         {
             InitializeComponent();
-            Initialize();
-            Loaded += ((sender, e) => InitializeLoaded());
+            Loaded += ((s, e) =>
+            {
+                try
+                {
+
+
+                    //设置卡片
+                    userGameCard.Title = GameInfo.GameInfo.Name;
+                    userGameCard.Version = GameInfo.GameInfo.Version;
+                    userGameCard.Icon = GameIconConverter.ParseStringToGameIcons(GameInfo.GameInfo.Icon);
+
+
+                    //判断游玩时间显示
+                    string? playTimeUnit = null;
+                    string? playTimeDisply = null;
+                    if (GameInfo.Record.PlayTime < 0)
+                    {
+                        playTimeUnit = null;
+                        playTimeDisply = "你是怎么玩到负数的，都说了不要乱改配置文件!";
+                    }
+                    else if (GameInfo.Record.PlayTime >= 0 && GameInfo.Record.PlayTime < 60)//0s ~ 1min
+                    {
+                        playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Second");
+                        playTimeDisply = $"{GameInfo.Record.PlayTime}";
+                    }
+                    else if (GameInfo.Record.PlayTime >= 60 && GameInfo.Record.PlayTime < 3600)//1min ~ 1h
+                    {
+                        playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Minute");
+                        playTimeDisply = $"{GameInfo.Record.PlayTime / 60}";
+                    }
+                    else if (GameInfo.Record.PlayTime >= 3600)//1h+
+                    {
+                        playTimeUnit = GetLoc("I18N.PageManageSet", "Record_Hour");
+                        playTimeDisply = $"{Math.Round(GameInfo.Record.PlayTime / 3600.0, 2)}";
+                    }
+
+
+
+                    //统计信息
+                    textBlock_Record.Text =
+                        $"{GetLoc("I18N.PageManageSet", "Record_FirstPlay")}: {DateTimeOffset.FromUnixTimeSeconds(GameInfo.Record.FirstPlay).ToOffset(TimeSpan.FromHours(8)).ToString()}\n" +
+                        $"{GetLoc("I18N.PageManageSet", "Record_PlayTime")}: {playTimeDisply} {playTimeUnit}\n" +
+                        $"{GetLoc("I18N.PageManageSet", "Record_PlayCount")}: {GameInfo.Record.PlayCount}";
+
+
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
+            });
             GameInfo = gameInfo;
         }
 
