@@ -8,15 +8,15 @@ namespace PvzLauncherRemake.Utils.Configuration
 {
     public static class ConfigManager
     {
-        public static string ConfigPath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "config.json");
+        public static string ConfigPath = Path.Combine(Globals.Directories.ExecuteDirectory, "config.json");
 
         public static void CreateDefaultConfig()
         {
-            AppGlobals.Config = new JsonConfig.Root();
+            Globals.Config = new JsonConfig.Root();
             SaveConfig();
         }
 
-        public static void SaveConfig() => Json.WriteJson(ConfigPath, AppGlobals.Config);
+        public static void SaveConfig() => Json.WriteJson(ConfigPath, Globals.Config);
 
         public static void LoadConfig()
         {
@@ -36,7 +36,7 @@ namespace PvzLauncherRemake.Utils.Configuration
                     CreateDefaultConfig();
                     return;
                 }
-                AppGlobals.Config = config;
+                Globals.Config = config;
 
             }
             catch (Exception)

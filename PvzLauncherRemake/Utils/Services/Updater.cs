@@ -24,8 +24,8 @@ namespace PvzLauncherRemake.Utils.Services
         public static string ChangeLog = null!;
         public static string Url = null!;
         public static string UrlShell = null!;
-        public static string BinPackSavePath = Path.Combine(AppGlobals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
-        public static string ShellPackSavePath = Path.Combine(AppGlobals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
+        public static string BinPackSavePath = Path.Combine(Globals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
+        public static string ShellPackSavePath = Path.Combine(Globals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
 
         private static bool isUpdating = false;//是否正在更新
 
@@ -33,7 +33,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
 
 
-            if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
+            if (Globals.Config.Settings.LauncherConfig.OfflineMode)
             {
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
@@ -75,20 +75,20 @@ namespace PvzLauncherRemake.Utils.Services
             isUpdating = true;
 
             //如是Dev版强制使用Development分支
-            if (!AppGlobals.IsStable)
+            if (!Globals.IsStable)
             {
-                AppGlobals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
+                Globals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
                 ConfigManager.SaveConfig();
             }
 
             //获取主索引
-            string indexString = await Client.GetStringAsync(AppGlobals.Urls.UpdateIndexUrl);
+            string indexString = await Client.GetStringAsync(Globals.Urls.UpdateIndexUrl);
 
             UpdateIndex = Json.ReadJson<JsonUpdateIndex.Root>(indexString);
 
             //判断更新通道
 
-            switch (AppGlobals.Config.Settings.LauncherConfig.UpdateChannel)
+            switch (Globals.Config.Settings.LauncherConfig.UpdateChannel)
             {
                 case "Stable":
                     LatestVersion = UpdateIndex.Stable.LatestVersion;
@@ -108,7 +108,7 @@ namespace PvzLauncherRemake.Utils.Services
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "更新终止",
-                        Content = $"更新通道 \"{AppGlobals.Config.Settings.LauncherConfig.UpdateChannel}\" 无效！请重新选择有效的更新通道",
+                        Content = $"更新通道 \"{Globals.Config.Settings.LauncherConfig.UpdateChannel}\" 无效！请重新选择有效的更新通道",
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
                     });
@@ -119,7 +119,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             //判断版本
             bool isUpdate = false;
-            if (AppGlobals.Version != LatestVersion)
+            if (Globals.Version != LatestVersion)
             {
 
 
@@ -160,7 +160,7 @@ namespace PvzLauncherRemake.Utils.Services
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "无可用更新",
-                        Content = $"您使用的已经是最新版本 {AppGlobals.Version} , 无需更新!",
+                        Content = $"您使用的已经是最新版本 {Globals.Version} , 无需更新!",
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
                     });
@@ -241,12 +241,12 @@ namespace PvzLauncherRemake.Utils.Services
             //下载成功↓
             //运行更新服务
 
-            if (File.Exists(Path.Combine(AppGlobals.Directories.ExecuteDirectory, "StdUpdateService.exe")))
+            if (File.Exists(Path.Combine(Globals.Directories.ExecuteDirectory, "StdUpdateService.exe")))
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "StdUpdateService.exe"),
-                    Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{AppGlobals.Directories.ExecuteDirectory}\" -shellpath \"{AppGlobals.Directories.RootDirectory}\" -exepath \"{Path.Combine(AppGlobals.Directories.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
+                    FileName = Path.Combine(Globals.Directories.ExecuteDirectory, "StdUpdateService.exe"),
+                    Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{Globals.Directories.ExecuteDirectory}\" -shellpath \"{Globals.Directories.RootDirectory}\" -exepath \"{Path.Combine(Globals.Directories.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
                     UseShellExecute = true
                 });
                 Environment.Exit(0);
@@ -256,7 +256,7 @@ namespace PvzLauncherRemake.Utils.Services
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "失败",
-                    Content = $"无法在 \"{Path.Combine(AppGlobals.Directories.ExecuteDirectory, "UpdateService.exe")}\" 找到更新服务",
+                    Content = $"无法在 \"{Path.Combine(Globals.Directories.ExecuteDirectory, "UpdateService.exe")}\" 找到更新服务",
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 });
@@ -274,7 +274,7 @@ namespace PvzLauncherRemake.Utils.Services
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "StdUpdateService.exe"),
+                        FileName = Path.Combine(Globals.Directories.ExecuteDirectory, "StdUpdateService.exe"),
                         Arguments = "-test",
                         UseShellExecute = false,
                         RedirectStandardOutput = true,

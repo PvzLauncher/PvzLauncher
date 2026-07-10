@@ -26,7 +26,7 @@ namespace PvzLauncherRemake.Pages
                 #region 变量指标
                 string varText = "";
 
-                Type type = typeof(AppGlobals);
+                Type type = typeof(Globals);
 
                 FieldInfo[] staticFields = type.GetFields(
                     BindingFlags.Public |
@@ -66,7 +66,7 @@ namespace PvzLauncherRemake.Pages
 
                 JsonFileIndex.Root index;
                 using (var client = new HttpClient())
-                    index = Json.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(AppGlobals.Urls.FileIndexUrl));
+                    index = Json.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
                 listBox_fileDownload_List.Items.Clear();
                 foreach (var file in index.List)
                     listBox_fileDownload_List.Items.Add($"{file}");
@@ -93,7 +93,7 @@ namespace PvzLauncherRemake.Pages
 
                     var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
 
-                    string savePath = Path.Combine(AppGlobals.Directories.TempDiectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{new Random().Next(int.MinValue, int.MaxValue)}");
+                    string savePath = Path.Combine(Globals.Directories.TempDiectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{new Random().Next(int.MinValue, int.MaxValue)}");
 
                     TaskManager.AddTask(new DownloadTaskInfo
                     {

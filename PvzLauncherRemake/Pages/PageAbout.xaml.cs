@@ -40,7 +40,7 @@ namespace PvzLauncherRemake.Pages
         {
             InitializeComponent();
 
-            textBlock_Version.Text = $"{AppGlobals.Version}{(AppGlobals.Arguments.isCIBuild ? " - CI" : AppGlobals.Arguments.isDebugBuild ? " - Debug" : null)}";
+            textBlock_Version.Text = $"{Globals.Version}{(Globals.Arguments.isCIBuild ? " - CI" : Globals.Arguments.isDebugBuild ? " - Debug" : null)}";
 
 
 
@@ -50,7 +50,7 @@ namespace PvzLauncherRemake.Pages
 
         private async void GetSponsorList()
         {
-            if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
+            if (Globals.Config.Settings.LauncherConfig.OfflineMode)
             {
                 stackpanel_SponsorList.Children.Clear();
                 stackpanel_SponsorList.Children.Add(new TextBlock
@@ -193,7 +193,7 @@ namespace PvzLauncherRemake.Pages
 
         private async void button_Sponsor_Click(object sender, RoutedEventArgs e)
         {
-            string qrcodePath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "Resources", "Images", "sponsor_qrcode.png");
+            string qrcodePath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Images", "sponsor_qrcode.png");
             if (!File.Exists(qrcodePath))
                 throw new FileNotFoundException("文件不存在", qrcodePath);
             var bitmap = new BitmapImage(new Uri(qrcodePath));

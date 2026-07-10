@@ -35,7 +35,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             var validGames = new List<JsonGameInfo.Root>();
 
-            foreach (string dir in Directory.EnumerateDirectories(AppGlobals.Directories.GameDirectory))
+            foreach (string dir in Directory.EnumerateDirectories(Globals.Directories.GameDirectory))
             {
                 string configPath = Path.Combine(dir, ".pvzl.json");
                 if (!File.Exists(configPath)) continue;
@@ -45,7 +45,7 @@ namespace PvzLauncherRemake.Utils.Services
                     var config = Json.ReadJson<JsonGameInfo.Root>(configPath);
                     if (config != null)
                     {
-                        if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation)
+                        if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
                         {
                             string saveDir = Path.Combine(dir, ".save");
                             if (!Directory.Exists(saveDir))
@@ -65,7 +65,7 @@ namespace PvzLauncherRemake.Utils.Services
                 }
             }
 
-            AppGlobals.Indexes.GameList = validGames;
+            Globals.Indexes.GameList = validGames;
 
         }
 
@@ -79,7 +79,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             var validTrainers = new List<JsonTrainerInfo.Root>();
 
-            foreach (string dir in Directory.EnumerateDirectories(AppGlobals.Directories.TrainerDirectory))
+            foreach (string dir in Directory.EnumerateDirectories(Globals.Directories.TrainerDirectory))
             {
                 string configPath = Path.Combine(dir, ".pvzl.json");
                 if (!File.Exists(configPath)) continue;
@@ -102,7 +102,7 @@ namespace PvzLauncherRemake.Utils.Services
                 }
             }
 
-            AppGlobals.Indexes.TrainerList = validTrainers;
+            Globals.Indexes.TrainerList = validTrainers;
 
         }
 
@@ -157,10 +157,10 @@ namespace PvzLauncherRemake.Utils.Services
 
                 //特殊文件夹判断
                 if (!isVirtual)
-                    if (openFolderDialog.FolderName == AppGlobals.Directories.ExecuteDirectory ||
-                        openFolderDialog.FolderName == AppGlobals.Directories.RootDirectory ||
-                        openFolderDialog.FolderName == AppGlobals.Directories.GameDirectory ||
-                        openFolderDialog.FolderName == AppGlobals.Directories.TrainerDirectory)
+                    if (openFolderDialog.FolderName == Globals.Directories.ExecuteDirectory ||
+                        openFolderDialog.FolderName == Globals.Directories.RootDirectory ||
+                        openFolderDialog.FolderName == Globals.Directories.GameDirectory ||
+                        openFolderDialog.FolderName == Globals.Directories.TrainerDirectory)
                     {
                         SnackbarManager.Show(new SnackbarContent
                         {
@@ -173,7 +173,7 @@ namespace PvzLauncherRemake.Utils.Services
 
 
                 //解决重名
-                string? savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? AppGlobals.Directories.TrainerDirectory : AppGlobals.Directories.GameDirectory));
+                string? savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? Globals.Directories.TrainerDirectory : Globals.Directories.GameDirectory));
 
                 if (string.IsNullOrEmpty(savePath))
                     return;
@@ -343,7 +343,7 @@ namespace PvzLauncherRemake.Utils.Services
 
         public static async Task StartDownloadAsync(JsonDownloadIndex.GameInfo info, string savePath, bool isTrainer)
         {
-            string tempPath = Path.Combine(AppGlobals.Directories.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{new Random().Next(Int32.MinValue, Int32.MaxValue) + new Random().Next(Int32.MinValue, Int32.MaxValue)}");
+            string tempPath = Path.Combine(Globals.Directories.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{new Random().Next(Int32.MinValue, Int32.MaxValue) + new Random().Next(Int32.MinValue, Int32.MaxValue)}");
 
 
 
@@ -387,7 +387,7 @@ namespace PvzLauncherRemake.Utils.Services
                             }
                         };
                         Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
-                        AppGlobals.Config.CurrentGame = configName;
+                        Globals.Config.CurrentGame = configName;
                     }
                     else
                     {
@@ -399,7 +399,7 @@ namespace PvzLauncherRemake.Utils.Services
                             Icon = info.Icon
                         };
                         Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
-                        AppGlobals.Config.CurrentTrainer = configName;
+                        Globals.Config.CurrentTrainer = configName;
                     }
 
                     ConfigManager.SaveConfig();
@@ -431,7 +431,7 @@ namespace PvzLauncherRemake.Utils.Services
             if (gameInfo.GameInfo.GamePath != null) 
                 gameExePath = Path.Combine(gameInfo.GameInfo.GamePath, gameInfo.GameInfo.ExecuteName);
             else
-                gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
+                gameExePath = System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
 
             //定义Process
             GameProcess = new Process
@@ -453,7 +453,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             //启动后操作
 
-            switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
+            switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "Close":
                     Environment.Exit(0); break;
@@ -463,9 +463,9 @@ namespace PvzLauncherRemake.Utils.Services
             SetGameFullScreen();
             SetGameLocation();
             Set3DMode();
-            if (!string.IsNullOrEmpty(AppGlobals.Config.Settings.GameConfig.WindowTitle))
-                SetGameTitle(AppGlobals.Config.Settings.GameConfig.WindowTitle);
-            if (AppGlobals.Config.Settings.GameConfig.OverlayUIEnabled)
+            if (!string.IsNullOrEmpty(Globals.Config.Settings.GameConfig.WindowTitle))
+                SetGameTitle(Globals.Config.Settings.GameConfig.WindowTitle);
+            if (Globals.Config.Settings.GameConfig.OverlayUIEnabled)
             {
                 var windowOverlay = new WindowOverlay();
                 windowOverlay.Show();
@@ -474,10 +474,10 @@ namespace PvzLauncherRemake.Utils.Services
             //启动次数
             gameInfo.Record.PlayCount++;
 
-            Json.WriteJson(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
 
             //启动器整体次数
-            AppGlobals.Config.Record.LaunchCount++;
+            Globals.Config.Record.LaunchCount++;
             ConfigManager.SaveConfig();
 
 
@@ -497,7 +497,7 @@ namespace PvzLauncherRemake.Utils.Services
             IsGameRuning = false;
 
 
-            switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
+            switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "HideAndDisplay":
                     Application.Current.MainWindow.Visibility = Visibility.Visible; break;
@@ -506,7 +506,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             //保存游玩时间
             gameInfo.Record.PlayTime = gameInfo.Record.PlayTime + ((long)(DateTimeOffset.Now - LatestGameLaunchTime!).Value.TotalSeconds);
-            Json.WriteJson(Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            Json.WriteJson(Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
         }
 
         /// <summary>
@@ -556,9 +556,9 @@ namespace PvzLauncherRemake.Utils.Services
         /// <returns></returns>
         public static async Task SwitchGameSave(JsonGameInfo.Root gamInfo)
         {
-            if (Directory.Exists(AppGlobals.Directories.SaveDirectory))
-                Directory.Delete(AppGlobals.Directories.SaveDirectory, true);
-            await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), AppGlobals.Directories.SaveDirectory);
+            if (Directory.Exists(Globals.Directories.SaveDirectory))
+                Directory.Delete(Globals.Directories.SaveDirectory, true);
+            await DirectoryManager.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), Globals.Directories.SaveDirectory);
         }
 
         /// <summary>
@@ -568,9 +568,9 @@ namespace PvzLauncherRemake.Utils.Services
         /// <returns></returns>
         public static async Task SaveGameSave(JsonGameInfo.Root gamInfo)
         {
-            if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save")))
-                Directory.Delete(Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);
-            await DirectoryManager.CopyDirectoryAsync(AppGlobals.Directories.SaveDirectory, Path.Combine(AppGlobals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"));
+            if (Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save")))
+                Directory.Delete(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);
+            await DirectoryManager.CopyDirectoryAsync(Globals.Directories.SaveDirectory, Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"));
         }
 
         #endregion
@@ -644,7 +644,7 @@ namespace PvzLauncherRemake.Utils.Services
             using (RegistryKey key = Registry.CurrentUser.CreateSubKey(registyPath))
             {
                 int? valueData;
-                switch (AppGlobals.Config.Settings.GameConfig.FullScreen)
+                switch (Globals.Config.Settings.GameConfig.FullScreen)
                 {
                     case "FullScreen": valueData = 1; break;
                     case "Windowed": valueData = 0; break;
@@ -669,7 +669,7 @@ namespace PvzLauncherRemake.Utils.Services
                 int? gameWindowX;
                 int? gameWindowY;
 
-                switch (AppGlobals.Config.Settings.GameConfig.StartUpLocation)
+                switch (Globals.Config.Settings.GameConfig.StartUpLocation)
                 {
                     case "Center":
                         gameWindowX = (int)((SystemParameters.WorkArea.Width / 2) - (800 / 2));
@@ -704,7 +704,7 @@ namespace PvzLauncherRemake.Utils.Services
             using (RegistryKey key = Registry.CurrentUser.CreateSubKey(registyPath))
             {
                 int? valueData;
-                switch (AppGlobals.Config.Settings.GameConfig.ThreeDMode)
+                switch (Globals.Config.Settings.GameConfig.ThreeDMode)
                 {
                     case "On": valueData = 1; break;
                     case "Off": valueData = 0; break;

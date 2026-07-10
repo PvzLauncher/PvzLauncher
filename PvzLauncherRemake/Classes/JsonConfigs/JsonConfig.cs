@@ -85,7 +85,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             public bool OfflineMode { get; set; } = false;
 
             [JsonProperty("update_channel")]
-            public string UpdateChannel { get; set; } = AppGlobals.IsStable ? "Stable" : "Development";
+            public string UpdateChannel { get; set; } = Globals.IsStable ? "Stable" : "Development";
 
             [JsonProperty("start_up_check_update")]
             public bool StartUpCheckUpdate { get; set; } = true;

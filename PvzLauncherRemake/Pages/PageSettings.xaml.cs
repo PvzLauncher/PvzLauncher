@@ -115,7 +115,7 @@ namespace PvzLauncherRemake.Pages
                 //# 启动器设置
                 //## 操作
                 //### 游戏启动后操作
-                switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
+                switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
                 {
                     case "None":
                         comboBox_LaunchedOperate.SelectedIndex = 0; break;
@@ -125,11 +125,11 @@ namespace PvzLauncherRemake.Pages
                         comboBox_LaunchedOperate.SelectedIndex = 2; break;
                 }
                 //### 修改器随游戏启动
-                checkbox_Launcher_LaunchWithTrainer.IsChecked = AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer;
+                checkbox_Launcher_LaunchWithTrainer.IsChecked = Globals.Config.Settings.LauncherConfig.LaunchWithTrainer;
                 //### 管理选择模式
                 radioButton_Launcher_ManageSelectMode_Single.IsChecked = false;
                 radioButton_Launcher_ManageSelectMode_Double.IsChecked = false;
-                switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
+                switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
                 {
                     case "Single":
                         radioButton_Launcher_ManageSelectMode_Single.IsChecked = true;break;
@@ -140,7 +140,7 @@ namespace PvzLauncherRemake.Pages
                 //### 主题
                 radioButton_Theme_Light.IsChecked = false;
                 radioButton_Theme_Dark.IsChecked = false;
-                switch (AppGlobals.Config.Settings.LauncherConfig.Theme)
+                switch (Globals.Config.Settings.LauncherConfig.Theme)
                 {
                     case "Light":
                         radioButton_Theme_Light.IsChecked = true; break;
@@ -150,14 +150,14 @@ namespace PvzLauncherRemake.Pages
                 //### 语言
                 foreach (ComboBoxItem item in comboBox_Launcher_Language.Items)
                 {
-                    if (item.Tag.ToString() == AppGlobals.Config.Settings.LauncherConfig.Language)
+                    if (item.Tag.ToString() == Globals.Config.Settings.LauncherConfig.Language)
                         comboBox_Launcher_Language.SelectedItem = item;
                 }
                 //### 窗口标题
-                textBox_WindowTitle.Text = AppGlobals.Config.Settings.LauncherConfig.WindowTitle;
+                textBox_WindowTitle.Text = Globals.Config.Settings.LauncherConfig.WindowTitle;
                 //### 标题图片
                 radioButton_TitieImage_EN.IsChecked = false; radioButton_TitleImage_ZH.IsChecked = false;
-                switch (AppGlobals.Config.Settings.LauncherConfig.TitleImage)
+                switch (Globals.Config.Settings.LauncherConfig.TitleImage)
                 {
                     case "EN":
                         radioButton_TitieImage_EN.IsChecked = true; break;
@@ -166,28 +166,28 @@ namespace PvzLauncherRemake.Pages
                 }
                 //### 背景
                 radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
-                switch (AppGlobals.Config.Settings.LauncherConfig.BackgroundMode)
+                switch (Globals.Config.Settings.LauncherConfig.BackgroundMode)
                 {
                     case "default": radioButton_Background_Default.IsChecked = true; button_Background_Select.IsEnabled = false; break;
                     case "custom": radioButton_Background_Custom.IsChecked = true; button_Background_Select.IsEnabled = true; break;
                 }
 
-                if (!string.IsNullOrEmpty(AppGlobals.Config.Settings.LauncherConfig.Background))
+                if (!string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
                 {
-                    if (File.Exists(AppGlobals.Config.Settings.LauncherConfig.Background))
+                    if (File.Exists(Globals.Config.Settings.LauncherConfig.Background))
                     {
-                        image_Background.Source = new BitmapImage(new Uri(AppGlobals.Config.Settings.LauncherConfig.Background));
+                        image_Background.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
                     }
                 }
                 //### 回声洞
-                //checkBox_Launcher_EchoCave.IsChecked = AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled;
+                //checkBox_Launcher_EchoCave.IsChecked = Globals.Config.Settings.LauncherConfig.EchoCaveEnabled;
                 //### 公告
-                checkBox_Launcher_Notice.IsChecked = AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled;
+                checkBox_Launcher_Notice.IsChecked = Globals.Config.Settings.LauncherConfig.NoticeEnabled;
                 //### 启动动画
-                checkBox_Launcher_LaunchAnimaiton.IsChecked = AppGlobals.Config.Settings.LauncherConfig.LaunchAnimationEnabled;
+                checkBox_Launcher_LaunchAnimaiton.IsChecked = Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled;
                 //### NavigationView位置
                 radioButton_NavViewLeft.IsChecked = false; radioButton_NavViewTop.IsChecked = false;
-                switch (AppGlobals.Config.Settings.LauncherConfig.NavigationViewAlign)
+                switch (Globals.Config.Settings.LauncherConfig.NavigationViewAlign)
                 {
                     case "Left":
                         radioButton_NavViewLeft.IsChecked = true; break;
@@ -196,7 +196,7 @@ namespace PvzLauncherRemake.Pages
                 }
                 //## 网络
                 //### 提供方
-                switch (AppGlobals.Config.Settings.LauncherConfig.ServiceProvider)
+                switch (Globals.Config.Settings.LauncherConfig.ServiceProvider)
                 {
                     case "Gitee":
                         comboBox_Launcher_ServiceProvider.SelectedIndex = 0;break;
@@ -204,15 +204,15 @@ namespace PvzLauncherRemake.Pages
                         comboBox_Launcher_ServiceProvider.SelectedIndex = 1;break;
                 }
                 //### 离线模式
-                checkBox_Network_OfflineMode.IsChecked = AppGlobals.Config.Settings.LauncherConfig.OfflineMode;
+                checkBox_Network_OfflineMode.IsChecked = Globals.Config.Settings.LauncherConfig.OfflineMode;
                 //## 更新
                 //### 更新通道
-                if (!AppGlobals.IsStable)
+                if (!Globals.IsStable)
                 {
                     comboBox_UpdateChannel.IsEnabled = false;
-                    AppGlobals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
+                    Globals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
                 }
-                switch (AppGlobals.Config.Settings.LauncherConfig.UpdateChannel)
+                switch (Globals.Config.Settings.LauncherConfig.UpdateChannel)
                 {
                     case "Stable":
                         comboBox_UpdateChannel.SelectedIndex = 0; break;
@@ -220,13 +220,13 @@ namespace PvzLauncherRemake.Pages
                         comboBox_UpdateChannel.SelectedIndex = 1; break;
                 }
                 //### 启动时检查更新
-                checkBox_StartUpCheckUpdate.IsChecked = AppGlobals.Config.Settings.LauncherConfig.StartUpCheckUpdate;
+                checkBox_StartUpCheckUpdate.IsChecked = Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate;
 
 
                 //# 游戏设置
                 //## 游戏配置
                 //### 全屏
-                switch (AppGlobals.Config.Settings.GameConfig.FullScreen)
+                switch (Globals.Config.Settings.GameConfig.FullScreen)
                 {
                     case "Default":
                         comboBox_Game_FullScreen.SelectedIndex = 0; break;
@@ -236,7 +236,7 @@ namespace PvzLauncherRemake.Pages
                         comboBox_Game_FullScreen.SelectedIndex = 2; break;
                 }
                 //### 位置
-                switch (AppGlobals.Config.Settings.GameConfig.StartUpLocation)
+                switch (Globals.Config.Settings.GameConfig.StartUpLocation)
                 {
                     case "Default":
                         comboBox_Game_Location.SelectedIndex = 0; break;
@@ -246,7 +246,7 @@ namespace PvzLauncherRemake.Pages
                         comboBox_Game_Location.SelectedIndex = 2; break;
                 }
                 //### 3D加速
-                switch (AppGlobals.Config.Settings.GameConfig.ThreeDMode)
+                switch (Globals.Config.Settings.GameConfig.ThreeDMode)
                 {
                     case "Default":
                         comboBox_Game_3DMode.SelectedIndex = 0; break;
@@ -257,15 +257,15 @@ namespace PvzLauncherRemake.Pages
                 }
                 //## 外观
                 //### 窗口标题
-                textBox_GameWindowTitle.Text = AppGlobals.Config.Settings.GameConfig.WindowTitle;
+                textBox_GameWindowTitle.Text = Globals.Config.Settings.GameConfig.WindowTitle;
                 //## 覆盖界面
                 //### 启用
-                checkbox_Game_Overlay_Enabled.IsChecked = AppGlobals.Config.Settings.GameConfig.OverlayUIEnabled;
+                checkbox_Game_Overlay_Enabled.IsChecked = Globals.Config.Settings.GameConfig.OverlayUIEnabled;
 
                 //# 存档设置
                 //## 存档隔离
                 //### 启用存档隔离
-                checkBox_EnableIsolationSave.IsChecked = AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation;
+                checkBox_EnableIsolationSave.IsChecked = Globals.Config.Settings.SaveConfig.EnableSaveIsolation;
 
 
 
@@ -338,11 +338,11 @@ namespace PvzLauncherRemake.Pages
                 switch (comboBox_LaunchedOperate.SelectedIndex)
                 {
                     case 0:
-                        AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate = "None"; break;
+                        Globals.Config.Settings.LauncherConfig.LaunchedOperate = "None"; break;
                     case 1:
-                        AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate = "Close"; break;
+                        Globals.Config.Settings.LauncherConfig.LaunchedOperate = "Close"; break;
                     case 2:
-                        AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate = "HideAndDisplay"; break;
+                        Globals.Config.Settings.LauncherConfig.LaunchedOperate = "HideAndDisplay"; break;
                 }
                 ConfigManager.SaveConfig();
             }
@@ -352,7 +352,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer = checkbox_Launcher_LaunchWithTrainer.IsChecked == true ? true : false;
+                Globals.Config.Settings.LauncherConfig.LaunchWithTrainer = checkbox_Launcher_LaunchWithTrainer.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }
@@ -361,7 +361,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode = (string)(((RadioButton)sender).Tag);
+                Globals.Config.Settings.LauncherConfig.ManageSelectMode = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveConfig();
             }
         }
@@ -370,9 +370,9 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.Theme = (string)(((RadioButton)sender).Tag);
+                Globals.Config.Settings.LauncherConfig.Theme = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveConfig();
-                switch (AppGlobals.Config.Settings.LauncherConfig.Theme)
+                switch (Globals.Config.Settings.LauncherConfig.Theme)
                 {
                     case "Light":
                         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; break;
@@ -387,10 +387,10 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 var comboBox = (ComboBox)sender;
-                AppGlobals.Config.Settings.LauncherConfig.Language = ((ComboBoxItem)comboBox.SelectedItem).Tag.ToString()!;
+                Globals.Config.Settings.LauncherConfig.Language = ((ComboBoxItem)comboBox.SelectedItem).Tag.ToString()!;
                 ConfigManager.SaveConfig();
 
-                LocalizeManager.SwitchLanguage(AppGlobals.Config.Settings.LauncherConfig.Language);
+                LocalizeManager.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
             }
         }
 
@@ -404,8 +404,8 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.WindowTitle = textBox_WindowTitle.Text;
-                ((WindowMain)Window.GetWindow(this)).Title = AppGlobals.Config.Settings.LauncherConfig.WindowTitle;
+                Globals.Config.Settings.LauncherConfig.WindowTitle = textBox_WindowTitle.Text;
+                ((WindowMain)Window.GetWindow(this)).Title = Globals.Config.Settings.LauncherConfig.WindowTitle;
                 ConfigManager.SaveConfig();
             }
         }
@@ -421,7 +421,7 @@ namespace PvzLauncherRemake.Pages
                     if ((string)radioButton.Tag == "ZH")
                         radioButton_TitieImage_EN.IsChecked = false;
 
-                    AppGlobals.Config.Settings.LauncherConfig.TitleImage = (string)radioButton.Tag;
+                    Globals.Config.Settings.LauncherConfig.TitleImage = (string)radioButton.Tag;
                     ConfigManager.SaveConfig();
                 }
 
@@ -441,9 +441,9 @@ namespace PvzLauncherRemake.Pages
                 };
                 if (dialog.ShowDialog() == true)
                 {
-                    AppGlobals.Config.Settings.LauncherConfig.Background = dialog.FileName;
+                    Globals.Config.Settings.LauncherConfig.Background = dialog.FileName;
                     ConfigManager.SaveConfig();
-                    image_Background.Source = new BitmapImage(new Uri(AppGlobals.Config.Settings.LauncherConfig.Background));
+                    image_Background.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
                 }
             }
         }
@@ -457,13 +457,13 @@ namespace PvzLauncherRemake.Pages
                     if ((string)radioButton.Tag == "Default")
                     {
                         button_Background_Select.IsEnabled = false;
-                        AppGlobals.Config.Settings.LauncherConfig.BackgroundMode = "default";
+                        Globals.Config.Settings.LauncherConfig.BackgroundMode = "default";
                         radioButton_Background_Custom.IsChecked = false;
                     }
                     if ((string)radioButton.Tag == "Custom")
                     {
                         button_Background_Select.IsEnabled = true;
-                        AppGlobals.Config.Settings.LauncherConfig.BackgroundMode = "custom";
+                        Globals.Config.Settings.LauncherConfig.BackgroundMode = "custom";
                         radioButton_Background_Default.IsChecked = false;
                     }
                     ConfigManager.SaveConfig();
@@ -480,7 +480,7 @@ namespace PvzLauncherRemake.Pages
                 if (sender is not CheckBox checkBox)
                     return;
 
-                AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled = checkBox.IsChecked == true ? true : false;
+                Globals.Config.Settings.LauncherConfig.EchoCaveEnabled = checkBox.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }*/
@@ -492,7 +492,7 @@ namespace PvzLauncherRemake.Pages
                 if (sender is not CheckBox checkBox)
                     return;
 
-                AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled = checkBox.IsChecked == true ? true : false;
+                Globals.Config.Settings.LauncherConfig.NoticeEnabled = checkBox.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }
@@ -504,7 +504,7 @@ namespace PvzLauncherRemake.Pages
                 if (sender is not CheckBox checkBox)
                     return;
 
-                AppGlobals.Config.Settings.LauncherConfig.LaunchAnimationEnabled = checkBox.IsChecked == true ? true : false;
+                Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled = checkBox.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }
@@ -513,10 +513,10 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.NavigationViewAlign = (string)(((RadioButton)sender).Tag);
+                Globals.Config.Settings.LauncherConfig.NavigationViewAlign = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveConfig();
 
-                switch (AppGlobals.Config.Settings.LauncherConfig.NavigationViewAlign)
+                switch (Globals.Config.Settings.LauncherConfig.NavigationViewAlign)
                 {
                     case "Left": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Left; break;
                     case "Top": ((NavigationView)Window.GetWindow(this).FindName("navView")).PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
@@ -528,7 +528,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.ServiceProvider = (string)(((ComboBoxItem)(comboBox_Launcher_ServiceProvider.SelectedItem)).Tag);
+                Globals.Config.Settings.LauncherConfig.ServiceProvider = (string)(((ComboBoxItem)(comboBox_Launcher_ServiceProvider.SelectedItem)).Tag);
                 ConfigManager.SaveConfig();
                 ShowRestartTip();
             }
@@ -540,7 +540,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (sender is CheckBox cb)
                 {
-                    AppGlobals.Config.Settings.LauncherConfig.OfflineMode = cb.IsChecked == true ? true : false;
+                    Globals.Config.Settings.LauncherConfig.OfflineMode = cb.IsChecked == true ? true : false;
                     ConfigManager.SaveConfig();
 
                     ShowRestartTip();
@@ -575,7 +575,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.UpdateChannel = (string)(((ComboBoxItem)comboBox_UpdateChannel.SelectedItem).Tag);
+                Globals.Config.Settings.LauncherConfig.UpdateChannel = (string)(((ComboBoxItem)comboBox_UpdateChannel.SelectedItem).Tag);
                 ConfigManager.SaveConfig();
             }
         }
@@ -584,7 +584,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.LauncherConfig.StartUpCheckUpdate = (bool)checkBox_StartUpCheckUpdate.IsChecked!;
+                Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate = (bool)checkBox_StartUpCheckUpdate.IsChecked!;
                 ConfigManager.SaveConfig();
             }
         }
@@ -608,7 +608,7 @@ namespace PvzLauncherRemake.Pages
 
                     await Task.Run(() =>
                     {
-                        allTempFiles = Directory.GetFiles(AppGlobals.Directories.TempDiectory);
+                        allTempFiles = Directory.GetFiles(Globals.Directories.TempDiectory);
                     });
 
                     if (!(allTempFiles.Length > 0))
@@ -698,7 +698,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.GameConfig.FullScreen = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
+                Globals.Config.Settings.GameConfig.FullScreen = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
                 ConfigManager.SaveConfig();
             }
         }
@@ -707,7 +707,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.GameConfig.StartUpLocation = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
+                Globals.Config.Settings.GameConfig.StartUpLocation = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
                 ConfigManager.SaveConfig();
             }
         }
@@ -716,7 +716,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.GameConfig.ThreeDMode = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
+                Globals.Config.Settings.GameConfig.ThreeDMode = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
                 ConfigManager.SaveConfig();
             }
         }
@@ -725,7 +725,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.GameConfig.WindowTitle = textBox_GameWindowTitle.Text;
+                Globals.Config.Settings.GameConfig.WindowTitle = textBox_GameWindowTitle.Text;
                 ConfigManager.SaveConfig();
             }
         }
@@ -734,7 +734,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                AppGlobals.Config.Settings.GameConfig.OverlayUIEnabled = checkbox_Game_Overlay_Enabled.IsChecked == true ? true : false;
+                Globals.Config.Settings.GameConfig.OverlayUIEnabled = checkbox_Game_Overlay_Enabled.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }
@@ -768,12 +768,12 @@ namespace PvzLauncherRemake.Pages
                         try
                         {
 
-                            if (Directory.Exists(AppGlobals.Directories.SaveDirectory))
+                            if (Directory.Exists(Globals.Directories.SaveDirectory))
                             {
                                 StartLoad();
                                 await Task.Run(() =>
                                 {
-                                    Directory.Delete(AppGlobals.Directories.SaveDirectory, true);
+                                    Directory.Delete(Globals.Directories.SaveDirectory, true);
                                 });
                                 EndLoad();
                                 SnackbarManager.Show(new SnackbarContent
@@ -817,18 +817,18 @@ namespace PvzLauncherRemake.Pages
                         DefaultButton = ContentDialogButton.Primary
                     }, (() =>
                     {
-                        AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation = true;
+                        Globals.Config.Settings.SaveConfig.EnableSaveIsolation = true;
                     }), (() =>
                     {
                         checkBox_EnableIsolationSave.IsChecked = false;
-                        AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation = false;
+                        Globals.Config.Settings.SaveConfig.EnableSaveIsolation = false;
                     }), (() =>
                     {
                         checkBox_EnableIsolationSave.IsChecked = false;
-                        AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation = false;
+                        Globals.Config.Settings.SaveConfig.EnableSaveIsolation = false;
                     }));
                 else
-                    AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation = false;
+                    Globals.Config.Settings.SaveConfig.EnableSaveIsolation = false;
 
                 ConfigManager.SaveConfig();
             }
@@ -838,14 +838,14 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation)
+                if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
                 {
-                    if (AppGlobals.Indexes.GameList.Count >= 2)
+                    if (Globals.Indexes.GameList.Count >= 2)
                     {
                         var listBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
                         string originGameName = null!;
                         string targetGameName = null!;
-                        foreach (var game in AppGlobals.Indexes.GameList)
+                        foreach (var game in Globals.Indexes.GameList)
                         {
                             listBox.Items.Add(game.GameInfo.Name);
                         }
@@ -875,11 +875,11 @@ namespace PvzLauncherRemake.Pages
                             {
                                 originGameName = listBox.SelectedItem.ToString()!;
 
-                                if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, originGameName, ".save")))
+                                if (Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, originGameName, ".save")))
                                 {
 
                                     var targetListBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
-                                    foreach (var game in AppGlobals.Indexes.GameList)
+                                    foreach (var game in Globals.Indexes.GameList)
                                     {
                                         if (game.GameInfo.Name != originGameName)
                                             targetListBox.Items.Add(game.GameInfo.Name);
@@ -938,12 +938,12 @@ namespace PvzLauncherRemake.Pages
 
                                                 await Task.Run(() =>
                                                 {
-                                                    if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save")))
-                                                        Directory.Delete(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"), true);
+                                                    if (Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save")))
+                                                        Directory.Delete(Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"), true);
                                                     else
-                                                        Directory.CreateDirectory(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"));
+                                                        Directory.CreateDirectory(Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
                                                 });
-                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"));
+                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
 
                                                 SnackbarManager.Show(new SnackbarContent
                                                 {

@@ -46,12 +46,12 @@ namespace PvzLauncherRemake.Pages
             grid_NoneGame.IsEnabled = false;
             grid_NoneTrainer.IsEnabled = false;
 
-            if (AppGlobals.Indexes.GameList.Count <= 0)
+            if (Globals.Indexes.GameList.Count <= 0)
             {
                 grid_NoneGame.Visibility = Visibility.Visible;
                 grid_NoneGame.IsEnabled = true;
             }
-            if (AppGlobals.Indexes.TrainerList.Count <= 0)
+            if (Globals.Indexes.TrainerList.Count <= 0)
             {
                 grid_NoneTrainer.Visibility = Visibility.Visible;
                 grid_NoneTrainer.IsEnabled = true;
@@ -76,25 +76,25 @@ namespace PvzLauncherRemake.Pages
 
 
                 //游戏库里有东西才加
-                if (AppGlobals.Indexes.GameList.Count > 0)
+                if (Globals.Indexes.GameList.Count > 0)
                 {
 
                     //添加卡片
-                    foreach (var game in AppGlobals.Indexes.GameList)
+                    foreach (var game in Globals.Indexes.GameList)
                     {
                         //定义卡片
                         var card = new UserCard
                         {
                             Title = game.GameInfo.Name,
                             Icon = GameIconConverter.ParseStringToGameIcons(game.GameInfo.Icon),
-                            isActive = game.GameInfo.Name == AppGlobals.Config.CurrentGame ? true : false,
+                            isActive = game.GameInfo.Name == Globals.Config.CurrentGame ? true : false,
                             Version = $"{game.GameInfo.Version}",
                             Background = System.Windows.Media.Brushes.Transparent,
                             Tag = game,
                             Margin = new Thickness(0, 0, 0, 5),
                             isVirtual = game.GameInfo.GamePath != null
                         };
-                        switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
+                        switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
                         {
                             case "Single":
                                 card.MouseLeftButtonUp += SelectGame;
@@ -112,29 +112,29 @@ namespace PvzLauncherRemake.Pages
                 else
                 {
 
-                    AppGlobals.Config.CurrentGame = null!;
+                    Globals.Config.CurrentGame = null!;
                 }
 
                 //添加修改器
                 //游戏库里有东西才加
-                if (AppGlobals.Indexes.TrainerList.Count > 0)
+                if (Globals.Indexes.TrainerList.Count > 0)
                 {
 
                     //添加卡片
-                    foreach (var trainer in AppGlobals.Indexes.TrainerList)
+                    foreach (var trainer in Globals.Indexes.TrainerList)
                     {
                         //定义卡片
                         var card = new UserCard
                         {
                             Title = trainer.Name,
                             Icon = GameIconConverter.ParseStringToGameIcons(trainer.Icon),
-                            isActive = trainer.Name == AppGlobals.Config.CurrentTrainer ? true : false,
+                            isActive = trainer.Name == Globals.Config.CurrentTrainer ? true : false,
                             Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
                             Background = System.Windows.Media.Brushes.Transparent,
                             Tag = trainer,
                             Margin = new Thickness(0, 0, 0, 5)
                         };
-                        switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
+                        switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
                         {
                             case "Single":
                                 card.MouseLeftButtonUp += SelectTrainer;
@@ -152,7 +152,7 @@ namespace PvzLauncherRemake.Pages
                 else
                 {
 
-                    AppGlobals.Config.CurrentTrainer = null!;
+                    Globals.Config.CurrentTrainer = null!;
                 }
 
                 SetNoneTipVisb();
@@ -238,7 +238,7 @@ namespace PvzLauncherRemake.Pages
                     ((UserCard)card).SetLabels();
                 }
 
-                AppGlobals.Config.CurrentGame = $"{((UserCard)sender).Title}";
+                Globals.Config.CurrentGame = $"{((UserCard)sender).Title}";
                 ConfigManager.SaveConfig();
 
             }
@@ -273,7 +273,7 @@ namespace PvzLauncherRemake.Pages
                 }
 
 
-                AppGlobals.Config.CurrentTrainer = $"{((UserCard)sender).Title}";
+                Globals.Config.CurrentTrainer = $"{((UserCard)sender).Title}";
                 ConfigManager.SaveConfig();
 
             }
@@ -407,17 +407,17 @@ namespace PvzLauncherRemake.Pages
                     {
 
 
-                        await Task.Run(() => Directory.Delete(Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name), true));
+                        await Task.Run(() => Directory.Delete(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name), true));
 
                         await GameManager.LoadTrainerListAsync();
 
-                        if (AppGlobals.Indexes.TrainerList.Count > 0 && AppGlobals.Config.CurrentTrainer == trainerConfig.Name)
+                        if (Globals.Indexes.TrainerList.Count > 0 && Globals.Config.CurrentTrainer == trainerConfig.Name)
                         {
-                            AppGlobals.Config.CurrentTrainer = AppGlobals.Indexes.TrainerList[0].Name;
+                            Globals.Config.CurrentTrainer = Globals.Indexes.TrainerList[0].Name;
                         }
                         else
                         {
-                            AppGlobals.Config.CurrentTrainer = null!;
+                            Globals.Config.CurrentTrainer = null!;
                         }
                         ConfigManager.SaveConfig();
                         SnackbarManager.Show(new SnackbarContent
@@ -452,12 +452,12 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (textBox.Text != null)
                         {
-                            if (!Directory.Exists(Path.Combine(AppGlobals.Directories.TrainerDirectory, textBox.Text)))
+                            if (!Directory.Exists(Path.Combine(Globals.Directories.TrainerDirectory, textBox.Text)))
                             {
                                 string lastName = trainerConfig.Name;
                                 trainerConfig.Name = textBox.Text;
-                                Directory.Move(Path.Combine(AppGlobals.Directories.TrainerDirectory, lastName), Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name));
-                                Json.WriteJson(Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
+                                Directory.Move(Path.Combine(Globals.Directories.TrainerDirectory, lastName), Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name));
+                                Json.WriteJson(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
                                 SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "更名成功",
@@ -467,8 +467,8 @@ namespace PvzLauncherRemake.Pages
 
 
 
-                                if (AppGlobals.Config.CurrentTrainer == lastName)
-                                    AppGlobals.Config.CurrentTrainer = trainerConfig.Name;
+                                if (Globals.Config.CurrentTrainer == lastName)
+                                    Globals.Config.CurrentTrainer = trainerConfig.Name;
 
                                 this.NavigationService.Refresh();
                             }
@@ -502,7 +502,7 @@ namespace PvzLauncherRemake.Pages
                     dialog.Hide();
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name),
+                        FileName = Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name),
                         UseShellExecute = true
                     });
                 });

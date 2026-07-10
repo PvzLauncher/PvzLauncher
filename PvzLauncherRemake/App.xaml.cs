@@ -28,34 +28,34 @@ namespace PvzLauncherRemake
                 ThemeManager.Current.AccentColor = Color.FromRgb(255, 0, 0);
 
             //初始化配置文件
-            if (!File.Exists(System.IO.Path.Combine(AppGlobals.Directories.ExecuteDirectory, "config.json")))
+            if (!File.Exists(System.IO.Path.Combine(Globals.Directories.ExecuteDirectory, "config.json")))
             {
                 ConfigManager.CreateDefaultConfig();
             }
             //游戏目录
-            if (!Directory.Exists(AppGlobals.Directories.GameDirectory))
+            if (!Directory.Exists(Globals.Directories.GameDirectory))
             {
-                Directory.CreateDirectory(AppGlobals.Directories.GameDirectory);
+                Directory.CreateDirectory(Globals.Directories.GameDirectory);
             }
             //修改器目录
-            if (!Directory.Exists(AppGlobals.Directories.TrainerDirectory))
+            if (!Directory.Exists(Globals.Directories.TrainerDirectory))
             {
-                Directory.CreateDirectory(AppGlobals.Directories.TrainerDirectory);
+                Directory.CreateDirectory(Globals.Directories.TrainerDirectory);
             }
 
             //读配置
             ConfigManager.LoadConfig();
 
             //切换语言
-            LocalizeManager.SwitchLanguage(AppGlobals.Config.Settings.LauncherConfig.Language);
+            LocalizeManager.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
 
             //切换服务提供方
-            switch (AppGlobals.Config.Settings.LauncherConfig.ServiceProvider)
+            switch (Globals.Config.Settings.LauncherConfig.ServiceProvider)
             {
                 case "Gitee":
-                    AppGlobals.Urls.ServiceRootUrl = AppGlobals.Urls.ServiceRootUrls.Gitee; break;
+                    Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.Gitee; break;
                 case "GitCode":
-                    AppGlobals.Urls.ServiceRootUrl = AppGlobals.Urls.ServiceRootUrls.GitCode; break;
+                    Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.GitCode; break;
             }
 
             //加载列表
@@ -68,7 +68,7 @@ namespace PvzLauncherRemake
             ThemeManager.AddActualThemeChangedHandler(this.MainWindow, OnThemeChanged);
 
             //主题
-            switch (AppGlobals.Config.Settings.LauncherConfig.Theme)
+            switch (Globals.Config.Settings.LauncherConfig.Theme)
             {
                 case "Light":
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; OnThemeChanged(null!, null!); break;

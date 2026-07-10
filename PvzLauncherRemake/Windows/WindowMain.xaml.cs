@@ -35,10 +35,10 @@ namespace PvzLauncherRemake.Windows
             try
             {
                 //应用配置
-                this.Title = AppGlobals.Config.Settings.LauncherConfig.WindowTitle;
-                this.Width = AppGlobals.Config.WindowSize.Width;
-                this.Height = AppGlobals.Config.WindowSize.Height;
-                switch (AppGlobals.Config.Settings.LauncherConfig.NavigationViewAlign)
+                this.Title = Globals.Config.Settings.LauncherConfig.WindowTitle;
+                this.Width = Globals.Config.WindowSize.Width;
+                this.Height = Globals.Config.WindowSize.Height;
+                switch (Globals.Config.Settings.LauncherConfig.NavigationViewAlign)
                 {
                     case "Left":
                         navView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact; break;
@@ -51,7 +51,7 @@ namespace PvzLauncherRemake.Windows
                 this.SizeChanged += ((sender, e) =>
                 {
 
-                    AppGlobals.Config.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
+                    Globals.Config.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
                     ConfigManager.SaveConfig();
                 });
 
@@ -74,7 +74,7 @@ namespace PvzLauncherRemake.Windows
 
 
                 //禁用联网
-                if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
+                if (Globals.Config.Settings.LauncherConfig.OfflineMode)
                 {
                     navViewItem_Download.IsEnabled = false;
                     navViewItem_Task.IsEnabled = false;
@@ -101,11 +101,11 @@ namespace PvzLauncherRemake.Windows
 
                 //是否CI构建
 #if CI
-                AppGlobals.Arguments.isCIBuild = true;
+                Globals.Arguments.isCIBuild = true;
 #endif
                 //是否Debug构建
 #if DEBUG
-                AppGlobals.Arguments.isDebugBuild = true;
+                Globals.Arguments.isDebugBuild = true;
 #endif
 
 
@@ -118,10 +118,10 @@ namespace PvzLauncherRemake.Windows
                     {
                         //外壳启动
                         case "-shell":
-                            AppGlobals.Arguments.isShell = true; break;
+                            Globals.Arguments.isShell = true; break;
                         //更新启动，显示更新完毕对话框
                         case "-update":
-                            AppGlobals.Arguments.isUpdate = true; break;
+                            Globals.Arguments.isUpdate = true; break;
                     }
                 }
 
@@ -135,7 +135,7 @@ namespace PvzLauncherRemake.Windows
 
 
                 //参数检测
-                if (!AppGlobals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
+                if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
                 {
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
@@ -149,18 +149,18 @@ namespace PvzLauncherRemake.Windows
                         //Primary=>改用外壳启动
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = System.IO.Path.Combine(AppGlobals.Directories.RootDirectory, "PvzLauncher.exe"),
+                            FileName = System.IO.Path.Combine(Globals.Directories.RootDirectory, "PvzLauncher.exe"),
                             UseShellExecute = true
                         });
                         Environment.Exit(0);
                     }));
                 }
-                if (AppGlobals.Arguments.isUpdate)//更新启动
+                if (Globals.Arguments.isUpdate)//更新启动
                 {
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "更新完毕",
-                        Content = $"您已更新到最新版 {AppGlobals.Version} , 尽情享受吧！",
+                        Content = $"您已更新到最新版 {Globals.Version} , 尽情享受吧！",
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
                     });
@@ -168,16 +168,16 @@ namespace PvzLauncherRemake.Windows
 
 
                 //构建检测
-                if (AppGlobals.Arguments.isCIBuild)//CI
+                if (Globals.Arguments.isCIBuild)//CI
                 {
                     SnackbarManager.Show(new SnackbarContent
                     {
-                        Content = $"您使用的是基于 {AppGlobals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
+                        Content = $"您使用的是基于 {Globals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
                         Title = "警告",
                         Type = SnackbarType.Warn
                     });
                 }
-                else if (AppGlobals.Arguments.isDebugBuild)//DEBUG
+                else if (Globals.Arguments.isDebugBuild)//DEBUG
                 {
                     SnackbarManager.Show(new SnackbarContent
                     {
@@ -191,9 +191,9 @@ namespace PvzLauncherRemake.Windows
 
 
                 //EULA检测
-                if (!AppGlobals.Config.Eula)
+                if (!Globals.Config.Eula)
                 {
-                    string eulaPath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
+                    string eulaPath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
                     string eulaText = $"无法加载{eulaPath}";
                     eulaText = await File.ReadAllTextAsync(eulaPath);
 
@@ -212,7 +212,7 @@ namespace PvzLauncherRemake.Windows
                         PrimaryButtonText = "同意",
                         CloseButtonText = "拒绝",
                         DefaultButton = ContentDialogButton.Primary
-                    }, (() => AppGlobals.Config.Eula = true), null, (() => Environment.Exit(0)));
+                    }, (() => Globals.Config.Eula = true), null, (() => Environment.Exit(0)));
                     ConfigManager.SaveConfig();
                 }
 
@@ -221,7 +221,7 @@ namespace PvzLauncherRemake.Windows
 
 
                 //检查更新
-                if (AppGlobals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
+                if (Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
                 {
 
                     await Updater.CheckUpdate(null!, true);
@@ -232,11 +232,11 @@ namespace PvzLauncherRemake.Windows
 
 
                 //公告获取
-                if (AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled && !AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
+                if (Globals.Config.Settings.LauncherConfig.NoticeEnabled && !Globals.Config.Settings.LauncherConfig.OfflineMode)
                 {
                     JsonNoticeIndex.Root noticeIndex;
                     using (var client = new HttpClient())
-                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(AppGlobals.Urls.NoticeIndexUrl));
+                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
 
                     foreach (var notice in noticeIndex.Notices)
                     {
@@ -247,7 +247,7 @@ namespace PvzLauncherRemake.Windows
                         }
 
                         var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
-                        if (!AppGlobals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
+                        if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
                             await DialogManager.ShowDialogAsync(new ContentDialog
                             {
                                 Title = notice.Title,
@@ -293,7 +293,7 @@ namespace PvzLauncherRemake.Windows
 
 
                         if (chkBox.IsChecked == true)
-                            AppGlobals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
+                            Globals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
 
                         ConfigManager.SaveConfig();
                     }

@@ -95,13 +95,13 @@ namespace PvzLauncherRemake.Pages
 
                 StartLoad();
 
-                if (AppGlobals.Indexes.DownloadIndex == null)
+                if (Globals.Indexes.DownloadIndex == null)
                 {
                     using (var client = new HttpClient())
                     {
-                        string indexString = await client.GetStringAsync(AppGlobals.Urls.DownloadIndexUrl);
+                        string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
 
-                        AppGlobals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
+                        Globals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
                     }
                 }
 
@@ -113,11 +113,11 @@ namespace PvzLauncherRemake.Pages
                 stackPanel_enRevision.Children.Clear();
                 stackPanel_trainer.Children.Clear();
 
-                AddGameCard(stackPanel_zhOrigin, AppGlobals.Indexes.DownloadIndex.ZhOrigin);
-                AddGameCard(stackPanel_zhRevision, AppGlobals.Indexes.DownloadIndex.ZhRevision);
-                AddGameCard(stackPanel_enOrigin, AppGlobals.Indexes.DownloadIndex.EnOrigin);
-                AddGameCard(stackPanel_enRevision, AppGlobals.Indexes.DownloadIndex.EnRevision);
-                AddTrainerCard(stackPanel_trainer, AppGlobals.Indexes.DownloadIndex.Trainer);
+                AddGameCard(stackPanel_zhOrigin, Globals.Indexes.DownloadIndex.ZhOrigin);
+                AddGameCard(stackPanel_zhRevision, Globals.Indexes.DownloadIndex.ZhRevision);
+                AddGameCard(stackPanel_enOrigin, Globals.Indexes.DownloadIndex.EnOrigin);
+                AddGameCard(stackPanel_enRevision, Globals.Indexes.DownloadIndex.EnRevision);
+                AddTrainerCard(stackPanel_trainer, Globals.Indexes.DownloadIndex.Trainer);
 
                 EndLoad();
 
@@ -189,8 +189,8 @@ namespace PvzLauncherRemake.Pages
             bool isTrainer = userCard.AttachedProperty.ToString() == "Trainer";
             var info = isTrainer ? (JsonDownloadIndex.TrainerInfo)userCard.Tag! : (JsonDownloadIndex.GameInfo)userCard.Tag!;
             string baseDirectory =
-                isTrainer ? AppGlobals.Directories.TrainerDirectory :
-                AppGlobals.Directories.GameDirectory;
+                isTrainer ? Globals.Directories.TrainerDirectory :
+                Globals.Directories.GameDirectory;
 
 
             this.NavigationService?.Navigate(new PageDownloadDetail

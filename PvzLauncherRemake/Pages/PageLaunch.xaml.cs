@@ -26,25 +26,25 @@ namespace PvzLauncherRemake.Pages
 
         /*private async Task RefreshEchoCave()
         {
-            if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
+            if (Globals.Config.Settings.LauncherConfig.OfflineMode)
                 return;
 
             try
             {
-                if (AppGlobals.Indexes.EchoCaveIndex == null)
+                if (Globals.Indexes.EchoCaveIndex == null)
                 {
                     using (var client = new HttpClient())
                     {
-                        AppGlobals.Indexes.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(AppGlobals.Urls.EchoCaveIndexUrl));
+                        Globals.Indexes.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(Globals.Urls.EchoCaveIndexUrl));
                     }
 
-                    foreach (var echoCave in AppGlobals.Indexes.EchoCaveIndex.Data)
+                    foreach (var echoCave in Globals.Indexes.EchoCaveIndex.Data)
                         echoCaveTemp.Add(echoCave);
                 }
 
                 if (echoCaveTemp.Count == 0)
                 {
-                    foreach (var echoCave in AppGlobals.Indexes.EchoCaveIndex.Data)
+                    foreach (var echoCave in Globals.Indexes.EchoCaveIndex.Data)
                         echoCaveTemp.Add(echoCave);
                 }
 
@@ -61,7 +61,7 @@ namespace PvzLauncherRemake.Pages
 
                 await Task.Delay(500);
 
-                button_EchoCave.Content = echoCaveTemp[AppGlobals.Random.Next(0, echoCaveTemp.Count - 1)];
+                button_EchoCave.Content = echoCaveTemp[Globals.Random.Next(0, echoCaveTemp.Count - 1)];
                 echoCaveTemp.Remove((string)button_EchoCave.Content);
 
                 animation.From = 0; animation.To = 1;
@@ -80,7 +80,7 @@ namespace PvzLauncherRemake.Pages
         public async void StartAnimation()
         {
 
-            switch (AppGlobals.Config.Settings.LauncherConfig.TitleImage)//切换语言
+            switch (Globals.Config.Settings.LauncherConfig.TitleImage)//切换语言
             {
                 case "EN":
                     viewBox_Icon.Child = new TitleImageEn(); break;
@@ -215,17 +215,17 @@ namespace PvzLauncherRemake.Pages
             {
 
 
-                if (!string.IsNullOrEmpty(AppGlobals.Config.CurrentGame))
+                if (!string.IsNullOrEmpty(Globals.Config.CurrentGame))
                 {
 
 
                     //查找选择游戏信息
-                    foreach (var game in AppGlobals.Indexes.GameList)
-                        if (game.GameInfo.Name == AppGlobals.Config.CurrentGame)
+                    foreach (var game in Globals.Indexes.GameList)
+                        if (game.GameInfo.Name == Globals.Config.CurrentGame)
                             currentGameInfo = game;
 
                     //设置按钮文本
-                    textBlock_LaunchVersion.Text = AppGlobals.Config.CurrentGame;
+                    textBlock_LaunchVersion.Text = Globals.Config.CurrentGame;
 
                 }
                 else
@@ -234,11 +234,11 @@ namespace PvzLauncherRemake.Pages
                     textBlock_LaunchVersion.Text = "请选择一个游戏";
                 }
 
-                if (!string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer))
+                if (!string.IsNullOrEmpty(Globals.Config.CurrentTrainer))
                 {
 
-                    foreach (var trainer in AppGlobals.Indexes.TrainerList)
-                        if (trainer.Name == AppGlobals.Config.CurrentTrainer)
+                    foreach (var trainer in Globals.Indexes.TrainerList)
+                        if (trainer.Name == Globals.Config.CurrentTrainer)
                             currentTrainerInfo = trainer;
                 }
                 else
@@ -261,11 +261,11 @@ namespace PvzLauncherRemake.Pages
                 StartAnimation();
 
                 //设置背景
-                if (AppGlobals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.Settings.LauncherConfig.Background))
-                    image.Source = new BitmapImage(new Uri(AppGlobals.Config.Settings.LauncherConfig.Background));
+                if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
+                    image.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
 
                 /*//回声洞
-                if (AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled)
+                if (Globals.Config.Settings.LauncherConfig.EchoCaveEnabled)
                 {
                     button_EchoCave.Visibility = Visibility.Visible;
                     await RefreshEchoCave();
@@ -306,11 +306,11 @@ namespace PvzLauncherRemake.Pages
 
                     textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "StopGame");
 
-                    if (AppGlobals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
+                    if (Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
 
                     //切换存档
-                    if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, AppGlobals.Config.CurrentGame, ".save")))
+                    if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".save")))
                     {
 
                         await GameManager.SwitchGameSave(currentGameInfo);
@@ -330,7 +330,7 @@ namespace PvzLauncherRemake.Pages
                         textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "LaunchGame");
 
                         //保存存档
-                        if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.Directories.SaveDirectory))
+                        if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Globals.Directories.SaveDirectory))
                         {
 
                             await GameManager.SaveGameSave(currentGameInfo);
@@ -339,11 +339,11 @@ namespace PvzLauncherRemake.Pages
                     }));
 
                     //启动修改器(如果有)
-                    if (AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer && !string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer))
+                    if (Globals.Config.Settings.LauncherConfig.LaunchWithTrainer && !string.IsNullOrEmpty(Globals.Config.CurrentTrainer))
                     {
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = System.IO.Path.Combine(AppGlobals.Directories.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
+                            FileName = System.IO.Path.Combine(Globals.Directories.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
                             UseShellExecute = true
                         });
                     }
@@ -352,7 +352,7 @@ namespace PvzLauncherRemake.Pages
                     notifi.Show(new NotificationContent
                     {
                         Title = "提示",
-                        Message = $"{AppGlobals.Config.CurrentGame} 启动成功!",
+                        Message = $"{Globals.Config.CurrentGame} 启动成功!",
                         Type = SnackbarType.Success
                     });*/
                 }
@@ -398,14 +398,14 @@ namespace PvzLauncherRemake.Pages
 
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = System.IO.Path.Combine(AppGlobals.Directories.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
+                    FileName = System.IO.Path.Combine(Globals.Directories.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
                     UseShellExecute = true,
-                    WorkingDirectory = Path.Combine(AppGlobals.Directories.TrainerDirectory, currentTrainerInfo.Name)
+                    WorkingDirectory = Path.Combine(Globals.Directories.TrainerDirectory, currentTrainerInfo.Name)
                 });
                 SnackbarManager.Show(new SnackbarContent
                 {
                     Title = "提示",
-                    Content = $"{AppGlobals.Config.CurrentTrainer} 启动成功!",
+                    Content = $"{Globals.Config.CurrentTrainer} 启动成功!",
                     Type = SnackbarType.Success
                 });
 
