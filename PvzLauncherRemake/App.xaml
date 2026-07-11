@@ -15,6 +15,11 @@
 
             <LinearGradientBrush x:Key="BorderBrush"/>
             <SolidColorBrush x:Key="BackgroundBrush"/>
+
+            <LinearGradientBrush x:Key="VirtualImportTextBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+                <GradientStop Color="#FF3FD8" Offset="0.0" />
+                <GradientStop Color="#993FFF" Offset="1.0" />
+            </LinearGradientBrush>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

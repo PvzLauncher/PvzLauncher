@@ -13,6 +13,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 
 namespace PvzLauncherRemake.Utils.Services
@@ -132,7 +133,7 @@ namespace PvzLauncherRemake.Utils.Services
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
                 var radioButtonTrainer = new RadioButton { Content = "修改器" };
-                var checkBoxVirtual = new CheckBox { Content = "虚拟导入(仅游戏)", IsChecked = false, IsEnabled = false };
+                var checkBoxVirtual = new CheckBox { Content = new TextBlock { Text = "虚拟导入(仅游戏)", Foreground = Application.Current.Resources["VirtualImportTextBrush"] as LinearGradientBrush }, IsChecked = false, IsEnabled = false };
                 radioButtonGame.Click += ((s, e) => { isTrainer = false; checkBoxVirtual.IsEnabled = true; });
                 radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; checkBoxVirtual.IsChecked = false; });
                 checkBoxVirtual.Click += ((s, e) => isVirtual = checkBoxVirtual.IsChecked ?? false);
@@ -428,7 +429,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             //游戏exe路径
             string gameExePath;
-            if (gameInfo.GameInfo.GamePath != null) 
+            if (gameInfo.GameInfo.GamePath != null)
                 gameExePath = Path.Combine(gameInfo.GameInfo.GamePath, gameInfo.GameInfo.ExecuteName);
             else
                 gameExePath = System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
