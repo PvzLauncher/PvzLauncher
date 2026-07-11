@@ -133,7 +133,7 @@ namespace PvzLauncherRemake.Pages
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "确定操作",
-                    Content = $"真的要删除这个游戏吗？\n\"{GameInfo.GameInfo.Name}\" 将会永久消失(真的很久!)",
+                    Content = $"真的要删除这个游戏吗？\n\"{GameInfo.GameInfo.Name}\" 将会永久消失(真的很久!){(GameInfo.GameInfo.GamePath != null ? "\n\n此操作仅会移除虚拟链接，并不会真正移除游戏本体！" : null)}",
                     PrimaryButtonText = "删除",
                     CloseButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary
