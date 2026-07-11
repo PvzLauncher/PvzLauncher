@@ -23,9 +23,9 @@ namespace PvzLauncherRemake.Utils.UI
 
             var dialog = new TaskDialog
             {
-                WindowTitle =  "发生未捕获的错误" ,
+                WindowTitle = "发生未捕获的错误",
                 MainIcon = TaskDialogIcon.Error,
-                MainInstruction =  "程序在运行时发生了未捕获的错误" ,
+                MainInstruction = "程序在运行时发生了未捕获的错误",
                 Content = ex.ToString(),
                 AllowDialogCancellation = false,
                 ButtonStyle = TaskDialogButtonStyle.CommandLinks

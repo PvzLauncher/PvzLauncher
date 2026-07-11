@@ -1,7 +1,4 @@
 ﻿using PvzLauncherRemake.Controls.Icons;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 
 namespace PvzLauncherRemake.Utils.Services

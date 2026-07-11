@@ -1,11 +1,7 @@
 ﻿using HuaZi.Library.Downloader;
-using HuaZi.Library.Json;
-using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 

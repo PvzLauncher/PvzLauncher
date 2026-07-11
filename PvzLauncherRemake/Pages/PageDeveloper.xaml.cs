@@ -9,7 +9,6 @@ using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
-using System.Security.Policy;
 using System.Windows;
 
 namespace PvzLauncherRemake.Pages

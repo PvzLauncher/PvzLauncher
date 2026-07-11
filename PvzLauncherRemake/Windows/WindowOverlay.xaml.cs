@@ -1,7 +1,6 @@
 ﻿using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;
-using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Windows;
