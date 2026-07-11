@@ -26,6 +26,7 @@ namespace PvzLauncherRemake.Utils.Services
         EaE,//eae
         Delturbia,//delturbia
         DLC,//dlc
+        Graft,//graft
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -63,6 +64,7 @@ namespace PvzLauncherRemake.Utils.Services
                 case "eae": return GameIcons.EaE;
                 case "delturbia": return GameIcons.Delturbia;
                 case "dlc": return GameIcons.DLC;
+                case "graft": return GameIcons.Graft;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -104,6 +106,7 @@ namespace PvzLauncherRemake.Utils.Services
                 case GameIcons.EaE: return "eae";
                 case GameIcons.Delturbia: return "delturbia";
                 case GameIcons.DLC: return "dlc";
+                case GameIcons.Graft: return "graft";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -146,6 +149,7 @@ namespace PvzLauncherRemake.Utils.Services
                 case GameIcons.EaE: return new GameIconEae();
                 case GameIcons.Delturbia: return new GameIconDelturbia();
                 case GameIcons.DLC: return new GameIconDlc();
+                case GameIcons.Graft: return new GameIconGraft();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
