@@ -113,8 +113,10 @@ namespace PvzLauncherRemake.Pages
                                 {
                                     MaxHeight = 250,
                                     Stretch = Stretch.Uniform,
-                                    Source = bitmap
+                                    Source = bitmap,
+                                    RenderTransformOrigin = new Point(0.5, 0.5)
                                 };
+                                image.RenderTransform = new ScaleTransform();
                                 image.MouseEnter += ((s, e) => ImageMouseEnter(s));
                                 image.MouseLeave += ((s, e) => ImageMouseLeave(s));
                                 image.MouseUp += ImagePreview;
@@ -195,28 +197,42 @@ namespace PvzLauncherRemake.Pages
 
         private void ImageMouseEnter(object sender)
         {
+            if (sender is not Image image || image.RenderTransform is not ScaleTransform st)
+                return;
+
+            Panel.SetZIndex(image, 100);
+
             var animation = new DoubleAnimation
             {
-                From = 250,
-                To = 260,
+                From = 1,
+                To = 1.1,
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             };
-            ((Image)sender).BeginAnimation(MaxHeightProperty, null);
-            ((Image)sender).BeginAnimation(MaxHeightProperty, animation);
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
         }
 
         private void ImageMouseLeave(object sender)
         {
+            if (sender is not Image image || image.RenderTransform is not ScaleTransform st)
+                return;
+
+            Panel.SetZIndex(image, 0);
+
             var animation = new DoubleAnimation
             {
-                From = 260,
-                To = 250,
-                Duration = TimeSpan.FromMilliseconds(1000),
+                From = 1.1,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             };
-            ((Image)sender).BeginAnimation(MaxHeightProperty, null);
-            ((Image)sender).BeginAnimation(MaxHeightProperty, animation);
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
         }
     }
 }
