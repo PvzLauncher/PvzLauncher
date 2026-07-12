@@ -142,7 +142,7 @@ namespace PvzLauncherRemake.Windows
 
 
                         //参数检测
-                        if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
+                        /*if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
                         {
                             await DialogManager.ShowDialogAsync(new ContentDialog
                             {
@@ -161,7 +161,7 @@ namespace PvzLauncherRemake.Windows
                                 });
                                 Environment.Exit(0);
                             }));
-                        }
+                        }*/
                         if (Globals.Arguments.isUpdate)//更新启动
                         {
                             await DialogManager.ShowDialogAsync(new ContentDialog
