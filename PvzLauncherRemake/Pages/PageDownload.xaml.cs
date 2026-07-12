@@ -4,6 +4,7 @@ using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
@@ -172,6 +173,12 @@ namespace PvzLauncherRemake.Pages
                     ErrorReportDialog.Show(ex);
                 }
             });
+
+            button_helpUs.Click += ((s, e) => Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml",
+                UseShellExecute = true
+            }));
         }
 
         private async void UserCard_Click(object sender, RoutedEventArgs e)

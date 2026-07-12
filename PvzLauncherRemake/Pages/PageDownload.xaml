@@ -84,6 +84,8 @@
                     </Grid>
                 </TabItem>
             </TabControl>
+
+            <Button x:Name="button_helpUs" Margin="10" Content="为游戏库贡献" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip="找不到想要的改版？点击此处提出建议。我们会尽力将版本添加进游戏库！"/>
         </Grid>
 
 
