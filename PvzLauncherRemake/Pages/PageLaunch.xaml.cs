@@ -1,6 +1,7 @@
 ﻿using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
+using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -266,7 +267,7 @@ namespace PvzLauncherRemake.Pages
                     if (File.Exists(Globals.Paths.BackgroundPath))
                     {
                         if (Globals.Caches.LauncherBackground == null)
-                            Globals.Caches.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                            Globals.Caches.LauncherBackground = BitmapLoader.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
                         image.Source = Globals.Caches.LauncherBackground;
                     }
 

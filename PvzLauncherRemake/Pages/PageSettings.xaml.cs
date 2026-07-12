@@ -430,7 +430,7 @@ namespace PvzLauncherRemake.Pages
                 if (dialog.ShowDialog() == true)
                 {
                     File.Copy(dialog.FileName, Globals.Paths.BackgroundPath, true);
-                    Globals.Caches.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                    Globals.Caches.LauncherBackground = BitmapLoader.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
                     image_Background.Source = Globals.Caches.LauncherBackground;
                 }
             }
