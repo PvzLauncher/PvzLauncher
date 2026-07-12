@@ -33,12 +33,12 @@ namespace PvzLauncherRemake.Pages
             grid_NoneGame.IsEnabled = false;
             grid_NoneTrainer.IsEnabled = false;
 
-            if (Globals.Indexes.GameList.Count <= 0)
+            if (Globals.Caches.GameList.Count <= 0)
             {
                 grid_NoneGame.Visibility = Visibility.Visible;
                 grid_NoneGame.IsEnabled = true;
             }
-            if (Globals.Indexes.TrainerList.Count <= 0)
+            if (Globals.Caches.TrainerList.Count <= 0)
             {
                 grid_NoneTrainer.Visibility = Visibility.Visible;
                 grid_NoneTrainer.IsEnabled = true;
@@ -110,11 +110,11 @@ namespace PvzLauncherRemake.Pages
 
 
                     //游戏库里有东西才加
-                    if (Globals.Indexes.GameList.Count > 0)
+                    if (Globals.Caches.GameList.Count > 0)
                     {
 
                         //添加卡片
-                        foreach (var game in Globals.Indexes.GameList)
+                        foreach (var game in Globals.Caches.GameList)
                         {
                             //定义卡片
                             var card = new UserCard
@@ -151,11 +151,11 @@ namespace PvzLauncherRemake.Pages
 
                     //添加修改器
                     //游戏库里有东西才加
-                    if (Globals.Indexes.TrainerList.Count > 0)
+                    if (Globals.Caches.TrainerList.Count > 0)
                     {
 
                         //添加卡片
-                        foreach (var trainer in Globals.Indexes.TrainerList)
+                        foreach (var trainer in Globals.Caches.TrainerList)
                         {
                             //定义卡片
                             var card = new UserCard
@@ -398,9 +398,9 @@ namespace PvzLauncherRemake.Pages
 
                         await GameManager.LoadTrainerListAsync();
 
-                        if (Globals.Indexes.TrainerList.Count > 0 && Globals.Config.CurrentTrainer == trainerConfig.Name)
+                        if (Globals.Caches.TrainerList.Count > 0 && Globals.Config.CurrentTrainer == trainerConfig.Name)
                         {
-                            Globals.Config.CurrentTrainer = Globals.Indexes.TrainerList[0].Name;
+                            Globals.Config.CurrentTrainer = Globals.Caches.TrainerList[0].Name;
                         }
                         else
                         {

@@ -65,7 +65,7 @@ namespace PvzLauncherRemake.Utils.Services
                 }
             }
 
-            Globals.Indexes.GameList = validGames;
+            Globals.Caches.GameList = validGames;
 
         }
 
@@ -102,7 +102,7 @@ namespace PvzLauncherRemake.Utils.Services
                 }
             }
 
-            Globals.Indexes.TrainerList = validTrainers;
+            Globals.Caches.TrainerList = validTrainers;
 
         }
 

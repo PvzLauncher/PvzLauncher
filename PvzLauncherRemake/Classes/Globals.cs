@@ -33,7 +33,7 @@ namespace PvzLauncherRemake.Classes
         }
 
         //特殊
-        public static class Cache
+        public static class Caches
         {
             public static List<JsonGameInfo.Root> GameList = new List<JsonGameInfo.Root>();//游戏列表
             public static List<JsonTrainerInfo.Root> TrainerList = new List<JsonTrainerInfo.Root>();//修改器

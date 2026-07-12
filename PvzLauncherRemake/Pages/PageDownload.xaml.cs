@@ -140,13 +140,13 @@ namespace PvzLauncherRemake.Pages
                 {
                     StartLoad();
 
-                    if (Globals.Indexes.DownloadIndex == null)
+                    if (Globals.Caches.DownloadIndex == null)
                     {
                         using (var client = new HttpClient())
                         {
                             string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
 
-                            Globals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
+                            Globals.Caches.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
                         }
                     }
 
@@ -158,11 +158,11 @@ namespace PvzLauncherRemake.Pages
                     stackPanel_enRevision.Children.Clear();
                     stackPanel_trainer.Children.Clear();
 
-                    AddGameCard(stackPanel_zhOrigin, Globals.Indexes.DownloadIndex.ZhOrigin);
-                    AddGameCard(stackPanel_zhRevision, Globals.Indexes.DownloadIndex.ZhRevision);
-                    AddGameCard(stackPanel_enOrigin, Globals.Indexes.DownloadIndex.EnOrigin);
-                    AddGameCard(stackPanel_enRevision, Globals.Indexes.DownloadIndex.EnRevision);
-                    AddTrainerCard(stackPanel_trainer, Globals.Indexes.DownloadIndex.Trainer);
+                    AddGameCard(stackPanel_zhOrigin, Globals.Caches.DownloadIndex.ZhOrigin);
+                    AddGameCard(stackPanel_zhRevision, Globals.Caches.DownloadIndex.ZhRevision);
+                    AddGameCard(stackPanel_enOrigin, Globals.Caches.DownloadIndex.EnOrigin);
+                    AddGameCard(stackPanel_enRevision, Globals.Caches.DownloadIndex.EnRevision);
+                    AddTrainerCard(stackPanel_trainer, Globals.Caches.DownloadIndex.Trainer);
 
                     EndLoad();
 

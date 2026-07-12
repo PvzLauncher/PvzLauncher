@@ -170,9 +170,9 @@ namespace PvzLauncherRemake.Pages
                         case "custom": radioButton_Background_Custom.IsChecked = true; break;
                     }
 
-                    if (Globals.Cache.LauncherBackground != null)
+                    if (Globals.Caches.LauncherBackground != null)
                     {
-                        image_Background.Source = Globals.Cache.LauncherBackground;
+                        image_Background.Source = Globals.Caches.LauncherBackground;
                     }
                     //### 回声洞
                     //checkBox_Launcher_EchoCave.IsChecked = Globals.Config.Settings.LauncherConfig.EchoCaveEnabled;
@@ -430,8 +430,8 @@ namespace PvzLauncherRemake.Pages
                 if (dialog.ShowDialog() == true)
                 {
                     File.Copy(dialog.FileName, Globals.Paths.BackgroundPath, true);
-                    Globals.Cache.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
-                    image_Background.Source = Globals.Cache.LauncherBackground;
+                    Globals.Caches.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                    image_Background.Source = Globals.Caches.LauncherBackground;
                 }
             }
         }
@@ -840,12 +840,12 @@ namespace PvzLauncherRemake.Pages
             {
                 if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
                 {
-                    if (Globals.Indexes.GameList.Count >= 2)
+                    if (Globals.Caches.GameList.Count >= 2)
                     {
                         var listBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
                         string originGameName = null!;
                         string targetGameName = null!;
-                        foreach (var game in Globals.Indexes.GameList)
+                        foreach (var game in Globals.Caches.GameList)
                         {
                             listBox.Items.Add(game.GameInfo.Name);
                         }
@@ -879,7 +879,7 @@ namespace PvzLauncherRemake.Pages
                                 {
 
                                     var targetListBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
-                                    foreach (var game in Globals.Indexes.GameList)
+                                    foreach (var game in Globals.Caches.GameList)
                                     {
                                         if (game.GameInfo.Name != originGameName)
                                             targetListBox.Items.Add(game.GameInfo.Name);

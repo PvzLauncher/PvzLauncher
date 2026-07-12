@@ -179,11 +179,11 @@ namespace PvzLauncherRemake.Pages
                             //刷新游戏列表
                             await GameManager.LoadGameListAsync();
 
-                            if (Globals.Indexes.GameList.Count > 0 && Globals.Config.CurrentGame == GameInfo.GameInfo.Name)
+                            if (Globals.Caches.GameList.Count > 0 && Globals.Config.CurrentGame == GameInfo.GameInfo.Name)
                             {
-                                Globals.Config.CurrentGame = Globals.Indexes.GameList[0].GameInfo.Name;
+                                Globals.Config.CurrentGame = Globals.Caches.GameList[0].GameInfo.Name;
                             }
-                            else if (Globals.Indexes.GameList.Count == 0)
+                            else if (Globals.Caches.GameList.Count == 0)
                             {
                                 Globals.Config.CurrentGame = null!;
                             }

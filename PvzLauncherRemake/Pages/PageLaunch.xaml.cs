@@ -31,20 +31,20 @@ namespace PvzLauncherRemake.Pages
 
             try
             {
-                if (Globals.Indexes.EchoCaveIndex == null)
+                if (Globals.Caches.EchoCaveIndex == null)
                 {
                     using (var client = new HttpClient())
                     {
-                        Globals.Indexes.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(Globals.Urls.EchoCaveIndexUrl));
+                        Globals.Caches.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(Globals.Urls.EchoCaveIndexUrl));
                     }
 
-                    foreach (var echoCave in Globals.Indexes.EchoCaveIndex.Data)
+                    foreach (var echoCave in Globals.Caches.EchoCaveIndex.Data)
                         echoCaveTemp.Add(echoCave);
                 }
 
                 if (echoCaveTemp.Count == 0)
                 {
-                    foreach (var echoCave in Globals.Indexes.EchoCaveIndex.Data)
+                    foreach (var echoCave in Globals.Caches.EchoCaveIndex.Data)
                         echoCaveTemp.Add(echoCave);
                 }
 
@@ -222,7 +222,7 @@ namespace PvzLauncherRemake.Pages
 
 
                         //查找选择游戏信息
-                        foreach (var game in Globals.Indexes.GameList)
+                        foreach (var game in Globals.Caches.GameList)
                             if (game.GameInfo.Name == Globals.Config.CurrentGame)
                                 currentGameInfo = game;
 
@@ -239,7 +239,7 @@ namespace PvzLauncherRemake.Pages
                     if (!string.IsNullOrEmpty(Globals.Config.CurrentTrainer))
                     {
 
-                        foreach (var trainer in Globals.Indexes.TrainerList)
+                        foreach (var trainer in Globals.Caches.TrainerList)
                             if (trainer.Name == Globals.Config.CurrentTrainer)
                                 currentTrainerInfo = trainer;
                     }
@@ -265,9 +265,9 @@ namespace PvzLauncherRemake.Pages
                     //设置背景
                     if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && File.Exists(Globals.Paths.BackgroundPath))
                     {
-                        if (Globals.Cache.LauncherBackground == null)
-                            Globals.Cache.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
-                        image.Source = Globals.Cache.LauncherBackground;
+                        if (Globals.Caches.LauncherBackground == null)
+                            Globals.Caches.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                        image.Source = Globals.Caches.LauncherBackground;
                     }
 
 
