@@ -1,6 +1,7 @@
 using PvzLauncherRemake.Classes.JsonConfigs;
 using System.IO;
 using System.Reflection;
+using System.Windows.Media.Imaging;
 
 namespace PvzLauncherRemake.Classes
 {
@@ -32,12 +33,13 @@ namespace PvzLauncherRemake.Classes
         }
 
         //特殊
-        public static class Indexes
+        public static class Cache
         {
             public static List<JsonGameInfo.Root> GameList = new List<JsonGameInfo.Root>();//游戏列表
             public static List<JsonTrainerInfo.Root> TrainerList = new List<JsonTrainerInfo.Root>();//修改器
-
             public static JsonDownloadIndex.Root? DownloadIndex = null;//下载索引
+
+            public static BitmapImage LauncherBackground = null!;//背景图像
         }
 
         //字符串

@@ -264,7 +264,12 @@ namespace PvzLauncherRemake.Pages
 
                     //设置背景
                     if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && File.Exists(Globals.Paths.BackgroundPath))
-                        image.Source = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                    {
+                        if (Globals.Cache.LauncherBackground == null)
+                            Globals.Cache.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                        image.Source = Globals.Cache.LauncherBackground;
+                    }
+
 
                     /*//回声洞
                     if (Globals.Config.Settings.LauncherConfig.EchoCaveEnabled)

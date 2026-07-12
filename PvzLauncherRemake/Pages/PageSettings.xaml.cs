@@ -170,9 +170,9 @@ namespace PvzLauncherRemake.Pages
                         case "custom": radioButton_Background_Custom.IsChecked = true; break;
                     }
 
-                    if (File.Exists(Globals.Paths.BackgroundPath))
+                    if (Globals.Cache.LauncherBackground != null)
                     {
-                        image_Background.Source = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                        image_Background.Source = Globals.Cache.LauncherBackground;
                     }
                     //### 回声洞
                     //checkBox_Launcher_EchoCave.IsChecked = Globals.Config.Settings.LauncherConfig.EchoCaveEnabled;
@@ -430,7 +430,8 @@ namespace PvzLauncherRemake.Pages
                 if (dialog.ShowDialog() == true)
                 {
                     File.Copy(dialog.FileName, Globals.Paths.BackgroundPath, true);
-                    image_Background.Source = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                    Globals.Cache.LauncherBackground = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
+                    image_Background.Source = Globals.Cache.LauncherBackground;
                 }
             }
         }
