@@ -63,9 +63,6 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("background_mode")]
             public string BackgroundMode { get; set; } = "default";
 
-            [JsonProperty("background")]
-            public string Background { get; set; } = null!;
-
             [JsonProperty("navigation_view_align")]
             public string NavigationViewAlign { get; set; } = "Top";
 

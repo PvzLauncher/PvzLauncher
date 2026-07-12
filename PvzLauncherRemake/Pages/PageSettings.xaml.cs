@@ -166,16 +166,13 @@ namespace PvzLauncherRemake.Pages
                     radioButton_Background_Default.IsChecked = false; radioButton_Background_Custom.IsChecked = false;
                     switch (Globals.Config.Settings.LauncherConfig.BackgroundMode)
                     {
-                        case "default": radioButton_Background_Default.IsChecked = true; button_Background_Select.IsEnabled = false; break;
-                        case "custom": radioButton_Background_Custom.IsChecked = true; button_Background_Select.IsEnabled = true; break;
+                        case "default": radioButton_Background_Default.IsChecked = true; break;
+                        case "custom": radioButton_Background_Custom.IsChecked = true; break;
                     }
 
-                    if (!string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
+                    if (File.Exists(Globals.Paths.BackgroundPath))
                     {
-                        if (File.Exists(Globals.Config.Settings.LauncherConfig.Background))
-                        {
-                            image_Background.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
-                        }
+                        image_Background.Source = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
                     }
                     //### 回声洞
                     //checkBox_Launcher_EchoCave.IsChecked = Globals.Config.Settings.LauncherConfig.EchoCaveEnabled;
@@ -432,14 +429,13 @@ namespace PvzLauncherRemake.Pages
                 };
                 if (dialog.ShowDialog() == true)
                 {
-                    Globals.Config.Settings.LauncherConfig.Background = dialog.FileName;
-                    ConfigManager.SaveConfig();
-                    image_Background.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
+                    File.Copy(dialog.FileName, Globals.Paths.BackgroundPath, true);
+                    image_Background.Source = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
                 }
             }
         }
 
-        private void Launcher_BackgroundSelect(object sender, RoutedEventArgs e)
+        private async void Launcher_BackgroundSelect(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -447,15 +443,27 @@ namespace PvzLauncherRemake.Pages
                 {
                     if ((string)radioButton.Tag == "Default")
                     {
-                        button_Background_Select.IsEnabled = false;
                         Globals.Config.Settings.LauncherConfig.BackgroundMode = "default";
                         radioButton_Background_Custom.IsChecked = false;
                     }
                     if ((string)radioButton.Tag == "Custom")
                     {
-                        button_Background_Select.IsEnabled = true;
-                        Globals.Config.Settings.LauncherConfig.BackgroundMode = "custom";
-                        radioButton_Background_Default.IsChecked = false;
+                        if (!File.Exists(Globals.Paths.BackgroundPath))
+                        {
+                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            {
+                                Title = "警告",
+                                Content = "自定义背景图不存在，请先点击下方选择一个图片",
+                                PrimaryButtonText = "确定",
+                                DefaultButton = ContentDialogButton.Primary
+                            });
+                            radioButton_Background_Custom.IsChecked = false;
+                        }
+                        else
+                        {
+                            Globals.Config.Settings.LauncherConfig.BackgroundMode = "custom";
+                            radioButton_Background_Default.IsChecked = false;
+                        }
                     }
                     ConfigManager.SaveConfig();
                 }

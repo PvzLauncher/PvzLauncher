@@ -28,6 +28,7 @@ namespace PvzLauncherRemake.Classes
         public static class Paths
         {
             public static readonly string ConfigPath = $"{Path.Combine(Directories.RootDirectory, "config.json")}";
+            public static readonly string BackgroundPath = $"{Path.Combine(Directories.RootDirectory, "background.png")}";
         }
 
         //特殊

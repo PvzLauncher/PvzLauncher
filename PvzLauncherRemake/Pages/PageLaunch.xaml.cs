@@ -263,8 +263,8 @@ namespace PvzLauncherRemake.Pages
                     StartAnimation();
 
                     //设置背景
-                    if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(Globals.Config.Settings.LauncherConfig.Background))
-                        image.Source = new BitmapImage(new Uri(Globals.Config.Settings.LauncherConfig.Background));
+                    if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && File.Exists(Globals.Paths.BackgroundPath))
+                        image.Source = new BitmapImage(new Uri(Globals.Paths.BackgroundPath));
 
                     /*//回声洞
                     if (Globals.Config.Settings.LauncherConfig.EchoCaveEnabled)
