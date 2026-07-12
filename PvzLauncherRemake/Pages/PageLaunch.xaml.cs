@@ -80,7 +80,6 @@ namespace PvzLauncherRemake.Pages
         #region Animation
         public async void StartAnimation()
         {
-
             switch (Globals.Config.Settings.LauncherConfig.TitleImage)//切换语言
             {
                 case "EN":
@@ -89,19 +88,19 @@ namespace PvzLauncherRemake.Pages
                     viewBox_Icon.Child = new TitleImageZh(); break;
             }
 
-            viewBox_Icon.Margin = new Thickness(0, -10 - viewBox_Icon.ActualHeight, 0, 0);
-            stackPanel_LaunchButtons.Margin = new Thickness(0, 0, -50 - button_Launch.ActualWidth, 0);
+            viewBox_Icon.RenderTransform = new TranslateTransform { Y = -10 - viewBox_Icon.ActualHeight };
+            stackPanel_LaunchButtons.RenderTransform = new TranslateTransform { X = 50 + button_Launch.ActualWidth };
 
             await Task.Delay(200);//等待Frame动画播放完毕
 
-            var animation = new ThicknessAnimation
+            var animation = new DoubleAnimation
             {
-                To = new Thickness(0),
+                To = 0,
                 Duration = TimeSpan.FromMilliseconds(600),
                 EasingFunction = new BackEase { Amplitude = 0.2, EasingMode = EasingMode.EaseOut }
             };
-            viewBox_Icon.BeginAnimation(MarginProperty, animation);
-            stackPanel_LaunchButtons.BeginAnimation(MarginProperty, animation);
+            ((TranslateTransform)viewBox_Icon.RenderTransform).BeginAnimation(TranslateTransform.YProperty, animation);
+            ((TranslateTransform)stackPanel_LaunchButtons.RenderTransform).BeginAnimation(TranslateTransform.XProperty, animation);
         }
 
         public async Task StartLaunchAnimation()
