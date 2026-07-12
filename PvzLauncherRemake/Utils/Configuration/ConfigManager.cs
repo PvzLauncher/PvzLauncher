@@ -8,28 +8,26 @@ namespace PvzLauncherRemake.Utils.Configuration
 {
     public static class ConfigManager
     {
-        public static string ConfigPath = Path.Combine(Globals.Directories.ExecuteDirectory, "config.json");
-
         public static void CreateDefaultConfig()
         {
             Globals.Config = new JsonConfig.Root();
             SaveConfig();
         }
 
-        public static void SaveConfig() => Json.WriteJson(ConfigPath, Globals.Config);
+        public static void SaveConfig() => Json.WriteJson(Globals.Paths.ConfigPath, Globals.Config);
 
         public static void LoadConfig()
         {
             try
             {
-                if (!File.Exists(ConfigPath))
+                if (!File.Exists(Globals.Paths.ConfigPath))
                 {
                     CreateDefaultConfig();
 
                     return;
                 }
 
-                var config = Json.ReadJson<JsonConfig.Root>(ConfigPath);
+                var config = Json.ReadJson<JsonConfig.Root>(Globals.Paths.ConfigPath);
                 if (config == null)
                 {
 

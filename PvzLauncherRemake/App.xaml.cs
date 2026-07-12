@@ -27,21 +27,18 @@ namespace PvzLauncherRemake
             if (DateTimeOffset.Now.Month == 1 && DateTimeOffset.Now.Day == 1)
                 ThemeManager.Current.AccentColor = Color.FromRgb(255, 0, 0);
 
+            //初始化根目录
+            if (!Directory.Exists(Globals.Directories.RootDirectory))
+                Directory.CreateDirectory(Globals.Directories.RootDirectory);
             //初始化配置文件
-            if (!File.Exists(System.IO.Path.Combine(Globals.Directories.ExecuteDirectory, "config.json")))
-            {
+            if (!File.Exists(Globals.Paths.ConfigPath))
                 ConfigManager.CreateDefaultConfig();
-            }
             //游戏目录
             if (!Directory.Exists(Globals.Directories.GameDirectory))
-            {
                 Directory.CreateDirectory(Globals.Directories.GameDirectory);
-            }
             //修改器目录
             if (!Directory.Exists(Globals.Directories.TrainerDirectory))
-            {
                 Directory.CreateDirectory(Globals.Directories.TrainerDirectory);
-            }
 
             //读配置
             ConfigManager.LoadConfig();

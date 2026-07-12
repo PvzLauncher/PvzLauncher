@@ -11,15 +11,23 @@ namespace PvzLauncherRemake.Classes
         public static readonly bool IsStable = false;//是否稳定版
         public static JsonConfig.Root Config = null!;//配置
 
-        //路径
+        //目录
         public static class Directories
         {
             public static readonly string ExecuteDirectory = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}";//执行目录
-            public static readonly string RootDirectory = $"{Path.GetDirectoryName(ExecuteDirectory)}";//顶级目录
-            public static readonly string GameDirectory = $"{Path.Combine(ExecuteDirectory, "Games")}";//游戏目录
-            public static readonly string TrainerDirectory = $"{Path.Combine(ExecuteDirectory, "Trainer")}";//修改器目录
+
+            public static readonly string RootDirectory = $"{Path.Combine(Path.GetDirectoryName(ExecuteDirectory)!, ".pvzl")}";//顶级目录
+            public static readonly string GameDirectory = $"{Path.Combine(RootDirectory, "games")}";//游戏目录
+            public static readonly string TrainerDirectory = $"{Path.Combine(RootDirectory, "trainer")}";//修改器目录
+
             public static readonly string TempDiectory = Path.GetTempPath();//临时文件夹
             public static readonly string SaveDirectory = @"C:\ProgramData\PopCap Games\PlantsVsZombies\userdata";//存档文件夹
+        }
+
+        //路径
+        public static class Paths
+        {
+            public static readonly string ConfigPath = $"{Path.Combine(Directories.RootDirectory, "config.json")}";
         }
 
         //特殊
