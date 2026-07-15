@@ -54,6 +54,12 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("is_new")]
             public bool IsNew { get; set; }
 
+            [JsonProperty("share_url")]
+            public string ShareUrl { get; set; }
+
+            [JsonProperty("share_password")]
+            public string? SharePassword { get; set; }
+
             [JsonProperty("url")]
             public string Url { get; set; }
 

@@ -2,6 +2,7 @@
 using HuaZi.Library.Json;
 using Microsoft.Win32;
 using ModernWpf.Controls;
+using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
@@ -10,6 +11,7 @@ using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -353,12 +355,19 @@ namespace PvzLauncherRemake.Utils.Services
                 if (File.Exists(tempPath))
                     await Task.Run(() => File.Delete(tempPath));
 
+                //解析下载地址
+                using var client = new HttpClient();
+                var analysisResult = JsonConvert.DeserializeObject<JsonDirectAnalysisInfo.Root>(await client.GetStringAsync($"{Globals.Urls.DirectAnalysisBaseUrl}?url={info.ShareUrl}{(string.IsNullOrEmpty(info.SharePassword) ? null : $"&pwd={info.SharePassword}")}"));
+
+                if (analysisResult?.Code != 200 || analysisResult.Message != "success")
+                    throw new Exception($"直链解析失败: {analysisResult?.Message}");
+
                 //定义下载器
                 TaskManager.AddTask(new DownloadTaskInfo
                 {
                     Downloader = new Downloader
                     {
-                        Url = info.Url,
+                        Url = analysisResult.Data.DirectLink,
                         SavePath = tempPath
                     },
                     Info = info,
