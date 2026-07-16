@@ -20,22 +20,6 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageAbout : ModernWpf.Controls.Page
     {
-        private long _eggCount = 0;
-
-        private static readonly IReadOnlyList<(int clicks, string title, string message, SnackbarType type, Action? action)>
-            EasterEggs =
-        [
-            (10,  "香蒲", "你真的很无聊...",                               SnackbarType.Info, null),
-            (20,  "香蒲", "不是我说，你无聊的话可以去干其他事，能不能不要点我了", SnackbarType.Info, null),
-            (40,  "香蒲", "不 要 再 点 我 了 ! ! !",                   SnackbarType.Warn,       null),
-            (70,  "香蒲", "你可以去干一些有意义的事情，而不是在这里点一堆矢量路径！！！", SnackbarType.Error, null),
-            (100, "香蒲", "好了，到此为止。作者只做了100次点击的判断，后面没有了",     SnackbarType.Success,      null),
-            (130, "发生错误", "System.IndexOutOfRangeException: 索引超出了数组的边界。\r\n   在 Program.Main() 位置 C:\\Projects\\ArrayDemo\\Program.cs:第 11 行\r\n   在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)\r\n   在 System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr)",SnackbarType.Error, null),
-            (150, "香蒲", "看来骗不到你",                               SnackbarType.Info, null),
-            (200, "香蒲", "恭喜！200次点击",                           SnackbarType.Info, null),
-            (250, "香蒲", "好了，这次是真的没了，最大值就是250了。快走吧。", SnackbarType.Info, null)
-        ];
-
         public PageAbout()
         {
             InitializeComponent();
@@ -89,26 +73,6 @@ namespace PvzLauncherRemake.Pages
                     FileName = button.Tag.ToString(),
                     UseShellExecute = true
                 });
-            }
-        }
-
-        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _eggCount++;
-
-            foreach (var (clicks, title, message, type, action) in EasterEggs)
-            {
-                if (_eggCount == clicks)
-                {
-                    SnackbarManager.Show(new SnackbarContent
-                    {
-                        Title = title,
-                        Content = message,
-                        Type = type
-                    });
-                    action?.Invoke();
-                    return;
-                }
             }
         }
 
@@ -215,51 +179,6 @@ namespace PvzLauncherRemake.Pages
                 DefaultButton = ContentDialogButton.Close
             };
             await DialogManager.ShowDialogAsync(dialog);
-        }
-
-        private async void button_DontClick_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                int temp = new Random().Next(1, 1);
-
-                var result = await DialogManager.ShowDialogAsync(new ContentDialog
-                {
-                    Title = "警告",
-                    Content = "按钮上明明写着 \"千万别点\"，但你还是点了。本软件不对接下来发生的事负责。请确认",
-                    PrimaryButtonText = "确认",
-                    CloseButtonText = "取消",
-                    DefaultButton = ContentDialogButton.Primary
-                });
-                if (result != ContentDialogResult.Primary)
-                    return;
-
-                switch (temp)
-                {
-                    case 1:
-                        while (true)
-                        {
-                            int maxWidth = (int)SystemParameters.PrimaryScreenWidth;
-                            int maxHeight = (int)SystemParameters.PrimaryScreenHeight;
-
-                            if (Application.Current.MainWindow is not WindowMain win)
-                                break;
-                            win.Width = new Random().Next(0, maxWidth);
-                            win.Height = new Random().Next(0, maxHeight);
-
-                            win.Left = new Random().Next(0, (int)(maxWidth - win.Width));
-                            win.Top = new Random().Next(0, (int)(maxHeight - win.Height));
-
-                            await Task.Delay(1);
-                        }
-
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
         }
     }
 }
