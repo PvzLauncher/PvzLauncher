@@ -12,6 +12,13 @@
 
 <img src="docs/image/MainWindow.png" alt="主界面" style="display: block; margin: 0 auto; ">
 
+## 官方社群
+
+> [!warning]
+> PvzLauncher仅有这一个官方交流社群，如果您进入了其他未经验证的群可能会含有风险
+
+**QQ**: 1040764053
+
 ## 🚀 快速开始
 
 ### 1. 安装 .NET 10 运行时
