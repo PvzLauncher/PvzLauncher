@@ -53,6 +53,8 @@ namespace PvzLauncherRemake
                     Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.Gitee; break;
                 case "GitCode":
                     Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.GitCode; break;
+                case "Github":
+                    Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.Github; break;
             }
 
             //加载列表

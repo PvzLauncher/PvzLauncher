@@ -56,6 +56,7 @@ namespace PvzLauncherRemake.Classes
             {
                 public static readonly string Gitee = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";
                 public static readonly string GitCode = "https://raw.gitcode.com/HuaMouRen/PvzLauncher.Service/raw/main";
+                public static readonly string Github = "https://raw.githubusercontent.com/PvzLauncher/PvzLauncher.Service/refs/heads/main";
             }
         }
 

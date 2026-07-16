@@ -197,6 +197,8 @@ namespace PvzLauncherRemake.Pages
                             comboBox_Launcher_ServiceProvider.SelectedIndex = 0; break;
                         case "GitCode":
                             comboBox_Launcher_ServiceProvider.SelectedIndex = 1; break;
+                        case "Github":
+                            comboBox_Launcher_ServiceProvider.SelectedIndex = 2; break;
                     }
                     //### 离线模式
                     checkBox_Network_OfflineMode.IsChecked = Globals.Config.Settings.LauncherConfig.OfflineMode;
