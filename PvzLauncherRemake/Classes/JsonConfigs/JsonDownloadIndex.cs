@@ -60,9 +60,6 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("share_password")]
             public string? SharePassword { get; set; }
 
-            [JsonProperty("url")]
-            public string Url { get; set; }
-
             [JsonProperty("link_url")]
             public string LinkUrl { get; set; }
         }
