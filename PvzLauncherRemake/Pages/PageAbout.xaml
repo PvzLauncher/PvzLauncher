@@ -21,7 +21,12 @@
             <Border BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource BackgroundBrush}" BorderThickness="1.5" CornerRadius="5"/>
             
             <!--图标-->
-            <icons:IconApplicationFull MouseRightButtonUp="Canvas_MouseRightButtonDown" Height="80" Width="80" HorizontalAlignment="Left" Margin="10"/>
+            <icons:IconApplicationFull x:Name="icon" MouseRightButtonUp="Canvas_MouseRightButtonDown" Height="80" Width="80" HorizontalAlignment="Left" Margin="10" RenderTransformOrigin="0.5,0.5">
+                <icons:IconApplicationFull.RenderTransform>
+                    <RotateTransform/>
+                </icons:IconApplicationFull.RenderTransform>
+
+            </icons:IconApplicationFull>
 
             <!--标题与版本-->
             <TextBlock Text="Plants Vs. Zombies Launcher" FontSize="25" FontWeight="Bold" Margin="100,10,10,10"/>

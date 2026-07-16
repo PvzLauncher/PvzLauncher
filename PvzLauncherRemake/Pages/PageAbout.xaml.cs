@@ -11,6 +11,8 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace PvzLauncherRemake.Pages
@@ -30,6 +32,30 @@ namespace PvzLauncherRemake.Pages
 
             //获取赞助名单
             GetSponsorList();
+
+
+
+
+            //图标动画
+
+            icon.MouseLeftButtonUp += async (s, e) =>
+            {
+                if (icon.RenderTransform is not RotateTransform rt)
+                    return;
+
+                //旋转
+                var rtAni = new DoubleAnimation
+                {
+                    From = rt.Angle,
+                    To = rt.Angle + new Random().Next(90, 360),
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+
+                rt.BeginAnimation(RotateTransform.AngleProperty, null);
+                rt.BeginAnimation(RotateTransform.AngleProperty, rtAni);                
+            };
+
         }
 
         private async void GetSponsorList()
