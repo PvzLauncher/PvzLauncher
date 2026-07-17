@@ -13,16 +13,6 @@ body:
       required: true
 
   - type: input
-    id: version
-    attributes:
-      label: 游戏版本
-      description: 游戏版本
-      placeholder: |
-        例如: 6.30
-    validations:
-      required: true
-
-  - type: input
     id: url
     attributes:
       label: 游戏官网或下载链接
