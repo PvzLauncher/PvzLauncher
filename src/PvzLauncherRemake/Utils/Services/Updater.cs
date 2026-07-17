@@ -246,7 +246,7 @@ namespace PvzLauncherRemake.Utils.Services
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = Path.Combine(Globals.Directories.ExecuteDirectory, "StdUpdateService.exe"),
-                    Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{Globals.Directories.ExecuteDirectory}\" -shellpath \"{Globals.Directories.RootDirectory}\" -exepath \"{Path.Combine(Globals.Directories.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
+                    Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{Globals.Directories.ExecuteDirectory}\" -shellpath \"{Path.GetDirectoryName(Globals.Directories.ExecuteDirectory)}\" -exepath \"{Path.Combine(Globals.Directories.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
                     UseShellExecute = true
                 });
                 Environment.Exit(0);
