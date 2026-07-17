@@ -13,7 +13,7 @@ namespace PvzLauncherRemake.Controls
         public double Progress { get; set; }
         public double ProgressCompress { get; set; }
         public double Speed { get; set; }
-        public UserControl Icon { get; set; } = GameIconConverter.ParseGameIconToUserControl(GameIcons.Unknown);
+        public GameIcons Icon { get; set; } = GameIcons.Unknown;
 
 
         public UserTaskCard()
@@ -23,11 +23,6 @@ namespace PvzLauncherRemake.Controls
 
         public void UpdateControl()
         {
-            grid_Icon.Children.Clear();
-            grid_Icon.Children.Add(Icon);
-
-            textBlock_Title.Text = Title;
-
             textBlock_Progress_Download.Text = Progress == 100 ? "下载完成" : $"下载中... {Math.Round(Progress, 2)}%";
             textBlock_Speed_Download.Text = $"{Math.Round(Speed, 2)}MB/s";
             progressBar_Download.Value = Progress;
@@ -38,6 +33,14 @@ namespace PvzLauncherRemake.Controls
             button_Cancel.IsEnabled = Progress == 100 ? false : true;
             progressRing_Download.IsActive = (Progress == 100 || Progress == 0) ? false : true;
             progressRing_Compress.IsActive = (ProgressCompress == 100 || ProgressCompress == 0) ? false : true;
+        }
+
+        public void InitializeControl()
+        {
+            grid_Icon.Children.Clear();
+            grid_Icon.Children.Add(GameIconConverter.ParseGameIconToUserControl(Icon));
+
+            textBlock_Title.Text = Title;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

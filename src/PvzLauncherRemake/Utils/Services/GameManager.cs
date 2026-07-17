@@ -373,7 +373,7 @@ namespace PvzLauncherRemake.Utils.Services
                     Info = info,
                     TaskName = $"下载 {Path.GetFileName(savePath)}",
                     SavePath = savePath,
-                    TaskIcon = GameIconConverter.ParseGameIconToUserControl(GameIconConverter.ParseStringToGameIcons(info.Icon))
+                    TaskIcon = GameIconConverter.ParseStringToGameIcons(info.Icon)
                 }, (async () =>
                 {
                     string configName = Path.GetFileName(savePath);

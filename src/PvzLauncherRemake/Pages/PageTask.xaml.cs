@@ -54,6 +54,7 @@ namespace PvzLauncherRemake.Pages
                             }
                         };
 
+                        card.InitializeControl();
                         card.UpdateControl();
                         stackPanel_Tasks.Children.Add(card);
                     }
