@@ -267,7 +267,10 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (Globals.Caches.LauncherBackground == null)
                             Globals.Caches.LauncherBackground = BitmapLoader.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
-                        image.Source = Globals.Caches.LauncherBackground;
+                        if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom")
+                            image.Source = Globals.Caches.LauncherBackground;
+                        else
+                            image.Source = null;
                     }
 
 
