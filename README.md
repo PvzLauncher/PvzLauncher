@@ -23,10 +23,10 @@
 
 |操作系统|支持情况|环境要求|
 |-|-|-|
-|![win10](/docs/image/Icons/windows.png) Windows 10(1809+) / ![win11](/docs/image/Icons/windows11.png) 11 64-bit|✅完全支持|[.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
-|![win7](/docs/image/Icons/windows7.png) Windows 7 / ![win8](/docs/image/Icons/windows8.png) 8.1 / ![win10-1809](/docs/image/Icons/windows10-1809-.png) 10(1809-) |❌不支持|.NET10 已放弃对这些平台的支持|
-|![linux](/docs/image/Icons/linux.png) Linux|❔理论支持|可以使用Wine此类兼容层运行|
-|![macos](/docs/image/Icons/macos.png) macOS / ![android](/docs/image/Icons/android.png) Android / ![ios](/docs/image/Icons/macos.png) IOS / ![web](/docs/image/Icons/web.png) Web|❌不支持|永远也不会支持这些平台|
+|![win10](/docs/image/Icons/windows.png) Windows 10(1809+) / ![win11](/docs/image/Icons/windows11.png) 11 64-bit                                                                    |✅完全支持     |[.NET 10 Desktop Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)|
+|![win7](/docs/image/Icons/windows7.png) Windows 7 / ![win8](/docs/image/Icons/windows8.png) 8.1 / ![win10-1809](/docs/image/Icons/windows10-1809-.png) 10(1809-)                   |❌不支持       |.NET10 已放弃对这些平台的支持|
+|![linux](/docs/image/Icons/linux.png) Linux                                                                                                                                        |❔理论支持     |可以使用Wine此类兼容层运行|
+|![macos](/docs/image/Icons/macos.png) macOS / ![android](/docs/image/Icons/android.png) Android / ![ios](/docs/image/Icons/macos.png) IOS / ![web](/docs/image/Icons/web.png) Web  |❌不支持       |永远也不会支持这些平台|
 
 植物大战僵尸原版**仅支持Windows平台** `(不包含部分跨平台改版)` ，因此启动器也**只支持Windows平台**。同时，游戏库也**不会上架**非Windows平台的游戏
 
@@ -34,6 +34,30 @@
 * **⚠️部分支持**: 程序可以在这些平台上运行，不过因为某些原因不能完美运行，如果出现一些问题，开发者不会解决
 * **❔理论支持**: 程序理论上可以在这些平台上运行，但体验感极差。如果出现问题，开发者不会解决
 * **❌不支持**: 程序不可以在这些平台上运行，之后也不会支持
+
+## ✨ 特色功能
+
+### 📥 下载游戏
+
+![download-detail](/docs/image/download-detial.png)
+
+我们拥有一个丰富且持续更新的游戏库。截至本文编写时，游戏库已收录 **40+** 款可下载内容（包括**原版、改版和修改器**）。
+
+所有资源均可通过启动器**免费、高速**下载，并在下载完成后自动解压，无需手动操作。
+
+如果你没有在游戏库中找到想要的改版，欢迎通过 [Issue](https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml) 提交申请，我们会尽力将其添加到游戏库中。
+
+### 📂 导入游戏
+
+![game-manager](/docs/image/game-import.png)
+
+除了直接从启动器下载游戏外，你也可以将本地已有的游戏导入到启动器中进行统一管理。
+
+#### 🔗 虚拟导入
+
+默认情况下，导入游戏会将游戏文件复制到启动器目录。
+
+如果你的游戏体积较大，或希望继续保留原有目录结构，可以选择**虚拟导入**。该模式不会复制任何游戏文件，而是仅创建指向原游戏目录的链接，因此几乎不会额外占用磁盘空间。
 
 ## 🚀 快速开始
 
