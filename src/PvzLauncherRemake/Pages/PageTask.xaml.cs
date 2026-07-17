@@ -28,6 +28,33 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
+        private void RefreshTaskList()
+        {
+            stackPanel_Tasks.Children.Clear();
+
+            foreach (var task in TaskManager.DownloadTaskList)
+            {
+                var card = new UserTaskCard
+                {
+                    Title = task.TaskName!,
+                    Tag = task,
+                    Icon = task.TaskIcon,
+                    Margin = new Thickness(5, 5, 5, 5)
+                };
+                card.button_Cancel.Click += (s, e) =>
+                {
+                    if (card.Tag != null)
+                    {
+                        TaskManager.StopTask((DownloadTaskInfo)card.Tag);
+                    }
+                };
+
+                card.InitializeControl();
+                card.UpdateControl();
+                stackPanel_Tasks.Children.Add(card);
+            }
+        }
+
         public PageTask()
         {
             InitializeComponent();
@@ -35,30 +62,7 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
-                    stackPanel_Tasks.Children.Clear();
-
-                    foreach (var task in TaskManager.DownloadTaskList)
-                    {
-                        var card = new UserTaskCard
-                        {
-                            Title = task.TaskName!,
-                            Tag = task,
-                            Icon = task.TaskIcon,
-                            Margin = new Thickness(5, 5, 5, 5)
-                        };
-                        card.button_Cancel.Click += (s, e) =>
-                        {
-                            if (card.Tag != null)
-                            {
-                                TaskManager.StopTask((DownloadTaskInfo)card.Tag);
-                            }
-                        };
-
-                        card.InitializeControl();
-                        card.UpdateControl();
-                        stackPanel_Tasks.Children.Add(card);
-                    }
-
+                    RefreshTaskList();
                     ShowNoneTip();
                 }
                 catch (Exception ex)
@@ -74,8 +78,8 @@ namespace PvzLauncherRemake.Pages
             _timer.Tick += Timer_Tick;
             _timer.Start();
 
-            TaskManager.TaskAdded += OnTaskAdded;
-            TaskManager.TaskRemoved += OnTaskRemoved;
+            TaskManager.TaskAdded += (e) => { RefreshTaskList(); ShowNoneTip(); };
+            TaskManager.TaskRemoved += (e) => { RefreshTaskList(); ShowNoneTip(); };
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -114,43 +118,6 @@ namespace PvzLauncherRemake.Pages
                 ErrorReportDialog.Show(ex);
             }
 
-        }
-
-        private void OnTaskAdded(DownloadTaskInfo task)
-        {
-            Dispatcher.Invoke(() =>
-            {
-
-                ShowNoneTip();
-                var card = new UserTaskCard
-                {
-                    Title = task.TaskName!,
-                    Tag = task
-                };
-
-                card.button_Cancel.Click += (s, e) => TaskManager.StopTask(task);
-
-                card.UpdateControl();
-                stackPanel_Tasks.Children.Add(card);
-            });
-        }
-
-        private void OnTaskRemoved(DownloadTaskInfo task)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                ShowNoneTip();
-
-                for (int i = stackPanel_Tasks.Children.Count - 1; i >= 0; i--)
-                {
-                    if (stackPanel_Tasks.Children[i] is UserTaskCard card &&
-                        ReferenceEquals(card.Tag, task))  // 使用引用比较
-                    {
-                        stackPanel_Tasks.Children.RemoveAt(i);
-                        break;
-                    }
-                }
-            });
         }
 
         private void button_Download_Click(object sender, RoutedEventArgs e) => NavigationController.Navigate(NavigaionPages.Download);
