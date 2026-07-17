@@ -25,6 +25,9 @@ namespace PvzLauncherRemake.Utils.Services
         public static bool IsGameRuning = false;
         public static Process GameProcess = new Process();
 
+        public static event Action? GameListLoaded;
+        public static event Action? TrainerListLoaded;
+
         #region 加载列表
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
 
             Globals.Caches.GameList = validGames;
-
+            GameListLoaded?.Invoke();
         }
 
         /// <summary>
@@ -105,7 +108,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
 
             Globals.Caches.TrainerList = validTrainers;
-
+            TrainerListLoaded?.Invoke();
         }
 
         #endregion

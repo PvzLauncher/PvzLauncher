@@ -90,6 +90,96 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
+        private void LoadGameList()
+        {
+            stackPanel_Game.Children.Clear();
+
+            //游戏库里有东西才加
+            if (Globals.Caches.GameList.Count > 0)
+            {
+
+                //添加卡片
+                foreach (var game in Globals.Caches.GameList)
+                {
+                    //定义卡片
+                    var card = new UserCard
+                    {
+                        Title = game.GameInfo.Name,
+                        Icon = GameIconConverter.ParseStringToGameIcons(game.GameInfo.Icon),
+                        isActive = game.GameInfo.Name == Globals.Config.CurrentGame ? true : false,
+                        Version = $"{game.GameInfo.Version}",
+                        Background = System.Windows.Media.Brushes.Transparent,
+                        Tag = game,
+                        Margin = new Thickness(0, 0, 0, 5),
+                        isVirtual = game.GameInfo.GamePath != null
+                    };
+                    switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
+                    {
+                        case "Single":
+                            card.MouseLeftButtonUp += SelectGame;
+                            break;
+                        case "Double":
+                            card.MouseDoubleClick += SelectGame;
+                            break;
+                    }
+                    card.MouseRightButtonUp += SetGame;
+
+                    stackPanel_Game.Children.Add(card);//添加
+
+                }
+            }
+            else
+            {
+
+                Globals.Config.CurrentGame = null!;
+            }
+        }
+
+        private void LoadTrainerList()
+        {
+            stackPanel_Trainer.Children.Clear();
+
+            //添加修改器
+            //游戏库里有东西才加
+            if (Globals.Caches.TrainerList.Count > 0)
+            {
+
+                //添加卡片
+                foreach (var trainer in Globals.Caches.TrainerList)
+                {
+                    //定义卡片
+                    var card = new UserCard
+                    {
+                        Title = trainer.Name,
+                        Icon = GameIconConverter.ParseStringToGameIcons(trainer.Icon),
+                        isActive = trainer.Name == Globals.Config.CurrentTrainer ? true : false,
+                        Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
+                        Background = System.Windows.Media.Brushes.Transparent,
+                        Tag = trainer,
+                        Margin = new Thickness(0, 0, 0, 5)
+                    };
+                    switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
+                    {
+                        case "Single":
+                            card.MouseLeftButtonUp += SelectTrainer;
+                            break;
+                        case "Double":
+                            card.MouseDoubleClick += SelectTrainer;
+                            break;
+                    }
+                    card.MouseRightButtonUp += SetTrainer;
+
+                    stackPanel_Trainer.Children.Add(card);//添加
+
+                }
+            }
+            else
+            {
+
+                Globals.Config.CurrentTrainer = null!;
+            }
+        }
+
         public PageManage()
         {
             InitializeComponent();
@@ -100,96 +190,19 @@ namespace PvzLauncherRemake.Pages
 
                     StartLoad();
 
-                    //清理
-                    stackPanel_Game.Children.Clear();
-                    stackPanel_Trainer.Children.Clear();
                     //加载列表
+                    GameManager.GameListLoaded += () => { LoadGameList(); SetNoneTipVisb(); };
+                    GameManager.TrainerListLoaded += () => { LoadTrainerList(); SetNoneTipVisb(); };
 
                     await GameManager.LoadGameListAsync();
                     await GameManager.LoadTrainerListAsync();
 
 
-                    //游戏库里有东西才加
-                    if (Globals.Caches.GameList.Count > 0)
-                    {
+                    
 
-                        //添加卡片
-                        foreach (var game in Globals.Caches.GameList)
-                        {
-                            //定义卡片
-                            var card = new UserCard
-                            {
-                                Title = game.GameInfo.Name,
-                                Icon = GameIconConverter.ParseStringToGameIcons(game.GameInfo.Icon),
-                                isActive = game.GameInfo.Name == Globals.Config.CurrentGame ? true : false,
-                                Version = $"{game.GameInfo.Version}",
-                                Background = System.Windows.Media.Brushes.Transparent,
-                                Tag = game,
-                                Margin = new Thickness(0, 0, 0, 5),
-                                isVirtual = game.GameInfo.GamePath != null
-                            };
-                            switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
-                            {
-                                case "Single":
-                                    card.MouseLeftButtonUp += SelectGame;
-                                    break;
-                                case "Double":
-                                    card.MouseDoubleClick += SelectGame;
-                                    break;
-                            }
-                            card.MouseRightButtonUp += SetGame;
 
-                            stackPanel_Game.Children.Add(card);//添加
 
-                        }
-                    }
-                    else
-                    {
-
-                        Globals.Config.CurrentGame = null!;
-                    }
-
-                    //添加修改器
-                    //游戏库里有东西才加
-                    if (Globals.Caches.TrainerList.Count > 0)
-                    {
-
-                        //添加卡片
-                        foreach (var trainer in Globals.Caches.TrainerList)
-                        {
-                            //定义卡片
-                            var card = new UserCard
-                            {
-                                Title = trainer.Name,
-                                Icon = GameIconConverter.ParseStringToGameIcons(trainer.Icon),
-                                isActive = trainer.Name == Globals.Config.CurrentTrainer ? true : false,
-                                Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
-                                Background = System.Windows.Media.Brushes.Transparent,
-                                Tag = trainer,
-                                Margin = new Thickness(0, 0, 0, 5)
-                            };
-                            switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
-                            {
-                                case "Single":
-                                    card.MouseLeftButtonUp += SelectTrainer;
-                                    break;
-                                case "Double":
-                                    card.MouseDoubleClick += SelectTrainer;
-                                    break;
-                            }
-                            card.MouseRightButtonUp += SetTrainer;
-
-                            stackPanel_Trainer.Children.Add(card);//添加
-
-                        }
-                    }
-                    else
-                    {
-
-                        Globals.Config.CurrentTrainer = null!;
-                    }
-
-                    SetNoneTipVisb();
+                    
 
                     EndLoad();
 
