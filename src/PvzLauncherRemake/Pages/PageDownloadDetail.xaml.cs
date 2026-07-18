@@ -151,7 +151,13 @@ namespace PvzLauncherRemake.Pages
             if (!string.IsNullOrEmpty(Info.SharePassword))
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
-                    Title = $"密码: {Info.SharePassword}",
+                    Content = new TextBlock
+                    {
+                        Text = $"密码: {Info.SharePassword}",
+                        FontWeight = FontWeights.Bold,
+                        FontSize = 20,
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    },
                     PrimaryButtonText = "复制",
                     CloseButtonText = "关闭",
                     DefaultButton = ContentDialogButton.Primary
