@@ -97,6 +97,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 手动下载 的本地化字符串。
+        /// </summary>
+        public static string Manual {
+            get {
+                return ResourceManager.GetString("Manual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 屏幕截图 的本地化字符串。
         /// </summary>
         public static string ScreenShots {

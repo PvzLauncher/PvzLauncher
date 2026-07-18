@@ -86,6 +86,7 @@ namespace PvzLauncherRemake.Pages
                     //下载按钮
                     button_Link.Visibility = string.IsNullOrEmpty(Info.LinkUrl) ? Visibility.Collapsed : Visibility.Visible;
                     button_Download.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
+                    button_Manual.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
 
                     stackPanel_Screenshot.Children.Clear();
                     using (var client = new HttpClient())
@@ -141,6 +142,24 @@ namespace PvzLauncherRemake.Pages
             Process.Start(new ProcessStartInfo
             {
                 FileName = Info.LinkUrl,
+                UseShellExecute = true
+            });
+        }
+
+        private async void button_Manual_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Info.SharePassword))
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = $"密码: {Info.SharePassword}",
+                    PrimaryButtonText = "复制",
+                    CloseButtonText = "关闭",
+                    DefaultButton = ContentDialogButton.Primary
+                }, () => Clipboard.SetText(Info.SharePassword));
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Info.ShareUrl,
                 UseShellExecute = true
             });
         }

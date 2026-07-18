@@ -132,4 +132,7 @@
   <data name="Link" xml:space="preserve">
     <value>Springen Sie zur offiziellen Website</value>
   </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Manueller Download</value>
+  </data>
 </root>

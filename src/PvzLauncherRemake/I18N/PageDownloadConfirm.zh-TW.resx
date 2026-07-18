@@ -132,4 +132,7 @@
   <data name="Link" xml:space="preserve">
     <value>跳轉官網</value>
   </data>
+  <data name="Manual" xml:space="preserve">
+    <value>手動下載</value>
+  </data>
 </root>

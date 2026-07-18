@@ -132,4 +132,7 @@
   <data name="Link" xml:space="preserve">
     <value>公式サイトへジャンプ</value>
   </data>
+  <data name="Manual" xml:space="preserve">
+    <value>マニュアルダウンロード</value>
+  </data>
 </root>

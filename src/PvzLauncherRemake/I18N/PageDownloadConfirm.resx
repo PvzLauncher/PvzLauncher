@@ -112,4 +112,7 @@
   <data name="Link" xml:space="preserve">
     <value>跳转官网</value>
   </data>
+  <data name="Manual" xml:space="preserve">
+    <value>手动下载</value>
+  </data>
 </root>

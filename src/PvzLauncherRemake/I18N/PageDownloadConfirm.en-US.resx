@@ -132,4 +132,7 @@
   <data name="Link" xml:space="preserve">
     <value>Jump to official website</value>
   </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Manual download</value>
+  </data>
 </root>

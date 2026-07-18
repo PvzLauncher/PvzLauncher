@@ -132,4 +132,7 @@
   <data name="Link" xml:space="preserve">
     <value>Перейти на официальный сайт</value>
   </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Ручная загрузка</value>
+  </data>
 </root>
