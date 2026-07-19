@@ -280,7 +280,7 @@
     <value>Overlay interface:</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>In-game overlay interface (beta)</value>
+    <value>In-game overlay interface</value>
   </data>
   <data name="ThreeDMode" xml:space="preserve">
     <value>3D acceleration:</value>

@@ -280,7 +280,7 @@
     <value>커버 인터페이스:</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>게임 내 오버레이 인터페이스(테스트)</value>
+    <value>게임 내 오버레이 인터페이스</value>
   </data>
   <data name="ThreeDMode" xml:space="preserve">
     <value>3D 가속:</value>

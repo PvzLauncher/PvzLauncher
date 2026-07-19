@@ -280,7 +280,7 @@
     <value>カバーインターフェイス:</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>ゲーム内オーバーレイ インターフェイス (テスト)</value>
+    <value>ゲーム内オーバーレイ インターフェイス</value>
   </data>
   <data name="ThreeDMode" xml:space="preserve">
     <value>3Dアクセラレーション:</value>

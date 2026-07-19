@@ -280,7 +280,7 @@
     <value>覆蓋介面:</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>遊戲內覆蓋介面 (測試)</value>
+    <value>遊戲內覆蓋介面</value>
   </data>
   <data name="ThreeDMode" xml:space="preserve">
     <value>3D加速:</value>

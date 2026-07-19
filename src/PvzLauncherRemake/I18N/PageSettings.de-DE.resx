@@ -280,7 +280,7 @@
     <value>Cover-Schnittstelle:</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>Overlay-Schnittstelle im Spiel (Beta)</value>
+    <value>Overlay-Schnittstelle im Spiel</value>
   </data>
   <data name="ThreeDMode" xml:space="preserve">
     <value>3D-Beschleunigung:</value>

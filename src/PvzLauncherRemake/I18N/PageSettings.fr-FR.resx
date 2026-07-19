@@ -280,7 +280,7 @@
     <value>Interface de couverture :</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>Interface de superposition dans le jeu (beta)</value>
+    <value>Interface de superposition dans le jeu</value>
   </data>
   <data name="ThreeDMode" xml:space="preserve">
     <value>Accélération 3D :</value>

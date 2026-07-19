@@ -280,7 +280,7 @@
     <value>Интерфейс крышки:</value>
   </data>
   <data name="OverlayUI" xml:space="preserve">
-    <value>Внутриигровой оверлейный интерфейс (тест)</value>
+    <value>Внутриигровой оверлейный интерфейс</value>
   </data>
   <data name="ThreeDMode" xml:space="preserve">
     <value>3D-ускорение:</value>
