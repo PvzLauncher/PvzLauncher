@@ -29,6 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="H.Hooks" Version="1.7.0" />
+    <PackageReference Include="H.InputSimulator" Version="1.5.0" />
     <PackageReference Include="HuaZi.Library" Version="2025.12.18.2" />
     <PackageReference Include="MdXaml" Version="1.27.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
