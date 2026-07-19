@@ -78,6 +78,7 @@ namespace PvzLauncherRemake.Windows
                 [H.Hooks.Key.D7] = 7,
                 [H.Hooks.Key.D8] = 8,
                 [H.Hooks.Key.D9] = 9,
+                [H.Hooks.Key.D0] = 10,
 
                 [H.Hooks.Key.Oem3] = 0,
             };
@@ -226,10 +227,10 @@ namespace PvzLauncherRemake.Windows
             var currentMousePos = Win32APIHelper.GetCursorPos();
             if (currentMousePos.X == -1 || currentMousePos.Y == -1)
                 throw new Exception("无法获得鼠标指针坐标");
-            Globals.Config.OverLayWindowSettings.SlotPositions[currentPosSet == 10 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
+            Globals.Config.OverLayWindowSettings.SlotPositions[currentPosSet == 11 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
             ConfigManager.SaveConfig();
 
-            if (currentPosSet == 10)
+            if (currentPosSet == 11)
             {
                 SwitchPage(PageType.Main);
                 return;

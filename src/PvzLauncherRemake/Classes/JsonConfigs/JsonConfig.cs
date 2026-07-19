@@ -146,6 +146,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
                 [7] = new Point(0, 0),
                 [8] = new Point(0, 0),
                 [9] = new Point(0, 0),
+                [10] = new Point(0, 0),
 
                 [0] = new Point(0, 0),//shovel
             };
