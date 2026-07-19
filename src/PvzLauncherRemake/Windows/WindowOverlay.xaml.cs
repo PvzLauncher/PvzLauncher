@@ -166,6 +166,7 @@ namespace PvzLauncherRemake.Windows
             {
                 button_setSlotPos.IsEnabled = toggleSwitch_slotHotkeyEnabled.IsOn;
                 Globals.Config.OverLayWindowSettings.SlotHotkeyEnabled = toggleSwitch_slotHotkeyEnabled.IsOn;
+                ConfigManager.SaveConfig();
             };
 
 
