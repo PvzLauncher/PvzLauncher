@@ -25,6 +25,9 @@ namespace PvzLauncherRemake.Windows
         private LowLevelKeyboardHook _hook = new LowLevelKeyboardHook();
         private InputSimulator _inputSim = new InputSimulator();
 
+        private int winLeft = 0;
+        private int winTop = 0;
+
         private enum PageType
         {
             Main, PositionSelector
@@ -91,7 +94,7 @@ namespace PvzLauncherRemake.Windows
                     return;
 
                 var targetPos = Globals.Config.OverLayWindowSettings.SlotPositions[slotKeys[e.CurrentKey]];
-                var targetPosFinal = new System.Drawing.Point((int)this.Left + targetPos.X, (int)this.Top + targetPos.Y);
+                var targetPosFinal = new System.Drawing.Point(winLeft + targetPos.X, winTop + targetPos.Y);
                 var currentPos = Win32APIHelper.GetCursorPos();
                 if (currentPos.X == -1 || currentPos.Y == -1)
                     throw new Exception("无法获得鼠标指针坐标");
@@ -104,6 +107,7 @@ namespace PvzLauncherRemake.Windows
 
                 Win32APIHelper.SetCursorPos(new System.Drawing.Point(currentPos.X, currentPos.Y));
             };
+            _hook.Start();
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -122,6 +126,9 @@ namespace PvzLauncherRemake.Windows
             this.Top = result.Top;
             this.Width = result.Width;
             this.Height = result.Height;
+
+            winLeft = (int)this.Left;
+            winTop = (int)this.Top;
 
 
             //判断是否失焦
@@ -169,6 +176,9 @@ namespace PvzLauncherRemake.Windows
             _timer?.Stop();
             _timer = null;
             HotkeyManager.Current.Remove("ToggleOverlay");
+
+            _hook.Stop();
+            _hook.Dispose();
         }
 
         private void ToggleOverlay(bool? targetState = null)
