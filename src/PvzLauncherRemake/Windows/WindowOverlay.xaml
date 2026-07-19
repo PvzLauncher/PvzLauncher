@@ -68,7 +68,7 @@
                 </TabItem>
             </TabControl>
         </Grid>
-        <Grid x:Name="grid_pagePosSelection" Visibility="Visible">
+        <Grid x:Name="grid_pagePosSelection" Visibility="Hidden">
             <TextBlock Margin="10" Foreground="White" Text="{lex:Loc SlotHotkeyPosTips}" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             <Rectangle x:Name="rect_posHit" Fill="#33FFFFFF" MouseLeftButtonUp="rect_posHit_MouseLeftButtonUp"/>
         </Grid>
