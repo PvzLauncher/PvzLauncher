@@ -87,6 +87,9 @@ namespace PvzLauncherRemake.Windows
                 if (Win32APIHelper.GetActiveWindowHandle() != GameManager.GameProcess.MainWindowHandle)
                     return;
 
+                if (!Globals.Config.OverLayWindowSettings.SlotHotkeyEnabled)
+                    return;
+
                 var targetPos = Globals.Config.OverLayWindowSettings.SlotPositions[slotKeys[e.CurrentKey]];
                 var targetPosFinal = new System.Drawing.Point((int)this.Left + targetPos.X, (int)this.Top + targetPos.Y);
                 var currentPos = Win32APIHelper.GetCursorPos();
