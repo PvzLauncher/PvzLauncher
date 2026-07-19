@@ -276,9 +276,6 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>Game window title (leave blank to not set):</value>
   </data>
-  <data name="OverlayUIText" xml:space="preserve">
-    <value>Overlay interface:</value>
-  </data>
   <data name="OverlayUI" xml:space="preserve">
     <value>In-game overlay interface</value>
   </data>
@@ -308,5 +305,8 @@
   </data>
   <data name="Source2" xml:space="preserve">
     <value>Source 2</value>
+  </data>
+  <data name="OverlayUIText" xml:space="preserve">
+    <value>Overlay interface (Ctrl+Alt+P):</value>
   </data>
 </root>

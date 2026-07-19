@@ -466,7 +466,7 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 覆盖界面: 的本地化字符串。
+        ///   查找类似 覆盖界面(Ctrl+Alt+P): 的本地化字符串。
         /// </summary>
         public static string OverlayUIText {
             get {

@@ -276,9 +276,6 @@
   <data name="GameWindowTitle" xml:space="preserve">
     <value>Titel des Spielfensters (leer lassen, um nicht festzulegen):</value>
   </data>
-  <data name="OverlayUIText" xml:space="preserve">
-    <value>Cover-Schnittstelle:</value>
-  </data>
   <data name="OverlayUI" xml:space="preserve">
     <value>Overlay-Schnittstelle im Spiel</value>
   </data>
@@ -308,5 +305,8 @@
   </data>
   <data name="Source2" xml:space="preserve">
     <value>Quelle 2</value>
+  </data>
+  <data name="OverlayUIText" xml:space="preserve">
+    <value>Overlay-Schnittstelle (Strg+Alt+P):</value>
   </data>
 </root>
