@@ -129,4 +129,19 @@
   <data name="KillGame" xml:space="preserve">
     <value>게임 종료</value>
   </data>
+  <data name="SlotHotkey" xml:space="preserve">
+    <value>카드 슬롯 단축키</value>
+  </data>
+  <data name="SlotHotkeyTips" xml:space="preserve">
+    <value>위치를 설정하고 단축키를 사용하여 씨앗 패킷과 삽을 선택하세요!</value>
+  </data>
+  <data name="SlotHotkeyEnabled" xml:space="preserve">
+    <value>메인 스위치:</value>
+  </data>
+  <data name="SlotHotKeySetLocation" xml:space="preserve">
+    <value>카드 슬롯 위치 설정</value>
+  </data>
+  <data name="SlotHotkeyPosTips" xml:space="preserve">
+    <value>슬롯 1~9번과 삽의 위치를 ​​순서대로 클릭해주세요.</value>
+  </data>
 </root>

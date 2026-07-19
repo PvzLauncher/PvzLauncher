@@ -129,4 +129,19 @@
   <data name="KillGame" xml:space="preserve">
     <value>fin du jeu</value>
   </data>
+  <data name="SlotHotkey" xml:space="preserve">
+    <value>Touches de raccourci du logement pour carte</value>
+  </data>
+  <data name="SlotHotkeyTips" xml:space="preserve">
+    <value>Définissez un emplacement et utilisez les touches de raccourci pour sélectionner les paquets de graines et les pelles !</value>
+  </data>
+  <data name="SlotHotkeyEnabled" xml:space="preserve">
+    <value>Interrupteur principal :</value>
+  </data>
+  <data name="SlotHotKeySetLocation" xml:space="preserve">
+    <value>Définir la position de l'emplacement de la carte</value>
+  </data>
+  <data name="SlotHotkeyPosTips" xml:space="preserve">
+    <value>Veuillez cliquer sur les emplacements 1 à 9 et la position de la pelle dans l'ordre</value>
+  </data>
 </root>

@@ -129,4 +129,19 @@
   <data name="KillGame" xml:space="preserve">
     <value>Stop game</value>
   </data>
+  <data name="SlotHotkey" xml:space="preserve">
+    <value>Slot hotkey</value>
+  </data>
+  <data name="SlotHotkeyTips" xml:space="preserve">
+    <value>Set a location and use shortcut keys to select seed packets and shovels!</value>
+  </data>
+  <data name="SlotHotkeyEnabled" xml:space="preserve">
+    <value>Enabled:</value>
+  </data>
+  <data name="SlotHotKeySetLocation" xml:space="preserve">
+    <value>Set card slot position</value>
+  </data>
+  <data name="SlotHotkeyPosTips" xml:space="preserve">
+    <value>Please click on the slots 1~9 and the position of the shovel in sequence</value>
+  </data>
 </root>

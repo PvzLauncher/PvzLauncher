@@ -129,4 +129,19 @@
   <data name="KillGame" xml:space="preserve">
     <value>エンドゲーム</value>
   </data>
+  <data name="SlotHotkey" xml:space="preserve">
+    <value>カードスロットのショートカットキー</value>
+  </data>
+  <data name="SlotHotkeyTips" xml:space="preserve">
+    <value>場所を設定し、ショートカット キーを使用してシード パケットとシャベルを選択します。</value>
+  </data>
+  <data name="SlotHotkeyEnabled" xml:space="preserve">
+    <value>メインスイッチ:</value>
+  </data>
+  <data name="SlotHotKeySetLocation" xml:space="preserve">
+    <value>カードスロットの位置を設定する</value>
+  </data>
+  <data name="SlotHotkeyPosTips" xml:space="preserve">
+    <value>スロット1～9とシャベルの位置を順番にクリックしてください。</value>
+  </data>
 </root>

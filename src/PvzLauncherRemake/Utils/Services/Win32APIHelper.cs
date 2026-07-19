@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace PvzLauncherRemake.Utils.Services
 {
@@ -23,6 +24,20 @@ namespace PvzLauncherRemake.Utils.Services
 
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetCursorPos(int X, int Y);
+
+        
 
         /// <summary>
         /// 设置窗口标题
@@ -61,5 +76,23 @@ namespace PvzLauncherRemake.Utils.Services
         /// </summary>
         /// <returns>窗口句柄</returns>
         public static IntPtr GetActiveWindowHandle() => GetForegroundWindow();
+
+        /// <summary>
+        /// 取鼠标坐标
+        /// </summary>
+        /// <returns>坐标,X & Y</returns>
+        public static POINT GetCursorPos()
+        {
+            if (!GetCursorPos(out var result))
+                return new POINT { X = -1, Y = -1 };
+            return result;
+        }
+
+        /// <summary>
+        /// 设置鼠标坐标
+        /// </summary>
+        /// <param name="pos">目标坐标</param>
+        /// <returns>是否成功</returns>
+        public static bool SetCursorPos(Point pos) => SetCursorPos(pos.X, pos.Y);
     }
 }

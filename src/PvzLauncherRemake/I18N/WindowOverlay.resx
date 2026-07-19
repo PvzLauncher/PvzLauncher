@@ -109,4 +109,19 @@
   <data name="KillGame" xml:space="preserve">
     <value>结束游戏</value>
   </data>
+  <data name="SlotHotkey" xml:space="preserve">
+    <value>卡槽快捷键</value>
+  </data>
+  <data name="SlotHotkeyTips" xml:space="preserve">
+    <value>设定位置，并使用快捷键选择种子包和铲子！</value>
+  </data>
+  <data name="SlotHotkeyEnabled" xml:space="preserve">
+    <value>总开关:</value>
+  </data>
+  <data name="SlotHotKeySetLocation" xml:space="preserve">
+    <value>设置卡槽位置</value>
+  </data>
+  <data name="SlotHotkeyPosTips" xml:space="preserve">
+    <value>请依次点击卡槽1~9与铲子的位置</value>
+  </data>
 </root>

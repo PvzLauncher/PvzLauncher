@@ -129,4 +129,19 @@
   <data name="KillGame" xml:space="preserve">
     <value>Endspiel</value>
   </data>
+  <data name="SlotHotkey" xml:space="preserve">
+    <value>Tastenkombinationen für den Kartensteckplatz</value>
+  </data>
+  <data name="SlotHotkeyTips" xml:space="preserve">
+    <value>Legen Sie einen Standort fest und verwenden Sie Tastenkombinationen, um Saatgutpakete und Schaufeln auszuwählen!</value>
+  </data>
+  <data name="SlotHotkeyEnabled" xml:space="preserve">
+    <value>Hauptschalter:</value>
+  </data>
+  <data name="SlotHotKeySetLocation" xml:space="preserve">
+    <value>Legen Sie die Position des Kartensteckplatzes fest</value>
+  </data>
+  <data name="SlotHotkeyPosTips" xml:space="preserve">
+    <value>Bitte klicken Sie nacheinander auf die Schlitze 1~9 und die Position der Schaufel</value>
+  </data>
 </root>

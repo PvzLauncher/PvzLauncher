@@ -79,6 +79,51 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 卡槽快捷键 的本地化字符串。
+        /// </summary>
+        public static string SlotHotkey {
+            get {
+                return ResourceManager.GetString("SlotHotkey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 总开关: 的本地化字符串。
+        /// </summary>
+        public static string SlotHotkeyEnabled {
+            get {
+                return ResourceManager.GetString("SlotHotkeyEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请依次点击卡槽1~9与铲子的位置 的本地化字符串。
+        /// </summary>
+        public static string SlotHotkeyPosTips {
+            get {
+                return ResourceManager.GetString("SlotHotkeyPosTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设置卡槽位置 的本地化字符串。
+        /// </summary>
+        public static string SlotHotKeySetLocation {
+            get {
+                return ResourceManager.GetString("SlotHotKeySetLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设定位置，并使用快捷键选择种子包和铲子！ 的本地化字符串。
+        /// </summary>
+        public static string SlotHotkeyTips {
+            get {
+                return ResourceManager.GetString("SlotHotkeyTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 欢迎使用全新的游戏内覆盖界面！ 的本地化字符串。
         /// </summary>
         public static string Welcome1 {
