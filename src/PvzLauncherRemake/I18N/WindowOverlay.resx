@@ -122,6 +122,6 @@
     <value>设置卡槽位置</value>
   </data>
   <data name="SlotHotkeyPosTips" xml:space="preserve">
-    <value>请依次点击卡槽1~9与铲子的位置</value>
+    <value>请依次点击卡槽1~10与铲子的位置</value>
   </data>
 </root>

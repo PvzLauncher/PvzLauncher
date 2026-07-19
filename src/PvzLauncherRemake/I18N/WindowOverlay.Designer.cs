@@ -97,7 +97,7 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 请依次点击卡槽1~9与铲子的位置 的本地化字符串。
+        ///   查找类似 请依次点击卡槽1~10与铲子的位置 的本地化字符串。
         /// </summary>
         public static string SlotHotkeyPosTips {
             get {

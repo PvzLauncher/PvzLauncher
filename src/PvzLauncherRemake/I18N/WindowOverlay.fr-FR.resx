@@ -142,6 +142,6 @@
     <value>Définir la position de l'emplacement de la carte</value>
   </data>
   <data name="SlotHotkeyPosTips" xml:space="preserve">
-    <value>Veuillez cliquer sur les emplacements 1 à 9 et la position de la pelle dans l'ordre</value>
+    <value>Veuillez cliquer sur les emplacements 1 à 10 et la position de la pelle dans l'ordre</value>
   </data>
 </root>

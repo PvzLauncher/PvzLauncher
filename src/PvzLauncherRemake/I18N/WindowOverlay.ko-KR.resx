@@ -142,6 +142,6 @@
     <value>카드 슬롯 위치 설정</value>
   </data>
   <data name="SlotHotkeyPosTips" xml:space="preserve">
-    <value>슬롯 1~9번과 삽의 위치를 ​​순서대로 클릭해주세요.</value>
+    <value>슬롯 1~10번과 삽의 위치를 ​​순서대로 클릭해주세요</value>
   </data>
 </root>

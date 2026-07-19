@@ -142,6 +142,6 @@
     <value>Set card slot position</value>
   </data>
   <data name="SlotHotkeyPosTips" xml:space="preserve">
-    <value>Please click on the slots 1~9 and the position of the shovel in sequence</value>
+    <value>Please click on the slots 1~10 and the position of the shovel in sequence</value>
   </data>
 </root>
