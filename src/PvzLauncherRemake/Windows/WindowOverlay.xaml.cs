@@ -219,6 +219,7 @@ namespace PvzLauncherRemake.Windows
         {
             SwitchPage(PageType.PositionSelector);
             currentPosSet = 1;
+            textBlock_posSelectTip.Text = "请点击卡槽 1";
         }
 
         private int currentPosSet = 1;
@@ -228,6 +229,7 @@ namespace PvzLauncherRemake.Windows
             var currentMousePos = Win32APIHelper.GetCursorPos();
             if (currentMousePos.X == -1 || currentMousePos.Y == -1)
                 throw new Exception("无法获得鼠标指针坐标");
+
             Globals.Config.OverLayWindowSettings.SlotPositions[currentPosSet == 11 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
             ConfigManager.SaveConfig();
 
@@ -238,6 +240,8 @@ namespace PvzLauncherRemake.Windows
             }
 
             currentPosSet++;
+            textBlock_posSelectTip.Text = $"请点击{(currentPosSet == 11 ? "铲子" : "卡槽")} {(currentPosSet == 11 ? null : currentPosSet)}";
+
         }
     }
 }

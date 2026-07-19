@@ -69,7 +69,7 @@
             </TabControl>
         </Grid>
         <Grid x:Name="grid_pagePosSelection" Visibility="Hidden">
-            <TextBlock Margin="10" Foreground="Black" Text="{lex:Loc SlotHotkeyPosTips}" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+            <TextBlock x:Name="textBlock_posSelectTip" Foreground="Black" Text="请点击卡槽 1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,250,0,0" FontSize="20" FontWeight="Bold"/>
             <Rectangle x:Name="rect_posHit" Fill="#33FFFFFF" MouseLeftButtonUp="rect_posHit_MouseLeftButtonUp"/>
         </Grid>
 
