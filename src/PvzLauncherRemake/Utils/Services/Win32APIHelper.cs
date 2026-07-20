@@ -38,7 +38,9 @@ namespace PvzLauncherRemake.Utils.Services
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
 
-
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool BlockInput(bool fBlockIt);
 
         /// <summary>
         /// 设置窗口标题

@@ -6,6 +6,7 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -99,14 +100,22 @@ namespace PvzLauncherRemake.Windows
                 var currentPos = Win32APIHelper.GetCursorPos();
                 if (currentPos.X == -1 || currentPos.Y == -1)
                     throw new Exception("无法获得鼠标指针坐标");
+                var scrX = SystemParameters.VirtualScreenWidth;
+                var scrY = SystemParameters.VirtualScreenHeight;
+                var scrL = SystemParameters.VirtualScreenLeft;
+                var scrT = SystemParameters.VirtualScreenTop;
 
-                Win32APIHelper.SetCursorPos(targetPosFinal);
+                Win32APIHelper.BlockInput(true);
 
                 _inputSim.Mouse
+                .MoveMouseTo((targetPosFinal.X - scrL) * 65535.0 / scrX, (targetPosFinal.Y - scrT) * 65535.0 / scrY)
                 .LeftButtonDown()
-                .LeftButtonUp();
+                .LeftButtonUp()
+                /*.MoveMouseTo((currentPos.X - scrL) * 65535.0 / scrX, (currentPos.Y - scrT) * 65535.0 / scrY)*/;
 
                 Win32APIHelper.SetCursorPos(new System.Drawing.Point(currentPos.X, currentPos.Y));
+
+                Win32APIHelper.BlockInput(false);
             };
             _hook.Start();
         }
