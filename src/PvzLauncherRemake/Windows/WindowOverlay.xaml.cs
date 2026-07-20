@@ -88,7 +88,7 @@ namespace PvzLauncherRemake.Windows
                     return;
 
                 //不处于游戏窗口不触发
-                if (Win32APIHelper.GetActiveWindowHandle() != GameManager.GameProcess.MainWindowHandle)
+                if (Win32APIHelper.GetForegroundWindow() != GameManager.GameProcess.MainWindowHandle)
                     return;
 
                 if (!Globals.Config.OverLayWindowSettings.SlotHotkeyEnabled)
@@ -133,7 +133,7 @@ namespace PvzLauncherRemake.Windows
 
 
             //判断是否失焦
-            var activeWindow = Win32APIHelper.GetActiveWindowHandle();
+            var activeWindow = Win32APIHelper.GetForegroundWindow();
             if (activeWindow != GameManager.GameProcess.MainWindowHandle && activeWindow != windowInteropHelper.Handle)
                 ToggleOverlay(false);
 
