@@ -48,7 +48,7 @@
 
 ### 📥 下载游戏
 
-![download-detail](/docs/image/download-detial.png)
+![download-detail](/docs/image/download-detail.png)
 
 我们拥有一个丰富且持续更新的游戏库。截至本文编写时，游戏库已收录 **40+** 款可下载内容（包括**原版、改版和修改器**）。
 
