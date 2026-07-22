@@ -9,7 +9,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 
 using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 

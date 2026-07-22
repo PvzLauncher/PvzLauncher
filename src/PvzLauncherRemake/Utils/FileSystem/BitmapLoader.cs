@@ -1,8 +1,4 @@
-﻿using SharpCompress.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace PvzLauncherRemake.Utils.FileSystem

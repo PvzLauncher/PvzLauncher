@@ -4,7 +4,6 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
-using PvzLauncherRemake.Windows;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -53,7 +52,7 @@ namespace PvzLauncherRemake.Pages
                 };
 
                 rt.BeginAnimation(RotateTransform.AngleProperty, null);
-                rt.BeginAnimation(RotateTransform.AngleProperty, rtAni);                
+                rt.BeginAnimation(RotateTransform.AngleProperty, rtAni);
             };
 
         }

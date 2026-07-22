@@ -3,7 +3,6 @@ using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
-using System.Windows.Controls;
 
 
 namespace PvzLauncherRemake.Utils.Services

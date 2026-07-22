@@ -198,11 +198,11 @@ namespace PvzLauncherRemake.Pages
                     await GameManager.LoadTrainerListAsync();
 
 
-                    
 
 
 
-                    
+
+
 
                     EndLoad();
 
