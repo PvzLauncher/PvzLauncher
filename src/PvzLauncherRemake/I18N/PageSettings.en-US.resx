@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="LauncherSettings" xml:space="preserve">
+    <value>Launcher settings</value>
+  </data>
+  <data name="GameSettings" xml:space="preserve">
+    <value>Game settings</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Save settings</value>
+  </data>
+  <data name="Operate" xml:space="preserve">
+    <value>Operate</value>
+  </data>
+  <data name="LaunchOperate" xml:space="preserve">
+    <value>Operations after starting the game:</value>
+  </data>
+  <data name="LaunchNone" xml:space="preserve">
+    <value>Do nothing</value>
+  </data>
+  <data name="LaunchClose" xml:space="preserve">
+    <value>Launcher closes</value>
+  </data>
+  <data name="LaunchHideAndShow" xml:space="preserve">
+    <value>The launcher is hidden and will be displayed after the game is over</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme:</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Bright</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="WindowTitle" xml:space="preserve">
+    <value>Window title:</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="TitleImage" xml:space="preserve">
+    <value>Title image:</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background:</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="NavViewLocation" xml:space="preserve">
+    <value>Navigation bar location:</value>
+  </data>
+  <data name="NavViewLocation_Left" xml:space="preserve">
+    <value>Left side</value>
+  </data>
+  <data name="NavViewLocation_Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>Check for updates:</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="UpdateChannel" xml:space="preserve">
+    <value>Update channel:</value>
+  </data>
+  <data name="StartUpCheck" xml:space="preserve">
+    <value>Check for updates on startup:</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Notify</value>
+  </data>
+  <data name="NoticeGame" xml:space="preserve">
+    <value>Game download notification</value>
+  </data>
+  <data name="NoticeTrainer" xml:space="preserve">
+    <value>Modifier download notification</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="DownloadCache" xml:space="preserve">
+    <value>Download cache:</value>
+  </data>
+  <data name="DownloadCache_Clear" xml:space="preserve">
+    <value>Clean up</value>
+  </data>
+  <data name="EchoCave" xml:space="preserve">
+    <value>Echo Cave:</value>
+  </data>
+  <data name="GameConfig" xml:space="preserve">
+    <value>Game configuration</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>Full screen:</value>
+  </data>
+  <data name="ForceFullScreen" xml:space="preserve">
+    <value>Force full screen</value>
+  </data>
+  <data name="ForceWindowed" xml:space="preserve">
+    <value>Force windowing</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="LeftTop" xml:space="preserve">
+    <value>Upper left corner</value>
+  </data>
+  <data name="DeleteSave" xml:space="preserve">
+    <value>Delete archive</value>
+  </data>
+  <data name="MoveSave" xml:space="preserve">
+    <value>Archive migration</value>
+  </data>
+  <data name="SaveIsolation" xml:space="preserve">
+    <value>Archive Quarantine</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="OfflineMode" xml:space="preserve">
+    <value>Offline mode:</value>
+  </data>
+  <data name="Notice" xml:space="preserve">
+    <value>Announcement:</value>
+  </data>
+  <data name="LaunchAnimation" xml:space="preserve">
+    <value>Show launch animation:</value>
+  </data>
+  <data name="LaunchWithTrainer" xml:space="preserve">
+    <value>The modifier is launched with the game:</value>
+  </data>
+  <data name="DownloadNotice" xml:space="preserve">
+    <value>Download notification:</value>
+  </data>
+  <data name="GameWindowTitle" xml:space="preserve">
+    <value>Game window title (leave blank to not set):</value>
+  </data>
+  <data name="OverlayUI" xml:space="preserve">
+    <value>In-game overlay interface</value>
+  </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3D acceleration:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>Force enable</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>Force disable</value>
+  </data>
+  <data name="SingleClick" xml:space="preserve">
+    <value>click</value>
+  </data>
+  <data name="DoubleClick" xml:space="preserve">
+    <value>double click</value>
+  </data>
+  <data name="ManageSelectMode" xml:space="preserve">
+    <value>Management page selection mode:</value>
+  </data>
+  <data name="ServiceSource" xml:space="preserve">
+    <value>Cloud service source:</value>
+  </data>
+  <data name="Source1" xml:space="preserve">
+    <value>Source 1</value>
+  </data>
+  <data name="Source2" xml:space="preserve">
+    <value>Source 2</value>
+  </data>
+  <data name="OverlayUIText" xml:space="preserve">
+    <value>Overlay interface (Ctrl+Alt+P):</value>
+  </data>
+</root>

@@ -1,0 +1,255 @@
+﻿using ModernWpf.Controls;
+using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.UI;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
+
+namespace PvzLauncherRemake.Pages
+{
+    /// <summary>
+    /// PageDownloadConfirm.xaml 的交互逻辑
+    /// </summary>
+    public partial class PageDownloadDetail : ModernWpf.Controls.Page
+    {
+        public JsonDownloadIndex.GameInfo Info { get; set; }
+        public string BaseDirectory { get; set; }
+        public bool IsTrainer { get; set; }
+
+        private string ScreeshotRootUrl = $"{Globals.Urls.ServiceRootUrl}/game-library/screenshots";
+
+        private void StartImageAnimation(Image image)
+        {
+            //动画
+            var thicknessAnimation = new ThicknessAnimation
+            {
+                From = new Thickness(-50, 0, 0, 0),
+                To = new Thickness(0),
+                Duration = TimeSpan.FromMilliseconds(1000),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            var doubleAnimation = new DoubleAnimation
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(1000),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            image.BeginAnimation(MarginProperty, null);
+            image.BeginAnimation(OpacityProperty, null);
+            image.BeginAnimation(MarginProperty, thicknessAnimation);
+            image.BeginAnimation(OpacityProperty, doubleAnimation);
+        }
+
+
+        public PageDownloadDetail()
+        {
+            InitializeComponent();
+            Loaded += (async (s, e) =>
+            {
+                try
+                {
+                    //卡片
+                    userCard.Title = Info!.Name;
+                    userCard.Icon = GameIconConverter.ParseStringToGameIcons(Info.Icon);
+                    userCard.Version = Info.Version;
+                    userCard.Size = $"{Info.Size}";
+                    userCard.isNew = Info.IsNew;
+                    userCard.isRecommend = Info.IsRecommend;
+
+                    if (Info is JsonDownloadIndex.TrainerInfo ti)
+                        userCard.SupportVersion = ti.SupportVersion;
+
+
+                    //简介
+                    textBlock_Description.Text = "";
+                    foreach (var line in Info.Descriptions)
+                        textBlock_Description.Text = $"{textBlock_Description.Text}{line}\n";
+
+                    //信息
+                    textBlock_Information.Inlines.Clear();
+                    //作者
+                    textBlock_Information.Inlines.Add(new Bold(new Run($"{GetLoc("I18N.PageDownloadConfirm", "Author")}: ")));
+                    for (int i = 0; i < Info.Author.Length; i++)
+                    {
+                        textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
+                    }
+                    //下载按钮
+                    button_Link.Visibility = string.IsNullOrEmpty(Info.LinkUrl) ? Visibility.Collapsed : Visibility.Visible;
+                    button_Download.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
+                    button_Manual.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
+
+                    stackPanel_Screenshot.Children.Clear();
+                    using (var client = new HttpClient())
+                    {
+                        for (int i = 0; i < Info.Screenshot; i++)
+                        {
+                            string url = $"{ScreeshotRootUrl}/{Info.Name}/{i + 1}.png";
+
+                            byte[] imageBytes = await client.GetByteArrayAsync(url);
+
+                            using (var memoryStream = new MemoryStream(imageBytes))
+                            {
+                                var bitmap = new BitmapImage();
+                                bitmap.BeginInit();
+                                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                                bitmap.StreamSource = memoryStream;
+                                bitmap.EndInit();
+                                bitmap.Freeze();
+
+                                var image = new Image
+                                {
+                                    MaxHeight = 250,
+                                    Stretch = Stretch.Uniform,
+                                    Source = bitmap,
+                                    RenderTransformOrigin = new Point(0.5, 0.5)
+                                };
+                                image.RenderTransform = new ScaleTransform();
+                                image.MouseEnter += ((s, e) => ImageMouseEnter(s));
+                                image.MouseLeave += ((s, e) => ImageMouseLeave(s));
+                                image.MouseUp += ImagePreview;
+
+                                stackPanel_Screenshot.Children.Add(image);
+
+                                StartImageAnimation(image);
+
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    stackPanel_Screenshot.Children.Add(new TextBlock
+                    {
+                        Text = $"无法获取图像文件: {ex}"
+                    });
+                }
+            });
+        }
+
+        private void button_Link_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Info.LinkUrl,
+                UseShellExecute = true
+            });
+        }
+
+        private async void button_Manual_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Info.SharePassword))
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Content = new TextBlock
+                    {
+                        Text = $"密码: {Info.SharePassword}",
+                        FontWeight = FontWeights.Bold,
+                        FontSize = 20,
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    },
+                    PrimaryButtonText = "复制",
+                    CloseButtonText = "关闭",
+                    DefaultButton = ContentDialogButton.Primary
+                }, () => Clipboard.SetText(Info.SharePassword));
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Info.ShareUrl,
+                UseShellExecute = true
+            });
+        }
+
+        private async void button_Download_Click(object sender, RoutedEventArgs e)
+        {
+            /*//确认下载
+            bool confirm = false;
+            await DialogManager.ShowDialogAsync(new ContentDialog
+            {
+                Title = "下载确认",
+                Content = $"是否下载 \"{Info.Name}\"",
+                PrimaryButtonText = "确定",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary
+            }, (() => confirm = true));
+            if (!confirm) return;*/
+
+            //处理同名
+            string? savePath = await GameManager.ResolveSameName(Info.Name, BaseDirectory);
+
+            if (string.IsNullOrEmpty(savePath))
+                return;
+
+            //开始下载
+            await GameManager.StartDownloadAsync(Info, savePath, IsTrainer);
+        }
+
+        private async void ImagePreview(Object sender, RoutedEventArgs e)
+        {
+            if (sender is not Image s)
+                return;
+
+            var dialog = new ContentDialog
+            {
+                Content = new ScrollViewer
+                {
+                    Content = new Image { Source = s.Source, Stretch = Stretch.None },
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Visible
+                },
+                CloseButtonText = "关闭"
+            };
+            await DialogManager.ShowDialogAsync(dialog);
+        }
+
+        private void ImageMouseEnter(object sender)
+        {
+            if (sender is not Image image || image.RenderTransform is not ScaleTransform st)
+                return;
+
+            Panel.SetZIndex(image, 100);
+
+            var animation = new DoubleAnimation
+            {
+                From = 1,
+                To = 1.1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
+        }
+
+        private void ImageMouseLeave(object sender)
+        {
+            if (sender is not Image image || image.RenderTransform is not ScaleTransform st)
+                return;
+
+            Panel.SetZIndex(image, 0);
+
+            var animation = new DoubleAnimation
+            {
+                From = 1.1,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            st.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
+            st.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
+        }
+    }
+}

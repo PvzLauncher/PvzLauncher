@@ -3,9 +3,9 @@ setlocal enabledelayedexpansion
 
 rd publish /s
 
-dotnet publish "PvzLauncherRemake\PvzLauncherRemake.csproj" -c Release -o "publish\bin"
-dotnet publish "ExecuteShell\ExecuteShell.csproj" -c Release -o "publish"
-dotnet publish "StdUpdateService\StdUpdateService.csproj" -c Release -o "publish\bin"
+dotnet publish "src\PvzLauncherRemake\PvzLauncherRemake.csproj" -c Release -o "publish\bin"
+dotnet publish "src\ExecuteShell\ExecuteShell.csproj" -c Release -o "publish"
+dotnet publish "src\StdUpdateService\StdUpdateService.csproj" -c Release -o "publish\bin"
 
 del "publish\PvzLauncher.deps.json"
 del "publish\PvzLauncher.pdb"

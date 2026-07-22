@@ -4,7 +4,7 @@
     <BuildType Name="Release" />
     <BuildType Name="CI" />
   </Configurations>
-  <Project Path="ExecuteShell/ExecuteShell.csproj" Id="a74f5f50-81b3-4979-b8a7-c1a9eb072f56" />
-  <Project Path="PvzLauncherRemake/PvzLauncherRemake.csproj" />
-  <Project Path="StdUpdateService/StdUpdateService.csproj" />
+  <Project Path="src/ExecuteShell/ExecuteShell.csproj" Id="a74f5f50-81b3-4979-b8a7-c1a9eb072f56" />
+  <Project Path="src/PvzLauncherRemake/PvzLauncherRemake.csproj" />
+  <Project Path="src/StdUpdateService/StdUpdateService.csproj" />
 </Solution>

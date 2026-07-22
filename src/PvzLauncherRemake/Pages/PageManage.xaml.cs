@@ -1,0 +1,604 @@
+﻿using HuaZi.Library.Json;
+using ModernWpf.Controls;
+using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.Utils.Configuration;
+using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.UI;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
+
+
+namespace PvzLauncherRemake.Pages
+{
+    /// <summary>
+    /// PageManage.xaml 的交互逻辑
+    /// </summary>
+    public partial class PageManage : ModernWpf.Controls.Page
+    {
+        public void StartLoad() { grid_Loading.Visibility = Visibility.Visible; grid_Main.IsEnabled = false; grid_Main.Effect = new BlurEffect { Radius = 10 }; }
+        public void EndLoad() { grid_Loading.Visibility = Visibility.Hidden; grid_Main.IsEnabled = true; grid_Main.Effect = null; }
+
+        private void SetNoneTipVisb()
+        {
+            grid_NoneGame.Visibility = Visibility.Hidden;
+            grid_NoneTrainer.Visibility = Visibility.Hidden;
+            grid_NoneGame.IsEnabled = false;
+            grid_NoneTrainer.IsEnabled = false;
+
+            if (Globals.Caches.GameList.Count <= 0)
+            {
+                grid_NoneGame.Visibility = Visibility.Visible;
+                grid_NoneGame.IsEnabled = true;
+            }
+            if (Globals.Caches.TrainerList.Count <= 0)
+            {
+                grid_NoneTrainer.Visibility = Visibility.Visible;
+                grid_NoneTrainer.IsEnabled = true;
+            }
+        }
+
+
+
+        //tab动画
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsInitialized)
+            {
+                if (e.OriginalSource != sender)
+                    return;
+
+                var selectItem = ((TabControl)sender).SelectedContent;
+                Grid animControl = null!;
+
+                if (selectItem is Grid)
+                {
+                    animControl = (Grid)selectItem;
+                }
+                else
+                {
+                    return;
+                }
+
+                animControl.BeginAnimation(MarginProperty, null);
+                animControl.BeginAnimation(OpacityProperty, null);
+
+                animControl.Margin = new Thickness(0, 25, 0, 0);
+                animControl.Opacity = 0;
+
+                var margniAnim = new ThicknessAnimation
+                {
+                    To = new Thickness(0),
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+                var opacAnim = new DoubleAnimation
+                {
+                    To = 1,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+                };
+                animControl.BeginAnimation(MarginProperty, margniAnim);
+                animControl.BeginAnimation(OpacityProperty, opacAnim);
+            }
+        }
+
+        private void LoadGameList()
+        {
+            stackPanel_Game.Children.Clear();
+
+            //游戏库里有东西才加
+            if (Globals.Caches.GameList.Count > 0)
+            {
+
+                //添加卡片
+                foreach (var game in Globals.Caches.GameList)
+                {
+                    //定义卡片
+                    var card = new UserCard
+                    {
+                        Title = game.GameInfo.Name,
+                        Icon = GameIconConverter.ParseStringToGameIcons(game.GameInfo.Icon),
+                        isActive = game.GameInfo.Name == Globals.Config.CurrentGame ? true : false,
+                        Version = $"{game.GameInfo.Version}",
+                        Background = System.Windows.Media.Brushes.Transparent,
+                        Tag = game,
+                        Margin = new Thickness(0, 0, 0, 5),
+                        isVirtual = game.GameInfo.GamePath != null
+                    };
+                    switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
+                    {
+                        case "Single":
+                            card.MouseLeftButtonUp += SelectGame;
+                            break;
+                        case "Double":
+                            card.MouseDoubleClick += SelectGame;
+                            break;
+                    }
+                    card.MouseRightButtonUp += SetGame;
+
+                    stackPanel_Game.Children.Add(card);//添加
+
+                }
+            }
+            else
+            {
+
+                Globals.Config.CurrentGame = null!;
+            }
+        }
+
+        private void LoadTrainerList()
+        {
+            stackPanel_Trainer.Children.Clear();
+
+            //添加修改器
+            //游戏库里有东西才加
+            if (Globals.Caches.TrainerList.Count > 0)
+            {
+
+                //添加卡片
+                foreach (var trainer in Globals.Caches.TrainerList)
+                {
+                    //定义卡片
+                    var card = new UserCard
+                    {
+                        Title = trainer.Name,
+                        Icon = GameIconConverter.ParseStringToGameIcons(trainer.Icon),
+                        isActive = trainer.Name == Globals.Config.CurrentTrainer ? true : false,
+                        Version = $"{trainer.Version}", //拼接，示例:"英文原版 1.0.0.1051"
+                        Background = System.Windows.Media.Brushes.Transparent,
+                        Tag = trainer,
+                        Margin = new Thickness(0, 0, 0, 5)
+                    };
+                    switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
+                    {
+                        case "Single":
+                            card.MouseLeftButtonUp += SelectTrainer;
+                            break;
+                        case "Double":
+                            card.MouseDoubleClick += SelectTrainer;
+                            break;
+                    }
+                    card.MouseRightButtonUp += SetTrainer;
+
+                    stackPanel_Trainer.Children.Add(card);//添加
+
+                }
+            }
+            else
+            {
+
+                Globals.Config.CurrentTrainer = null!;
+            }
+        }
+
+        public PageManage()
+        {
+            InitializeComponent();
+            Loaded += (async (s, e) =>
+            {
+                try
+                {
+
+                    StartLoad();
+
+                    //加载列表
+                    GameManager.GameListLoaded += () => { LoadGameList(); SetNoneTipVisb(); };
+                    GameManager.TrainerListLoaded += () => { LoadTrainerList(); SetNoneTipVisb(); };
+
+                    await GameManager.LoadGameListAsync();
+                    await GameManager.LoadTrainerListAsync();
+
+
+
+
+
+
+
+
+                    EndLoad();
+
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
+            });
+        }
+
+        //选择游戏
+        private void SelectGame(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                SnackbarManager.Show(new SnackbarContent
+                {
+                    Title = "选择游戏",
+                    Content = $"已选择 \"{((UserCard)sender).Title}\" 作为启动游戏",
+                    Type = SnackbarType.Info
+                });
+
+                //更新控件
+                foreach (var card in stackPanel_Game.Children)
+                {
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
+                    ((UserCard)card).SetLabels();
+                }
+                foreach (var card in stackPanel_Search.Children)
+                {
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
+                    ((UserCard)card).SetLabels();
+                }
+
+                Globals.Config.CurrentGame = $"{((UserCard)sender).Title}";
+                ConfigManager.SaveConfig();
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
+        }
+
+        //选择修改器
+        private void SelectTrainer(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                SnackbarManager.Show(new SnackbarContent
+                {
+                    Title = "选择修改器",
+                    Content = $"已选择 \"{((UserCard)sender).Title}\" 作为当前修改器",
+                    Type = SnackbarType.Info
+                });
+
+                //更新控件
+                foreach (var card in stackPanel_Trainer.Children)
+                {
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
+                    ((UserCard)card).SetLabels();
+                }
+                foreach (var card in stackPanel_Search.Children)
+                {
+                    ((UserCard)card).isActive = (((UserCard)card).Title == ((UserCard)sender).Title);
+                    ((UserCard)card).SetLabels();
+                }
+
+
+                Globals.Config.CurrentTrainer = $"{((UserCard)sender).Title}";
+                ConfigManager.SaveConfig();
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
+        }
+
+        //设置游戏
+        private void SetGame(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                this.NavigationService.Navigate(new PageManageSet((JsonGameInfo.Root)((UserCard)sender).Tag));
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
+        }
+
+        //设置修改器
+        private async void SetTrainer(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var trainerConfig = (JsonTrainerInfo.Root)(((UserCard)sender).Tag);
+
+
+                //控件
+                var buttonDelete = new Button
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Margin = new Thickness(0, 0, 0, 10),
+                    Foreground = new SolidColorBrush(Color.FromRgb(255, 100, 100)),
+                    Content = new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal,
+                        Children =
+                        {
+                            new ModernWpf.Controls.PathIcon
+                            {
+                                Width=15,
+                                Height=15,
+                                Data=Geometry.Parse("M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"),
+                                Margin=new Thickness(0,0,5,0)
+                            },
+                            new TextBlock
+                            {
+                                Text="删除修改器"
+                            }
+                        }
+                    }
+                };
+                var buttonRename = new Button
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Margin = new Thickness(0, 0, 0, 10),
+                    Content = new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal,
+                        Children =
+                        {
+                            new ModernWpf.Controls.PathIcon
+                            {
+                                Width=15,
+                                Height=15,
+                                Data=Geometry.Parse("M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"),
+                                Margin=new Thickness(0,0,5,0)
+                            },
+                            new TextBlock
+                            {
+                                Text="修改名称"
+                            }
+                        }
+                    }
+                };
+                var buttonOpenFolder = new Button
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Margin = new Thickness(0, 0, 0, 10),
+                    Content = new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal,
+                        Children =
+                        {
+                            new ModernWpf.Controls.PathIcon
+                            {
+                                Width=15,
+                                Height=15,
+                                Data=Geometry.Parse("M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z"),
+                                Margin=new Thickness(0,0,5,0)
+                            },
+                            new TextBlock
+                            {
+                                Text="打开文件夹"
+                            }
+                        }
+                    }
+                };
+
+                var dialog = new ContentDialog
+                {
+                    Title = "操作",
+                    Content = new StackPanel
+                    {
+                        Children =
+                        {
+                            buttonDelete,buttonRename,buttonOpenFolder
+                        }
+                    },
+                    CloseButtonText = "关闭",
+                    DefaultButton = ContentDialogButton.Close
+                };
+
+                //删除
+                buttonDelete!.Click += (async (s, e) =>
+                {
+
+                    dialog.Hide();
+
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "确认删除",
+                        Content = $"\"{trainerConfig.Name}\" 将被删除，一旦删除将永久消失(真的很久!)\n\n(此操作仅有这一次确认机会，点击删除按钮立即执行删除程序！)",
+                        PrimaryButtonText = "删除",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Close
+                    }, (async () =>
+                    {
+
+
+                        await Task.Run(() => Directory.Delete(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name), true));
+
+                        await GameManager.LoadTrainerListAsync();
+
+                        if (Globals.Caches.TrainerList.Count > 0 && Globals.Config.CurrentTrainer == trainerConfig.Name)
+                        {
+                            Globals.Config.CurrentTrainer = Globals.Caches.TrainerList[0].Name;
+                        }
+                        else
+                        {
+                            Globals.Config.CurrentTrainer = null!;
+                        }
+                        ConfigManager.SaveConfig();
+                        SnackbarManager.Show(new SnackbarContent
+                        {
+                            Title = "删除成功",
+                            Content = $"\"{trainerConfig.Name}\" 已从您的修改器库内移除!",
+                            Type = SnackbarType.Success
+                        });
+
+                        this.NavigationService.Refresh();
+                    }));
+                });
+
+                //重命名
+                buttonRename!.Click += (async (s, e) =>
+                {
+
+                    dialog.Hide();
+                    var textBox = new TextBox
+                    {
+                        Text = trainerConfig.Name
+                    };
+
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "重命名",
+                        Content = textBox,
+                        PrimaryButtonText = "确定",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() =>
+                    {
+                        if (textBox.Text != null)
+                        {
+                            if (!Directory.Exists(Path.Combine(Globals.Directories.TrainerDirectory, textBox.Text)))
+                            {
+                                string lastName = trainerConfig.Name;
+                                trainerConfig.Name = textBox.Text;
+                                Directory.Move(Path.Combine(Globals.Directories.TrainerDirectory, lastName), Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name));
+                                Json.WriteJson(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
+                                SnackbarManager.Show(new SnackbarContent
+                                {
+                                    Title = "更名成功",
+                                    Content = $"修改器已更名为: {trainerConfig.Name}",
+                                    Type = SnackbarType.Success
+                                });
+
+
+
+                                if (Globals.Config.CurrentTrainer == lastName)
+                                    Globals.Config.CurrentTrainer = trainerConfig.Name;
+
+                                this.NavigationService.Refresh();
+                            }
+                            else
+                            {
+
+                                SnackbarManager.Show(new SnackbarContent
+                                {
+                                    Title = "更名失败",
+                                    Content = $"库内已有与 \"{textBox.Text}\" 同名修改器！",
+                                    Type = SnackbarType.Error
+                                });
+                            }
+                        }
+                        else
+                        {
+
+                            SnackbarManager.Show(new SnackbarContent
+                            {
+                                Title = "更名失败",
+                                Content = "新名称为空",
+                                Type = SnackbarType.Error
+                            });
+                        }
+                    }));
+                });
+
+                //打开文件夹
+                buttonOpenFolder!.Click += ((s, e) =>
+                {
+                    dialog.Hide();
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name),
+                        UseShellExecute = true
+                    });
+                });
+
+                await DialogManager.ShowDialogAsync(dialog);
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
+        }
+
+        //导入游戏
+        //我已经懒得碰这坨该死的屎山了，能跑就完事了
+        // :(
+        //幸运的是，我现在已经开始重构他了！！(2026-1-3)
+        private async void button_ImportGame_Click(object sender, RoutedEventArgs e)
+        {
+            StartLoad();
+
+            await GameManager.ImportGameOrTrainer(((progress) => textBlock_Loading.Text = $"正在复制: {progress}"));
+
+            SetNoneTipVisb();
+            NavigationService.Refresh();
+
+            EndLoad();
+        }
+
+
+
+
+        //搜索
+        private void button_Search_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (stackPanel_Game.Children.Count <= 0 && stackPanel_Trainer.Children.Count <= 0)
+                    return;
+
+                stackPanel_Search.Children.Clear();
+
+                var allItem = new List<UserCard>();
+                allItem.Clear();
+
+                foreach (var item in stackPanel_Game.Children)
+                    if (item is UserCard card)
+                        allItem.Add(card);
+                foreach (var item in stackPanel_Trainer.Children)
+                    if (item is UserCard card)
+                        allItem.Add(card);
+
+
+
+                //寻找
+                foreach (var item in allItem)
+                {
+                    if (item.Title.Contains(textBox_Search.Text))
+                    {
+                        var card = new UserCard
+                        {
+                            Title = item.Title,
+                            Icon = item.Icon,
+                            isActive = item.isActive,
+                            Version = item.Version,
+                            Background = item.Background,
+                            Tag = item.Tag,
+                            Margin = item.Margin
+                        };
+                        if (card.Tag is JsonGameInfo.Root)
+                        {
+                            card.MouseDoubleClick += SelectGame;
+                            card.MouseRightButtonUp += SetGame;
+                        }
+                        else if (card.Tag is JsonTrainerInfo.Root)
+                        {
+                            card.MouseDoubleClick += SelectTrainer;
+                            card.MouseRightButtonUp += SetTrainer;
+                        }
+
+                        stackPanel_Search.Children.Add(card);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
+        }
+
+        private void textBox_Search_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                button_Search_Click(button_Search, null!);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) => NavigationController.Navigate(NavigaionPages.Download);
+    }
+}

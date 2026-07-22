@@ -23,21 +23,21 @@ jobs:
       - name: Build PvzLauncher
         run: >
           dotnet publish 
-          "PvzLauncherRemake\PvzLauncherRemake.csproj" 
+          "src\PvzLauncherRemake\PvzLauncherRemake.csproj" 
           -c CI 
           -o "CI\bin"
 
       - name: Build ExecuteShell
         run: >
           dotnet publish 
-          "ExecuteShell\ExecuteShell.csproj" 
+          "src\ExecuteShell\ExecuteShell.csproj" 
           -c CI 
           -o "CI"
 
       - name: Build UpdateService
         run: >
           dotnet publish 
-          "StdUpdateService\StdUpdateService.csproj" 
+          "src\StdUpdateService\StdUpdateService.csproj" 
           -c CI 
           -o "CI\bin"
 
