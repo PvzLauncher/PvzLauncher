@@ -16,25 +16,15 @@ namespace PvzLauncherRemake.Utils.UI
             if (e.OriginalSource != sender)
                 return;
 
-            var selectItem = ((TabControl)sender).SelectedContent;
-            UIElement animControl = null!;
-
-            if (selectItem is Grid)
-                animControl = (Grid)selectItem;
-            else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid)
-                animControl = (Grid)tabcontrol.SelectedContent;
-            else if (selectItem is UserScrollViewer usv)
-                animControl = (UserScrollViewer)selectItem;
-            else
-                return;
+            var selectItem = (UIElement)((TabControl)sender).SelectedContent;
 
             var tt = new TranslateTransform { Y = 25 };
-            animControl.RenderTransform = tt;
+            selectItem.RenderTransform = tt;
 
             tt.BeginAnimation(TranslateTransform.YProperty, null);
-            animControl.BeginAnimation(UIElement.OpacityProperty, null);
+            selectItem.BeginAnimation(UIElement.OpacityProperty, null);
 
-            animControl.Opacity = 0;
+            selectItem.Opacity = 0;
 
             var margniAnim = new DoubleAnimation
             {
@@ -49,7 +39,7 @@ namespace PvzLauncherRemake.Utils.UI
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             };
             tt.BeginAnimation(TranslateTransform.YProperty, margniAnim);
-            animControl.BeginAnimation(UIElement.OpacityProperty, opacAnim);
+            selectItem.BeginAnimation(UIElement.OpacityProperty, opacAnim);
         }
     }
 }
