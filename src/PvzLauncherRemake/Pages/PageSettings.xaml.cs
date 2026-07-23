@@ -287,35 +287,50 @@ namespace PvzLauncherRemake.Pages
         //tabControl动画
         private async void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!isInitialized)
+                return;
+
             if (e.OriginalSource != sender)
                 return;
 
-            if (IsInitialized)
+            var selectItem = ((TabControl)sender).SelectedContent;
+            Grid animControl = null!;
+
+            if (selectItem is Grid)
             {
-                var tabItem = (ScrollViewer)tabControl.SelectedContent;
-
-
-                tabItem.BeginAnimation(MarginProperty, null);
-                tabItem.BeginAnimation(OpacityProperty, null);
-
-                tabItem.Margin = new Thickness(0, 25, 0, 0);
-                tabItem.Opacity = 0;
-
-                var margniAnim = new ThicknessAnimation
-                {
-                    To = new Thickness(0),
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                var opacAnim = new DoubleAnimation
-                {
-                    To = 1,
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                tabItem.BeginAnimation(MarginProperty, margniAnim);
-                tabItem.BeginAnimation(OpacityProperty, opacAnim);
+                animControl = (Grid)selectItem;
             }
+            else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid)
+            {
+                animControl = (Grid)tabcontrol.SelectedContent;
+            }
+            else
+            {
+                return;
+            }
+
+            var tt = new TranslateTransform { Y = 25 };
+            animControl.RenderTransform = tt;
+
+            tt.BeginAnimation(TranslateTransform.YProperty, null);
+            animControl.BeginAnimation(OpacityProperty, null);
+
+            animControl.Opacity = 0;
+
+            var margniAnim = new DoubleAnimation
+            {
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            var opacAnim = new DoubleAnimation
+            {
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            tt.BeginAnimation(TranslateTransform.YProperty, margniAnim);
+            animControl.BeginAnimation(OpacityProperty, opacAnim);
         }
 
         #region 启动器设置

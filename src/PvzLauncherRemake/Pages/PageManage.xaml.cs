@@ -62,20 +62,26 @@ namespace PvzLauncherRemake.Pages
                 {
                     animControl = (Grid)selectItem;
                 }
+                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid)
+                {
+                    animControl = (Grid)tabcontrol.SelectedContent;
+                }
                 else
                 {
                     return;
                 }
 
-                animControl.BeginAnimation(MarginProperty, null);
+                var tt = new TranslateTransform { Y = 25 };
+                animControl.RenderTransform = tt;
+
+                tt.BeginAnimation(TranslateTransform.YProperty, null);
                 animControl.BeginAnimation(OpacityProperty, null);
 
-                animControl.Margin = new Thickness(0, 25, 0, 0);
                 animControl.Opacity = 0;
 
-                var margniAnim = new ThicknessAnimation
+                var margniAnim = new DoubleAnimation
                 {
-                    To = new Thickness(0),
+                    To = 0,
                     Duration = TimeSpan.FromMilliseconds(500),
                     EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
                 };
@@ -85,7 +91,7 @@ namespace PvzLauncherRemake.Pages
                     Duration = TimeSpan.FromMilliseconds(500),
                     EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
                 };
-                animControl.BeginAnimation(MarginProperty, margniAnim);
+                tt.BeginAnimation(TranslateTransform.YProperty, margniAnim);
                 animControl.BeginAnimation(OpacityProperty, opacAnim);
             }
         }
