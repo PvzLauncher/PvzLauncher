@@ -53,7 +53,7 @@ namespace PvzLauncherRemake.Utils.UI
         public string Title { get; set; }
         public string Content { get; set; }
         public SnackbarType Type { get; set; } = SnackbarType.Info;
-        public TimeSpan TimeOut { get; set; } = TimeSpan.FromSeconds(2);
+        public TimeSpan TimeOut { get; set; } = TimeSpan.FromSeconds(5);
     }
 
     public enum SnackbarType
