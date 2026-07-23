@@ -16,7 +16,7 @@
 
     <Grid>
         <Grid x:Name="grid_Main">
-            <TabControl x:Name="tabControl" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_SelectionChanged">
+            <TabControl x:Name="tabControl" Style="{StaticResource TabControlPivotStyle}" >
                 <!--游戏管理-->
                 <TabItem Header="{lex:Loc GameManage}">
                     <Grid>

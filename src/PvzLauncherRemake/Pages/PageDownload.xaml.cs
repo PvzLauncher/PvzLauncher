@@ -85,54 +85,6 @@ namespace PvzLauncherRemake.Pages
             grid_Loading.Visibility = Visibility.Hidden;
         }
 
-        private void tabControl_Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (IsInitialized)
-            {
-                if (e.OriginalSource != sender)
-                    return;
-
-                var selectItem = ((TabControl)sender).SelectedContent;
-                Grid animControl = null!;
-
-                if (selectItem is Grid)
-                {
-                    animControl = (Grid)selectItem;
-                }
-                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid)
-                {
-                    animControl = (Grid)tabcontrol.SelectedContent;
-                }
-                else
-                {
-                    return;
-                }
-
-                var tt = new TranslateTransform { Y = 25 };
-                animControl.RenderTransform = tt;
-
-                tt.BeginAnimation(TranslateTransform.YProperty, null);
-                animControl.BeginAnimation(OpacityProperty, null);
-
-                animControl.Opacity = 0;
-
-                var margniAnim = new DoubleAnimation
-                {
-                    To = 0,
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                var opacAnim = new DoubleAnimation
-                {
-                    To = 1,
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                tt.BeginAnimation(TranslateTransform.YProperty, margniAnim);
-                animControl.BeginAnimation(OpacityProperty, opacAnim);
-            }
-        }
-
 
         public PageDownload()
         {
@@ -182,6 +134,9 @@ namespace PvzLauncherRemake.Pages
                 FileName = "https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml",
                 UseShellExecute = true
             }));
+
+            tabControl_Main.SelectionChanged += TabControlAnimation.TabControlAnimtion;
+            tabControl_Sub.SelectionChanged += TabControlAnimation.TabControlAnimtion;
         }
 
         private async void UserCard_Click(object sender, RoutedEventArgs e)
