@@ -78,6 +78,7 @@
                 <ui:HyperlinkButton NavigateUri="https://github.com/dotnet/wpf" Content="Windows Presentation Foundation - UI框架" HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/Kinnara/ModernWpf" Content="ModernWpfUI - 主UI库"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/lepoco/wpfui" Content="WPF-UI - 辅助UI库"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/ookii-dialogs/ookii-dialogs-wpf" Content="Ookii.Dialogs.Wpf - 对话框"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/TwilightLemon/FluentScrollViewer" Content="TwilightLemon/FluentScrollViewer - ScrollViewer平滑滚动"  HorizontalAlignment="Center"/>
 
                 <!--程序-->
@@ -85,6 +86,10 @@
                 <ui:HyperlinkButton NavigateUri="https://github.com/qaiu/netdisk-fast-download" Content="Netdisk-fast-download - 网盘直链解析"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" Content="Newtonsoft.Json - Json读写"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://github.com/adamhathcock/sharpcompress" Content="SharpCompress - 压缩包操作"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/HavenDV/H.Hooks" Content="H.Hooks - 低级键盘钩子"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/HavenDV/H.InputSimulator" Content="H.InputSimulator - 键鼠模拟"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/thomaslevesque/NHotkey" Content="NHotKey.Wpf - 全局热键管理"  HorizontalAlignment="Center"/>
+                <ui:HyperlinkButton NavigateUri="https://github.com/whistyun/MdXaml" Content="MdXaml - Markdown渲染"  HorizontalAlignment="Center"/>
 
                 <!--意见反馈-->
                 <TextBlock Text="{lex:Loc List_Feedback}" FontSize="15" FontWeight="Bold"  HorizontalAlignment="Center"/>
