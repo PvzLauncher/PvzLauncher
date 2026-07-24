@@ -315,6 +315,31 @@ namespace PvzLauncherRemake.Windows
                     }
                 }), System.Windows.Threading.DispatcherPriority.Normal);
             });
+
+            bool _isClose = false;
+
+            Closing += async (s, e) =>
+            {
+                if (_isClose)
+                    return;
+
+                if (GameManager.IsGameRuning && Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
+                {
+                    e.Cancel = true;
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "警告",
+                        Content = "游戏运行时关闭启动器会导致隔离存档与当前存档不同步，在下次启动游戏时会丢失进度。确定退出？",
+                        PrimaryButtonText = "留在启动器",
+                        CloseButtonText = "仍然退出",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, null, null, () =>
+                    {
+                        _isClose = true;
+                        this.Close();
+                    });
+                }
+            };
         }
 
         private void navView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
