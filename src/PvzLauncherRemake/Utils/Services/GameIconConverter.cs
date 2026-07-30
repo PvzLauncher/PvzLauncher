@@ -29,6 +29,7 @@ namespace PvzLauncherRemake.Utils.Services
         Graft,//graft
         Wafer,//wafer
         Gardendless,//ge
+        Ecology,//ecology
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -69,6 +70,7 @@ namespace PvzLauncherRemake.Utils.Services
                 case "graft": return GameIcons.Graft;
                 case "wafer": return GameIcons.Wafer;
                 case "ge": return GameIcons.Gardendless;
+                case "ecology": return GameIcons.Ecology;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -113,6 +115,7 @@ namespace PvzLauncherRemake.Utils.Services
                 case GameIcons.Graft: return "graft";
                 case GameIcons.Wafer: return "wafer";
                 case GameIcons.Gardendless: return "ge";
+                case GameIcons.Ecology: return "ecology";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -158,6 +161,7 @@ namespace PvzLauncherRemake.Utils.Services
                 case GameIcons.Graft: return new GameIconGraft();
                 case GameIcons.Wafer: return new GameIconWafer();
                 case GameIcons.Gardendless: return new GameIconGardendless();
+                case GameIcons.Ecology: return new GameIconEcology();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
