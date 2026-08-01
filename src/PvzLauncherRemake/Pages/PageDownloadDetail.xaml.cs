@@ -184,6 +184,30 @@ namespace PvzLauncherRemake.Pages
             }, (() => confirm = true));
             if (!confirm) return;*/
 
+            if (Info.Size >= 500)
+            {
+                bool isReturn = false;
+                await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "警告",
+                    Content = $"此游戏体积较大 ({Info.Size} MB) 启动器下载很可能掉速或者失败。建议手动前往浏览器下载",
+                    PrimaryButtonText = "手动前往浏览器下载",
+                    SecondaryButtonText = "仍然使用启动器下载",
+                    DefaultButton = ContentDialogButton.Primary
+                }, () =>
+                {
+                    button_Manual_Click(button_Manual, null!);
+                    isReturn = true;
+                });
+
+                if (isReturn)
+                    return;
+            }
+
+
+
+
+
             //处理同名
             string? savePath = await GameManager.ResolveSameName(Info.Name, BaseDirectory);
 
