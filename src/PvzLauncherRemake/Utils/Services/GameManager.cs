@@ -445,6 +445,10 @@ namespace PvzLauncherRemake.Utils.Services
             else
                 gameExePath = System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
 
+            //切换存档
+            if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".save")))
+                await GameManager.SwitchGameSave(gameInfo);
+
             //定义Process
             GameProcess = new Process
             {
@@ -464,7 +468,6 @@ namespace PvzLauncherRemake.Utils.Services
             IsGameRuning = true;
 
             //启动后操作
-
             switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "Close":
@@ -515,6 +518,9 @@ namespace PvzLauncherRemake.Utils.Services
                     Application.Current.MainWindow.Visibility = Visibility.Visible; break;
             }
 
+            //保存存档
+            if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Globals.Directories.SaveDirectory))
+                await GameManager.SaveGameSave(gameInfo);            
 
             //保存游玩时间
             gameInfo.Record.PlayTime = gameInfo.Record.PlayTime + ((long)(DateTimeOffset.Now - LatestGameLaunchTime!).Value.TotalSeconds);

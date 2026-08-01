@@ -312,14 +312,6 @@ namespace PvzLauncherRemake.Pages
                     if (Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
 
-                    //切换存档
-                    if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".save")))
-                    {
-
-                        await GameManager.SwitchGameSave(currentGameInfo);
-
-                    }
-
                     //启动游戏
                     GameManager.LaunchGame(currentGameInfo, (async () =>
                     {
@@ -331,14 +323,6 @@ namespace PvzLauncherRemake.Pages
                         });
 
                         textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "LaunchGame");
-
-                        //保存存档
-                        if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Globals.Directories.SaveDirectory))
-                        {
-
-                            await GameManager.SaveGameSave(currentGameInfo);
-
-                        }
                     }));
 
                     //启动修改器(如果有)
