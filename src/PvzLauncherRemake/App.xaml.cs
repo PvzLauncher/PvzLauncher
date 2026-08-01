@@ -24,8 +24,12 @@ namespace PvzLauncherRemake
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
 
-            if (DateTimeOffset.Now.Month == 1 && DateTimeOffset.Now.Day == 1)
-                ThemeManager.Current.AccentColor = Color.FromRgb(255, 0, 0);
+            //特殊日期
+            var now = DateTimeOffset.Now;
+            if (now.Month == 1 && now.Day == 1)//元旦
+                ThemeManager.Current.AccentColor = Color.FromRgb(255, 150, 150);
+            if (now.Month == 4 && now.Day == 1)//愚人节
+                ThemeManager.Current.AccentColor = Color.FromRgb(150, 255, 150);
 
             //初始化根目录
             if (!Directory.Exists(Globals.Directories.RootDirectory))
