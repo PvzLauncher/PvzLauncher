@@ -53,6 +53,31 @@
                     <Button x:Name="button_FileDownload_DOWNLOAD" Grid.Column="1" Content="Download" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="杂项测试">
+                <ctrl:UserScrollViewer>
+                    <WrapPanel>
+                        <Button x:Name="button_flyoutTEST" Margin="10" Content="Flyout" Style="{DynamicResource AccentButtonStyle}">
+                            <ui:FlyoutService.Flyout>
+                                <ui:Flyout x:Name="flyout1">
+                                    <StackPanel>
+                                        <TextBlock Text="I can eat glass, it does not hurt me"/>
+                                        <Button Content="Eat"/>
+                                    </StackPanel>
+                                </ui:Flyout>
+                            </ui:FlyoutService.Flyout>
+                        </Button>
+
+                        <ui:RatingControl x:Name="rating" Margin="10"/>
+
+                        <ui:ThemeShadowChrome Margin="10">
+                            <Grid>
+                                <Rectangle Fill="White" Width="80" Height="80"/>
+                                <TextBlock Text="SHADOW!" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                            </Grid>
+                        </ui:ThemeShadowChrome>
+                    </WrapPanel>
+                </ctrl:UserScrollViewer>
+            </TabItem>
         </TabControl>
     </Grid>
 </ui:Page>

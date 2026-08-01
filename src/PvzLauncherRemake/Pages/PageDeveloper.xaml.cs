@@ -122,6 +122,15 @@ namespace PvzLauncherRemake.Pages
                     ErrorReportDialog.Show(ex);
                 }
             });
+
+            button_flyoutTEST.Click += (s, e) => flyout1.ShowAt(button_flyoutTEST);
+
+            rating.ValueChanged += (s, e) => SnackbarManager.Show(new SnackbarContent
+            {
+                Title = "result",
+                Content = $"{rating.Value}",
+                Type = SnackbarType.Success
+            });
         }
     }
 }
