@@ -187,7 +187,7 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 赞助 的本地化字符串。
+        ///   查找类似 支持开发者 的本地化字符串。
         /// </summary>
         public static string Sponsor {
             get {

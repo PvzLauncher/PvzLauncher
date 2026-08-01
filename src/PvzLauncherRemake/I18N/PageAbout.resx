@@ -134,7 +134,7 @@
     <value>检查更新</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>赞助</value>
+    <value>支持开发者</value>
   </data>
   <data name="SponsorList" xml:space="preserve">
     <value>自PvzLauncher发布以来的所有赞助者 (按赞助时间排序)</value>
