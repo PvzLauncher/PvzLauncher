@@ -150,4 +150,7 @@
   <data name="Record_FirstPlay" xml:space="preserve">
     <value>保管時間</value>
   </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>収蔵</value>
+  </data>
 </root>

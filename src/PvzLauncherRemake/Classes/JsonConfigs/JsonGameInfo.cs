@@ -27,6 +27,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("icon")]
             public string Icon { get; set; }
 
+            [JsonProperty("is_favorite")]
+            public bool IsFavorite { get; set; } = false;
+
             [JsonProperty("execute_name")]
             public string ExecuteName { get; set; }
 

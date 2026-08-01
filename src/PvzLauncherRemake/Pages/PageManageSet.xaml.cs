@@ -39,6 +39,8 @@ namespace PvzLauncherRemake.Pages
         public void EndLoad() => StartLoad(false);
 
 
+        private void SaveConfig() => Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+
         public PageManageSet(JsonGameInfo.Root gameInfo)
         {
             InitializeComponent();
@@ -52,7 +54,9 @@ namespace PvzLauncherRemake.Pages
                     userGameCard.Title = GameInfo.GameInfo.Name;
                     userGameCard.Version = GameInfo.GameInfo.Version;
                     userGameCard.Icon = GameIconConverter.ParseStringToGameIcons(GameInfo.GameInfo.Icon);
+                    userGameCard.IsFavorite = GameInfo.GameInfo.IsFavorite;
 
+                    checkBox_favorite.IsChecked = GameInfo.GameInfo.IsFavorite;
 
                     //判断游玩时间显示
                     string? playTimeUnit = null;
@@ -266,8 +270,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     GameInfo.GameInfo.Version = textBox.Text;
                     GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Grid)comboBox.SelectedItem).Tag);
-                    Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-
+                    SaveConfig();
                     SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "成功",
@@ -332,7 +335,7 @@ namespace PvzLauncherRemake.Pages
                         if (listBox.SelectedItem != null)
                         {
                             GameInfo.GameInfo.ExecuteName = (string)listBox.SelectedItem;
-                            Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+                            SaveConfig();
                             SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "成功",
@@ -389,7 +392,7 @@ namespace PvzLauncherRemake.Pages
                             string lastName = GameInfo.GameInfo.Name;
                             GameInfo.GameInfo.Name = textBox.Text;
                             Directory.Move(Path.Combine(Globals.Directories.GameDirectory, lastName), Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name));
-                            Json.WriteJson(Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+                            SaveConfig();
                             SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "更名成功",
@@ -427,6 +430,13 @@ namespace PvzLauncherRemake.Pages
             {
                 ErrorReportDialog.Show(ex);
             }
+        }
+
+        private void checkBox_favorite_Click(object sender, RoutedEventArgs e)
+        {
+            GameInfo.GameInfo.IsFavorite = checkBox_favorite.IsChecked == true ? true : false;
+            SaveConfig();
+            this.NavigationService.Refresh();
         }
     }
 }

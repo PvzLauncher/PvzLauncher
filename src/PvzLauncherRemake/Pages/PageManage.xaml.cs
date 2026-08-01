@@ -66,7 +66,8 @@ namespace PvzLauncherRemake.Pages
                         Background = System.Windows.Media.Brushes.Transparent,
                         Tag = game,
                         Margin = new Thickness(0, 0, 0, 5),
-                        isVirtual = game.GameInfo.GamePath != null
+                        isVirtual = game.GameInfo.GamePath != null,
+                        IsFavorite = game.GameInfo.IsFavorite
                     };
                     switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
                     {
@@ -79,7 +80,10 @@ namespace PvzLauncherRemake.Pages
                     }
                     card.MouseRightButtonUp += SetGame;
 
-                    stackPanel_Game.Children.Add(card);//添加
+                    if (game.GameInfo.IsFavorite)
+                        stackPanel_Game.Children.Insert(0, card);
+                    else
+                        stackPanel_Game.Children.Add(card);//添加
 
                 }
             }
