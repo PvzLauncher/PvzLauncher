@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    xml:space="preserve"
-   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
    sodipodi:docname="Icon.full.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,14 +25,14 @@
    inkscape:deskcolor="#d1d1d1"
    inkscape:document-units="px"
    inkscape:zoom="0.75958737"
-   inkscape:cx="152.05624"
-   inkscape:cy="194.84263"
+   inkscape:cx="242.89503"
+   inkscape:cy="181.67759"
    inkscape:window-width="1366"
    inkscape:window-height="715"
    inkscape:window-x="-8"
    inkscape:window-y="-8"
    inkscape:window-maximized="1"
-   inkscape:current-layer="layer2" />
+   inkscape:current-layer="layer7" />
   <defs
    id="defs1" />
   <g
@@ -67,9 +67,9 @@
    inkscape:label="left_eye">
       <path
    style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-   d="m 266.24,334.08 c 4.47978,0.91872 23.69618,-2.8197 26.76364,-4.53818 1.52029,-4.0374 1.24009,-17.6268 -2.8492,-27.80264 -2.2738,-5.65816 -6.557,-10.5876 -12.39444,-14.43736 -5.98205,0.88475 -11.38521,2.25932 -13.38182,6.51637 -0.39099,4.798 3.57441,21.2108 15.36,32.9309 -6.9547,1.01137 -13.29239,4.20658 -13.49818,7.33091 z"
+   d="m 266.24,334.08 c 4.47978,0.91872 23.69618,-2.8197 26.76364,-4.53818 1.52029,-4.0374 1.24009,-17.6268 -2.8492,-27.80264 -2.2738,-5.65816 -6.557,-10.5876 -12.39444,-14.43736 -1.57909,-1.6032 -6.26069,-2.59266 -9.3688,-0.85501 -2.674,1.49495 -3.92681,5.47876 -4.01302,7.37138 -0.39099,4.798 3.57441,21.2108 15.36,32.9309 -6.9547,1.01137 -13.29239,4.20658 -13.49818,7.33091 z"
    id="path10"
-   sodipodi:nodetypes="ccscccc" />
+   sodipodi:nodetypes="ccscsccc" />
       <path
    style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
    d="m 275.66546,293.58546 c -2.58234,0.4713 -4.14869,3.19428 -4.07273,5.81818 0.0849,2.9313 2.19175,5.54345 5.12,5.70182 3.5339,0.19113 5.93013,-3.22685 5.58545,-6.74909 -0.32805,-3.35228 -3.31916,-5.37566 -6.63272,-4.77091 z"
