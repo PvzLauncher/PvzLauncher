@@ -1,11 +1,14 @@
 ﻿using H.Hooks;
+using HuaZi.Library.Json;
 using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;
 using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -22,8 +25,11 @@ namespace PvzLauncherRemake.Windows
         private DispatcherTimer? _timer;
         private bool IsOverlayVisible = true;
         private WindowInteropHelper windowInteropHelper;
+
         private LowLevelKeyboardHook _hook = new LowLevelKeyboardHook();
         private InputSimulator _inputSim = new InputSimulator();
+
+        private JsonGameInfo.Root GameInfo = Json.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
         private int winLeft = 0;
         private int winTop = 0;
@@ -94,7 +100,7 @@ namespace PvzLauncherRemake.Windows
                 if (!Globals.Config.OverLayWindowSettings.SlotHotkeyEnabled)
                     return;
 
-                var targetPos = Globals.Config.OverLayWindowSettings.SlotPositions[slotKeys[e.CurrentKey]];
+                var targetPos = GameInfo.Config.SlotPositions[slotKeys[e.CurrentKey]];
                 var targetPosFinal = new System.Drawing.Point(winLeft + targetPos.X, winTop + targetPos.Y);
                 var currentPos = Win32APIHelper.GetCursorPos();
                 if (currentPos.X == -1 || currentPos.Y == -1)
@@ -238,8 +244,8 @@ namespace PvzLauncherRemake.Windows
             if (currentMousePos.X == -1 || currentMousePos.Y == -1)
                 throw new Exception("无法获得鼠标指针坐标");
 
-            Globals.Config.OverLayWindowSettings.SlotPositions[currentPosSet == 11 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
-            ConfigManager.SaveConfig();
+            GameInfo.Config.SlotPositions[currentPosSet == 11 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
+            Json.WriteJson(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"), GameInfo);
 
             if (currentPosSet == 11)
             {

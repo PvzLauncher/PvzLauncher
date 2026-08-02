@@ -133,23 +133,6 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
         {
             [JsonProperty("slot_hotkey_enabled")]
             public bool SlotHotkeyEnabled { get; set; } = false;
-
-            [JsonProperty("slot_positions")]
-            public Dictionary<int, Point> SlotPositions { get; set; } = new Dictionary<int, Point>()
-            {
-                [1] = new Point(0, 0),
-                [2] = new Point(0, 0),
-                [3] = new Point(0, 0),
-                [4] = new Point(0, 0),
-                [5] = new Point(0, 0),
-                [6] = new Point(0, 0),
-                [7] = new Point(0, 0),
-                [8] = new Point(0, 0),
-                [9] = new Point(0, 0),
-                [10] = new Point(0, 0),
-
-                [0] = new Point(0, 0),//shovel
-            };
         }
 
 

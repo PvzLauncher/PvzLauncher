@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Drawing;
 
 namespace PvzLauncherRemake.Classes.JsonConfigs
 {
@@ -11,6 +12,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("game_info")]
             public GameInfo GameInfo { get; set; }
+
+            [JsonProperty("config")]
+            public Config Config { get; set; } = new Config();
 
             [JsonProperty("record")]
             public Record Record { get; set; }
@@ -35,6 +39,26 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("game_path")]
             public string? GamePath { get; set; } = null;//普通游戏不写，仅虚拟导入
+        }
+
+        public partial class Config
+        {
+            [JsonProperty("slot_positions")]
+            public Dictionary<int, Point> SlotPositions { get; set; } = new Dictionary<int, Point>()
+            {
+                [1] = new Point(0, 0),
+                [2] = new Point(0, 0),
+                [3] = new Point(0, 0),
+                [4] = new Point(0, 0),
+                [5] = new Point(0, 0),
+                [6] = new Point(0, 0),
+                [7] = new Point(0, 0),
+                [8] = new Point(0, 0),
+                [9] = new Point(0, 0),
+                [10] = new Point(0, 0),
+
+                [0] = new Point(0, 0),//shovel
+            };
         }
 
         public partial class Record

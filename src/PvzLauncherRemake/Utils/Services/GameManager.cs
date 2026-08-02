@@ -497,7 +497,7 @@ namespace PvzLauncherRemake.Utils.Services
 
 
 
-            await WaitGameExit(gameInfo);
+            await WaitGameExit();
 
             exitCallback?.Invoke();
         }
@@ -505,11 +505,13 @@ namespace PvzLauncherRemake.Utils.Services
         /// <summary>
         /// 等待游戏退出
         /// </summary>
-        public static async Task WaitGameExit(JsonGameInfo.Root gameInfo)
+        public static async Task WaitGameExit()
         {
             await GameProcess.WaitForExitAsync();
 
             IsGameRuning = false;
+
+            var gameInfo = Json.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
 
             switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
