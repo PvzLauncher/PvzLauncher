@@ -94,7 +94,7 @@ namespace PvzLauncherRemake.Pages
 
                         var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
 
-                        string savePath = Path.Combine(Globals.Directories.TempDiectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{new Random().Next(int.MinValue, int.MaxValue)}");
+                        string savePath = Path.Combine(Globals.Directories.TempDirectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{Guid.NewGuid():N}");
 
                         TaskManager.AddTask(new DownloadTaskInfo
                         {

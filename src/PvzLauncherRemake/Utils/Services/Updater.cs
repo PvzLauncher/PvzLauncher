@@ -24,8 +24,8 @@ namespace PvzLauncherRemake.Utils.Services
         public static string ChangeLog = null!;
         public static string Url = null!;
         public static string UrlShell = null!;
-        public static string BinPackSavePath = Path.Combine(Globals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
-        public static string ShellPackSavePath = Path.Combine(Globals.Directories.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
+        public static string BinPackSavePath = Path.Combine(Globals.Directories.TempDirectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
+        public static string ShellPackSavePath = Path.Combine(Globals.Directories.TempDirectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
 
         private static bool isUpdating = false;//是否正在更新
 

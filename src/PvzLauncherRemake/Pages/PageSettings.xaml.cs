@@ -579,7 +579,7 @@ namespace PvzLauncherRemake.Pages
 
                     await Task.Run(() =>
                     {
-                        allTempFiles = Directory.GetFiles(Globals.Directories.TempDiectory);
+                        allTempFiles = Directory.GetFiles(Globals.Directories.TempDirectory);
                     });
 
                     if (!(allTempFiles.Length > 0))
