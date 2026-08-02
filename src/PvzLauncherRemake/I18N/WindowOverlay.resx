@@ -124,4 +124,10 @@
   <data name="SlotHotkeyPosTips" xml:space="preserve">
     <value>请依次点击卡槽1~10与铲子的位置</value>
   </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>覆盖层</value>
+  </data>
+  <data name="ShowLogo" xml:space="preserve">
+    <value>显示 Logo:</value>
+  </data>
 </root>

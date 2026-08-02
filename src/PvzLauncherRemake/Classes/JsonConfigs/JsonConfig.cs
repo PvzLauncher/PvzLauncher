@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Drawing;
+using System.Text.Json.Serialization;
 
 namespace PvzLauncherRemake.Classes.JsonConfigs
 {
@@ -133,8 +134,16 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
         {
             [JsonProperty("slot_hotkey_enabled")]
             public bool SlotHotkeyEnabled { get; set; } = false;
+
+            [JsonProperty("info_overlay")]
+            public InfoOverlay InfoOverlay { get; set; } = new InfoOverlay();
         }
 
+        public class InfoOverlay
+        {
+            [JsonProperty("show_logo")]
+            public bool ShowLogo { get; set; } = true;
+        }
 
         public class Record
         {

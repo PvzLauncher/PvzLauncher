@@ -1,4 +1,5 @@
-﻿using PvzLauncherRemake.Utils.Services;
+﻿using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Utils.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PvzLauncherRemake.Windows
 {
@@ -23,8 +25,15 @@ namespace PvzLauncherRemake.Windows
         {
             InitializeComponent();
 
+            var timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(500)
+            };
+
             Loaded += (s, e) =>
             {
+                timer.Start();
+
                 //设置窗口样式
                 var hwnd = new WindowInteropHelper(this).Handle;
                 var style = Win32APIHelper.GetWindowLongPtr(hwnd, Win32APIHelper.GWL_EXSTYLE);
@@ -36,6 +45,21 @@ namespace PvzLauncherRemake.Windows
                 Win32APIHelper.SetWindowLongPtr(hwnd, Win32APIHelper.GWL_EXSTYLE, new IntPtr(style));
 
             };
+
+            Closing += (s, e) =>
+            {
+                timer.Stop(); timer = null;
+            };
+
+            timer.Tick += (s, e) =>
+            {
+                grid_logo.Visibility = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo ? Visibility.Visible : Visibility.Hidden;
+            };
+
+
+            
+
+
         }
     }
 }

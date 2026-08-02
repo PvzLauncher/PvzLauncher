@@ -204,6 +204,14 @@ namespace PvzLauncherRemake.Windows
                 ConfigManager.SaveConfig();
             };
 
+            ts_showLogo.IsOn = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo;
+            ts_showLogo.Toggled += (s, e) =>
+            {
+                Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo = ts_showLogo.IsOn;
+                ConfigManager.SaveConfig();
+            };
+            
+
 
             ConfigManager.SaveConfig();
         }

@@ -144,4 +144,10 @@
   <data name="SlotHotkeyPosTips" xml:space="preserve">
     <value>Пожалуйста, последовательно нажимайте на слоты 1~10 и положение лопаты</value>
   </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>Оверлей</value>
+  </data>
+  <data name="ShowLogo" xml:space="preserve">
+    <value>Показывать логотип:</value>
+  </data>
 </root>

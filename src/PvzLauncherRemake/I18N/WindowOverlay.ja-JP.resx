@@ -144,4 +144,10 @@
   <data name="SlotHotkeyPosTips" xml:space="preserve">
     <value>スロット1～10とシャベルの位置を順番にクリックしてください</value>
   </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>オーバーレイ</value>
+  </data>
+  <data name="ShowLogo" xml:space="preserve">
+    <value>ロゴを表示:</value>
+  </data>
 </root>

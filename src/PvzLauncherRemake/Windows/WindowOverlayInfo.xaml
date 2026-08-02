@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PvzLauncherRemake.Windows"
+        xmlns:icons="clr-namespace:PvzLauncherRemake.Controls.Icons"
         mc:Ignorable="d"
         Title="WindowOverlayInfo" Height="600" Width="800" WindowStyle="None" AllowsTransparency="True" Topmost="True" Background="Transparent" ShowInTaskbar="False">
     <Grid>
-        <TextBlock Background="White" Text="KASGDKJHASGHDKJAVSGDHJASD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" FontStyle="Italic" TextDecorations="Underline"/>
+        <Grid x:Name="grid_logo" Margin="20" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <icons:IconApplicationFull MaxHeight="40"/>
+        </Grid>
     </Grid>
 </Window>

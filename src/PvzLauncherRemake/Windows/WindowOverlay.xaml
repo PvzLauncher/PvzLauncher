@@ -56,6 +56,16 @@
                         <TextBlock Text="{lex:Loc Welcome2}" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
                     </StackPanel>
                 </TabItem>
+                <!--覆盖层-->
+                <TabItem Header="{lex:Loc Overlay}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{lex:Loc ShowLogo}" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                            <ui:ToggleSwitch x:Name="ts_showLogo" Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+                <!--卡槽快捷键-->
                 <TabItem Header="{lex:Loc SlotHotkey}">
                     <StackPanel Margin="10">
                         <TextBlock Foreground="White" Text="{lex:Loc SlotHotkeyTips}" Margin="0,0,0,10"/>
