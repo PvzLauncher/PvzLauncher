@@ -31,6 +31,8 @@ namespace PvzLauncherRemake.Windows
 
         private JsonGameInfo.Root GameInfo = Json.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
+        private WindowOverlayInfo WinOverlayInfo = new WindowOverlayInfo();
+
         private int winLeft = 0;
         private int winTop = 0;
 
@@ -144,12 +146,28 @@ namespace PvzLauncherRemake.Windows
 
             winLeft = (int)this.Left;
             winTop = (int)this.Top;
+            //同步信息窗口位置
+            WinOverlayInfo.Left = result.Left;
+            WinOverlayInfo.Top = result.Top;
+            WinOverlayInfo.Width = result.Width;
+            WinOverlayInfo.Height = result.Height;
 
 
             //判断是否失焦
             var activeWindow = Win32APIHelper.GetForegroundWindow();
             if (activeWindow != GameManager.GameProcess.MainWindowHandle && activeWindow != windowInteropHelper.Handle)
                 ToggleOverlay(false);
+            //     info
+            if (activeWindow == GameManager.GameProcess.MainWindowHandle || activeWindow == windowInteropHelper.Handle)
+            {
+                if (!WinOverlayInfo.IsVisible)
+                    WinOverlayInfo.Show();
+            }
+            else
+            {
+                if (WinOverlayInfo.IsVisible)
+                    WinOverlayInfo.Hide();
+            }
 
             //更新时间
             var now = DateTimeOffset.Now;
@@ -170,6 +188,9 @@ namespace PvzLauncherRemake.Windows
 
             HotkeyManager.Current.AddOrReplace("ToggleOverlay", System.Windows.Input.Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
 
+            //加载信息层
+            WinOverlayInfo.Show();
+            this.Owner = WinOverlayInfo;//保证Info窗口在此之下
 
 
 
@@ -192,6 +213,7 @@ namespace PvzLauncherRemake.Windows
             _timer?.Stop();
             _timer = null;
             HotkeyManager.Current.Remove("ToggleOverlay");
+            WinOverlayInfo.Close();
 
             _hook.Stop();
             _hook.Dispose();

@@ -42,6 +42,18 @@ namespace PvzLauncherRemake.Utils.Services
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BlockInput(bool fBlockIt);
 
+        public const int GWL_EXSTYLE = -20;
+
+        public const int WS_EX_TRANSPARENT = 0x00000020; // 鼠标穿透
+        public const int WS_EX_TOOLWINDOW = 0x00000080;  // 不显示在Alt+Tab
+        public const int WS_EX_NOACTIVATE = 0x08000000;  // 不激活
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
         /// <summary>
         /// 设置窗口标题
         /// </summary>
