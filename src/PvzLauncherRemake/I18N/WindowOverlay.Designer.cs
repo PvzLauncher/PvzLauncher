@@ -79,6 +79,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 不透明度: 的本地化字符串。
+        /// </summary>
+        public static string Opacity {
+            get {
+                return ResourceManager.GetString("Opacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 覆盖层 的本地化字符串。
         /// </summary>
         public static string Overlay {

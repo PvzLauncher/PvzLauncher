@@ -59,7 +59,11 @@
                 <!--覆盖层-->
                 <TabItem Header="{lex:Loc Overlay}">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <DockPanel Margin="0,0,0,10">
+                            <TextBlock Text="{lex:Loc Opacity}" DockPanel.Dock="Left" Margin="0,0,10,0" Foreground="White" VerticalAlignment="Center"/>
+                            <Slider x:Name="slider_opacity" Maximum="1" Minimum="0" TickFrequency="0.01" IsSnapToTickEnabled="True" SmallChange="0.01" LargeChange="0.1"/>
+                        </DockPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc ShowLogo}" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                             <ui:ToggleSwitch x:Name="ts_showLogo" Foreground="White"/>
                         </StackPanel>

@@ -27,7 +27,7 @@ namespace PvzLauncherRemake.Windows
 
             var timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(500)
+                Interval = TimeSpan.FromMilliseconds(1000)
             };
 
             Loaded += (s, e) =>
@@ -54,6 +54,7 @@ namespace PvzLauncherRemake.Windows
             timer.Tick += (s, e) =>
             {
                 grid_logo.Visibility = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo ? Visibility.Visible : Visibility.Hidden;
+                grid_root.Opacity = Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity;
             };
 
 

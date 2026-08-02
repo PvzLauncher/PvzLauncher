@@ -7,7 +7,7 @@
         xmlns:icons="clr-namespace:PvzLauncherRemake.Controls.Icons"
         mc:Ignorable="d"
         Title="WindowOverlayInfo" Height="600" Width="800" WindowStyle="None" AllowsTransparency="True" Topmost="True" Background="Transparent" ShowInTaskbar="False">
-    <Grid>
+    <Grid x:Name="grid_root">
         <Grid x:Name="grid_logo" Margin="20" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <icons:IconApplicationFull MaxHeight="40"/>
         </Grid>

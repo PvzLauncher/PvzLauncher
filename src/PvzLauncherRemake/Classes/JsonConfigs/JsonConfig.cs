@@ -143,6 +143,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
         {
             [JsonProperty("show_logo")]
             public bool ShowLogo { get; set; } = true;
+
+            [JsonProperty("opacity")]
+            public double Opacity { get; set; } = 0.5;
         }
 
         public class Record

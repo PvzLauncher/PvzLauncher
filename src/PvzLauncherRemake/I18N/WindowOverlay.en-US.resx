@@ -150,4 +150,7 @@
   <data name="ShowLogo" xml:space="preserve">
     <value>Show Logo:</value>
   </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacity:</value>
+  </data>
 </root>

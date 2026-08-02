@@ -150,4 +150,7 @@
   <data name="ShowLogo" xml:space="preserve">
     <value>로고 표시:</value>
   </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>불투명도:</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
@@ -208,6 +209,13 @@ namespace PvzLauncherRemake.Windows
             ts_showLogo.Toggled += (s, e) =>
             {
                 Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo = ts_showLogo.IsOn;
+                ConfigManager.SaveConfig();
+            };
+
+            slider_opacity.Value = Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity;
+            slider_opacity.ValueChanged += (s, e) =>
+            {
+                Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity = slider_opacity.Value;
                 ConfigManager.SaveConfig();
             };
             

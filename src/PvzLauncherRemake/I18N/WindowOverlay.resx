@@ -130,4 +130,7 @@
   <data name="ShowLogo" xml:space="preserve">
     <value>显示 Logo:</value>
   </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>不透明度:</value>
+  </data>
 </root>
