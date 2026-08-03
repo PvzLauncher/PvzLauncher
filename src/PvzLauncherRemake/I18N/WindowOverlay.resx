@@ -133,4 +133,7 @@
   <data name="Opacity" xml:space="preserve">
     <value>不透明度:</value>
   </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>显示卡槽快捷键:</value>
+  </data>
 </root>

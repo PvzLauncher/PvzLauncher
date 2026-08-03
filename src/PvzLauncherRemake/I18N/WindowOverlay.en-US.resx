@@ -153,4 +153,7 @@
   <data name="Opacity" xml:space="preserve">
     <value>Opacity:</value>
   </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>Show Card Slot Hotkey:</value>
+  </data>
 </root>

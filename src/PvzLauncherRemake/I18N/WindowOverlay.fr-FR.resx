@@ -153,4 +153,7 @@
   <data name="Opacity" xml:space="preserve">
     <value>Opacité:</value>
   </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>Afficher le raccourci du slot de carte:</value>
+  </data>
 </root>

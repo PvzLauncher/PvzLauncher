@@ -153,4 +153,7 @@
   <data name="Opacity" xml:space="preserve">
     <value>Непрозрачность:</value>
   </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>Показывать горячую клавишу слота карты:</value>
+  </data>
 </root>

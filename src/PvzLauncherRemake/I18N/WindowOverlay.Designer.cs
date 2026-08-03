@@ -106,6 +106,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 显示卡槽快捷键: 的本地化字符串。
+        /// </summary>
+        public static string ShowSlotKey {
+            get {
+                return ResourceManager.GetString("ShowSlotKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 卡槽快捷键 的本地化字符串。
         /// </summary>
         public static string SlotHotkey {

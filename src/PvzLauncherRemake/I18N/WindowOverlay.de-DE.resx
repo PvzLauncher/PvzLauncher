@@ -153,4 +153,7 @@
   <data name="Opacity" xml:space="preserve">
     <value>Deckkraft:</value>
   </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>Kartenslot-Hotkey anzeigen:</value>
+  </data>
 </root>

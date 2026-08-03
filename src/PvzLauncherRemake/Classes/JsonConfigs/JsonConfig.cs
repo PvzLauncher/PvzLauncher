@@ -141,11 +141,14 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
         public class InfoOverlay
         {
-            [JsonProperty("show_logo")]
-            public bool ShowLogo { get; set; } = true;
-
             [JsonProperty("opacity")]
             public double Opacity { get; set; } = 0.5;
+
+            [JsonProperty("show_logo")]
+            public bool ShowLogo { get; set; } = true;            
+
+            [JsonProperty("show_slot_key")]
+            public bool ShowSlotKey { get; set; } = true;
         }
 
         public class Record

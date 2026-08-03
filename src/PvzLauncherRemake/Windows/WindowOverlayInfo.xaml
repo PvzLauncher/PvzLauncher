@@ -11,5 +11,11 @@
         <Grid x:Name="grid_logo" Margin="20" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <icons:IconApplicationFull MaxHeight="40"/>
         </Grid>
+        <Grid x:Name="grid_slot">
+            <Grid x:Name="slotKey_template" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden">
+                <Ellipse x:Name="elli_slotKey" Fill="White" Stroke="Black" Width="15" Height="15"/>
+                <TextBlock Text="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

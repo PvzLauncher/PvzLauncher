@@ -218,6 +218,13 @@ namespace PvzLauncherRemake.Windows
                 Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity = slider_opacity.Value;
                 ConfigManager.SaveConfig();
             };
+
+            ts_showSlotKey.IsOn = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowSlotKey;
+            ts_showSlotKey.Toggled += (s, e) =>
+            {
+                Globals.Config.OverLayWindowSettings.InfoOverlay.ShowSlotKey = ts_showSlotKey.IsOn;
+                ConfigManager.SaveConfig();
+            };
             
 
 

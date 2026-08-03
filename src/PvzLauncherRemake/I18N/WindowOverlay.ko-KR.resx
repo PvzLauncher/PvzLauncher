@@ -153,4 +153,7 @@
   <data name="Opacity" xml:space="preserve">
     <value>불투명도:</value>
   </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>카드 슬롯 단축키 표시:</value>
+  </data>
 </root>

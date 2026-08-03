@@ -67,6 +67,10 @@
                             <TextBlock Text="{lex:Loc ShowLogo}" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                             <ui:ToggleSwitch x:Name="ts_showLogo" Foreground="White"/>
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="{lex:Loc ShowSlotKey}" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                            <ui:ToggleSwitch x:Name="ts_showSlotKey" Foreground="White"/>
+                        </StackPanel>
                     </StackPanel>
                 </TabItem>
                 <!--卡槽快捷键-->
