@@ -180,6 +180,18 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                if (GameManager.IsGameRuning)
+                {
+                    SnackbarManager.Show(new SnackbarContent
+                    {
+                        Title = "警告",
+                        Content = "游戏正在运行，请不要更改档案",
+                        Type = SnackbarType.Warn
+                    });
+                    return;
+                }
+
+
                 SnackbarManager.Show(new SnackbarContent
                 {
                     Title = "选择游戏",
@@ -249,6 +261,19 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                if (sender is not UserCard uc)
+                    return;
+                if (GameManager.IsGameRuning && uc.Title == Globals.Config.CurrentGame) 
+                {
+                    SnackbarManager.Show(new SnackbarContent
+                    {
+                        Title = "警告",
+                        Content = "此游戏正在运行，请不要修改信息",
+                        Type = SnackbarType.Warn
+                    });
+                    return;
+                }
+
                 this.NavigationService.Navigate(new PageManageSet((JsonGameInfo.Root)((UserCard)sender).Tag));
             }
             catch (Exception ex)
