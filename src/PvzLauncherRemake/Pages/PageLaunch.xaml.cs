@@ -1,4 +1,5 @@
-﻿using PvzLauncherRemake.Classes;
+﻿using HuaZi.Library.Json;
+using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
 using PvzLauncherRemake.Utils.FileSystem;
@@ -311,7 +312,8 @@ namespace PvzLauncherRemake.Pages
 
                     if (Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
-
+                    //再次加载游戏档案
+                    currentGameInfo = Json.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"));
                     //启动游戏
                     GameManager.LaunchGame(currentGameInfo, (async () =>
                     {
