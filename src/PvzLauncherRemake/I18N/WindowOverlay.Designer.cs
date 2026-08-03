@@ -115,7 +115,7 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 卡槽快捷键 的本地化字符串。
+        ///   查找类似 快捷卡槽 的本地化字符串。
         /// </summary>
         public static string SlotHotkey {
             get {

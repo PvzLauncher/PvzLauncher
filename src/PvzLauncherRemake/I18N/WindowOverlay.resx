@@ -110,7 +110,7 @@
     <value>结束游戏</value>
   </data>
   <data name="SlotHotkey" xml:space="preserve">
-    <value>卡槽快捷键</value>
+    <value>快捷卡槽</value>
   </data>
   <data name="SlotHotkeyTips" xml:space="preserve">
     <value>设定位置，并使用快捷键选择种子包和铲子！</value>
