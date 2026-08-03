@@ -96,13 +96,24 @@ namespace PvzLauncherRemake.Windows
 
             timer.Tick += (s, e) =>
             {
+                //重载游戏信息
+                GameInfo = Json.ReadJson<JsonGameInfo.Root>(System.IO.Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+
                 grid_logo.Visibility = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo ? Visibility.Visible : Visibility.Hidden;
                 grid_root.Opacity = Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity;
                 for (int i = 0; i < slotKeyCtrls.Count; i++)
                 {
                     var pos = GameInfo.Config.SlotPositions[i == slotKeyCtrls.Count - 1 ? 0 : i + 1];
-                    if (Globals.Config.OverLayWindowSettings.InfoOverlay.ShowSlotKey && pos.X != 0 && pos.Y != 0)
+                    if (Globals.Config.OverLayWindowSettings.InfoOverlay.ShowSlotKey)
+                    {
                         slotKeyCtrls[i].Margin = new Thickness(pos.X, pos.Y, 0, 0);
+                        slotKeyCtrls[i].Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        slotKeyCtrls[i].Visibility = Visibility.Hidden;
+                    }
+                        
                 }
             };
 
