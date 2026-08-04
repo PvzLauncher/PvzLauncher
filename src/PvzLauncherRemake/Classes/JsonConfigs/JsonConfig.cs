@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Drawing;
 
 namespace PvzLauncherRemake.Classes.JsonConfigs
 {
@@ -144,7 +143,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             public double Opacity { get; set; } = 0.5;
 
             [JsonProperty("show_logo")]
-            public bool ShowLogo { get; set; } = true;            
+            public bool ShowLogo { get; set; } = true;
 
             [JsonProperty("show_slot_key")]
             public bool ShowSlotKey { get; set; } = true;

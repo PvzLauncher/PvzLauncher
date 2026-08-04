@@ -286,7 +286,7 @@ namespace PvzLauncherRemake.Pages
             tabControl.SelectionChanged += TabControlAnimation.TabControlAnimtion;
         }
 
-        
+
 
         #region 启动器设置
 

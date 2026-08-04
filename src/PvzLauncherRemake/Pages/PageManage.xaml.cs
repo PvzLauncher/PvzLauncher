@@ -13,7 +13,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 
 
@@ -44,7 +43,7 @@ namespace PvzLauncherRemake.Pages
                 grid_NoneTrainer.Visibility = Visibility.Visible;
                 grid_NoneTrainer.IsEnabled = true;
             }
-        }        
+        }
 
         private void LoadGameList()
         {
@@ -264,7 +263,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (sender is not UserCard uc)
                     return;
-                if (GameManager.IsGameRuning && uc.Title == Globals.Config.CurrentGame) 
+                if (GameManager.IsGameRuning && uc.Title == Globals.Config.CurrentGame)
                 {
                     SnackbarManager.Show(new SnackbarContent
                     {

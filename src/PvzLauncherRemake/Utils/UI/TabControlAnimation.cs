@@ -1,8 +1,4 @@
-﻿using PvzLauncherRemake.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -11,7 +7,7 @@ namespace PvzLauncherRemake.Utils.UI
 {
     public static class TabControlAnimation
     {
-        public static void TabControlAnimtion(object sender,RoutedEventArgs e)
+        public static void TabControlAnimtion(object sender, RoutedEventArgs e)
         {
             if (e.OriginalSource != sender)
                 return;

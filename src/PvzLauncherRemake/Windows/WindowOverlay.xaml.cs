@@ -11,7 +11,6 @@ using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
@@ -226,7 +225,7 @@ namespace PvzLauncherRemake.Windows
                 Globals.Config.OverLayWindowSettings.InfoOverlay.ShowSlotKey = ts_showSlotKey.IsOn;
                 ConfigManager.SaveConfig();
             };
-            
+
 
 
             ConfigManager.SaveConfig();
