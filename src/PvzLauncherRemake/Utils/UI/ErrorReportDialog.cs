@@ -153,7 +153,7 @@ namespace PvzLauncherRemake.Utils.UI
                 DefaultButton = ContentDialogButton.Primary
             };
 
-            await DialogManager.ShowDialogAsync(dialog, closeCallback: (() =>
+            await DialogService.ShowDialogAsync(dialog, closeCallback: (() =>
             {
                 Environment.Exit(1);
             }));

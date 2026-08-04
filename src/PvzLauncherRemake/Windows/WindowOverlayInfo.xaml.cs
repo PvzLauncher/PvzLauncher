@@ -2,7 +2,8 @@
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.UI;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -58,13 +59,13 @@ namespace PvzLauncherRemake.Windows
 
                 //设置窗口样式
                 var hwnd = new WindowInteropHelper(this).Handle;
-                var style = Win32APIHelper.GetWindowLongPtr(hwnd, Win32APIHelper.GWL_EXSTYLE);
+                var style = WinAPI.GetWindowLongPtr(hwnd, WinAPI.GWL_EXSTYLE);
 
-                style |= Win32APIHelper.WS_EX_TRANSPARENT;//鼠标穿透
-                style |= Win32APIHelper.WS_EX_TOOLWINDOW;//无AltTab
-                style |= Win32APIHelper.WS_EX_NOACTIVATE;//无焦点
+                style |= WinAPI.WS_EX_TRANSPARENT;//鼠标穿透
+                style |= WinAPI.WS_EX_TOOLWINDOW;//无AltTab
+                style |= WinAPI.WS_EX_NOACTIVATE;//无焦点
 
-                Win32APIHelper.SetWindowLongPtr(hwnd, Win32APIHelper.GWL_EXSTYLE, new IntPtr(style));
+                WinAPI.SetWindowLongPtr(hwnd, WinAPI.GWL_EXSTYLE, new IntPtr(style));
 
                 //创建键位指示
 

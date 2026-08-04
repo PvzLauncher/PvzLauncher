@@ -4,7 +4,9 @@ using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
+using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Windows;
@@ -281,7 +283,7 @@ namespace PvzLauncherRemake.Pages
                 }
             });
 
-            tabControl.SelectionChanged += TabControlAnimation.TabControlAnimtion;
+            tabControl.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
         }
 
 
@@ -347,7 +349,7 @@ namespace PvzLauncherRemake.Pages
                 Globals.Config.Settings.LauncherConfig.Language = ((ComboBoxItem)comboBox.SelectedItem).Tag.ToString()!;
                 ConfigManager.SaveConfig();
 
-                LocalizeManager.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
+                LocalizeService.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
             }
         }
 
@@ -399,7 +401,7 @@ namespace PvzLauncherRemake.Pages
                 if (dialog.ShowDialog() == true)
                 {
                     File.Copy(dialog.FileName, Globals.Paths.BackgroundPath, true);
-                    Globals.Caches.LauncherBackground = BitmapLoader.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
+                    Globals.Caches.LauncherBackground = BitmapHelper.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
                     image_Background.Source = Globals.Caches.LauncherBackground;
                 }
             }
@@ -420,7 +422,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (!File.Exists(Globals.Paths.BackgroundPath))
                         {
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "警告",
                                 Content = "自定义背景图不存在，请先点击下方选择一个图片",
@@ -615,7 +617,7 @@ namespace PvzLauncherRemake.Pages
                     }
 
                     bool isClear = false;
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "发现缓存文件",
                         Content = $"发现了 {pvzLauncherFiles.Count} 个来自PvzLauncher的缓存文件, 共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB, 是否清理?",
@@ -716,7 +718,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "警告",
                     Content = "此操作不可逆，一旦删除您的存档将会永久删除！(真的很久!)",
@@ -725,7 +727,7 @@ namespace PvzLauncherRemake.Pages
                     DefaultButton = ContentDialogButton.Close
                 }, (async () =>
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "最后一次警告",
                         Content = "这将是最后一次警告，确认后存档立即删除，您现在还有取消的机会！",
@@ -777,7 +779,7 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 if (checkBox_EnableIsolationSave.IsChecked == true)
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "警告",
                         Content = "开启存档隔离会导致当前存档丢失。请做好备份再开启！",
@@ -819,7 +821,7 @@ namespace PvzLauncherRemake.Pages
                             listBox.Items.Add(game.GameInfo.Name);
                         }
 
-                        await DialogManager.ShowDialogAsync(new ContentDialog
+                        await DialogService.ShowDialogAsync(new ContentDialog
                         {
                             Title = "存档迁移",
                             Content = new Grid
@@ -854,7 +856,7 @@ namespace PvzLauncherRemake.Pages
                                             targetListBox.Items.Add(game.GameInfo.Name);
                                     }
 
-                                    await DialogManager.ShowDialogAsync(new ContentDialog
+                                    await DialogService.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = "存档迁移",
                                         Content = new Grid
@@ -879,7 +881,7 @@ namespace PvzLauncherRemake.Pages
                                         {
                                             targetGameName = targetListBox.SelectedItem.ToString()!;
 
-                                            await DialogManager.ShowDialogAsync(new ContentDialog
+                                            await DialogService.ShowDialogAsync(new ContentDialog
                                             {
                                                 Title = "操作确认",
                                                 Content = new StackPanel
@@ -912,7 +914,7 @@ namespace PvzLauncherRemake.Pages
                                                     else
                                                         Directory.CreateDirectory(Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
                                                 });
-                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
+                                                await DirectoryHelper.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
 
                                                 SnackbarManager.Show(new SnackbarContent
                                                 {

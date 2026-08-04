@@ -2,7 +2,8 @@
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -12,7 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Utils.LocalizeManager;
+using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -149,7 +150,7 @@ namespace PvzLauncherRemake.Pages
         private async void button_Manual_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(Info.SharePassword))
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Content = new TextBlock
                     {
@@ -174,7 +175,7 @@ namespace PvzLauncherRemake.Pages
         {
             /*//确认下载
             bool confirm = false;
-            await DialogManager.ShowDialogAsync(new ContentDialog
+            await DialogService.ShowDialogAsync(new ContentDialog
             {
                 Title = "下载确认",
                 Content = $"是否下载 \"{Info.Name}\"",
@@ -187,7 +188,7 @@ namespace PvzLauncherRemake.Pages
             if (Info.Size >= 500)
             {
                 bool isReturn = false;
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "警告",
                     Content = $"此游戏体积较大 ({Info.Size} MB) 启动器下载很可能掉速或者失败。建议手动前往浏览器下载",
@@ -233,7 +234,7 @@ namespace PvzLauncherRemake.Pages
                 },
                 CloseButtonText = "关闭"
             };
-            await DialogManager.ShowDialogAsync(dialog);
+            await DialogService.ShowDialogAsync(dialog);
         }
 
         private void ImageMouseEnter(object sender)

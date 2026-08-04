@@ -4,7 +4,9 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -170,7 +172,7 @@ namespace PvzLauncherRemake.Pages
                 }
             });
 
-            tabControl.SelectionChanged += TabControlAnimation.TabControlAnimtion;
+            tabControl.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
         }
 
         //选择游戏
@@ -380,7 +382,7 @@ namespace PvzLauncherRemake.Pages
 
                     dialog.Hide();
 
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "确认删除",
                         Content = $"\"{trainerConfig.Name}\" 将被删除，一旦删除将永久消失(真的很久!)\n\n(此操作仅有这一次确认机会，点击删除按钮立即执行删除程序！)",
@@ -425,7 +427,7 @@ namespace PvzLauncherRemake.Pages
                         Text = trainerConfig.Name
                     };
 
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "重命名",
                         Content = textBox,
@@ -491,7 +493,7 @@ namespace PvzLauncherRemake.Pages
                     });
                 });
 
-                await DialogManager.ShowDialogAsync(dialog);
+                await DialogService.ShowDialogAsync(dialog);
 
             }
             catch (Exception ex)

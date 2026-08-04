@@ -3,7 +3,9 @@ using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
+using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -118,7 +120,7 @@ namespace PvzLauncherRemake.Pages
                 }
 
                 var textBox = new TextBox();
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "开发者控制台",
                     Content = new StackPanel
@@ -203,7 +205,7 @@ namespace PvzLauncherRemake.Pages
                 CloseButtonText = "关闭",
                 DefaultButton = ContentDialogButton.Close
             };
-            await DialogManager.ShowDialogAsync(dialog);
+            await DialogService.ShowDialogAsync(dialog);
         }
     }
 }

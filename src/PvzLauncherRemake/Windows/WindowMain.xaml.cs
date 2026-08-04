@@ -6,7 +6,10 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.Network;
+using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -143,7 +146,7 @@ namespace PvzLauncherRemake.Windows
                         //参数检测
                         /*if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
                         {
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "警告",
                                 Content = "检测到程序非外壳启动, 此启动方式可能会导致某些意外的事情发生",
@@ -163,7 +166,7 @@ namespace PvzLauncherRemake.Windows
                         }*/
                         if (Globals.Arguments.isUpdate)//更新启动
                         {
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "更新完毕",
                                 Content = $"您已更新到最新版 {Globals.Version} , 尽情享受吧！",
@@ -211,7 +214,7 @@ namespace PvzLauncherRemake.Windows
                             docViewer.Document = new Markdown().Transform(eulaText);
                             docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
 
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "请阅读并同意《Plants Vs. Zombies Launcher - 最终用户许可协议》",
                                 Content = docViewer,
@@ -254,7 +257,7 @@ namespace PvzLauncherRemake.Windows
 
                                 var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
                                 if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
-                                    await DialogManager.ShowDialogAsync(new ContentDialog
+                                    await DialogService.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = notice.Title,
                                         Content = new StackPanel
@@ -325,7 +328,7 @@ namespace PvzLauncherRemake.Windows
                 if (GameManager.IsGameRuning && Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
                 {
                     e.Cancel = true;
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "警告",
                         Content = "游戏运行时关闭启动器会导致隔离存档与当前存档不同步，在下次启动游戏时会丢失进度。确定退出？",

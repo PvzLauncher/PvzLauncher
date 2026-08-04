@@ -3,7 +3,9 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Windows;
@@ -133,8 +135,8 @@ namespace PvzLauncherRemake.Pages
                 UseShellExecute = true
             }));
 
-            tabControl_Main.SelectionChanged += TabControlAnimation.TabControlAnimtion;
-            tabControl_Sub.SelectionChanged += TabControlAnimation.TabControlAnimtion;
+            tabControl_Main.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
+            tabControl_Sub.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
         }
 
         private async void UserCard_Click(object sender, RoutedEventArgs e)

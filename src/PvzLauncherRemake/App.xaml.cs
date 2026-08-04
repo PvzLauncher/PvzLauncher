@@ -1,7 +1,9 @@
 ﻿using ModernWpf;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Windows;
@@ -47,7 +49,7 @@ namespace PvzLauncherRemake
             ConfigManager.LoadConfig();
 
             //切换语言
-            LocalizeManager.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
+            LocalizeService.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
 
             //切换服务提供方
             switch (Globals.Config.Settings.LauncherConfig.ServiceProvider)

@@ -1,9 +1,10 @@
 ﻿using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.Network;
+using PvzLauncherRemake.Utils.UI;
 using System.Windows;
 using System.Windows.Threading;
-using static PvzLauncherRemake.Utils.LocalizeManager;
+using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
 {

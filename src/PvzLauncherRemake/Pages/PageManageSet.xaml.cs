@@ -3,14 +3,16 @@ using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
 
-using static PvzLauncherRemake.Utils.LocalizeManager;
+using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -133,7 +135,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
 
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "确定操作",
                     Content = $"真的要删除这个游戏吗？\n\"{GameInfo.GameInfo.Name}\" 将会永久消失(真的很久!){(GameInfo.GameInfo.GamePath != null ? "\n\n此操作仅会移除虚拟链接，并不会真正移除游戏本体！" : null)}",
@@ -147,7 +149,7 @@ namespace PvzLauncherRemake.Pages
                         Content = "我确认永久删除此游戏",
                         IsChecked = false
                     };
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "最后一次确认",
                         Content = new StackPanel
@@ -241,7 +243,7 @@ namespace PvzLauncherRemake.Pages
                     Text = GameInfo.GameInfo.Version,
                     Margin = new Thickness(0, 0, 0, 10)
                 };
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更改版本信息",
                     Content = new StackPanel
@@ -311,7 +313,7 @@ namespace PvzLauncherRemake.Pages
                     foreach (var exe in exes)
                         listBox.Items.Add(exe);
 
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "更改可执行文件",
                         Content = new StackPanel
@@ -375,7 +377,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
                 var textBox = new TextBox { Text = GameInfo.GameInfo.Name };
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更改名称",
                     Content = textBox,
