@@ -1,6 +1,4 @@
-﻿
-
-using MdXaml;
+﻿using MdXaml;
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
@@ -11,7 +9,6 @@ using System.IO;
 using System.Net.Http;
 using System.Windows.Controls;
 using System.Windows.Media;
-
 
 namespace PvzLauncherRemake.Utils.Network
 {

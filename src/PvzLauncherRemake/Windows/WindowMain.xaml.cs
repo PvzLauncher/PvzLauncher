@@ -5,7 +5,6 @@ using ModernWpf.Media.Animation;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Pages;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.Network;
@@ -18,7 +17,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Wpf.Ui;
-
 
 namespace PvzLauncherRemake.Windows
 {
@@ -82,7 +80,7 @@ namespace PvzLauncherRemake.Windows
                     navViewItem_Task.IsEnabled = false;
                 }
 
-                _snackbarService = new SnackbarService();
+                _snackbarService = new Wpf.Ui.SnackbarService();
                 _snackbarService.SetSnackbarPresenter(snackbarPersenter);
 
 
@@ -179,7 +177,7 @@ namespace PvzLauncherRemake.Windows
                         //构建检测
                         if (Globals.Arguments.isCIBuild)//CI
                         {
-                            SnackbarService.Show(new SnackbarContent
+                            Utils.UI.SnackbarService.Show(new SnackbarContent
                             {
                                 Content = $"您使用的是基于 {Globals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
                                 Title = "警告",
@@ -188,7 +186,7 @@ namespace PvzLauncherRemake.Windows
                         }
                         else if (Globals.Arguments.isDebugBuild)//DEBUG
                         {
-                            SnackbarService.Show(new SnackbarContent
+                            Utils.UI.SnackbarService.Show(new SnackbarContent
                             {
                                 Content = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
                                 Title = "警告",

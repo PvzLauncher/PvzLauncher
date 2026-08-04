@@ -2,7 +2,6 @@
 using PvzLauncherRemake.Classes.JsonConfigs;
 using System.IO;
 
-
 namespace PvzLauncherRemake.Utils.FileSystem
 {
     public static class ConfigManager

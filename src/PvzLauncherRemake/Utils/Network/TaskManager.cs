@@ -4,7 +4,6 @@ using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
 
-
 namespace PvzLauncherRemake.Utils.Network
 {
     public class TaskManager

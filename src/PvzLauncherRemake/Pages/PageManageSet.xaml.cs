@@ -1,8 +1,6 @@
-﻿
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -11,7 +9,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
-
 using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages

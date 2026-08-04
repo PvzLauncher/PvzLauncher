@@ -3,7 +3,6 @@ using ModernWpf;
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
@@ -14,7 +13,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-
 
 namespace PvzLauncherRemake.Pages
 {

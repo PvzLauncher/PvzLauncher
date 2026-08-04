@@ -1,8 +1,6 @@
-﻿
-using PvzLauncherRemake.Classes;
+﻿using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -12,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Effects;
-
 
 namespace PvzLauncherRemake.Pages
 {

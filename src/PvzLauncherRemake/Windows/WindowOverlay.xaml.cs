@@ -1,5 +1,4 @@
 ﻿using H.Hooks;
-
 using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;

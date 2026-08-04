@@ -1,5 +1,4 @@
 ﻿using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using System.Windows;
