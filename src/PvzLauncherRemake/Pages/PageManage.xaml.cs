@@ -1,9 +1,10 @@
-﻿using HuaZi.Library.Json;
+﻿
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Configuration;
+using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -443,7 +444,7 @@ namespace PvzLauncherRemake.Pages
                                 string lastName = trainerConfig.Name;
                                 trainerConfig.Name = textBox.Text;
                                 Directory.Move(Path.Combine(Globals.Directories.TrainerDirectory, lastName), Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name));
-                                Json.WriteJson(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
+                                JsonHelper.WriteJson(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
                                 SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "更名成功",

@@ -1,11 +1,12 @@
 ﻿using H.Hooks;
-using HuaZi.Library.Json;
+
 using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
+using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
@@ -30,7 +31,7 @@ namespace PvzLauncherRemake.Windows
         private LowLevelKeyboardHook _hook = new LowLevelKeyboardHook();
         private InputSimulator _inputSim = new InputSimulator();
 
-        private JsonGameInfo.Root GameInfo = Json.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+        private JsonGameInfo.Root GameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
         private WindowOverlayInfo WinOverlayInfo = new WindowOverlayInfo();
 
@@ -290,7 +291,7 @@ namespace PvzLauncherRemake.Windows
                 throw new Exception("无法获得鼠标指针坐标");
 
             GameInfo.Config.SlotPositions[currentPosSet == 11 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
-            Json.WriteJson(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"), GameInfo);
+            JsonHelper.WriteJson(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"), GameInfo);
 
             if (currentPosSet == 11)
             {

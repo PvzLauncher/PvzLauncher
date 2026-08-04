@@ -1,10 +1,12 @@
-﻿using HuaZi.Library.Downloader;
-using HuaZi.Library.Json;
+﻿
+
 using MdXaml;
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
@@ -84,7 +86,7 @@ namespace PvzLauncherRemake.Utils.Services
             //获取主索引
             string indexString = await Client.GetStringAsync(Globals.Urls.UpdateIndexUrl);
 
-            UpdateIndex = Json.ReadJson<JsonUpdateIndex.Root>(indexString);
+            UpdateIndex = JsonHelper.ReadJson<JsonUpdateIndex.Root>(indexString);
 
             //判断更新通道
 
@@ -182,7 +184,7 @@ namespace PvzLauncherRemake.Utils.Services
             string errorMessage = null!;
             string errorMessageShell = null!;
 
-            var downloader = new Downloader
+            var downloader = new DownloadService
             {
                 Url = Url,
                 SavePath = BinPackSavePath,
@@ -202,7 +204,7 @@ namespace PvzLauncherRemake.Utils.Services
 
                 })
             };
-            var downloaderShell = new Downloader
+            var downloaderShell = new DownloadService
             {
                 Url = UrlShell,
                 SavePath = ShellPackSavePath,

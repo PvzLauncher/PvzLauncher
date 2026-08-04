@@ -1,7 +1,8 @@
-﻿using HuaZi.Library.Json;
+﻿
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -101,7 +102,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
 
-                            Globals.Caches.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
+                            Globals.Caches.DownloadIndex = JsonHelper.ReadJson<JsonDownloadIndex.Root>(indexString);
                         }
                     }
 

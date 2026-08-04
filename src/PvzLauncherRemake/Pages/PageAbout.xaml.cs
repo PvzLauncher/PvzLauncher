@@ -1,7 +1,8 @@
-﻿using HuaZi.Library.Json;
+﻿
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -74,7 +75,7 @@ namespace PvzLauncherRemake.Pages
             string sponsorIndexUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main/sponsors/index.json";
             string[] sponsorList;
             using (var client = new HttpClient())
-                sponsorList = Json.ReadJson<string[]>(await client.GetStringAsync(sponsorIndexUrl));
+                sponsorList = JsonHelper.ReadJson<string[]>(await client.GetStringAsync(sponsorIndexUrl));
 
             stackpanel_SponsorList.Children.Clear();
             foreach (var sponsor in sponsorList)

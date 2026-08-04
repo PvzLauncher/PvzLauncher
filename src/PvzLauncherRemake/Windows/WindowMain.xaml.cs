@@ -1,4 +1,4 @@
-﻿using HuaZi.Library.Json;
+﻿
 using MdXaml;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
@@ -6,6 +6,7 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils.Configuration;
+using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -243,7 +244,7 @@ namespace PvzLauncherRemake.Windows
                         {
                             JsonNoticeIndex.Root noticeIndex;
                             using (var client = new HttpClient())
-                                noticeIndex = Json.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
+                                noticeIndex = JsonHelper.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
 
                             foreach (var notice in noticeIndex.Notices)
                             {

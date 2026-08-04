@@ -1,4 +1,4 @@
-﻿using HuaZi.Library.Json;
+﻿
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
@@ -36,7 +36,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     using (var client = new HttpClient())
                     {
-                        Globals.Caches.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(Globals.Urls.EchoCaveIndexUrl));
+                        Globals.Caches.EchoCaveIndex = JsonHelper.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(Globals.Urls.EchoCaveIndexUrl));
                     }
 
                     foreach (var echoCave in Globals.Caches.EchoCaveIndex.Data)
@@ -313,7 +313,7 @@ namespace PvzLauncherRemake.Pages
                     if (Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
                     //再次加载游戏档案
-                    currentGameInfo = Json.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"));
+                    currentGameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"));
                     //启动游戏
                     GameManager.LaunchGame(currentGameInfo, (async () =>
                     {

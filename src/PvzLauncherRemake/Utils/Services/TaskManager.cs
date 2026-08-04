@@ -1,6 +1,7 @@
-﻿using HuaZi.Library.Downloader;
+﻿
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
 
@@ -38,7 +39,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
 
             var originDownloader = taskInfo.Downloader;
-            taskInfo.Downloader = new Downloader
+            taskInfo.Downloader = new DownloadService
             {
                 Completed = (async (s, e) =>
                 {
@@ -162,7 +163,7 @@ namespace PvzLauncherRemake.Utils.Services
 
     public class DownloadTaskInfo
     {
-        public Downloader? Downloader { get; set; } = null;//下载器
+        public DownloadService? Downloader { get; set; } = null;//下载器
         public JsonDownloadIndex.GameInfo Info { get; set; }//游戏信息
         public string? TaskName { get; set; } = "未命名下载任务";//任务名
         public GameIcons TaskIcon { get; set; } = GameIcons.Unknown;//任务图标

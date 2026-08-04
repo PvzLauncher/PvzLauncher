@@ -1,5 +1,5 @@
-﻿using HuaZi.Library.Downloader;
-using HuaZi.Library.Json;
+﻿
+
 using Microsoft.Win32;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
@@ -7,6 +7,7 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.Diagnostics;
@@ -47,7 +48,7 @@ namespace PvzLauncherRemake.Utils.Services
 
                 try
                 {
-                    var config = Json.ReadJson<JsonGameInfo.Root>(configPath);
+                    var config = JsonHelper.ReadJson<JsonGameInfo.Root>(configPath);
                     if (config != null)
                     {
                         if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
@@ -91,7 +92,7 @@ namespace PvzLauncherRemake.Utils.Services
 
                 try
                 {
-                    var config = Json.ReadJson<JsonTrainerInfo.Root>(configPath);
+                    var config = JsonHelper.ReadJson<JsonTrainerInfo.Root>(configPath);
                     if (config != null)
                     {
                         validTrainers.Add(config);
@@ -261,7 +262,7 @@ namespace PvzLauncherRemake.Utils.Services
                             Name = Path.GetFileName(savePath),
                             Version = "1.0.0.0"
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
                     }
                     else
                     {
@@ -281,7 +282,7 @@ namespace PvzLauncherRemake.Utils.Services
                                 PlayTime = 0
                             }
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
                     }
                 }
                 else
@@ -318,7 +319,7 @@ namespace PvzLauncherRemake.Utils.Services
                     };
                     if (!Directory.Exists(savePath))
                         Directory.CreateDirectory(savePath);
-                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
+                    JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
                 }
 
 
@@ -368,7 +369,7 @@ namespace PvzLauncherRemake.Utils.Services
                 //定义下载器
                 TaskManager.AddTask(new DownloadTaskInfo
                 {
-                    Downloader = new Downloader
+                    Downloader = new DownloadService
                     {
                         Url = analysisResult.Data.DirectLink,
                         SavePath = tempPath
@@ -398,7 +399,7 @@ namespace PvzLauncherRemake.Utils.Services
                                 PlayTime = 0
                             }
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
                         Globals.Config.CurrentGame = configName;
                     }
                     else
@@ -410,7 +411,7 @@ namespace PvzLauncherRemake.Utils.Services
                             Name = configName,
                             Icon = info.Icon
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
                         Globals.Config.CurrentTrainer = configName;
                     }
 
@@ -489,7 +490,7 @@ namespace PvzLauncherRemake.Utils.Services
             //启动次数
             gameInfo.Record.PlayCount++;
 
-            Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            JsonHelper.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
 
             //启动器整体次数
             Globals.Config.Record.LaunchCount++;
@@ -511,7 +512,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             IsGameRuning = false;
 
-            var gameInfo = Json.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+            var gameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
 
             switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
@@ -526,7 +527,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             //保存游玩时间
             gameInfo.Record.PlayTime = gameInfo.Record.PlayTime + ((long)(DateTimeOffset.Now - LatestGameLaunchTime!).Value.TotalSeconds);
-            Json.WriteJson(Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            JsonHelper.WriteJson(Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
         }
 
         /// <summary>

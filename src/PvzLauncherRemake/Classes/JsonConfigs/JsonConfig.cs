@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Drawing;
-using System.Text.Json.Serialization;
 
 namespace PvzLauncherRemake.Classes.JsonConfigs
 {

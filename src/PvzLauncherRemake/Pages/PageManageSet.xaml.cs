@@ -1,8 +1,9 @@
-﻿using HuaZi.Library.Json;
+﻿
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
+using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -39,7 +40,7 @@ namespace PvzLauncherRemake.Pages
         public void EndLoad() => StartLoad(false);
 
 
-        private void SaveConfig() => Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+        private void SaveConfig() => JsonHelper.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
         public PageManageSet(JsonGameInfo.Root gameInfo)
         {

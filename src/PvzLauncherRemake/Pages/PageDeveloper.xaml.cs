@@ -1,8 +1,10 @@
-﻿using HuaZi.Library.Downloader;
-using HuaZi.Library.Json;
+﻿
+
 using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
@@ -67,7 +69,7 @@ namespace PvzLauncherRemake.Pages
 
                     JsonFileIndex.Root index;
                     using (var client = new HttpClient())
-                        index = Json.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
+                        index = JsonHelper.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
                     listBox_fileDownload_List.Items.Clear();
                     foreach (var file in index.List)
                         listBox_fileDownload_List.Items.Add($"{file}");
@@ -98,7 +100,7 @@ namespace PvzLauncherRemake.Pages
 
                         TaskManager.AddTask(new DownloadTaskInfo
                         {
-                            Downloader = new Downloader
+                            Downloader = new DownloadService
                             {
                                 Url = selected.Url,
                                 SavePath = savePath
