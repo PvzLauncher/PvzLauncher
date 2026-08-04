@@ -4,7 +4,7 @@ using System.IO;
 
 namespace PvzLauncherRemake.Utils
 {
-    public class CompressExtracter
+    public class ArchiveHelper
     {
         public static void ExtractWithProgress(
             string archivePath,

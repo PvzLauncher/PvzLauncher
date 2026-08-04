@@ -1,7 +1,7 @@
 ﻿using PvzLauncherRemake.Controls.Icons;
 using System.Windows.Controls;
 
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils
 {
     public enum GameIcons
     {

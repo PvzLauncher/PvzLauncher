@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils
 {
     public static class Updater
     {
@@ -34,7 +34,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             if (Globals.Config.Settings.LauncherConfig.OfflineMode)
             {
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更新不可用",
                     Content = $"离线模式已启用。因此联网功能被禁用，如果你的设备可以正常联网。那么你可以前往设置关闭离线模式",
@@ -47,7 +47,7 @@ namespace PvzLauncherRemake.Utils.Services
             //检查服务可用性
             if (!await CheckService())
             {
-                var result = await DialogManager.ShowDialogAsync(new ContentDialog
+                var result = await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更新服务不可用",
                     Content = "更新服务检查不通过，请检查 .NET 10 Runtime 是否正确安装",
@@ -61,7 +61,7 @@ namespace PvzLauncherRemake.Utils.Services
             //是否正在更新
             if (isUpdating)
             {
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "无法更新",
                     Content = $"已有一个更新实例正在运行。如果你之前没有点击过更新，请尝试重启启动器",
@@ -104,7 +104,7 @@ namespace PvzLauncherRemake.Utils.Services
                     break;
 
                 default:
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "更新终止",
                         Content = $"更新通道 \"{Globals.Config.Settings.LauncherConfig.UpdateChannel}\" 无效！请重新选择有效的更新通道",
@@ -131,7 +131,7 @@ namespace PvzLauncherRemake.Utils.Services
                 docViewer.Document = new Markdown().Transform(ChangeLog);
                 docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
 
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = $"发现可用更新 - {LatestVersion}",
                     Content = docViewer,
@@ -156,7 +156,7 @@ namespace PvzLauncherRemake.Utils.Services
             {
 
                 if (!isStartUp)
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "无可用更新",
                         Content = $"您使用的已经是最新版本 {Globals.Version} , 无需更新!",
@@ -252,7 +252,7 @@ namespace PvzLauncherRemake.Utils.Services
             }
             else
             {
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "失败",
                     Content = $"无法在 \"{Path.Combine(Globals.Directories.ExecuteDirectory, "UpdateService.exe")}\" 找到更新服务",

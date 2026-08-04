@@ -5,7 +5,7 @@ using System.Windows.Media.Animation;
 
 namespace PvzLauncherRemake.Utils
 {
-    public static class TabControlAnimation
+    public static class TabControlAnimationHelper
     {
         public static void TabControlAnimtion(object sender, RoutedEventArgs e)
         {

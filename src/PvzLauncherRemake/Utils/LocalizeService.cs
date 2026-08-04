@@ -5,7 +5,7 @@ using WPFLocalizeExtension.Extensions;
 
 namespace PvzLauncherRemake.Utils
 {
-    public class LocalizeManager
+    public class LocalizeService
     {
         public string Directory { get; set; }
 

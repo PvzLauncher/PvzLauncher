@@ -5,7 +5,6 @@ using ModernWpf.Controls;
 using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Windows;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils
 {
     public static class GameManager
     {
@@ -139,7 +138,7 @@ namespace PvzLauncherRemake.Utils.Services
                 radioButtonGame.Click += ((s, e) => { isTrainer = false; checkBoxVirtual.IsEnabled = true; });
                 radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; checkBoxVirtual.IsChecked = false; });
                 checkBoxVirtual.Click += ((s, e) => isVirtual = checkBoxVirtual.IsChecked ?? false);
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "请选择类型",
                     Content = new StackPanel
@@ -210,7 +209,7 @@ namespace PvzLauncherRemake.Utils.Services
                 }
                 else
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "帮助我们解决问题！",
                         Content = new StackPanel
@@ -235,7 +234,7 @@ namespace PvzLauncherRemake.Utils.Services
                 if (!isVirtual)
                 {
                     bool isImportConfirm = false;
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "导入确认",
                         Content = "此操作会将您选择的文件夹复制到启动器游戏库内，如果游戏过可能会需要很长时间，且此操作无法取消！\n\n确定开始导入？",
@@ -247,7 +246,7 @@ namespace PvzLauncherRemake.Utils.Services
                     if (!isImportConfirm)
                         return;
 
-                    await DirectoryManager.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+                    await DirectoryHelper.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
 
 
                     if (isTrainer == true)
@@ -285,7 +284,7 @@ namespace PvzLauncherRemake.Utils.Services
                 else
                 {
                     bool isImportConfirm = false;
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "虚拟导入确认",
                         Content = "虚拟导入提供了一个新的导入方式，只在启动器目录创建一个引用链接。达到不复制源游戏文件即可启动游戏",
@@ -576,7 +575,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             if (Directory.Exists(Globals.Directories.SaveDirectory))
                 Directory.Delete(Globals.Directories.SaveDirectory, true);
-            await DirectoryManager.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), Globals.Directories.SaveDirectory);
+            await DirectoryHelper.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), Globals.Directories.SaveDirectory);
         }
 
         /// <summary>
@@ -588,7 +587,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             if (Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save")))
                 Directory.Delete(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);
-            await DirectoryManager.CopyDirectoryAsync(Globals.Directories.SaveDirectory, Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"));
+            await DirectoryHelper.CopyDirectoryAsync(Globals.Directories.SaveDirectory, Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"));
         }
 
         #endregion
@@ -611,7 +610,7 @@ namespace PvzLauncherRemake.Utils.Services
                 var textBox = new TextBox { Text = name };
 
                 bool isContinue = false;
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "发现重名",
                     Content = new StackPanel
@@ -748,7 +747,7 @@ namespace PvzLauncherRemake.Utils.Services
                     if (!IsGameRuning)
                         return;
 
-                    var result = Win32APIHelper.SetWindowTitle(GameProcess.MainWindowHandle, title);
+                    var result = WinAPI.SetWindowTitle(GameProcess.MainWindowHandle, title);
                     if (result)
                         return;
 

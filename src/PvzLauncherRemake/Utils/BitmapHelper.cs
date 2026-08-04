@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace PvzLauncherRemake.Utils
 {
-    public static class BitmapLoader
+    public static class BitmapHelper
     {
         public static BitmapImage LoadBitmapImageFromDisk(string path)
         {

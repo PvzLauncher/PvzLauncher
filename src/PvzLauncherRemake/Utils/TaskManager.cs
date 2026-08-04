@@ -3,7 +3,7 @@ using PvzLauncherRemake.Classes.JsonConfigs;
 using System.IO;
 
 
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils
 {
     public class TaskManager
     {
@@ -64,7 +64,7 @@ namespace PvzLauncherRemake.Utils.Services
                         //解压
                         await Task.Run(() =>
                         {
-                            CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
+                            ArchiveHelper.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
                             {
                                 taskInfo.ExtractProgress = p;
                             }));

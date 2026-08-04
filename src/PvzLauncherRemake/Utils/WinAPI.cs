@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils
 {
     public struct RECT
     {
@@ -13,7 +13,7 @@ namespace PvzLauncherRemake.Utils.Services
         public int Height => Bottom - Top;
     }
 
-    public static class Win32APIHelper
+    public static class WinAPI
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool SetWindowText(IntPtr hWnd, string lpString);

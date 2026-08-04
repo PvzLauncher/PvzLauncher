@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace PvzLauncherRemake.Utils
 {
-    public static class DirectoryManager
+    public static class DirectoryHelper
     {
         /// <summary>
         /// 简单的复制文件夹，没有安全保护，自己写去

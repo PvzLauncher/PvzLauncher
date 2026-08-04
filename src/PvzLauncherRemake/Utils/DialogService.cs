@@ -11,7 +11,7 @@ namespace PvzLauncherRemake.Utils
         Overlay
     }
 
-    public static class DialogManager
+    public static class DialogService
     {
         private static readonly SemaphoreSlim DialogSemaphore = new(1, 1);
 
