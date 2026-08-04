@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Http;
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.Network
 {
     public class DownloadService : IDisposable
     {

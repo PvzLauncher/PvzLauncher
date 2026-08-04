@@ -3,7 +3,7 @@ using PvzLauncherRemake.Windows;
 using System.Windows;
 
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.UI
 {
     public enum DialogDisplayArea
     {

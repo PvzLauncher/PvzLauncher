@@ -4,7 +4,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.UI
 {
     public static class VisualTreeTools
     {

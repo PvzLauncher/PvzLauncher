@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.FileSystem
 {
     public static class DirectoryHelper
     {

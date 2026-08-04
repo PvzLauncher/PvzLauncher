@@ -2,7 +2,7 @@
 using System.Windows;
 using Wpf.Ui.Controls;
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.UI
 {
     public static class SnackbarManager
     {

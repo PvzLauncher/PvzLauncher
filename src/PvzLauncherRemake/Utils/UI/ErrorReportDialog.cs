@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.UI
 {
     public static class ErrorReportDialog
     {

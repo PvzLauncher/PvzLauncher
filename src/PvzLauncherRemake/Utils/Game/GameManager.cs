@@ -5,6 +5,9 @@ using ModernWpf.Controls;
 using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils.File;
+using PvzLauncherRemake.Utils.Network;
+using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.Diagnostics;
 using System.IO;
@@ -14,7 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.Game
 {
     public static class GameManager
     {
