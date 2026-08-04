@@ -179,7 +179,7 @@ namespace PvzLauncherRemake.Windows
                         //构建检测
                         if (Globals.Arguments.isCIBuild)//CI
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Content = $"您使用的是基于 {Globals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
                                 Title = "警告",
@@ -188,7 +188,7 @@ namespace PvzLauncherRemake.Windows
                         }
                         else if (Globals.Arguments.isDebugBuild)//DEBUG
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Content = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
                                 Title = "警告",

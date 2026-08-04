@@ -109,7 +109,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (Debugger.IsAttached)
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "开发者控制台",
                         Content = "检测到调试器附加，自动进入开发者控制台",
@@ -146,7 +146,7 @@ namespace PvzLauncherRemake.Pages
                     }
                     else
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "答案错误",
                             Content = $"您无法进入开发者控制台, \"{textBox.Text}\" 是错误的！",

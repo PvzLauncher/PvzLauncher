@@ -182,7 +182,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (GameManager.IsGameRuning)
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "警告",
                         Content = "游戏正在运行，请不要更改档案",
@@ -192,7 +192,7 @@ namespace PvzLauncherRemake.Pages
                 }
 
 
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "选择游戏",
                     Content = $"已选择 \"{((UserCard)sender).Title}\" 作为启动游戏",
@@ -226,7 +226,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "选择修改器",
                     Content = $"已选择 \"{((UserCard)sender).Title}\" 作为当前修改器",
@@ -265,7 +265,7 @@ namespace PvzLauncherRemake.Pages
                     return;
                 if (GameManager.IsGameRuning && uc.Title == Globals.Config.CurrentGame)
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "警告",
                         Content = "此游戏正在运行，请不要修改信息",
@@ -406,7 +406,7 @@ namespace PvzLauncherRemake.Pages
                             Globals.Config.CurrentTrainer = null!;
                         }
                         ConfigManager.SaveConfig();
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "删除成功",
                             Content = $"\"{trainerConfig.Name}\" 已从您的修改器库内移除!",
@@ -444,7 +444,7 @@ namespace PvzLauncherRemake.Pages
                                 trainerConfig.Name = textBox.Text;
                                 Directory.Move(Path.Combine(Globals.Directories.TrainerDirectory, lastName), Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name));
                                 JsonHelper.WriteJson(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
-                                SnackbarManager.Show(new SnackbarContent
+                                SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "更名成功",
                                     Content = $"修改器已更名为: {trainerConfig.Name}",
@@ -461,7 +461,7 @@ namespace PvzLauncherRemake.Pages
                             else
                             {
 
-                                SnackbarManager.Show(new SnackbarContent
+                                SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "更名失败",
                                     Content = $"库内已有与 \"{textBox.Text}\" 同名修改器！",
@@ -472,7 +472,7 @@ namespace PvzLauncherRemake.Pages
                         else
                         {
 
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "更名失败",
                                 Content = "新名称为空",

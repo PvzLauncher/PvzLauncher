@@ -110,7 +110,7 @@ namespace PvzLauncherRemake.Pages
                             TaskIcon = GameIcons.Unknown
                         });
 
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "下载已开始",
                             Content = "",
@@ -128,7 +128,7 @@ namespace PvzLauncherRemake.Pages
 
             button_flyoutTEST.Click += (s, e) => flyout1.ShowAt(button_flyoutTEST);
 
-            rating.ValueChanged += (s, e) => SnackbarManager.Show(new SnackbarContent
+            rating.ValueChanged += (s, e) => SnackbarService.Show(new SnackbarContent
             {
                 Title = "result",
                 Content = $"{rating.Value}",

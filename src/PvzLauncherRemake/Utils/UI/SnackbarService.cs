@@ -4,7 +4,7 @@ using Wpf.Ui.Controls;
 
 namespace PvzLauncherRemake.Utils.UI
 {
-    public static class SnackbarManager
+    public static class SnackbarService
     {
         public static void Show(SnackbarContent snackbar)
         {

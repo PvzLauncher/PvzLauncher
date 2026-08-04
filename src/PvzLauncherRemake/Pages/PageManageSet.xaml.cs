@@ -175,7 +175,7 @@ namespace PvzLauncherRemake.Pages
 
                             await Task.Run(() => Directory.Delete(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name), true));
 
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "删除成功",
                                 Content = $"\"{GameInfo.GameInfo.Name}\" 已成功从您的游戏库中移除",
@@ -272,7 +272,7 @@ namespace PvzLauncherRemake.Pages
                     GameInfo.GameInfo.Version = textBox.Text;
                     GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Grid)comboBox.SelectedItem).Tag);
                     SaveConfig();
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "成功",
                         Content = "您的版本信息已更改",
@@ -337,7 +337,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             GameInfo.GameInfo.ExecuteName = (string)listBox.SelectedItem;
                             SaveConfig();
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "成功",
                                 Content = $"可执行文件已更改为 \"{GameInfo.GameInfo.ExecuteName}\"",
@@ -346,7 +346,7 @@ namespace PvzLauncherRemake.Pages
                         }
                         else
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "失败",
                                 Content = "您没有选择任何可执行文件，因此操作取消",
@@ -357,7 +357,7 @@ namespace PvzLauncherRemake.Pages
                 }
                 else
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "您无法更改",
                         Content = "此游戏目录下仅有一个可执行文件，无法更改",
@@ -394,7 +394,7 @@ namespace PvzLauncherRemake.Pages
                             GameInfo.GameInfo.Name = textBox.Text;
                             Directory.Move(Path.Combine(Globals.Directories.GameDirectory, lastName), Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name));
                             SaveConfig();
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "更名成功",
                                 Content = $"游戏已更名为 \"{GameInfo.GameInfo.Name}\"",
@@ -408,7 +408,7 @@ namespace PvzLauncherRemake.Pages
                         }
                         else
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "更名失败",
                                 Content = $"游戏库下已有与\"{textBox.Text}\"同名游戏！",
@@ -418,7 +418,7 @@ namespace PvzLauncherRemake.Pages
                     }
                     else
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "更名失败",
                             Content = "新名称为空",

@@ -11,7 +11,7 @@ namespace PvzLauncherRemake.Utils.UI
         {
             if (!isUnHandleException)
             {
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "发生错误",
                     Content = $"{ex}",

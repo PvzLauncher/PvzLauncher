@@ -318,7 +318,7 @@ namespace PvzLauncherRemake.Pages
                     //启动游戏
                     GameManager.LaunchGame(currentGameInfo, (async () =>
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "提示",
                             Content = $"游戏进程退出, 本次游玩时长: {Math.Round((DateTimeOffset.Now - GameManager.LatestGameLaunchTime!).Value.TotalMinutes),2} 分钟",
@@ -354,7 +354,7 @@ namespace PvzLauncherRemake.Pages
 
                     await GameManager.KillGame((() =>
                     {
-                        /*SnackbarManager.Show(new SnackbarContent
+                        /*SnackbarService.Show(new SnackbarContent
                         {
                             Title = "结束游戏",
                             Content = "成功结束游戏",
@@ -362,7 +362,7 @@ namespace PvzLauncherRemake.Pages
                         });*/
                     }), (() =>
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "结束游戏",
                             Content = "无法结束游戏，请手动关闭游戏",
@@ -392,7 +392,7 @@ namespace PvzLauncherRemake.Pages
                     UseShellExecute = true,
                     WorkingDirectory = Path.Combine(Globals.Directories.TrainerDirectory, currentTrainerInfo.Name)
                 });
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "提示",
                     Content = $"{Globals.Config.CurrentTrainer} 启动成功!",

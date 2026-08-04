@@ -167,7 +167,7 @@ namespace PvzLauncherRemake.Utils.Game
                         openFolderDialog.FolderName == Globals.Directories.GameDirectory ||
                         openFolderDialog.FolderName == Globals.Directories.TrainerDirectory)
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "导入失败",
                             Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
@@ -202,7 +202,7 @@ namespace PvzLauncherRemake.Utils.Game
                 }
                 else if (listBox.Items.Count <= 0)
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "导入终止",
                         Content = "您选择的文件夹内没有任何可执行文件，导入被终止",
@@ -323,7 +323,7 @@ namespace PvzLauncherRemake.Utils.Game
 
 
 
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "导入",
                     Content = $"导入 \"{Path.GetFileName(savePath)}\" 成功！",
@@ -640,7 +640,7 @@ namespace PvzLauncherRemake.Utils.Game
                 if (!Directory.Exists(Path.Combine(baseDir, textBox.Text)))
                     return Path.Combine(baseDir, textBox.Text);
                 else
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "无法解决",
                         Content = $"库内仍然有与 \"{textBox.Text}\" 同名的文件夹，请继续解决",
