@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace PvzLauncherRemake.Utils.UI
+namespace PvzLauncherRemake.Utils
 {
     public static class TabControlAnimation
     {

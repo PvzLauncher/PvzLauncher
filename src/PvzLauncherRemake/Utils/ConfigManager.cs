@@ -1,11 +1,9 @@
-﻿
-using PvzLauncherRemake.Classes;
+﻿using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.FileSystem;
 using System.IO;
 
 
-namespace PvzLauncherRemake.Utils.Configuration
+namespace PvzLauncherRemake.Utils
 {
     public static class ConfigManager
     {

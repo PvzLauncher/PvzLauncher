@@ -1,7 +1,7 @@
 ﻿using PvzLauncherRemake.Windows;
 using System.Windows;
 
-namespace PvzLauncherRemake.Utils.UI
+namespace PvzLauncherRemake.Utils
 {
     public enum NavigaionPages
     {

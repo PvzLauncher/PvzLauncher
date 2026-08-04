@@ -1,8 +1,8 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.Services;
-using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -12,7 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
+using static PvzLauncherRemake.Utils.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
 {

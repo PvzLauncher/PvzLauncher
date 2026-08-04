@@ -1,8 +1,7 @@
 ﻿using ModernWpf;
 using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Utils.Configuration;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.Services;
-using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Windows;

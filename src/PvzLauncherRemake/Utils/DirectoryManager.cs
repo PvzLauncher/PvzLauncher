@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace PvzLauncherRemake.Utils.FileSystem
+namespace PvzLauncherRemake.Utils
 {
     public static class DirectoryManager
     {

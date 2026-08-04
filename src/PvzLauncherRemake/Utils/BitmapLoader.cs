@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace PvzLauncherRemake.Utils.FileSystem
+namespace PvzLauncherRemake.Utils
 {
     public static class BitmapLoader
     {

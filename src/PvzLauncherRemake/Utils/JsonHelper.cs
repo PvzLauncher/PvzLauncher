@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 
-namespace PvzLauncherRemake.Utils.FileSystem
+namespace PvzLauncherRemake.Utils
 {
     public static class JsonHelper
     {

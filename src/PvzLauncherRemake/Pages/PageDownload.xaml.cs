@@ -2,9 +2,8 @@
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.Services;
-using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Windows;

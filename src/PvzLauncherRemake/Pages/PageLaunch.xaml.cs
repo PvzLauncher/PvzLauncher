@@ -2,16 +2,15 @@
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
-using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.Services;
-using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
+using static PvzLauncherRemake.Utils.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
 {
