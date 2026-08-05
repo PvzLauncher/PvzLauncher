@@ -104,3 +104,14 @@ PvzLauncher有多个更新通道，可供您选择，你可以根据下表来选
 确认下载的内容是安全的之后，请使用**任意一款**解压缩软件，解压压缩包内所有文件至**任意文件夹**内
 
 打开目标文件夹，双击运行 `PvzLauncher.exe` 即可。如果您的杀毒软件出现了报毒现象，请不要理睬它。我们的内容是安全的。如果您实在不放心，可以随时停止使用本软件
+
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=PvzLauncher%2FPvzLauncher&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=PvzLauncher/PvzLauncher&type=date&theme=dark&legend=top-left&sealed_token=Wjks6p6GaQizSdhzi5fSo1nIx0Nl8y3H_TvxCOicrVplYwDkzAoYAWj2WYB38i7JRvlYg7nSCxrTbZ2ejeELhJrbQNiYTIFj23wWhN6e_6t-RCS74Cn64A" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=PvzLauncher/PvzLauncher&type=date&legend=top-left&sealed_token=Wjks6p6GaQizSdhzi5fSo1nIx0Nl8y3H_TvxCOicrVplYwDkzAoYAWj2WYB38i7JRvlYg7nSCxrTbZ2ejeELhJrbQNiYTIFj23wWhN6e_6t-RCS74Cn64A" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=PvzLauncher/PvzLauncher&type=date&legend=top-left&sealed_token=Wjks6p6GaQizSdhzi5fSo1nIx0Nl8y3H_TvxCOicrVplYwDkzAoYAWj2WYB38i7JRvlYg7nSCxrTbZ2ejeELhJrbQNiYTIFj23wWhN6e_6t-RCS74Cn64A" />
+ </picture>
+</a>
