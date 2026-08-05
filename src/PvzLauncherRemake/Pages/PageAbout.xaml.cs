@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -184,27 +185,33 @@ namespace PvzLauncherRemake.Pages
         private async void button_Sponsor_Click(object sender, RoutedEventArgs e)
         {
             string qrcodePath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Images", "sponsor_qrcode.png");
-            if (!File.Exists(qrcodePath))
+            string afdianPath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Images", "sponsor_afdian.jpg");
+            if (!File.Exists(qrcodePath) || !File.Exists(afdianPath))
                 throw new FileNotFoundException("文件不存在", qrcodePath);
-            var bitmap = new BitmapImage(new Uri(qrcodePath));
-            var dialog = new ContentDialog
+            var bitmapQr = new BitmapImage(new Uri(qrcodePath));
+            var bitmapAf = new BitmapImage(new Uri(afdianPath));
+
+            var image = new Image();
+            await DialogService.ShowDialogAsync(new ContentDialog
             {
                 Title = "赞助",
                 Content = new UserScrollViewer
                 {
-                    Content = new StackPanel
-                    {
-                        Children =
-                        {
-                            new TextBlock{Text="感谢您对 PvzLauncher 的赞助，您可以在赞助备注填写您的名称。我们会将您的名称列在程序的关于页内",TextWrapping=TextWrapping.Wrap},
-                            new Image{Source=bitmap}
-                        }
-                    }
+                    Content = "感谢您对 PvzLauncher 的赞助，您可以在赞助备注填写您的昵称。\n我们会将您的列在关于页内"
                 },
-                CloseButtonText = "关闭",
+                PrimaryButtonText = "使用爱发电",
+                SecondaryButtonText = "使用赞赏码",
+                CloseButtonText = "放弃赞助",
                 DefaultButton = ContentDialogButton.Close
-            };
-            await DialogService.ShowDialogAsync(dialog);
+            }, () => image = new Image { Source = bitmapAf }, () => image = new Image { Source = bitmapQr }, () => image = null);
+
+            if (image != null)
+                await DialogService.ShowDialogAsync(new ContentDialog
+                {
+                    Content = image,
+                    CloseButtonText = "关闭",
+                    DefaultButton = ContentDialogButton.Close
+                });
         }
     }
 }
