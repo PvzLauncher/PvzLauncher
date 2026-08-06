@@ -25,7 +25,7 @@ namespace PvzLauncherRemake.Windows
     /// </summary>
     public partial class WindowMain : Window
     {
-        private Dictionary<string, Type> PageMap = new Dictionary<string, Type>();//Page预加载
+        public Dictionary<string, Type> PageMap = new Dictionary<string, Type>();//Page预加载
         private NavigationTransitionInfo FrameAnimation = new DrillInNavigationTransitionInfo();//Frame切换动画
         public ISnackbarService _snackbarService;
 

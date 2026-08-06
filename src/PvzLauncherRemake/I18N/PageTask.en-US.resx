@@ -129,4 +129,10 @@
   <data name="GotoDownload" xml:space="preserve">
     <value>Go to download page</value>
   </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
 </root>

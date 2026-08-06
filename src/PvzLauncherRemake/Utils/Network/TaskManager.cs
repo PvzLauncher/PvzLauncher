@@ -49,6 +49,7 @@ namespace PvzLauncherRemake.Utils.Network
                             Content = $"执行 \"{taskInfo.TaskName}\" 失败\n\n错误信息: {e}",
                             Type = SnackbarType.Error
                         });
+                        taskInfo.IsComplete = false;
                         DownloadTaskList.Remove(taskInfo);
                         TaskRemoved?.Invoke(taskInfo);
                         return;
@@ -78,6 +79,7 @@ namespace PvzLauncherRemake.Utils.Network
                         Content = $"任务 \"{taskInfo.TaskName}\" 执行完毕",
                         Type = SnackbarType.Success
                     });
+                    taskInfo.IsComplete = true;
                     DownloadTaskList.Remove(taskInfo);
                     TaskRemoved?.Invoke(taskInfo);
                     completeCallback?.Invoke();
