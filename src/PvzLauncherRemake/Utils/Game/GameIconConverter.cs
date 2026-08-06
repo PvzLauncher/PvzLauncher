@@ -34,6 +34,7 @@ namespace PvzLauncherRemake.Utils.Game
         Bedrock,//bedrock
         Rouge,//rouge
         Radish,//radish
+        Girls,//girls
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -79,6 +80,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case "bedrock": return GameIcons.Bedrock;
                 case "rouge": return GameIcons.Rouge;
                 case "radish": return GameIcons.Radish;
+                case "girls": return GameIcons.Girls;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -128,6 +130,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Bedrock: return "bedrock";
                 case GameIcons.Rouge: return "rouge";
                 case GameIcons.Radish: return "radish";
+                case GameIcons.Girls: return "girls";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -178,6 +181,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Bedrock: return new GameIconBedrock();
                 case GameIcons.Rouge: return new GameIconRouge();
                 case GameIcons.Radish: return new GameIconRadish();
+                case GameIcons.Girls: return new GameIconGirls();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
