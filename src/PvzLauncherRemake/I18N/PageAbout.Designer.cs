@@ -70,7 +70,7 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 版权所有 ©️ 2025-2026 HuaMouRen 保留所有权益 的本地化字符串。
+        ///   查找类似 版权所有 ©️ 2025-2026 HuaMouRen 保留所有权利 的本地化字符串。
         /// </summary>
         public static string Copyright {
             get {
