@@ -32,6 +32,7 @@ namespace PvzLauncherRemake.Utils.Game
         Ecology,//ecology
         Universe,//universe
         Bedrock,//bedrock
+        Rouge,//rouge
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -75,6 +76,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case "ecology": return GameIcons.Ecology;
                 case "universe": return GameIcons.Universe;
                 case "bedrock": return GameIcons.Bedrock;
+                case "rouge": return GameIcons.Rouge;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -122,6 +124,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Ecology: return "ecology";
                 case GameIcons.Universe: return "universe";
                 case GameIcons.Bedrock: return "bedrock";
+                case GameIcons.Rouge: return "rouge";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -170,6 +173,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Ecology: return new GameIconEcology();
                 case GameIcons.Universe: return new GameIconUniverse();
                 case GameIcons.Bedrock: return new GameIconBedrock();
+                case GameIcons.Rouge: return new GameIconRouge();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
