@@ -49,6 +49,9 @@ namespace PvzLauncherRemake.Controls
         private double _targetOffset = 0;
         private double _targetVelocity = 0;
         private long _lastTimestamp = 0;
+
+        private double _targetHorizontalVelocity = 0;
+
         //标志位
         private bool _isRenderingHooked = false;
         private bool _isAccuracyControl = false;
@@ -118,16 +121,39 @@ namespace PvzLauncherRemake.Controls
         {
             e.Handled = true;
 
-            //触摸板使用精确滚动模型
+            bool horizontal = Keyboard.IsKeyDown(Key.LeftShift) ||
+                      Keyboard.IsKeyDown(Key.RightShift);
+
+
+            if (horizontal)
+            {
+                _targetHorizontalVelocity += -e.Delta * VelocityFactor;
+
+                if (!_isRenderingHooked)
+                {
+                    _lastTimestamp = Stopwatch.GetTimestamp();
+                    CompositionTarget.Rendering += OnRendering;
+                    _isRenderingHooked = true;
+                }
+
+                return;
+            }
+
             _isAccuracyControl = IsTouchpadScroll(e);
 
             if (_isAccuracyControl)
             {
-                _targetVelocity = 0; // 防止下一次触发缓动模型时继承没有消除的速度，造成滚动异常
-                _targetOffset = Math.Clamp(VerticalOffset - e.Delta, 0, ScrollableHeight);
+                _targetVelocity = 0;
+                _targetOffset = Math.Clamp(
+                    VerticalOffset - e.Delta,
+                    0,
+                    ScrollableHeight);
             }
             else
-                _targetVelocity += -e.Delta * VelocityFactor;// 鼠标滚动，叠加速度（惯性滚动）
+            {
+                _targetVelocity += -e.Delta * VelocityFactor;
+            }
+
 
             if (!_isRenderingHooked)
             {
@@ -162,9 +188,12 @@ namespace PvzLauncherRemake.Controls
             else
             {
                 // 缓动滚动：速度衰减模拟（使用时间因子调整）
-                if (Math.Abs(_targetVelocity) < 0.1)
+                if (Math.Abs(_targetVelocity) < 0.1 &&
+                    Math.Abs(_targetHorizontalVelocity) < 0.1)
                 {
                     _targetVelocity = 0;
+                    _targetHorizontalVelocity = 0;
+
                     StopRendering();
                     return;
                 }
@@ -177,6 +206,24 @@ namespace PvzLauncherRemake.Controls
             }
 
             ScrollToVerticalOffset(_currentOffset);
+
+
+            //横向惯性滚动
+            if (Math.Abs(_targetHorizontalVelocity) > 0.1)
+            {
+                _targetHorizontalVelocity *= Math.Pow(Friction, timeFactor);
+
+                double horizontal =
+                    HorizontalOffset +
+                    _targetHorizontalVelocity * (timeFactor / 24);
+
+                ScrollToHorizontalOffset(
+                    Math.Clamp(horizontal, 0, ScrollableWidth));
+            }
+            else
+            {
+                _targetHorizontalVelocity = 0;
+            }
         }
 
         private void StopRendering()
