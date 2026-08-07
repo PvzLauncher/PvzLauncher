@@ -103,44 +103,6 @@ namespace PvzLauncherRemake.Windows
                     try
                     {
 
-
-
-
-                        //是否CI构建
-#if CI
-                Globals.Arguments.isCIBuild = true;
-#endif
-                        //是否Debug构建
-#if DEBUG
-                        Globals.Arguments.isDebugBuild = true;
-#endif
-
-
-                        //处理启动参数
-                        string[] args = Environment.GetCommandLineArgs();
-                        foreach (var arg in args)
-                        {
-
-                            switch (arg)
-                            {
-                                //外壳启动
-                                case "-shell":
-                                    Globals.Arguments.isShell = true; break;
-                                //更新启动，显示更新完毕对话框
-                                case "-update":
-                                    Globals.Arguments.isUpdate = true; break;
-                            }
-                        }
-
-
-
-
-
-
-
-
-
-
                         //参数检测
                         /*if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
                         {
@@ -194,9 +156,6 @@ namespace PvzLauncherRemake.Windows
                             });
                         }
 
-
-
-
                         //EULA检测
                         if (!Globals.Config.Eula)
                         {
@@ -223,20 +182,11 @@ namespace PvzLauncherRemake.Windows
                             ConfigManager.SaveConfig();
                         }
 
-
-
-
-
                         //检查更新
                         if (Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
                         {
-
                             await Updater.CheckUpdate(null!, true);
                         }
-
-
-
-
 
                         //公告获取
                         if (Globals.Config.Settings.LauncherConfig.NoticeEnabled && !Globals.Config.Settings.LauncherConfig.OfflineMode)
@@ -316,6 +266,8 @@ namespace PvzLauncherRemake.Windows
                 }), System.Windows.Threading.DispatcherPriority.Normal);
             });
 
+
+
             bool _isClose = false;
 
             Closing += async (s, e) =>
@@ -383,9 +335,7 @@ namespace PvzLauncherRemake.Windows
             }
         }
 
-        private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
+        private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) =>
             frame.GoBack();
-        }
     }
 }
