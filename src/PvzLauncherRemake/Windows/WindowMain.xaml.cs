@@ -1,5 +1,4 @@
-﻿
-using MdXaml;
+﻿using MdXaml;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using PvzLauncherRemake.Classes;
@@ -291,6 +290,22 @@ namespace PvzLauncherRemake.Windows
                         this.Close();
                     });
                 }
+            };
+
+
+
+
+
+
+
+            PreviewKeyUp += (s, e) =>
+            {
+                if (navView.IsBackEnabled != true || navView.IsBackButtonVisible != NavigationViewBackButtonVisible.Visible)
+                    return;
+                if (e.Key != System.Windows.Input.Key.Escape)
+                    return;
+
+                navView_BackRequested(navView, null!);
             };
         }
 
