@@ -194,7 +194,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     Title = "警告",
                     Content = $"此游戏体积较大 ({Info.Size} MB) 启动器下载很可能掉速或者失败。建议手动前往浏览器下载",
-                    PrimaryButtonText = "手动前往浏览器下载",
+                    PrimaryButtonText = "前往浏览器手动下载",
                     SecondaryButtonText = "仍然使用启动器下载",
                     DefaultButton = ContentDialogButton.Primary
                 }, () =>
