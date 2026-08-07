@@ -1,0 +1,39 @@
+name: Auto issue
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Auto assign issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.issue;
+
+            // 添加标签
+            await github.rest.issues.addLabels({
+              owner: issue.owner,
+              repo: issue.repo,
+              issue_number: issue.number,
+              labels: [
+                "🕐 等待"
+              ]
+            });
+
+            // 分配负责人
+            await github.rest.issues.addAssignees({
+              owner: issue.owner,
+              repo: issue.repo,
+              issue_number: issue.number,
+              assignees: [
+                "isHuaMouRen"
+              ]
+            });
