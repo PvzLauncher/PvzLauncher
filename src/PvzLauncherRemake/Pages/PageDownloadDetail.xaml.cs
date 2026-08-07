@@ -1,6 +1,7 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -227,7 +228,7 @@ namespace PvzLauncherRemake.Pages
 
             var dialog = new ContentDialog
             {
-                Content = new ScrollViewer
+                Content = new UserScrollViewer
                 {
                     Content = new Image { Source = s.Source, Stretch = Stretch.None },
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
