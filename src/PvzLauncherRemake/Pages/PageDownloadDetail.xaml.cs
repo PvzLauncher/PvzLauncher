@@ -148,6 +148,7 @@ namespace PvzLauncherRemake.Pages
 
         private async void button_Manual_Click(object sender, RoutedEventArgs e)
         {
+            bool shouldOpenUrl = true;
             if (!string.IsNullOrEmpty(Info.SharePassword))
                 await DialogService.ShowDialogAsync(new ContentDialog
                 {
@@ -158,16 +159,17 @@ namespace PvzLauncherRemake.Pages
                         FontSize = 20,
                         HorizontalAlignment = HorizontalAlignment.Center
                     },
-                    PrimaryButtonText = "复制",
-                    CloseButtonText = "关闭",
+                    PrimaryButtonText = "复制并前往",
+                    CloseButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary
-                }, () => Clipboard.SetText(Info.SharePassword));
+                }, () => Clipboard.SetText(Info.SharePassword), null, () => shouldOpenUrl = false);
 
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = Info.ShareUrl,
-                UseShellExecute = true
-            });
+            if (shouldOpenUrl)
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Info.ShareUrl,
+                    UseShellExecute = true
+                });
         }
 
         private async void button_Download_Click(object sender, RoutedEventArgs e)
