@@ -35,6 +35,7 @@ namespace PvzLauncherRemake.Utils.Game
         Rouge,//rouge
         Radish,//radish
         Girls,//girls
+        Card,//card
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -81,6 +82,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case "rouge": return GameIcons.Rouge;
                 case "radish": return GameIcons.Radish;
                 case "girls": return GameIcons.Girls;
+                case "card": return GameIcons.Card;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -131,6 +133,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Rouge: return "rouge";
                 case GameIcons.Radish: return "radish";
                 case GameIcons.Girls: return "girls";
+                case GameIcons.Card: return "card";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -182,6 +185,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Rouge: return new GameIconRouge();
                 case GameIcons.Radish: return new GameIconRadish();
                 case GameIcons.Girls: return new GameIconGirls();
+                case GameIcons.Card: return new GameIconCard();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
