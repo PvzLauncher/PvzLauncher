@@ -29,19 +29,21 @@
 
             <!--任务列表-->
             <controls:UserScrollViewer Margin="0,60,0,0">
-                <StackPanel x:Name="stackPanel_Tasks" Background="#00000000"/>
+                <StackPanel>
+                    <DockPanel>
+                        <TextBlock Text="{lex:Loc InProgress}" Opacity="0.5" Margin="10" DockPanel.Dock="Left"/>
+                        <Rectangle Fill="Black" Opacity="0.2" VerticalAlignment="Center" MinHeight="2"/>
+                    </DockPanel>
+                    <StackPanel x:Name="stackPanel_Tasks" Background="#00000000" Margin="15,0,0,0"/>
+                    <DockPanel>
+                        <TextBlock Text="{lex:Loc Completed}" Opacity="0.5" Margin="10" DockPanel.Dock="Left"/>
+                        <Rectangle Fill="Black" Opacity="0.2" VerticalAlignment="Center" MinHeight="2"/>
+                    </DockPanel>
+                    <StackPanel x:Name="stackPanel_Completed" Background="#00000000" Margin="15,0,0,0"/>
+                </StackPanel>
             </controls:UserScrollViewer>
         </Grid>
 
-        <!--空提示-->
-        <StackPanel x:Name="stackPanel_None" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
-            <TextBlock Text="{lex:Loc NullTip}" FontWeight="Bold" FontSize="25"/>
-            <Button x:Name="button_Download" Style="{DynamicResource AccentButtonStyle}" HorizontalAlignment="Center" Margin="0,10,0,0" Click="button_Download_Click">
-                <StackPanel Orientation="Horizontal">
-                    <ui:PathIcon Width="12" Height="12" Margin="0,0,5,0" Data="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/>
-                    <TextBlock Text="{lex:Loc GotoDownload}"/>
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        
     </Grid>
 </ui:Page>

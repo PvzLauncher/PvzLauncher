@@ -1,11 +1,11 @@
-﻿using PvzLauncherRemake.Utils.Services;
+﻿using PvzLauncherRemake.Utils.Game;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
+using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Controls
 {
@@ -29,6 +29,7 @@ namespace PvzLauncherRemake.Controls
         public object AttachedProperty { get; set; }
         public bool BigIconMode { get; set; } = false;
         public bool IsReadOnly { get; set; } = false;
+        public bool IsFavorite { get; set; } = false;
 
         public UserCard()
         {
@@ -51,6 +52,7 @@ namespace PvzLauncherRemake.Controls
 
                 textBlock_Title.Text = Title;
                 textBlock_Description.Text = Description;
+                rect_favoriteBack.Visibility = IsFavorite ? Visibility.Visible : Visibility.Hidden;
 
                 //图标
                 var icon = GameIconConverter.ParseGameIconToUserControl(Icon);

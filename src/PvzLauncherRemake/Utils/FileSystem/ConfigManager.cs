@@ -1,10 +1,8 @@
-﻿using HuaZi.Library.Json;
-using PvzLauncherRemake.Classes;
+﻿using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using System.IO;
 
-
-namespace PvzLauncherRemake.Utils.Configuration
+namespace PvzLauncherRemake.Utils.FileSystem
 {
     public static class ConfigManager
     {
@@ -14,7 +12,7 @@ namespace PvzLauncherRemake.Utils.Configuration
             SaveConfig();
         }
 
-        public static void SaveConfig() => Json.WriteJson(Globals.Paths.ConfigPath, Globals.Config);
+        public static void SaveConfig() => JsonHelper.WriteJson(Globals.Paths.ConfigPath, Globals.Config);
 
         public static void LoadConfig()
         {
@@ -27,7 +25,7 @@ namespace PvzLauncherRemake.Utils.Configuration
                     return;
                 }
 
-                var config = Json.ReadJson<JsonConfig.Root>(Globals.Paths.ConfigPath);
+                var config = JsonHelper.ReadJson<JsonConfig.Root>(Globals.Paths.ConfigPath);
                 if (config == null)
                 {
 

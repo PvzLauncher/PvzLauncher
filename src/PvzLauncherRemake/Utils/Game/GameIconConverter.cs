@@ -1,7 +1,7 @@
 ﻿using PvzLauncherRemake.Controls.Icons;
 using System.Windows.Controls;
 
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils.Game
 {
     public enum GameIcons
     {
@@ -29,6 +29,15 @@ namespace PvzLauncherRemake.Utils.Services
         Graft,//graft
         Wafer,//wafer
         Gardendless,//ge
+        Ecology,//ecology
+        Universe,//universe
+        Bedrock,//bedrock
+        Rouge,//rouge
+        Radish,//radish
+        Girls,//girls
+        Card,//card
+        Dave,//dave
+        MvZ,//mvz
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -69,6 +78,15 @@ namespace PvzLauncherRemake.Utils.Services
                 case "graft": return GameIcons.Graft;
                 case "wafer": return GameIcons.Wafer;
                 case "ge": return GameIcons.Gardendless;
+                case "ecology": return GameIcons.Ecology;
+                case "universe": return GameIcons.Universe;
+                case "bedrock": return GameIcons.Bedrock;
+                case "rouge": return GameIcons.Rouge;
+                case "radish": return GameIcons.Radish;
+                case "girls": return GameIcons.Girls;
+                case "card": return GameIcons.Card;
+                case "dave": return GameIcons.Dave;
+                case "mvz": return GameIcons.MvZ;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -113,6 +131,15 @@ namespace PvzLauncherRemake.Utils.Services
                 case GameIcons.Graft: return "graft";
                 case GameIcons.Wafer: return "wafer";
                 case GameIcons.Gardendless: return "ge";
+                case GameIcons.Ecology: return "ecology";
+                case GameIcons.Universe: return "universe";
+                case GameIcons.Bedrock: return "bedrock";
+                case GameIcons.Rouge: return "rouge";
+                case GameIcons.Radish: return "radish";
+                case GameIcons.Girls: return "girls";
+                case GameIcons.Card: return "card";
+                case GameIcons.Dave: return "dave";
+                case GameIcons.MvZ: return "mvz";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -158,6 +185,15 @@ namespace PvzLauncherRemake.Utils.Services
                 case GameIcons.Graft: return new GameIconGraft();
                 case GameIcons.Wafer: return new GameIconWafer();
                 case GameIcons.Gardendless: return new GameIconGardendless();
+                case GameIcons.Ecology: return new GameIconEcology();
+                case GameIcons.Universe: return new GameIconUniverse();
+                case GameIcons.Bedrock: return new GameIconBedrock();
+                case GameIcons.Rouge: return new GameIconRouge();
+                case GameIcons.Radish: return new GameIconRadish();
+                case GameIcons.Girls: return new GameIconGirls();
+                case GameIcons.Card: return new GameIconCard();
+                case GameIcons.Dave: return new GameIconDave();
+                case GameIcons.MvZ: return new GameIconMvZ();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();

@@ -2,15 +2,14 @@
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
 using PvzLauncherRemake.Utils.FileSystem;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
+using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -35,7 +34,7 @@ namespace PvzLauncherRemake.Pages
                 {
                     using (var client = new HttpClient())
                     {
-                        Globals.Caches.EchoCaveIndex = Json.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(Globals.Urls.EchoCaveIndexUrl));
+                        Globals.Caches.EchoCaveIndex = JsonHelper.ReadJson<JsonEchoCave.Index>(await client.GetStringAsync(Globals.Urls.EchoCaveIndexUrl));
                     }
 
                     foreach (var echoCave in Globals.Caches.EchoCaveIndex.Data)
@@ -265,7 +264,7 @@ namespace PvzLauncherRemake.Pages
                     if (File.Exists(Globals.Paths.BackgroundPath))
                     {
                         if (Globals.Caches.LauncherBackground == null)
-                            Globals.Caches.LauncherBackground = BitmapLoader.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
+                            Globals.Caches.LauncherBackground = BitmapHelper.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
                         if (Globals.Config.Settings.LauncherConfig.BackgroundMode == "custom")
                             image.Source = Globals.Caches.LauncherBackground;
                         else
@@ -311,34 +310,19 @@ namespace PvzLauncherRemake.Pages
 
                     if (Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
-
-                    //切换存档
-                    if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".save")))
-                    {
-
-                        await GameManager.SwitchGameSave(currentGameInfo);
-
-                    }
-
+                    //再次加载游戏档案
+                    currentGameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"));
                     //启动游戏
                     GameManager.LaunchGame(currentGameInfo, (async () =>
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "提示",
-                            Content = $"游戏进程退出, 退出代码: {GameManager.GameProcess.ExitCode}",
+                            Content = $"游戏进程退出, 本次游玩时长: {Math.Round((DateTimeOffset.Now - GameManager.LatestGameLaunchTime!).Value.TotalMinutes),2} 分钟",
                             Type = SnackbarType.Warn
                         });
 
                         textBlock_LaunchText.Text = GetLoc("I18N.PageLaunch", "LaunchGame");
-
-                        //保存存档
-                        if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Globals.Directories.SaveDirectory))
-                        {
-
-                            await GameManager.SaveGameSave(currentGameInfo);
-
-                        }
                     }));
 
                     //启动修改器(如果有)
@@ -367,7 +351,7 @@ namespace PvzLauncherRemake.Pages
 
                     await GameManager.KillGame((() =>
                     {
-                        /*SnackbarManager.Show(new SnackbarContent
+                        /*SnackbarService.Show(new SnackbarContent
                         {
                             Title = "结束游戏",
                             Content = "成功结束游戏",
@@ -375,7 +359,7 @@ namespace PvzLauncherRemake.Pages
                         });*/
                     }), (() =>
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "结束游戏",
                             Content = "无法结束游戏，请手动关闭游戏",
@@ -405,7 +389,7 @@ namespace PvzLauncherRemake.Pages
                     UseShellExecute = true,
                     WorkingDirectory = Path.Combine(Globals.Directories.TrainerDirectory, currentTrainerInfo.Name)
                 });
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "提示",
                     Content = $"{Globals.Config.CurrentTrainer} 启动成功!",

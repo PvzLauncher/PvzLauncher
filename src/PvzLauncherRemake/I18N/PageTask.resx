@@ -109,4 +109,10 @@
   <data name="GotoDownload" xml:space="preserve">
     <value>前往下载页</value>
   </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>进行中</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>已完成</value>
+  </data>
 </root>

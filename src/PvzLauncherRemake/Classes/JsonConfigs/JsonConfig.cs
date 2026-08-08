@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Drawing;
 
 namespace PvzLauncherRemake.Classes.JsonConfigs
 {
@@ -134,24 +133,21 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("slot_hotkey_enabled")]
             public bool SlotHotkeyEnabled { get; set; } = false;
 
-            [JsonProperty("slot_positions")]
-            public Dictionary<int, Point> SlotPositions { get; set; } = new Dictionary<int, Point>()
-            {
-                [1] = new Point(0, 0),
-                [2] = new Point(0, 0),
-                [3] = new Point(0, 0),
-                [4] = new Point(0, 0),
-                [5] = new Point(0, 0),
-                [6] = new Point(0, 0),
-                [7] = new Point(0, 0),
-                [8] = new Point(0, 0),
-                [9] = new Point(0, 0),
-                [10] = new Point(0, 0),
-
-                [0] = new Point(0, 0),//shovel
-            };
+            [JsonProperty("info_overlay")]
+            public InfoOverlay InfoOverlay { get; set; } = new InfoOverlay();
         }
 
+        public class InfoOverlay
+        {
+            [JsonProperty("opacity")]
+            public double Opacity { get; set; } = 0.5;
+
+            [JsonProperty("show_logo")]
+            public bool ShowLogo { get; set; } = true;
+
+            [JsonProperty("show_slot_key")]
+            public bool ShowSlotKey { get; set; } = true;
+        }
 
         public class Record
         {

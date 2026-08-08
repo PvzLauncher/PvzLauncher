@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="PvzLauncherRemake.Controls.Icons.GameIconCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PvzLauncherRemake.Controls.Icons"
+             mc:Ignorable="d">
+    <Viewbox>
+        <Canvas UseLayoutRounding="False" Width="512.0" Height="512.0">
+            <Canvas.Clip>
+                <RectangleGeometry Rect="0,0,512.0,512.0"/>
+            </Canvas.Clip>
+            <Canvas UseLayoutRounding="False">
+                <Path Stroke="#ffffbefa" StrokeLineJoin="Round" StrokeThickness="3.19138" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Fill>
+                        <LinearGradientBrush MappingMode="Absolute" StartPoint="34.804871,234.00874" EndPoint="501.77135,234.00874" Transform="1.0637928,0.0,0.0,1.0637928,-26.423937,-12.446184">
+                            <GradientStop Color="#ff3228dc" Offset="0.0"/>
+                            <GradientStop Color="#ffdc46fa" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                    <Path.Data>
+                        <PathGeometry Figures="m 119.577 150.36 l 15.7554 33.6133 l -1.40039 10.1517 l -17.5069 -1.04924 l -14.704 15.0552 l 0.34905 5.95267 c -6.56319 26.764 -11.9496 54.2433 -17.5069 80.8773 l 60.2227 0.70019 l 8.05116 -10.5029 l 0.35114 10.854 h 21.0078 c 7.13869 -35.9978 12.4498 -72.3046 18.205 -108.538 l -10.5029 6.30172 l -22.0571 -0.35113 l 4.55022 -16.1044 z m -84.7294 1.40039 l 32.56 31.8618 l -1.74944 8.40229 H 53.053 l -3.14982 20.6588 l 11.5542 0.70019 l -2.10058 22.7573 l -17.5069 6.65285 l -2.10058 19.2563 l 13.3036 -2.10057 l -2.80077 24.5088 l -14.4942 17.5277 l 8.37737 -31.9512 l -31.9387 59.6659 l 68.5793 -29.2127 l -47.2868 10.1496 l 2.13797 -8.15088 c 14.0615 -2.35815 27.6011 -6.62976 41.2344 -10.6774 l 7.35306 -42.3647 l 8.40229 -3.14982 l 4.55229 -20.3076 l -9.10249 2.45171 l 2.80076 -15.0552 l 8.75344 -2.10058 l 2.80077 -17.1578 l -7.35306 -0.34905 l 3.85002 -17.1557 z m 89.0054 60.3432 l 8.41684 0.4945 l -3.46563 18.8158 l -7.92234 0.24724 z m 33.175 1.23833 l 9.16067 0.24724 l -3.21839 19.0631 l -9.40791 -0.74383 z m -40.8501 39.1152 l 9.65517 1.23832 l -2.97114 20.0541 l -9.40792 0.24725 z m 33.6695 0 l 9.16067 0.74382 l -3.46563 19.0631 l -8.1696 -0.24724 z"/>
+                    </Path.Data>
+                </Path>
+                <Path Stroke="#ffffbefa" StrokeLineJoin="Round" StrokeThickness="3.19138" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Fill>
+                        <LinearGradientBrush MappingMode="Absolute" StartPoint="34.804871,234.00874" EndPoint="501.77135,234.00874" Transform="1.0637928,0.0,0.0,1.0637928,-26.423937,-12.446184">
+                            <GradientStop Color="#ff3228dc" Offset="0.0"/>
+                            <GradientStop Color="#ffdc46fa" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                    <Path.Data>
+                        <PathGeometry Figures="m 304.792 173.468 l -15.7554 13.6548 l -32.562 0.35114 l 1.40039 -12.6055 h -50.767 l 17.5069 13.6548 l -5.60361 28.3609 l -20.3056 0.7002 l -23.8086 21.708 l 41.6645 -2.80285 l -9.45363 59.1714 l 26.6094 -0.34906 c 5.13512 -0.006 10.2691 -2.53262 15.4042 -14.0059 l -9.45154 0.70019 l 8.4023 -45.8657 l 59.5204 -0.7002 l 4.55228 -27.3096 l -14.0059 10.1538 l -46.917 -0.70019 l 2.45171 -9.80476 l 44.4653 -1.40039 z m -37.1122 63.0214 l -22.5848 15.932 l 27.6607 29.5846 l 20.8312 -16.1065 z"/>
+                    </Path.Data>
+                </Path>
+                <Path Stroke="#ffffbefa" StrokeLineJoin="Round" StrokeThickness="3.19138" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
+                    <Path.Fill>
+                        <LinearGradientBrush MappingMode="Absolute" StartPoint="34.804871,234.00874" EndPoint="501.77135,234.00874" Transform="1.0637928,0.0,0.0,1.0637928,-26.423937,-12.446184">
+                            <GradientStop Color="#ff3228dc" Offset="0.0"/>
+                            <GradientStop Color="#ffdc46fa" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                    <Path.Data>
+                        <PathGeometry Figures="m 505.761 134.604 l -73.8754 19.9565 c 12.2771 4.17865 34.5977 -1.68679 54.268 -4.90134 l -8.4023 42.3647 z m -112.739 19.4329 c -37.1245 2.97283 -37.453 23.0721 -40.9643 49.1921 l -6.30173 -0.7002 l 5.25248 -34.3135 l -29.7613 17.1578 l -18.2071 98.0331 l -45.8657 11.5542 l 72.8262 1.75152 l 8.40231 -47.9683 l 8.75343 1.05132 l -7.00192 45.8657 l 24.5088 0.70019 l 12.2523 -67.9227 l -34.3115 -1.40038 l 2.10057 -5.95268 l 32.9111 0.7002 l 4.20323 -23.1084 l -9.80477 3.85209 c 2.42571 -16.8068 5.20096 -33.2587 21.0078 -48.4919 z m 86.1298 0.52359 l -19.6075 9.10457 l -67.9227 5.95266 l -23.1084 125.343 l 35.3628 -23.4575 l -8.40229 1.04924 l 9.80268 -53.2187 l 32.9111 1.75151 l -8.4023 16.4555 l -10.1538 -16.4555 l -17.5069 19.6075 l 11.9053 17.8559 l -21.708 36.4121 l 24.5088 -1.05132 l 10.1538 -16.1044 l 19.2563 28.3588 l -42.3647 -5.60154 l 95.5834 37.8145 l -56.3706 -80.8794 c 9.41395 -17.7398 25.7218 -31.3434 22.4082 -56.7197 l -53.5678 -0.34905 l 0.34906 -7.70419 l 53.2187 -6.30173 z"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+</UserControl>

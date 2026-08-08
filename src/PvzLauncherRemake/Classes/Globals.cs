@@ -8,7 +8,7 @@ namespace PvzLauncherRemake.Classes
     //全局类
     public static class Globals
     {
-        public static readonly string Version = $"1.5.5";//版本
+        public static readonly string Version = $"1.6.0";//版本
         public static readonly bool IsStable = true;//是否稳定版
         public static JsonConfig.Root Config = null!;//配置
 
@@ -21,7 +21,7 @@ namespace PvzLauncherRemake.Classes
             public static readonly string GameDirectory = $"{Path.Combine(RootDirectory, "games")}";//游戏目录
             public static readonly string TrainerDirectory = $"{Path.Combine(RootDirectory, "trainer")}";//修改器目录
 
-            public static readonly string TempDiectory = Path.GetTempPath();//临时文件夹
+            public static readonly string TempDirectory = Path.GetTempPath();//临时文件夹
             public static readonly string SaveDirectory = @"C:\ProgramData\PopCap Games\PlantsVsZombies\userdata";//存档文件夹
         }
 

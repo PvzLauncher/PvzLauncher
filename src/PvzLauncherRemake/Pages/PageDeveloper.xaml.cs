@@ -1,9 +1,9 @@
-﻿using HuaZi.Library.Downloader;
-using HuaZi.Library.Json;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using System.Net.Http;
@@ -67,7 +67,7 @@ namespace PvzLauncherRemake.Pages
 
                     JsonFileIndex.Root index;
                     using (var client = new HttpClient())
-                        index = Json.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
+                        index = JsonHelper.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
                     listBox_fileDownload_List.Items.Clear();
                     foreach (var file in index.List)
                         listBox_fileDownload_List.Items.Add($"{file}");
@@ -94,11 +94,11 @@ namespace PvzLauncherRemake.Pages
 
                         var selected = index.Files[(string)listBox_fileDownload_List.SelectedItem];
 
-                        string savePath = Path.Combine(Globals.Directories.TempDiectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{new Random().Next(int.MinValue, int.MaxValue)}");
+                        string savePath = Path.Combine(Globals.Directories.TempDirectory, $"PVZLAUNCHER.FILE.DOWNLOAD.CACHE.{Guid.NewGuid():N}");
 
                         TaskManager.AddTask(new DownloadTaskInfo
                         {
-                            Downloader = new Downloader
+                            Downloader = new DownloadService
                             {
                                 Url = selected.Url,
                                 SavePath = savePath
@@ -107,7 +107,7 @@ namespace PvzLauncherRemake.Pages
                             TaskIcon = GameIcons.Unknown
                         });
 
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "下载已开始",
                             Content = "",
@@ -121,6 +121,15 @@ namespace PvzLauncherRemake.Pages
                 {
                     ErrorReportDialog.Show(ex);
                 }
+            });
+
+            button_flyoutTEST.Click += (s, e) => flyout1.ShowAt(button_flyoutTEST);
+
+            rating.ValueChanged += (s, e) => SnackbarService.Show(new SnackbarContent
+            {
+                Title = "result",
+                Content = $"{rating.Value}",
+                Type = SnackbarType.Success
             });
         }
     }

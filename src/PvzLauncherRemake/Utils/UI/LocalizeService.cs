@@ -3,9 +3,9 @@ using System.Reflection;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Extensions;
 
-namespace PvzLauncherRemake.Utils.Configuration
+namespace PvzLauncherRemake.Utils.UI
 {
-    public class LocalizeManager
+    public class LocalizeService
     {
         public string Directory { get; set; }
 

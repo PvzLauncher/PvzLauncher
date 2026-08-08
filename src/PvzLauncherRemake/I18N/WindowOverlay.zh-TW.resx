@@ -130,7 +130,7 @@
     <value>結束遊戲</value>
   </data>
   <data name="SlotHotkey" xml:space="preserve">
-    <value>卡槽快速鍵</value>
+    <value>快捷卡槽</value>
   </data>
   <data name="SlotHotkeyTips" xml:space="preserve">
     <value>設定位置，並使用快捷鍵選擇種子包和鏟子！</value>
@@ -143,5 +143,17 @@
   </data>
   <data name="SlotHotkeyPosTips" xml:space="preserve">
     <value>請依序點選卡槽1~10與鏟子的位置</value>
+  </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>覆蓋層</value>
+  </data>
+  <data name="ShowLogo" xml:space="preserve">
+    <value>顯示 Logo:</value>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>不透明度:</value>
+  </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>顯示卡槽快捷鍵:</value>
   </data>
 </root>

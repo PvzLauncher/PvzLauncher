@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copyright" xml:space="preserve">
-    <value>版權所有 ©️ 2025-2026 HuaMouRen 保留所有權益</value>
+    <value>版權所有 ©️ 2025-2026 HuaMouRen 保留所有權利</value>
   </data>
   <data name="FeedBack" xml:space="preserve">
     <value>反饋問題</value>
@@ -153,9 +153,6 @@
   <data name="CheckUpdate" xml:space="preserve">
     <value>檢查更新</value>
   </data>
-  <data name="Sponsor" xml:space="preserve">
-    <value>贊助</value>
-  </data>
   <data name="SponsorList" xml:space="preserve">
     <value>自PvzLauncher發布以來的所有贊助者</value>
   </data>
@@ -164,5 +161,8 @@
   </data>
   <data name="GotoQA" xml:space="preserve">
     <value>常見問題</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>支援開發者</value>
   </data>
 </root>

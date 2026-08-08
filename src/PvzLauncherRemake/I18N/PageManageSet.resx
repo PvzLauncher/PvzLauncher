@@ -130,4 +130,7 @@
   <data name="Record_Hour" xml:space="preserve">
     <value>小时</value>
   </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>收藏</value>
+  </data>
 </root>

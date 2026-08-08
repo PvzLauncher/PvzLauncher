@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Media;
+using System.Xml;
 
 namespace PvzLauncherRemake.Utils.UI
 {
@@ -43,6 +46,21 @@ namespace PvzLauncherRemake.Utils.UI
                     yield return target;
                 }
             }
+        }
+
+        /// <summary>
+        /// 复制一个控件
+        /// </summary>
+        /// <typeparam name="T">控件类型</typeparam>
+        /// <param name="control">控件</param>
+        /// <returns>复制的控件</returns>
+        public static T CloneControl<T>(T control)
+        {
+            var xaml = XamlWriter.Save(control);
+            using var sr = new StringReader(xaml);
+            using var xmlReader = XmlReader.Create(sr);
+
+            return (T)XamlReader.Load(xmlReader);
         }
     }
 }

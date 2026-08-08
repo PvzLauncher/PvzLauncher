@@ -16,12 +16,12 @@
 
     <Grid>
         <Grid x:Name="grid_Main">
-            <TabControl x:Name="tabControl" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_SelectionChanged">
+            <TabControl x:Name="tabControl" Style="{StaticResource TabControlPivotStyle}" >
                 <!--游戏管理-->
                 <TabItem Header="{lex:Loc GameManage}">
                     <Grid>
                         <ctrl:UserScrollViewer>
-                            <StackPanel x:Name="stackPanel_Game" Background="#00000000" Margin="0,0,0,10"/>
+                            <StackPanel x:Name="stackPanel_Game" Background="#00000000" Margin="0,10,0,10"/>
                         </ctrl:UserScrollViewer>
                         
                         <StackPanel x:Name="grid_NoneGame" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" IsEnabled="False">
@@ -48,7 +48,7 @@
                 <TabItem Header="{lex:Loc TrainerManage}">
                     <Grid>
                         <ctrl:UserScrollViewer>
-                            <StackPanel x:Name="stackPanel_Trainer" Background="#00000000" Margin="0,0,0,10"/>
+                            <StackPanel x:Name="stackPanel_Trainer" Background="#00000000" Margin="0,10,0,10"/>
                         </ctrl:UserScrollViewer>
 
                         <StackPanel x:Name="grid_NoneTrainer" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" IsEnabled="False">

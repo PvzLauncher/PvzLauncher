@@ -1,8 +1,8 @@
-﻿using HuaZi.Library.Json;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
@@ -74,7 +74,7 @@ namespace PvzLauncherRemake.Pages
             string sponsorIndexUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main/sponsors/index.json";
             string[] sponsorList;
             using (var client = new HttpClient())
-                sponsorList = Json.ReadJson<string[]>(await client.GetStringAsync(sponsorIndexUrl));
+                sponsorList = JsonHelper.ReadJson<string[]>(await client.GetStringAsync(sponsorIndexUrl));
 
             stackpanel_SponsorList.Children.Clear();
             foreach (var sponsor in sponsorList)
@@ -107,7 +107,7 @@ namespace PvzLauncherRemake.Pages
             {
                 if (Debugger.IsAttached)
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "开发者控制台",
                         Content = "检测到调试器附加，自动进入开发者控制台",
@@ -118,7 +118,7 @@ namespace PvzLauncherRemake.Pages
                 }
 
                 var textBox = new TextBox();
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "开发者控制台",
                     Content = new StackPanel
@@ -144,7 +144,7 @@ namespace PvzLauncherRemake.Pages
                     }
                     else
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "答案错误",
                             Content = $"您无法进入开发者控制台, \"{textBox.Text}\" 是错误的！",
@@ -203,7 +203,7 @@ namespace PvzLauncherRemake.Pages
                 CloseButtonText = "关闭",
                 DefaultButton = ContentDialogButton.Close
             };
-            await DialogManager.ShowDialogAsync(dialog);
+            await DialogService.ShowDialogAsync(dialog);
         }
     }
 }

@@ -144,4 +144,16 @@
   <data name="SlotHotkeyPosTips" xml:space="preserve">
     <value>Veuillez cliquer sur les emplacements 1 à 10 et la position de la pelle dans l'ordre</value>
   </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>Superposition</value>
+  </data>
+  <data name="ShowLogo" xml:space="preserve">
+    <value>Afficher le logo:</value>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacité:</value>
+  </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>Afficher le raccourci du slot de carte:</value>
+  </data>
 </root>

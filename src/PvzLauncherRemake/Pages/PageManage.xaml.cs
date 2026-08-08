@@ -1,10 +1,9 @@
-﻿using HuaZi.Library.Json;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils.Configuration;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
@@ -12,9 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-
 
 namespace PvzLauncherRemake.Pages
 {
@@ -45,51 +42,6 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-
-
-        //tab动画
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (IsInitialized)
-            {
-                if (e.OriginalSource != sender)
-                    return;
-
-                var selectItem = ((TabControl)sender).SelectedContent;
-                Grid animControl = null!;
-
-                if (selectItem is Grid)
-                {
-                    animControl = (Grid)selectItem;
-                }
-                else
-                {
-                    return;
-                }
-
-                animControl.BeginAnimation(MarginProperty, null);
-                animControl.BeginAnimation(OpacityProperty, null);
-
-                animControl.Margin = new Thickness(0, 25, 0, 0);
-                animControl.Opacity = 0;
-
-                var margniAnim = new ThicknessAnimation
-                {
-                    To = new Thickness(0),
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                var opacAnim = new DoubleAnimation
-                {
-                    To = 1,
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                animControl.BeginAnimation(MarginProperty, margniAnim);
-                animControl.BeginAnimation(OpacityProperty, opacAnim);
-            }
-        }
-
         private void LoadGameList()
         {
             stackPanel_Game.Children.Clear();
@@ -111,7 +63,8 @@ namespace PvzLauncherRemake.Pages
                         Background = System.Windows.Media.Brushes.Transparent,
                         Tag = game,
                         Margin = new Thickness(0, 0, 0, 5),
-                        isVirtual = game.GameInfo.GamePath != null
+                        isVirtual = game.GameInfo.GamePath != null,
+                        IsFavorite = game.GameInfo.IsFavorite
                     };
                     switch (Globals.Config.Settings.LauncherConfig.ManageSelectMode)
                     {
@@ -124,7 +77,10 @@ namespace PvzLauncherRemake.Pages
                     }
                     card.MouseRightButtonUp += SetGame;
 
-                    stackPanel_Game.Children.Add(card);//添加
+                    if (game.GameInfo.IsFavorite)
+                        stackPanel_Game.Children.Insert(0, card);
+                    else
+                        stackPanel_Game.Children.Add(card);//添加
 
                 }
             }
@@ -212,6 +168,8 @@ namespace PvzLauncherRemake.Pages
                     ErrorReportDialog.Show(ex);
                 }
             });
+
+            tabControl.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
         }
 
         //选择游戏
@@ -219,7 +177,19 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                SnackbarManager.Show(new SnackbarContent
+                if (GameManager.IsGameRuning)
+                {
+                    SnackbarService.Show(new SnackbarContent
+                    {
+                        Title = "警告",
+                        Content = "游戏正在运行，请不要更改档案",
+                        Type = SnackbarType.Warn
+                    });
+                    return;
+                }
+
+
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "选择游戏",
                     Content = $"已选择 \"{((UserCard)sender).Title}\" 作为启动游戏",
@@ -253,7 +223,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "选择修改器",
                     Content = $"已选择 \"{((UserCard)sender).Title}\" 作为当前修改器",
@@ -288,6 +258,19 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
+                if (sender is not UserCard uc)
+                    return;
+                if (GameManager.IsGameRuning && uc.Title == Globals.Config.CurrentGame)
+                {
+                    SnackbarService.Show(new SnackbarContent
+                    {
+                        Title = "警告",
+                        Content = "此游戏正在运行，请不要修改信息",
+                        Type = SnackbarType.Warn
+                    });
+                    return;
+                }
+
                 this.NavigationService.Navigate(new PageManageSet((JsonGameInfo.Root)((UserCard)sender).Tag));
             }
             catch (Exception ex)
@@ -396,7 +379,7 @@ namespace PvzLauncherRemake.Pages
 
                     dialog.Hide();
 
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "确认删除",
                         Content = $"\"{trainerConfig.Name}\" 将被删除，一旦删除将永久消失(真的很久!)\n\n(此操作仅有这一次确认机会，点击删除按钮立即执行删除程序！)",
@@ -420,7 +403,7 @@ namespace PvzLauncherRemake.Pages
                             Globals.Config.CurrentTrainer = null!;
                         }
                         ConfigManager.SaveConfig();
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "删除成功",
                             Content = $"\"{trainerConfig.Name}\" 已从您的修改器库内移除!",
@@ -441,7 +424,7 @@ namespace PvzLauncherRemake.Pages
                         Text = trainerConfig.Name
                     };
 
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "重命名",
                         Content = textBox,
@@ -457,8 +440,8 @@ namespace PvzLauncherRemake.Pages
                                 string lastName = trainerConfig.Name;
                                 trainerConfig.Name = textBox.Text;
                                 Directory.Move(Path.Combine(Globals.Directories.TrainerDirectory, lastName), Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name));
-                                Json.WriteJson(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
-                                SnackbarManager.Show(new SnackbarContent
+                                JsonHelper.WriteJson(Path.Combine(Globals.Directories.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
+                                SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "更名成功",
                                     Content = $"修改器已更名为: {trainerConfig.Name}",
@@ -475,7 +458,7 @@ namespace PvzLauncherRemake.Pages
                             else
                             {
 
-                                SnackbarManager.Show(new SnackbarContent
+                                SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "更名失败",
                                     Content = $"库内已有与 \"{textBox.Text}\" 同名修改器！",
@@ -486,7 +469,7 @@ namespace PvzLauncherRemake.Pages
                         else
                         {
 
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "更名失败",
                                 Content = "新名称为空",
@@ -507,7 +490,7 @@ namespace PvzLauncherRemake.Pages
                     });
                 });
 
-                await DialogManager.ShowDialogAsync(dialog);
+                await DialogService.ShowDialogAsync(dialog);
 
             }
             catch (Exception ex)

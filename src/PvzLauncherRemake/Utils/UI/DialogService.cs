@@ -2,7 +2,6 @@
 using PvzLauncherRemake.Windows;
 using System.Windows;
 
-
 namespace PvzLauncherRemake.Utils.UI
 {
     public enum DialogDisplayArea
@@ -11,7 +10,7 @@ namespace PvzLauncherRemake.Utils.UI
         Overlay
     }
 
-    public static class DialogManager
+    public static class DialogService
     {
         private static readonly SemaphoreSlim DialogSemaphore = new(1, 1);
 

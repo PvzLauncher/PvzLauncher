@@ -1,7 +1,8 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
@@ -12,7 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
+using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -148,8 +149,9 @@ namespace PvzLauncherRemake.Pages
 
         private async void button_Manual_Click(object sender, RoutedEventArgs e)
         {
+            bool shouldOpenUrl = true;
             if (!string.IsNullOrEmpty(Info.SharePassword))
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Content = new TextBlock
                     {
@@ -158,23 +160,24 @@ namespace PvzLauncherRemake.Pages
                         FontSize = 20,
                         HorizontalAlignment = HorizontalAlignment.Center
                     },
-                    PrimaryButtonText = "复制",
-                    CloseButtonText = "关闭",
+                    PrimaryButtonText = "复制并前往",
+                    CloseButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary
-                }, () => Clipboard.SetText(Info.SharePassword));
+                }, () => Clipboard.SetText(Info.SharePassword), null, () => shouldOpenUrl = false);
 
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = Info.ShareUrl,
-                UseShellExecute = true
-            });
+            if (shouldOpenUrl)
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Info.ShareUrl,
+                    UseShellExecute = true
+                });
         }
 
         private async void button_Download_Click(object sender, RoutedEventArgs e)
         {
             /*//确认下载
             bool confirm = false;
-            await DialogManager.ShowDialogAsync(new ContentDialog
+            await DialogService.ShowDialogAsync(new ContentDialog
             {
                 Title = "下载确认",
                 Content = $"是否下载 \"{Info.Name}\"",
@@ -183,6 +186,30 @@ namespace PvzLauncherRemake.Pages
                 DefaultButton = ContentDialogButton.Primary
             }, (() => confirm = true));
             if (!confirm) return;*/
+
+            if (Info.Size >= 500)
+            {
+                bool isReturn = false;
+                await DialogService.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "警告",
+                    Content = $"此游戏体积较大 ({Info.Size} MB) 启动器下载很可能掉速或者失败。建议手动前往浏览器下载",
+                    PrimaryButtonText = "前往浏览器手动下载",
+                    SecondaryButtonText = "仍然使用启动器下载",
+                    DefaultButton = ContentDialogButton.Primary
+                }, () =>
+                {
+                    button_Manual_Click(button_Manual, null!);
+                    isReturn = true;
+                });
+
+                if (isReturn)
+                    return;
+            }
+
+
+
+
 
             //处理同名
             string? savePath = await GameManager.ResolveSameName(Info.Name, BaseDirectory);
@@ -201,7 +228,7 @@ namespace PvzLauncherRemake.Pages
 
             var dialog = new ContentDialog
             {
-                Content = new ScrollViewer
+                Content = new UserScrollViewer
                 {
                     Content = new Image { Source = s.Source, Stretch = Stretch.None },
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
@@ -209,7 +236,7 @@ namespace PvzLauncherRemake.Pages
                 },
                 CloseButtonText = "关闭"
             };
-            await DialogManager.ShowDialogAsync(dialog);
+            await DialogService.ShowDialogAsync(dialog);
         }
 
         private void ImageMouseEnter(object sender)

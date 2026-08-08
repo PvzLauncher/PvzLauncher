@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copyright" xml:space="preserve">
-    <value>版权所有 ©️ 2025-2026 HuaMouRen 保留所有权益</value>
+    <value>版权所有 ©️ 2025-2026 HuaMouRen 保留所有权利</value>
   </data>
   <data name="FeedBack" xml:space="preserve">
     <value>反馈问题</value>
@@ -134,7 +134,7 @@
     <value>检查更新</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>赞助</value>
+    <value>支持开发者</value>
   </data>
   <data name="SponsorList" xml:space="preserve">
     <value>自PvzLauncher发布以来的所有赞助者 (按赞助时间排序)</value>

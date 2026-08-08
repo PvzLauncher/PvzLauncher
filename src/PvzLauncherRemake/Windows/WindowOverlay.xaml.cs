@@ -3,9 +3,12 @@ using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;
 using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Utils.Configuration;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -22,8 +25,13 @@ namespace PvzLauncherRemake.Windows
         private DispatcherTimer? _timer;
         private bool IsOverlayVisible = true;
         private WindowInteropHelper windowInteropHelper;
+
         private LowLevelKeyboardHook _hook = new LowLevelKeyboardHook();
         private InputSimulator _inputSim = new InputSimulator();
+
+        private JsonGameInfo.Root GameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+
+        private WindowOverlayInfo WinOverlayInfo = new WindowOverlayInfo();
 
         private int winLeft = 0;
         private int winTop = 0;
@@ -88,15 +96,15 @@ namespace PvzLauncherRemake.Windows
                     return;
 
                 //不处于游戏窗口不触发
-                if (Win32APIHelper.GetForegroundWindow() != GameManager.GameProcess.MainWindowHandle)
+                if (WinAPI.GetForegroundWindow() != GameManager.GameProcess.MainWindowHandle)
                     return;
 
                 if (!Globals.Config.OverLayWindowSettings.SlotHotkeyEnabled)
                     return;
 
-                var targetPos = Globals.Config.OverLayWindowSettings.SlotPositions[slotKeys[e.CurrentKey]];
+                var targetPos = GameInfo.Config.SlotPositions[slotKeys[e.CurrentKey]];
                 var targetPosFinal = new System.Drawing.Point(winLeft + targetPos.X, winTop + targetPos.Y);
-                var currentPos = Win32APIHelper.GetCursorPos();
+                var currentPos = WinAPI.GetCursorPos();
                 if (currentPos.X == -1 || currentPos.Y == -1)
                     throw new Exception("无法获得鼠标指针坐标");
                 var scrX = SystemParameters.VirtualScreenWidth;
@@ -104,7 +112,7 @@ namespace PvzLauncherRemake.Windows
                 var scrL = SystemParameters.VirtualScreenLeft;
                 var scrT = SystemParameters.VirtualScreenTop;
 
-                Win32APIHelper.BlockInput(true);
+                WinAPI.BlockInput(true);
 
                 _inputSim.Mouse
                 .MoveMouseTo((targetPosFinal.X - scrL) * 65535.0 / scrX, (targetPosFinal.Y - scrT) * 65535.0 / scrY)
@@ -112,9 +120,9 @@ namespace PvzLauncherRemake.Windows
                 .LeftButtonUp()
                 /*.MoveMouseTo((currentPos.X - scrL) * 65535.0 / scrX, (currentPos.Y - scrT) * 65535.0 / scrY)*/;
 
-                Win32APIHelper.SetCursorPos(new System.Drawing.Point(currentPos.X, currentPos.Y));
+                WinAPI.SetCursorPos(new System.Drawing.Point(currentPos.X, currentPos.Y));
 
-                Win32APIHelper.BlockInput(false);
+                WinAPI.BlockInput(false);
             };
             _hook.Start();
         }
@@ -129,7 +137,7 @@ namespace PvzLauncherRemake.Windows
 
 
             //同步窗口位置
-            var result = Win32APIHelper.GetWindowArea(GameManager.GameProcess!.MainWindowHandle);
+            var result = WinAPI.GetWindowArea(GameManager.GameProcess!.MainWindowHandle);
 
             this.Left = result.Left;
             this.Top = result.Top;
@@ -138,12 +146,28 @@ namespace PvzLauncherRemake.Windows
 
             winLeft = (int)this.Left;
             winTop = (int)this.Top;
+            //同步信息窗口位置
+            WinOverlayInfo.Left = result.Left;
+            WinOverlayInfo.Top = result.Top;
+            WinOverlayInfo.Width = result.Width;
+            WinOverlayInfo.Height = result.Height;
 
 
             //判断是否失焦
-            var activeWindow = Win32APIHelper.GetForegroundWindow();
+            var activeWindow = WinAPI.GetForegroundWindow();
             if (activeWindow != GameManager.GameProcess.MainWindowHandle && activeWindow != windowInteropHelper.Handle)
                 ToggleOverlay(false);
+            //     info
+            if (activeWindow == GameManager.GameProcess.MainWindowHandle || activeWindow == windowInteropHelper.Handle)
+            {
+                if (!WinOverlayInfo.IsVisible)
+                    WinOverlayInfo.Show();
+            }
+            else
+            {
+                if (WinOverlayInfo.IsVisible)
+                    WinOverlayInfo.Hide();
+            }
 
             //更新时间
             var now = DateTimeOffset.Now;
@@ -164,6 +188,9 @@ namespace PvzLauncherRemake.Windows
 
             HotkeyManager.Current.AddOrReplace("ToggleOverlay", System.Windows.Input.Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
 
+            //加载信息层
+            WinOverlayInfo.Show();
+            this.Owner = WinOverlayInfo;//保证Info窗口在此之下
 
 
 
@@ -177,6 +204,28 @@ namespace PvzLauncherRemake.Windows
                 ConfigManager.SaveConfig();
             };
 
+            ts_showLogo.IsOn = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo;
+            ts_showLogo.Toggled += (s, e) =>
+            {
+                Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo = ts_showLogo.IsOn;
+                ConfigManager.SaveConfig();
+            };
+
+            slider_opacity.Value = Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity;
+            slider_opacity.ValueChanged += (s, e) =>
+            {
+                Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity = slider_opacity.Value;
+                ConfigManager.SaveConfig();
+            };
+
+            ts_showSlotKey.IsOn = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowSlotKey;
+            ts_showSlotKey.Toggled += (s, e) =>
+            {
+                Globals.Config.OverLayWindowSettings.InfoOverlay.ShowSlotKey = ts_showSlotKey.IsOn;
+                ConfigManager.SaveConfig();
+            };
+
+
 
             ConfigManager.SaveConfig();
         }
@@ -186,6 +235,7 @@ namespace PvzLauncherRemake.Windows
             _timer?.Stop();
             _timer = null;
             HotkeyManager.Current.Remove("ToggleOverlay");
+            WinOverlayInfo.Close();
 
             _hook.Stop();
             _hook.Dispose();
@@ -220,7 +270,7 @@ namespace PvzLauncherRemake.Windows
                 CloseButtonText = "取消",
                 DefaultButton = ContentDialogButton.Primary
             };
-            await DialogManager.ShowDialogAsync(dialog, (async () => await GameManager.KillGame()), displayArea: DialogDisplayArea.Overlay);
+            await DialogService.ShowDialogAsync(dialog, (async () => await GameManager.KillGame()), displayArea: DialogDisplayArea.Overlay);
         }
 
         private void button_setSlotPos_Click(object sender, RoutedEventArgs e)
@@ -234,12 +284,12 @@ namespace PvzLauncherRemake.Windows
 
         private void rect_posHit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var currentMousePos = Win32APIHelper.GetCursorPos();
+            var currentMousePos = WinAPI.GetCursorPos();
             if (currentMousePos.X == -1 || currentMousePos.Y == -1)
                 throw new Exception("无法获得鼠标指针坐标");
 
-            Globals.Config.OverLayWindowSettings.SlotPositions[currentPosSet == 11 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
-            ConfigManager.SaveConfig();
+            GameInfo.Config.SlotPositions[currentPosSet == 11 ? 0 : currentPosSet] = new System.Drawing.Point(currentMousePos.X - (int)this.Left, currentMousePos.Y - (int)this.Top);
+            JsonHelper.WriteJson(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"), GameInfo);
 
             if (currentPosSet == 11)
             {

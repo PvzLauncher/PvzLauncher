@@ -1,17 +1,15 @@
-﻿using HuaZi.Library.Json;
-using PvzLauncherRemake.Classes;
+﻿using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-
 
 namespace PvzLauncherRemake.Pages
 {
@@ -84,52 +82,6 @@ namespace PvzLauncherRemake.Pages
             grid_Loading.Visibility = Visibility.Hidden;
         }
 
-        private void tabControl_Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (IsInitialized)
-            {
-                if (e.OriginalSource != sender)
-                    return;
-
-                var selectItem = ((TabControl)sender).SelectedContent;
-                Grid animControl = null!;
-
-                if (selectItem is Grid)
-                {
-                    animControl = (Grid)selectItem;
-                }
-                else if (selectItem is TabControl tabcontrol && tabcontrol.SelectedContent is Grid)
-                {
-                    animControl = (Grid)tabcontrol.SelectedContent;
-                }
-                else
-                {
-                    return;
-                }
-
-                animControl.BeginAnimation(MarginProperty, null);
-                animControl.BeginAnimation(OpacityProperty, null);
-
-                animControl.Margin = new Thickness(0, 25, 0, 0);
-                animControl.Opacity = 0;
-
-                var margniAnim = new ThicknessAnimation
-                {
-                    To = new Thickness(0),
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                var opacAnim = new DoubleAnimation
-                {
-                    To = 1,
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                animControl.BeginAnimation(MarginProperty, margniAnim);
-                animControl.BeginAnimation(OpacityProperty, opacAnim);
-            }
-        }
-
 
         public PageDownload()
         {
@@ -146,7 +98,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
 
-                            Globals.Caches.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Root>(indexString);
+                            Globals.Caches.DownloadIndex = JsonHelper.ReadJson<JsonDownloadIndex.Root>(indexString);
                         }
                     }
 
@@ -179,6 +131,9 @@ namespace PvzLauncherRemake.Pages
                 FileName = "https://github.com/PvzLauncher/PvzLauncher/issues/new?template=download.yml",
                 UseShellExecute = true
             }));
+
+            tabControl_Main.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
+            tabControl_Sub.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
         }
 
         private async void UserCard_Click(object sender, RoutedEventArgs e)

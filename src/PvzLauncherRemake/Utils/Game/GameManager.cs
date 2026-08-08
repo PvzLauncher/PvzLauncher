@@ -1,12 +1,10 @@
-﻿using HuaZi.Library.Downloader;
-using HuaZi.Library.Json;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.Diagnostics;
@@ -16,8 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils.Game
 {
     public static class GameManager
     {
@@ -47,7 +44,7 @@ namespace PvzLauncherRemake.Utils.Services
 
                 try
                 {
-                    var config = Json.ReadJson<JsonGameInfo.Root>(configPath);
+                    var config = JsonHelper.ReadJson<JsonGameInfo.Root>(configPath);
                     if (config != null)
                     {
                         if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
@@ -91,7 +88,7 @@ namespace PvzLauncherRemake.Utils.Services
 
                 try
                 {
-                    var config = Json.ReadJson<JsonTrainerInfo.Root>(configPath);
+                    var config = JsonHelper.ReadJson<JsonTrainerInfo.Root>(configPath);
                     if (config != null)
                     {
                         validTrainers.Add(config);
@@ -141,7 +138,7 @@ namespace PvzLauncherRemake.Utils.Services
                 radioButtonGame.Click += ((s, e) => { isTrainer = false; checkBoxVirtual.IsEnabled = true; });
                 radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; checkBoxVirtual.IsChecked = false; });
                 checkBoxVirtual.Click += ((s, e) => isVirtual = checkBoxVirtual.IsChecked ?? false);
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "请选择类型",
                     Content = new StackPanel
@@ -167,7 +164,7 @@ namespace PvzLauncherRemake.Utils.Services
                         openFolderDialog.FolderName == Globals.Directories.GameDirectory ||
                         openFolderDialog.FolderName == Globals.Directories.TrainerDirectory)
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "导入失败",
                             Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
@@ -202,7 +199,7 @@ namespace PvzLauncherRemake.Utils.Services
                 }
                 else if (listBox.Items.Count <= 0)
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "导入终止",
                         Content = "您选择的文件夹内没有任何可执行文件，导入被终止",
@@ -212,7 +209,7 @@ namespace PvzLauncherRemake.Utils.Services
                 }
                 else
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "帮助我们解决问题！",
                         Content = new StackPanel
@@ -237,7 +234,7 @@ namespace PvzLauncherRemake.Utils.Services
                 if (!isVirtual)
                 {
                     bool isImportConfirm = false;
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "导入确认",
                         Content = "此操作会将您选择的文件夹复制到启动器游戏库内，如果游戏过可能会需要很长时间，且此操作无法取消！\n\n确定开始导入？",
@@ -249,7 +246,7 @@ namespace PvzLauncherRemake.Utils.Services
                     if (!isImportConfirm)
                         return;
 
-                    await DirectoryManager.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+                    await DirectoryHelper.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
 
 
                     if (isTrainer == true)
@@ -261,7 +258,7 @@ namespace PvzLauncherRemake.Utils.Services
                             Name = Path.GetFileName(savePath),
                             Version = "1.0.0.0"
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
                     }
                     else
                     {
@@ -281,13 +278,13 @@ namespace PvzLauncherRemake.Utils.Services
                                 PlayTime = 0
                             }
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
                     }
                 }
                 else
                 {
                     bool isImportConfirm = false;
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "虚拟导入确认",
                         Content = "虚拟导入提供了一个新的导入方式，只在启动器目录创建一个引用链接。达到不复制源游戏文件即可启动游戏",
@@ -318,12 +315,12 @@ namespace PvzLauncherRemake.Utils.Services
                     };
                     if (!Directory.Exists(savePath))
                         Directory.CreateDirectory(savePath);
-                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
+                    JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
                 }
 
 
 
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "导入",
                     Content = $"导入 \"{Path.GetFileName(savePath)}\" 成功！",
@@ -348,7 +345,7 @@ namespace PvzLauncherRemake.Utils.Services
 
         public static async Task StartDownloadAsync(JsonDownloadIndex.GameInfo info, string savePath, bool isTrainer)
         {
-            string tempPath = Path.Combine(Globals.Directories.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{new Random().Next(Int32.MinValue, Int32.MaxValue) + new Random().Next(Int32.MinValue, Int32.MaxValue)}");
+            string tempPath = Path.Combine(Globals.Directories.TempDirectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{Guid.NewGuid():N}");
 
 
 
@@ -368,7 +365,7 @@ namespace PvzLauncherRemake.Utils.Services
                 //定义下载器
                 TaskManager.AddTask(new DownloadTaskInfo
                 {
-                    Downloader = new Downloader
+                    Downloader = new DownloadService
                     {
                         Url = analysisResult.Data.DirectLink,
                         SavePath = tempPath
@@ -398,7 +395,7 @@ namespace PvzLauncherRemake.Utils.Services
                                 PlayTime = 0
                             }
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
                         Globals.Config.CurrentGame = configName;
                     }
                     else
@@ -410,7 +407,7 @@ namespace PvzLauncherRemake.Utils.Services
                             Name = configName,
                             Icon = info.Icon
                         };
-                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
+                        JsonHelper.WriteJson(Path.Combine(savePath, ".pvzl.json"), cfg);
                         Globals.Config.CurrentTrainer = configName;
                     }
 
@@ -445,6 +442,10 @@ namespace PvzLauncherRemake.Utils.Services
             else
                 gameExePath = System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
 
+            //切换存档
+            if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".save")))
+                await GameManager.SwitchGameSave(gameInfo);
+
             //定义Process
             GameProcess = new Process
             {
@@ -464,7 +465,6 @@ namespace PvzLauncherRemake.Utils.Services
             IsGameRuning = true;
 
             //启动后操作
-
             switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "Close":
@@ -486,7 +486,7 @@ namespace PvzLauncherRemake.Utils.Services
             //启动次数
             gameInfo.Record.PlayCount++;
 
-            Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            JsonHelper.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
 
             //启动器整体次数
             Globals.Config.Record.LaunchCount++;
@@ -494,7 +494,7 @@ namespace PvzLauncherRemake.Utils.Services
 
 
 
-            await WaitGameExit(gameInfo);
+            await WaitGameExit();
 
             exitCallback?.Invoke();
         }
@@ -502,11 +502,13 @@ namespace PvzLauncherRemake.Utils.Services
         /// <summary>
         /// 等待游戏退出
         /// </summary>
-        public static async Task WaitGameExit(JsonGameInfo.Root gameInfo)
+        public static async Task WaitGameExit()
         {
             await GameProcess.WaitForExitAsync();
 
             IsGameRuning = false;
+
+            var gameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
 
             switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
@@ -515,10 +517,13 @@ namespace PvzLauncherRemake.Utils.Services
                     Application.Current.MainWindow.Visibility = Visibility.Visible; break;
             }
 
+            //保存存档
+            if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Globals.Directories.SaveDirectory))
+                await GameManager.SaveGameSave(gameInfo);
 
             //保存游玩时间
             gameInfo.Record.PlayTime = gameInfo.Record.PlayTime + ((long)(DateTimeOffset.Now - LatestGameLaunchTime!).Value.TotalSeconds);
-            Json.WriteJson(Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
+            JsonHelper.WriteJson(Path.Combine(Globals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
         }
 
         /// <summary>
@@ -570,7 +575,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             if (Directory.Exists(Globals.Directories.SaveDirectory))
                 Directory.Delete(Globals.Directories.SaveDirectory, true);
-            await DirectoryManager.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), Globals.Directories.SaveDirectory);
+            await DirectoryHelper.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), Globals.Directories.SaveDirectory);
         }
 
         /// <summary>
@@ -582,7 +587,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             if (Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save")))
                 Directory.Delete(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);
-            await DirectoryManager.CopyDirectoryAsync(Globals.Directories.SaveDirectory, Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"));
+            await DirectoryHelper.CopyDirectoryAsync(Globals.Directories.SaveDirectory, Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"));
         }
 
         #endregion
@@ -605,7 +610,7 @@ namespace PvzLauncherRemake.Utils.Services
                 var textBox = new TextBox { Text = name };
 
                 bool isContinue = false;
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "发现重名",
                     Content = new StackPanel
@@ -632,7 +637,7 @@ namespace PvzLauncherRemake.Utils.Services
                 if (!Directory.Exists(Path.Combine(baseDir, textBox.Text)))
                     return Path.Combine(baseDir, textBox.Text);
                 else
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "无法解决",
                         Content = $"库内仍然有与 \"{textBox.Text}\" 同名的文件夹，请继续解决",
@@ -742,7 +747,7 @@ namespace PvzLauncherRemake.Utils.Services
                     if (!IsGameRuning)
                         return;
 
-                    var result = Win32APIHelper.SetWindowTitle(GameProcess.MainWindowHandle, title);
+                    var result = WinAPI.SetWindowTitle(GameProcess.MainWindowHandle, title);
                     if (result)
                         return;
 

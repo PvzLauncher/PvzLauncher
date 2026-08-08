@@ -1,11 +1,10 @@
-﻿using HuaZi.Library.Downloader;
-using PvzLauncherRemake.Classes.JsonConfigs;
+﻿using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
 
-
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils.Network
 {
     public class TaskManager
     {
@@ -26,7 +25,7 @@ namespace PvzLauncherRemake.Utils.Services
             {
                 if (task.TaskName == taskInfo.TaskName)
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "无法创建任务",
                         Content = $"任务列表内已有与 \"{taskInfo.TaskName}\" 同名任务，请等待已有任务完成",
@@ -38,18 +37,19 @@ namespace PvzLauncherRemake.Utils.Services
             }
 
             var originDownloader = taskInfo.Downloader;
-            taskInfo.Downloader = new Downloader
+            taskInfo.Downloader = new DownloadService
             {
                 Completed = (async (s, e) =>
                 {
                     if (!s)
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "任务失败",
                             Content = $"执行 \"{taskInfo.TaskName}\" 失败\n\n错误信息: {e}",
                             Type = SnackbarType.Error
                         });
+                        taskInfo.IsComplete = false;
                         DownloadTaskList.Remove(taskInfo);
                         TaskRemoved?.Invoke(taskInfo);
                         return;
@@ -66,19 +66,20 @@ namespace PvzLauncherRemake.Utils.Services
                         //解压
                         await Task.Run(() =>
                         {
-                            CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
+                            ArchiveHelper.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
                             {
                                 taskInfo.ExtractProgress = p;
                             }));
                         });
                     }
 
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "任务完成",
                         Content = $"任务 \"{taskInfo.TaskName}\" 执行完毕",
                         Type = SnackbarType.Success
                     });
+                    taskInfo.IsComplete = true;
                     DownloadTaskList.Remove(taskInfo);
                     TaskRemoved?.Invoke(taskInfo);
                     completeCallback?.Invoke();
@@ -97,7 +98,7 @@ namespace PvzLauncherRemake.Utils.Services
             StartTask(taskInfo);
 
 
-            SnackbarManager.Show(new SnackbarContent
+            SnackbarService.Show(new SnackbarContent
             {
                 Title = "任务已创建",
                 Content = "您的下载任务已被添加进任务列表",
@@ -162,7 +163,7 @@ namespace PvzLauncherRemake.Utils.Services
 
     public class DownloadTaskInfo
     {
-        public Downloader? Downloader { get; set; } = null;//下载器
+        public DownloadService? Downloader { get; set; } = null;//下载器
         public JsonDownloadIndex.GameInfo Info { get; set; }//游戏信息
         public string? TaskName { get; set; } = "未命名下载任务";//任务名
         public GameIcons TaskIcon { get; set; } = GameIcons.Unknown;//任务图标

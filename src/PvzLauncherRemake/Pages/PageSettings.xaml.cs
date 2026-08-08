@@ -3,9 +3,8 @@ using ModernWpf;
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.IO;
@@ -14,7 +13,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-
 
 namespace PvzLauncherRemake.Pages
 {
@@ -45,7 +43,7 @@ namespace PvzLauncherRemake.Pages
         public void EndLoad() => SetLoad(false);
         public void ShowRestartTip()
         {
-            SnackbarManager.Show(new SnackbarContent
+            SnackbarService.Show(new SnackbarContent
             {
                 Title = "提示",
                 Content = "此设置项重启才能生效",
@@ -282,41 +280,11 @@ namespace PvzLauncherRemake.Pages
                     ErrorReportDialog.Show(ex);
                 }
             });
+
+            tabControl.SelectionChanged += TabControlAnimationHelper.TabControlAnimtion;
         }
 
-        //tabControl动画
-        private async void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.OriginalSource != sender)
-                return;
 
-            if (IsInitialized)
-            {
-                var tabItem = (ScrollViewer)tabControl.SelectedContent;
-
-
-                tabItem.BeginAnimation(MarginProperty, null);
-                tabItem.BeginAnimation(OpacityProperty, null);
-
-                tabItem.Margin = new Thickness(0, 25, 0, 0);
-                tabItem.Opacity = 0;
-
-                var margniAnim = new ThicknessAnimation
-                {
-                    To = new Thickness(0),
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                var opacAnim = new DoubleAnimation
-                {
-                    To = 1,
-                    Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-                };
-                tabItem.BeginAnimation(MarginProperty, margniAnim);
-                tabItem.BeginAnimation(OpacityProperty, opacAnim);
-            }
-        }
 
         #region 启动器设置
 
@@ -379,7 +347,7 @@ namespace PvzLauncherRemake.Pages
                 Globals.Config.Settings.LauncherConfig.Language = ((ComboBoxItem)comboBox.SelectedItem).Tag.ToString()!;
                 ConfigManager.SaveConfig();
 
-                LocalizeManager.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
+                LocalizeService.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
             }
         }
 
@@ -431,7 +399,7 @@ namespace PvzLauncherRemake.Pages
                 if (dialog.ShowDialog() == true)
                 {
                     File.Copy(dialog.FileName, Globals.Paths.BackgroundPath, true);
-                    Globals.Caches.LauncherBackground = BitmapLoader.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
+                    Globals.Caches.LauncherBackground = BitmapHelper.LoadBitmapImageFromDisk(Globals.Paths.BackgroundPath);
                     image_Background.Source = Globals.Caches.LauncherBackground;
                 }
             }
@@ -452,7 +420,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (!File.Exists(Globals.Paths.BackgroundPath))
                         {
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "警告",
                                 Content = "自定义背景图不存在，请先点击下方选择一个图片",
@@ -609,12 +577,12 @@ namespace PvzLauncherRemake.Pages
 
                     await Task.Run(() =>
                     {
-                        allTempFiles = Directory.GetFiles(Globals.Directories.TempDiectory);
+                        allTempFiles = Directory.GetFiles(Globals.Directories.TempDirectory);
                     });
 
                     if (!(allTempFiles.Length > 0))
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "清理完成",
                             Content = "临时文件夹是空的，无需清除",
@@ -636,7 +604,7 @@ namespace PvzLauncherRemake.Pages
 
                     if (!(pvzLauncherFiles.Count > 0))
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "清理完成",
                             Content = "没有需要清理的缓存文件",
@@ -647,7 +615,7 @@ namespace PvzLauncherRemake.Pages
                     }
 
                     bool isClear = false;
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "发现缓存文件",
                         Content = $"发现了 {pvzLauncherFiles.Count} 个来自PvzLauncher的缓存文件, 共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB, 是否清理?",
@@ -675,7 +643,7 @@ namespace PvzLauncherRemake.Pages
                         }
                     });
 
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "清理完成",
                         Content = $"已清理所有缓存文件，共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB",
@@ -748,7 +716,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "警告",
                     Content = "此操作不可逆，一旦删除您的存档将会永久删除！(真的很久!)",
@@ -757,7 +725,7 @@ namespace PvzLauncherRemake.Pages
                     DefaultButton = ContentDialogButton.Close
                 }, (async () =>
                 {
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "最后一次警告",
                         Content = "这将是最后一次警告，确认后存档立即删除，您现在还有取消的机会！",
@@ -777,7 +745,7 @@ namespace PvzLauncherRemake.Pages
                                     Directory.Delete(Globals.Directories.SaveDirectory, true);
                                 });
                                 EndLoad();
-                                SnackbarManager.Show(new SnackbarContent
+                                SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "删除存档",
                                     Content = "您的存档已经移除",
@@ -786,7 +754,7 @@ namespace PvzLauncherRemake.Pages
                             }
                             else
                             {
-                                SnackbarManager.Show(new SnackbarContent
+                                SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "失败",
                                     Content = "存档不存在，无法删除",
@@ -809,7 +777,7 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 if (checkBox_EnableIsolationSave.IsChecked == true)
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "警告",
                         Content = "开启存档隔离会导致当前存档丢失。请做好备份再开启！",
@@ -851,7 +819,7 @@ namespace PvzLauncherRemake.Pages
                             listBox.Items.Add(game.GameInfo.Name);
                         }
 
-                        await DialogManager.ShowDialogAsync(new ContentDialog
+                        await DialogService.ShowDialogAsync(new ContentDialog
                         {
                             Title = "存档迁移",
                             Content = new Grid
@@ -886,7 +854,7 @@ namespace PvzLauncherRemake.Pages
                                             targetListBox.Items.Add(game.GameInfo.Name);
                                     }
 
-                                    await DialogManager.ShowDialogAsync(new ContentDialog
+                                    await DialogService.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = "存档迁移",
                                         Content = new Grid
@@ -911,7 +879,7 @@ namespace PvzLauncherRemake.Pages
                                         {
                                             targetGameName = targetListBox.SelectedItem.ToString()!;
 
-                                            await DialogManager.ShowDialogAsync(new ContentDialog
+                                            await DialogService.ShowDialogAsync(new ContentDialog
                                             {
                                                 Title = "操作确认",
                                                 Content = new StackPanel
@@ -944,9 +912,9 @@ namespace PvzLauncherRemake.Pages
                                                     else
                                                         Directory.CreateDirectory(Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
                                                 });
-                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
+                                                await DirectoryHelper.CopyDirectoryAsync(Path.Combine(Globals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(Globals.Directories.GameDirectory, targetGameName, ".save"));
 
-                                                SnackbarManager.Show(new SnackbarContent
+                                                SnackbarService.Show(new SnackbarContent
                                                 {
                                                     Title = "迁移成功",
                                                     Content = $"{originGameName} 的存档已迁移至 {targetGameName}",
@@ -958,7 +926,7 @@ namespace PvzLauncherRemake.Pages
                                         }
                                         else
                                         {
-                                            SnackbarManager.Show(new SnackbarContent
+                                            SnackbarService.Show(new SnackbarContent
                                             {
                                                 Title = "操作中断",
                                                 Content = "没有选择目标游戏",
@@ -969,7 +937,7 @@ namespace PvzLauncherRemake.Pages
                                 }
                                 else
                                 {
-                                    SnackbarManager.Show(new SnackbarContent
+                                    SnackbarService.Show(new SnackbarContent
                                     {
                                         Title = "操作中断",
                                         Content = "原游戏无独立存档，请至少启动一次游戏并创建存档",
@@ -979,7 +947,7 @@ namespace PvzLauncherRemake.Pages
                             }
                             else
                             {
-                                SnackbarManager.Show(new SnackbarContent
+                                SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "操作中断",
                                     Content = "没有选择任何游戏",
@@ -990,7 +958,7 @@ namespace PvzLauncherRemake.Pages
                     }
                     else
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "无法迁移",
                             Content = "游戏库内少于两个游戏，无法使用此功能",
@@ -1000,7 +968,7 @@ namespace PvzLauncherRemake.Pages
                 }
                 else
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "提示",
                         Content = "请先启用存档隔离功能",

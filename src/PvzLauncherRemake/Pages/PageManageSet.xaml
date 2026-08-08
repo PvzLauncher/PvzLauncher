@@ -59,6 +59,8 @@
                         <TextBlock Text="{lex:Loc ChangeExecute}"/>
                     </StackPanel>
                 </Button>
+                <!--FAVORITE-->
+                <CheckBox x:Name="checkBox_favorite" Content="{lex:Loc Favorite}" Margin="0,0,10,0" Click="checkBox_favorite_Click"/>
             </WrapPanel>
 
             <!--统计信息-->

@@ -153,9 +153,6 @@
   <data name="CheckUpdate" xml:space="preserve">
     <value>Suchen Sie nach Updates</value>
   </data>
-  <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
-  </data>
   <data name="SponsorList" xml:space="preserve">
     <value>Alle Sponsoren seit dem Start von PvzLauncher</value>
   </data>
@@ -164,5 +161,8 @@
   </data>
   <data name="GotoQA" xml:space="preserve">
     <value>FAQ</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Unterstützen Sie Entwickler</value>
   </data>
 </root>

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Windows;
 
-
 namespace PvzLauncherRemake.Utils.UI
 {
     public static class ErrorReportDialog
@@ -11,7 +10,7 @@ namespace PvzLauncherRemake.Utils.UI
         {
             if (!isUnHandleException)
             {
-                SnackbarManager.Show(new SnackbarContent
+                SnackbarService.Show(new SnackbarContent
                 {
                     Title = "发生错误",
                     Content = $"{ex}",
@@ -62,9 +61,9 @@ namespace PvzLauncherRemake.Utils.UI
             dialog.Buttons.Add(btnEnd);
             dialog.Buttons.Add(btnCopyAndEnd);
             dialog.Buttons.Add(btnCopyAndReportAndEnd);
-            dialog.Buttons.Add(btnContinue);
+            //dialog.Buttons.Add(btnContinue);
 
-            dialog.Buttons.Add(btnClose);
+            //dialog.Buttons.Add(btnClose);
 
 
             var result = dialog.ShowDialog();
@@ -153,7 +152,7 @@ namespace PvzLauncherRemake.Utils.UI
                 DefaultButton = ContentDialogButton.Primary
             };
 
-            await DialogManager.ShowDialogAsync(dialog, closeCallback: (() =>
+            await DialogService.ShowDialogAsync(dialog, closeCallback: (() =>
             {
                 Environment.Exit(1);
             }));

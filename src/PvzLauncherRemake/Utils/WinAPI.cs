@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace PvzLauncherRemake.Utils.Services
+namespace PvzLauncherRemake.Utils
 {
     public struct RECT
     {
@@ -13,7 +13,7 @@ namespace PvzLauncherRemake.Utils.Services
         public int Height => Bottom - Top;
     }
 
-    public static class Win32APIHelper
+    public static class WinAPI
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool SetWindowText(IntPtr hWnd, string lpString);
@@ -41,6 +41,18 @@ namespace PvzLauncherRemake.Utils.Services
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BlockInput(bool fBlockIt);
+
+        public const int GWL_EXSTYLE = -20;
+
+        public const int WS_EX_TRANSPARENT = 0x00000020; // 鼠标穿透
+        public const int WS_EX_TOOLWINDOW = 0x00000080;  // 不显示在Alt+Tab
+        public const int WS_EX_NOACTIVATE = 0x08000000;  // 不激活
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         /// <summary>
         /// 设置窗口标题

@@ -144,4 +144,16 @@
   <data name="SlotHotkeyPosTips" xml:space="preserve">
     <value>슬롯 1~10번과 삽의 위치를 ​​순서대로 클릭해주세요</value>
   </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>오버레이</value>
+  </data>
+  <data name="ShowLogo" xml:space="preserve">
+    <value>로고 표시:</value>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>불투명도:</value>
+  </data>
+  <data name="ShowSlotKey" xml:space="preserve">
+    <value>카드 슬롯 단축키 표시:</value>
+  </data>
 </root>

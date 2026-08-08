@@ -4,7 +4,7 @@ using Wpf.Ui.Controls;
 
 namespace PvzLauncherRemake.Utils.UI
 {
-    public static class SnackbarManager
+    public static class SnackbarService
     {
         public static void Show(SnackbarContent snackbar)
         {
@@ -53,7 +53,7 @@ namespace PvzLauncherRemake.Utils.UI
         public string Title { get; set; }
         public string Content { get; set; }
         public SnackbarType Type { get; set; } = SnackbarType.Info;
-        public TimeSpan TimeOut { get; set; } = TimeSpan.FromSeconds(2);
+        public TimeSpan TimeOut { get; set; } = TimeSpan.FromSeconds(5);
     }
 
     public enum SnackbarType

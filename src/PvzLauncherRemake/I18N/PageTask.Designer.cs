@@ -61,11 +61,29 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 已完成 的本地化字符串。
+        /// </summary>
+        public static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 前往下载页 的本地化字符串。
         /// </summary>
         public static string GotoDownload {
             get {
                 return ResourceManager.GetString("GotoDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 进行中 的本地化字符串。
+        /// </summary>
+        public static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
             }
         }
         

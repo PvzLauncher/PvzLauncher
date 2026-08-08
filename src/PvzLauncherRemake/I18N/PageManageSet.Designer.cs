@@ -88,6 +88,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 收藏 的本地化字符串。
+        /// </summary>
+        public static string Favorite {
+            get {
+                return ResourceManager.GetString("Favorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 打开游戏文件夹 的本地化字符串。
         /// </summary>
         public static string OpenGameDirectory {

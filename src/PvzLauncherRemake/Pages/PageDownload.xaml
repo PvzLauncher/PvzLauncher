@@ -16,10 +16,10 @@
 
     <Grid>
         <Grid x:Name="grid">
-            <TabControl x:Name="tabControl_Main" Style="{StaticResource TabControlPivotStyle}" SelectionChanged="tabControl_Main_SelectionChanged">
+            <TabControl x:Name="tabControl_Main" Style="{StaticResource TabControlPivotStyle}" >
                 <!--游戏下载-->
                 <TabItem Header="{lex:Loc GameDownload}">
-                    <TabControl Style="{StaticResource TabControlPivotStyle}" Margin="0,0,0,10" SelectionChanged="tabControl_Main_SelectionChanged">
+                    <TabControl x:Name="tabControl_Sub" Style="{StaticResource TabControlPivotStyle}" Margin="0,0,0,10">
                         <!--中文原版-->
                         <TabItem Header="{lex:Loc ChineseOriginalEdition}">
                             <Grid>

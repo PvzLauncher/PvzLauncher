@@ -1,7 +1,7 @@
 ﻿using ModernWpf;
 using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Utils.Configuration;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.IO;
@@ -24,8 +24,36 @@ namespace PvzLauncherRemake
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
 
-            if (DateTimeOffset.Now.Month == 1 && DateTimeOffset.Now.Day == 1)
-                ThemeManager.Current.AccentColor = Color.FromRgb(255, 0, 0);
+            //特殊日期
+            var now = DateTimeOffset.Now;
+            if (now.Month == 1 && now.Day == 1)//元旦
+                ThemeManager.Current.AccentColor = Color.FromRgb(255, 150, 150);
+            if (now.Month == 4 && now.Day == 1)//愚人节
+                ThemeManager.Current.AccentColor = Color.FromRgb(150, 255, 150);
+
+            //处理启动参数
+            string[] args = Environment.GetCommandLineArgs();
+            foreach (var arg in args)
+            {
+
+                switch (arg)
+                {
+                    //外壳启动
+                    case "-shell":
+                        Globals.Arguments.isShell = true; break;
+                    //更新启动，显示更新完毕对话框
+                    case "-update":
+                        Globals.Arguments.isUpdate = true; break;
+                }
+            }
+            //是否CI构建
+#if CI
+            Globals.Arguments.isCIBuild = true;
+#endif
+            //是否Debug构建
+#if DEBUG
+            Globals.Arguments.isDebugBuild = true;
+#endif
 
             //初始化根目录
             if (!Directory.Exists(Globals.Directories.RootDirectory))
@@ -44,7 +72,7 @@ namespace PvzLauncherRemake
             ConfigManager.LoadConfig();
 
             //切换语言
-            LocalizeManager.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
+            LocalizeService.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
 
             //切换服务提供方
             switch (Globals.Config.Settings.LauncherConfig.ServiceProvider)
@@ -62,11 +90,10 @@ namespace PvzLauncherRemake
             await GameManager.LoadTrainerListAsync();
         }
 
-        private async void InitializeLoaded()
+        private void InitializeLoaded()
         {
-            ThemeManager.AddActualThemeChangedHandler(this.MainWindow, OnThemeChanged);
-
             //主题
+            ThemeManager.AddActualThemeChangedHandler(this.MainWindow, OnThemeChanged);
             switch (Globals.Config.Settings.LauncherConfig.Theme)
             {
                 case "Light":
@@ -93,10 +120,7 @@ namespace PvzLauncherRemake
             mainWindow.Focus();
         }
 
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-        }
+
 
         private void OnThemeChanged(object sender, EventArgs e)
         {
@@ -130,19 +154,17 @@ namespace PvzLauncherRemake
 
         #region 错误捕获
 
-        private void DispatcherUnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e)
-        => ProcessUnhandledException(e.Exception);
+        private void DispatcherUnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e) =>
+            ProcessUnhandledException(e.Exception);
 
-        private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
-        => ProcessUnhandledException((Exception)e.ExceptionObject);
+        private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e) =>
+            ProcessUnhandledException((Exception)e.ExceptionObject);
 
-        private void UnobservedTaskExceptionHandler(object? sender, UnobservedTaskExceptionEventArgs e)
-        => ProcessUnhandledException(e.Exception);
+        private void UnobservedTaskExceptionHandler(object? sender, UnobservedTaskExceptionEventArgs e) =>
+            ProcessUnhandledException(e.Exception);
 
-        private void ProcessUnhandledException(Exception ex)
-        {
+        private void ProcessUnhandledException(Exception ex) =>
             ErrorReportDialog.Show(ex, true);
-        }
 
         #endregion
     }

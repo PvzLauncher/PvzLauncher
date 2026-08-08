@@ -1,17 +1,15 @@
-﻿using HuaZi.Library.Json;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Configuration;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
-
-using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
+using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -39,6 +37,8 @@ namespace PvzLauncherRemake.Pages
         public void EndLoad() => StartLoad(false);
 
 
+        private void SaveConfig() => JsonHelper.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
+
         public PageManageSet(JsonGameInfo.Root gameInfo)
         {
             InitializeComponent();
@@ -52,7 +52,9 @@ namespace PvzLauncherRemake.Pages
                     userGameCard.Title = GameInfo.GameInfo.Name;
                     userGameCard.Version = GameInfo.GameInfo.Version;
                     userGameCard.Icon = GameIconConverter.ParseStringToGameIcons(GameInfo.GameInfo.Icon);
+                    userGameCard.IsFavorite = GameInfo.GameInfo.IsFavorite;
 
+                    checkBox_favorite.IsChecked = GameInfo.GameInfo.IsFavorite;
 
                     //判断游玩时间显示
                     string? playTimeUnit = null;
@@ -130,7 +132,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
 
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "确定操作",
                     Content = $"真的要删除这个游戏吗？\n\"{GameInfo.GameInfo.Name}\" 将会永久消失(真的很久!){(GameInfo.GameInfo.GamePath != null ? "\n\n此操作仅会移除虚拟链接，并不会真正移除游戏本体！" : null)}",
@@ -144,7 +146,7 @@ namespace PvzLauncherRemake.Pages
                         Content = "我确认永久删除此游戏",
                         IsChecked = false
                     };
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "最后一次确认",
                         Content = new StackPanel
@@ -170,7 +172,7 @@ namespace PvzLauncherRemake.Pages
 
                             await Task.Run(() => Directory.Delete(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name), true));
 
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "删除成功",
                                 Content = $"\"{GameInfo.GameInfo.Name}\" 已成功从您的游戏库中移除",
@@ -238,7 +240,7 @@ namespace PvzLauncherRemake.Pages
                     Text = GameInfo.GameInfo.Version,
                     Margin = new Thickness(0, 0, 0, 10)
                 };
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更改版本信息",
                     Content = new StackPanel
@@ -266,9 +268,8 @@ namespace PvzLauncherRemake.Pages
                 {
                     GameInfo.GameInfo.Version = textBox.Text;
                     GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Grid)comboBox.SelectedItem).Tag);
-                    Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-
-                    SnackbarManager.Show(new SnackbarContent
+                    SaveConfig();
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "成功",
                         Content = "您的版本信息已更改",
@@ -309,7 +310,7 @@ namespace PvzLauncherRemake.Pages
                     foreach (var exe in exes)
                         listBox.Items.Add(exe);
 
-                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "更改可执行文件",
                         Content = new StackPanel
@@ -332,8 +333,8 @@ namespace PvzLauncherRemake.Pages
                         if (listBox.SelectedItem != null)
                         {
                             GameInfo.GameInfo.ExecuteName = (string)listBox.SelectedItem;
-                            Json.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-                            SnackbarManager.Show(new SnackbarContent
+                            SaveConfig();
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "成功",
                                 Content = $"可执行文件已更改为 \"{GameInfo.GameInfo.ExecuteName}\"",
@@ -342,7 +343,7 @@ namespace PvzLauncherRemake.Pages
                         }
                         else
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "失败",
                                 Content = "您没有选择任何可执行文件，因此操作取消",
@@ -353,7 +354,7 @@ namespace PvzLauncherRemake.Pages
                 }
                 else
                 {
-                    SnackbarManager.Show(new SnackbarContent
+                    SnackbarService.Show(new SnackbarContent
                     {
                         Title = "您无法更改",
                         Content = "此游戏目录下仅有一个可执行文件，无法更改",
@@ -373,7 +374,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
                 var textBox = new TextBox { Text = GameInfo.GameInfo.Name };
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更改名称",
                     Content = textBox,
@@ -389,8 +390,8 @@ namespace PvzLauncherRemake.Pages
                             string lastName = GameInfo.GameInfo.Name;
                             GameInfo.GameInfo.Name = textBox.Text;
                             Directory.Move(Path.Combine(Globals.Directories.GameDirectory, lastName), Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name));
-                            Json.WriteJson(Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-                            SnackbarManager.Show(new SnackbarContent
+                            SaveConfig();
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "更名成功",
                                 Content = $"游戏已更名为 \"{GameInfo.GameInfo.Name}\"",
@@ -404,7 +405,7 @@ namespace PvzLauncherRemake.Pages
                         }
                         else
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            SnackbarService.Show(new SnackbarContent
                             {
                                 Title = "更名失败",
                                 Content = $"游戏库下已有与\"{textBox.Text}\"同名游戏！",
@@ -414,7 +415,7 @@ namespace PvzLauncherRemake.Pages
                     }
                     else
                     {
-                        SnackbarManager.Show(new SnackbarContent
+                        SnackbarService.Show(new SnackbarContent
                         {
                             Title = "更名失败",
                             Content = "新名称为空",
@@ -427,6 +428,13 @@ namespace PvzLauncherRemake.Pages
             {
                 ErrorReportDialog.Show(ex);
             }
+        }
+
+        private void checkBox_favorite_Click(object sender, RoutedEventArgs e)
+        {
+            GameInfo.GameInfo.IsFavorite = checkBox_favorite.IsChecked == true ? true : false;
+            SaveConfig();
+            this.NavigationService.Refresh();
         }
     }
 }

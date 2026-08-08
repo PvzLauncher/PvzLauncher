@@ -79,7 +79,43 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 卡槽快捷键 的本地化字符串。
+        ///   查找类似 不透明度: 的本地化字符串。
+        /// </summary>
+        public static string Opacity {
+            get {
+                return ResourceManager.GetString("Opacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 覆盖层 的本地化字符串。
+        /// </summary>
+        public static string Overlay {
+            get {
+                return ResourceManager.GetString("Overlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示 Logo: 的本地化字符串。
+        /// </summary>
+        public static string ShowLogo {
+            get {
+                return ResourceManager.GetString("ShowLogo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示卡槽快捷键: 的本地化字符串。
+        /// </summary>
+        public static string ShowSlotKey {
+            get {
+                return ResourceManager.GetString("ShowSlotKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 快捷卡槽 的本地化字符串。
         /// </summary>
         public static string SlotHotkey {
             get {

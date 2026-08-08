@@ -1,12 +1,12 @@
-﻿using HuaZi.Library.Json;
-using MdXaml;
+﻿using MdXaml;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Pages;
-using PvzLauncherRemake.Utils.Configuration;
-using PvzLauncherRemake.Utils.Services;
+using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.IO;
@@ -17,7 +17,6 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using Wpf.Ui;
 
-
 namespace PvzLauncherRemake.Windows
 {
     /// <summary>
@@ -25,7 +24,7 @@ namespace PvzLauncherRemake.Windows
     /// </summary>
     public partial class WindowMain : Window
     {
-        private Dictionary<string, Type> PageMap = new Dictionary<string, Type>();//Page预加载
+        public Dictionary<string, Type> PageMap = new Dictionary<string, Type>();//Page预加载
         private NavigationTransitionInfo FrameAnimation = new DrillInNavigationTransitionInfo();//Frame切换动画
         public ISnackbarService _snackbarService;
 
@@ -80,7 +79,7 @@ namespace PvzLauncherRemake.Windows
                     navViewItem_Task.IsEnabled = false;
                 }
 
-                _snackbarService = new SnackbarService();
+                _snackbarService = new Wpf.Ui.SnackbarService();
                 _snackbarService.SetSnackbarPresenter(snackbarPersenter);
 
 
@@ -103,48 +102,10 @@ namespace PvzLauncherRemake.Windows
                     try
                     {
 
-
-
-
-                        //是否CI构建
-#if CI
-                Globals.Arguments.isCIBuild = true;
-#endif
-                        //是否Debug构建
-#if DEBUG
-                        Globals.Arguments.isDebugBuild = true;
-#endif
-
-
-                        //处理启动参数
-                        string[] args = Environment.GetCommandLineArgs();
-                        foreach (var arg in args)
-                        {
-
-                            switch (arg)
-                            {
-                                //外壳启动
-                                case "-shell":
-                                    Globals.Arguments.isShell = true; break;
-                                //更新启动，显示更新完毕对话框
-                                case "-update":
-                                    Globals.Arguments.isUpdate = true; break;
-                            }
-                        }
-
-
-
-
-
-
-
-
-
-
                         //参数检测
                         /*if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
                         {
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "警告",
                                 Content = "检测到程序非外壳启动, 此启动方式可能会导致某些意外的事情发生",
@@ -164,7 +125,7 @@ namespace PvzLauncherRemake.Windows
                         }*/
                         if (Globals.Arguments.isUpdate)//更新启动
                         {
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "更新完毕",
                                 Content = $"您已更新到最新版 {Globals.Version} , 尽情享受吧！",
@@ -177,7 +138,7 @@ namespace PvzLauncherRemake.Windows
                         //构建检测
                         if (Globals.Arguments.isCIBuild)//CI
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            Utils.UI.SnackbarService.Show(new SnackbarContent
                             {
                                 Content = $"您使用的是基于 {Globals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
                                 Title = "警告",
@@ -186,16 +147,13 @@ namespace PvzLauncherRemake.Windows
                         }
                         else if (Globals.Arguments.isDebugBuild)//DEBUG
                         {
-                            SnackbarManager.Show(new SnackbarContent
+                            Utils.UI.SnackbarService.Show(new SnackbarContent
                             {
                                 Content = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
                                 Title = "警告",
                                 Type = SnackbarType.Warn
                             });
                         }
-
-
-
 
                         //EULA检测
                         if (!Globals.Config.Eula)
@@ -212,7 +170,7 @@ namespace PvzLauncherRemake.Windows
                             docViewer.Document = new Markdown().Transform(eulaText);
                             docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
 
-                            await DialogManager.ShowDialogAsync(new ContentDialog
+                            await DialogService.ShowDialogAsync(new ContentDialog
                             {
                                 Title = "请阅读并同意《Plants Vs. Zombies Launcher - 最终用户许可协议》",
                                 Content = docViewer,
@@ -223,27 +181,18 @@ namespace PvzLauncherRemake.Windows
                             ConfigManager.SaveConfig();
                         }
 
-
-
-
-
                         //检查更新
                         if (Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
                         {
-
                             await Updater.CheckUpdate(null!, true);
                         }
-
-
-
-
 
                         //公告获取
                         if (Globals.Config.Settings.LauncherConfig.NoticeEnabled && !Globals.Config.Settings.LauncherConfig.OfflineMode)
                         {
                             JsonNoticeIndex.Root noticeIndex;
                             using (var client = new HttpClient())
-                                noticeIndex = Json.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
+                                noticeIndex = JsonHelper.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
 
                             foreach (var notice in noticeIndex.Notices)
                             {
@@ -255,7 +204,7 @@ namespace PvzLauncherRemake.Windows
 
                                 var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
                                 if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
-                                    await DialogManager.ShowDialogAsync(new ContentDialog
+                                    await DialogService.ShowDialogAsync(new ContentDialog
                                     {
                                         Title = notice.Title,
                                         Content = new StackPanel
@@ -315,6 +264,49 @@ namespace PvzLauncherRemake.Windows
                     }
                 }), System.Windows.Threading.DispatcherPriority.Normal);
             });
+
+
+
+            bool _isClose = false;
+
+            Closing += async (s, e) =>
+            {
+                if (_isClose)
+                    return;
+
+                if (GameManager.IsGameRuning && Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
+                {
+                    e.Cancel = true;
+                    await DialogService.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "警告",
+                        Content = "游戏运行时关闭启动器会导致隔离存档与当前存档不同步，在下次启动游戏时会丢失进度。确定退出？",
+                        PrimaryButtonText = "留在启动器",
+                        CloseButtonText = "仍然退出",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, null, null, () =>
+                    {
+                        _isClose = true;
+                        this.Close();
+                    });
+                }
+            };
+
+
+
+
+
+
+
+            PreviewKeyUp += (s, e) =>
+            {
+                if (navView.IsBackEnabled != true || navView.IsBackButtonVisible != NavigationViewBackButtonVisible.Visible)
+                    return;
+                if (e.Key != System.Windows.Input.Key.Escape)
+                    return;
+
+                navView_BackRequested(navView, null!);
+            };
         }
 
         private void navView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
@@ -358,9 +350,7 @@ namespace PvzLauncherRemake.Windows
             }
         }
 
-        private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
+        private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) =>
             frame.GoBack();
-        }
     }
 }
