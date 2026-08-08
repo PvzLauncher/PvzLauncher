@@ -37,6 +37,7 @@ namespace PvzLauncherRemake.Utils.Game
         Girls,//girls
         Card,//card
         Dave,//dave
+        MvZ,//mvz
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -85,6 +86,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case "girls": return GameIcons.Girls;
                 case "card": return GameIcons.Card;
                 case "dave": return GameIcons.Dave;
+                case "mvz": return GameIcons.MvZ;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -137,6 +139,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Girls: return "girls";
                 case GameIcons.Card: return "card";
                 case GameIcons.Dave: return "dave";
+                case GameIcons.MvZ: return "mvz";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -190,6 +193,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Girls: return new GameIconGirls();
                 case GameIcons.Card: return new GameIconCard();
                 case GameIcons.Dave: return new GameIconDave();
+                case GameIcons.MvZ: return new GameIconMvZ();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
