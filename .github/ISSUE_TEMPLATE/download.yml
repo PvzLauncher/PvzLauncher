@@ -15,11 +15,18 @@ body:
   - type: input
     id: url
     attributes:
-      label: 游戏官网或下载链接
-      description: 提供游戏下载链接或者官网
+      label: 来源
+      description: 提供原作者的改版宣传帖或者个人空间等一切可以下载该改版的地方
       placeholder: |
-        例如: https://www.example.com
+        例如: https://space.bilibili.com/xxxxxxx
     validations:
       required: true
 
+  - type: input
+    id: auther
+    attributes:
+      label: 作者
+      description: 改版的作者
+    validations:
+      required: false
 
