@@ -85,7 +85,7 @@ namespace PvzLauncherRemake.Pages
                         textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
                     }
                     //下载按钮
-                    button_Link.Visibility = string.IsNullOrEmpty(Info.LinkUrl) ? Visibility.Collapsed : Visibility.Visible;
+                    button_Link.Visibility = (Info.LinkUrls == null || Info.LinkUrls?.Count < 1) ? Visibility.Collapsed : Visibility.Visible;
                     button_Download.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
                     button_Manual.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
 
@@ -138,13 +138,51 @@ namespace PvzLauncherRemake.Pages
             });
         }
 
-        private void button_Link_Click(object sender, RoutedEventArgs e)
+        private async void button_Link_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo
+            if (Info.LinkUrls.Count == 1)
             {
-                FileName = Info.LinkUrl,
-                UseShellExecute = true
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Info.LinkUrls.First().Value,
+                    UseShellExecute = true
+                });
+                return;
+            }
+
+            var stackPanel = new StackPanel();
+            string targetUrl = Info.LinkUrls.First().Value;
+            foreach (var link in Info.LinkUrls)
+            {
+                var radio = new RadioButton
+                {
+                    Content = link.Key,
+                    Tag = link.Value,
+                    IsChecked = stackPanel.Children.Count <= 0//默认选中第一个
+                };
+                stackPanel.Children.Add(radio);
+
+                radio.Click += (s, e) => targetUrl = link.Value;
+            }
+
+
+            await DialogService.ShowDialogAsync(new ContentDialog
+            {
+                Title = "跳转官网",
+                Content = stackPanel,
+                PrimaryButtonText = "确定",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary
+            }, () =>
+            {
+                MessageBox.Show(targetUrl);
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = targetUrl,
+                    UseShellExecute = true
+                });
             });
+
         }
 
         private async void button_Manual_Click(object sender, RoutedEventArgs e)
