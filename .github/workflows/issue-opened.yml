@@ -4,7 +4,6 @@ on:
   issues:
     types: 
       - opened
-      - reopened
 
 permissions:
   issues: write
@@ -19,6 +18,17 @@ jobs:
         with:
           script: |
             const issue = context.issue;
+
+            // 删除所有原有标签
+            for (const label of labels) {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                name: label
+              });
+            }
+
 
             // 添加标签
             await github.rest.issues.addLabels({

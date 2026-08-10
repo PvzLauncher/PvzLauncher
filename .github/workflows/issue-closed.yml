@@ -2,7 +2,8 @@ name: Issue Closed
 
 on:
   issues:
-    types: [closed]
+    types: 
+      - closed
 
 permissions:
   issues: write
@@ -20,12 +21,6 @@ jobs:
 
             // 获取当前标签
             const labels = issue.labels.map(label => label.name);
-
-            // 如果已经有完成或拒绝标签，则不执行任何操作
-            if (labels.includes("✔ 完成") || labels.includes("❌ 拒绝")) {
-              console.log("Issue already has a final label, skipping.");
-              return;
-            }
 
             // 根据关闭原因决定最终标签
             const stateReason = issue.state_reason;
