@@ -18,7 +18,9 @@ jobs:
         with:
           script: |
             const issue = context.issue;
-
+            
+            // 获取当前标签
+            const labels = issue.labels.map(label => label.name);
             // 删除所有原有标签
             for (const label of labels) {
               await github.rest.issues.removeLabel({
