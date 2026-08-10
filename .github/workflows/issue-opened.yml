@@ -17,10 +17,11 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const issue = context.issue;
-            
+            const issue = context.payload.issue;
+
             // 获取当前标签
             const labels = issue.labels.map(label => label.name);
+
             // 删除所有原有标签
             for (const label of labels) {
               await github.rest.issues.removeLabel({
@@ -30,12 +31,11 @@ jobs:
                 name: label
               });
             }
-
-
-            // 添加标签
+            
+            // 添加等待标签
             await github.rest.issues.addLabels({
-              owner: issue.owner,
-              repo: issue.repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               issue_number: issue.number,
               labels: [
                 "🕐 等待"
