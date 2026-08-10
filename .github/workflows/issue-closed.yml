@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Remove all labels and add ✔ 完成
+      - name: Process closed issue
         uses: actions/github-script@v7
         with:
           script: |
@@ -21,13 +21,28 @@ jobs:
             // 获取当前标签
             const labels = issue.labels.map(label => label.name);
 
-            // 如果已经有完成标签，则不执行任何操作
-            if (labels.includes("✔ 完成")) {
-              console.log("Issue already has ✔ 完成 label, skipping.");
+            // 如果已经有完成或拒绝标签，则不执行任何操作
+            if (labels.includes("✔ 完成") || labels.includes("❌ 拒绝")) {
+              console.log("Issue already has a final label, skipping.");
               return;
             }
 
-            // 删除所有标签
+            // 根据关闭原因决定最终标签
+            const stateReason = issue.state_reason;
+
+            let finalLabel;
+
+            if (stateReason === "not_planned" || stateReason === "duplicate") {
+              finalLabel = "❌ 拒绝";
+            } else {
+              // completed
+              finalLabel = "✔ 完成";
+            }
+
+            console.log(`Close reason: ${stateReason}`);
+            console.log(`Final label: ${finalLabel}`);
+
+            // 删除所有原有标签
             for (const label of labels) {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
@@ -37,10 +52,10 @@ jobs:
               });
             }
 
-            // 添加完成标签
+            // 添加最终标签
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
-              labels: ["✔ 完成"]
+              labels: [finalLabel]
             });
