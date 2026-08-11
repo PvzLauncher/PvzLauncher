@@ -56,7 +56,12 @@
                     <!--简介-->
                     <TextBlock Text="{lex:Loc Description}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
                     <TextBlock x:Name="textBlock_Description" Margin="0,0,0,10" TextWrapping="Wrap"/>
-                    <TextBlock x:Name="textBlock_Information" Margin="0,0,0,10"/>
+
+                    <!--作者-->
+                    <TextBlock Text="{lex:Loc Author}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
+                    <StackPanel x:Name="stackPanel_Author" Margin="0,0,0,10">
+                        
+                    </StackPanel>
 
                     <!--屏幕截图-->
                     <TextBlock Text="{lex:Loc ScreenShots}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>

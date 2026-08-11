@@ -33,8 +33,8 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("screenshot")]
             public int Screenshot { get; set; }
 
-            [JsonProperty("author")]
-            public string[] Author { get; set; }
+            [JsonProperty("authors")]
+            public Dictionary<string, string> Authors { get; set; }
 
             [JsonProperty("icon")]
             public string Icon { get; set; }
