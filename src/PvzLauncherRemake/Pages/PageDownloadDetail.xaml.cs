@@ -83,7 +83,8 @@ namespace PvzLauncherRemake.Pages
                         var button = new HyperlinkButton
                         {
                             Content = author.Key,
-                            MinWidth = 100
+                            MinWidth = 100,
+                            IsEnabled = !string.IsNullOrEmpty(author.Value)
                         };
                         if (!string.IsNullOrEmpty(author.Value))
                             button.NavigateUri = new Uri(author.Value);
