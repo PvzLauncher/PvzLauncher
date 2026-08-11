@@ -182,7 +182,7 @@ namespace PvzLauncherRemake.Pages
                 DefaultButton = ContentDialogButton.Primary
             }, () =>
             {
-                MessageBox.Show(targetUrl);
+                
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = targetUrl,
