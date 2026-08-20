@@ -20,6 +20,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("trainer")]
             public TrainerInfo[] Trainer { get; set; }
+
+            [JsonProperty("other")]
+            public GameInfo[] Other { get; set; }
         }
 
         public partial class GameInfo

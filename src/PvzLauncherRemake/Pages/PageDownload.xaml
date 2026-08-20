@@ -62,6 +62,14 @@
                         </ctrl:UserScrollViewer>
                     </Grid>
                 </TabItem>
+                <!--其他下载-->
+                <TabItem Header="{lex:Loc Other}">
+                    <Grid>
+                        <ctrl:UserScrollViewer>
+                            <StackPanel x:Name="stackPanel_other" Tag="game"/>
+                        </ctrl:UserScrollViewer>
+                    </Grid>
+                </TabItem>
 
                 <!--搜索-->
                 <TabItem Header="{lex:Loc Search}">

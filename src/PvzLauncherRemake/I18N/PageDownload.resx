@@ -118,4 +118,7 @@
   <data name="EnglishRevisionEdition" xml:space="preserve">
     <value>英文改版</value>
   </data>
+  <data name="Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
 </root>

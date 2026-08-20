@@ -138,4 +138,7 @@
   <data name="EnglishRevisionEdition" xml:space="preserve">
     <value>Révision anglaise</value>
   </data>
+  <data name="Other" xml:space="preserve">
+    <value>Autres</value>
+  </data>
 </root>
