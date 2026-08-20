@@ -3,8 +3,12 @@
     <BuildType Name="Debug" />
     <BuildType Name="Release" />
     <BuildType Name="CI" />
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
   </Configurations>
   <Project Path="src/ExecuteShell/ExecuteShell.csproj" Id="a74f5f50-81b3-4979-b8a7-c1a9eb072f56" />
+  <Project Path="src/FolderOpener/FolderOpener.vcxproj" Id="51815d0d-29e4-4e94-8445-4b21362d6129" />
   <Project Path="src/PvzLauncherRemake/PvzLauncherRemake.csproj" />
   <Project Path="src/StdUpdateService/StdUpdateService.csproj" />
 </Solution>
