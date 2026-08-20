@@ -106,7 +106,7 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
-        ///   查找类似 其他 的本地化字符串。
+        ///   查找类似 其他下载 的本地化字符串。
         /// </summary>
         public static string Other {
             get {
