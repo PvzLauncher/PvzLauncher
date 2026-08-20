@@ -20,6 +20,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("trainer")]
             public TrainerInfo[] Trainer { get; set; }
+
+            [JsonProperty("other")]
+            public GameInfo[] Other { get; set; }
         }
 
         public partial class GameInfo
@@ -33,8 +36,8 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("screenshot")]
             public int Screenshot { get; set; }
 
-            [JsonProperty("author")]
-            public string[] Author { get; set; }
+            [JsonProperty("authors")]
+            public Dictionary<string, string> Authors { get; set; }
 
             [JsonProperty("icon")]
             public string Icon { get; set; }
@@ -60,8 +63,8 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("share_password")]
             public string? SharePassword { get; set; }
 
-            [JsonProperty("link_url")]
-            public string LinkUrl { get; set; }
+            [JsonProperty("link_urls")]
+            public Dictionary<string, string> LinkUrls { get; set; }
         }
 
         public partial class TrainerInfo : GameInfo

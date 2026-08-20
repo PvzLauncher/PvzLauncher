@@ -16,7 +16,7 @@
     <Grid Margin="10">
         <!--标题与副标题-->
         <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top">
-            Welcom to the <Italic><Underline Foreground="Red">Developer Console</Underline></Italic>
+            Welcome to the <Italic><Underline Foreground="Red">Developer Console</Underline></Italic>
         </TextBlock>
         <TextBlock Text="此页为开发者控制台，如果乱改这里的设置造成的程序异常，请不要去项目仓库反馈！" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,37,0,0"/>
 

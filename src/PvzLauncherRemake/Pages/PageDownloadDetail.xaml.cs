@@ -77,15 +77,22 @@ namespace PvzLauncherRemake.Pages
                         textBlock_Description.Text = $"{textBlock_Description.Text}{line}\n";
 
                     //信息
-                    textBlock_Information.Inlines.Clear();
-                    //作者
-                    textBlock_Information.Inlines.Add(new Bold(new Run($"{GetLoc("I18N.PageDownloadConfirm", "Author")}: ")));
-                    for (int i = 0; i < Info.Author.Length; i++)
+                    wrapPanel_Author.Children.Clear();
+                    foreach (var author in Info.Authors)
                     {
-                        textBlock_Information.Inlines.Add(new Run($"{Info.Author[i]}{(i != Info.Author.Length - 1 ? " , " : null)}"));
+                        var button = new HyperlinkButton
+                        {
+                            Content = author.Key,
+                            MinWidth = 100,
+                            IsEnabled = !string.IsNullOrEmpty(author.Value),
+                            Margin = new Thickness(0, 0, 5, 0)
+                        };
+                        if (!string.IsNullOrEmpty(author.Value))
+                            button.NavigateUri = new Uri(author.Value);
+                        wrapPanel_Author.Children.Add(button);
                     }
                     //下载按钮
-                    button_Link.Visibility = string.IsNullOrEmpty(Info.LinkUrl) ? Visibility.Collapsed : Visibility.Visible;
+                    button_Link.Visibility = (Info.LinkUrls == null || Info.LinkUrls?.Count < 1) ? Visibility.Collapsed : Visibility.Visible;
                     button_Download.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
                     button_Manual.Visibility = string.IsNullOrEmpty(Info.ShareUrl) ? Visibility.Collapsed : Visibility.Visible;
 
@@ -138,13 +145,51 @@ namespace PvzLauncherRemake.Pages
             });
         }
 
-        private void button_Link_Click(object sender, RoutedEventArgs e)
+        private async void button_Link_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo
+            if (Info.LinkUrls.Count == 1)
             {
-                FileName = Info.LinkUrl,
-                UseShellExecute = true
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Info.LinkUrls.First().Value,
+                    UseShellExecute = true
+                });
+                return;
+            }
+
+            var stackPanel = new StackPanel();
+            string targetUrl = Info.LinkUrls.First().Value;
+            foreach (var link in Info.LinkUrls)
+            {
+                var radio = new RadioButton
+                {
+                    Content = link.Key,
+                    Tag = link.Value,
+                    IsChecked = stackPanel.Children.Count <= 0//默认选中第一个
+                };
+                stackPanel.Children.Add(radio);
+
+                radio.Click += (s, e) => targetUrl = link.Value;
+            }
+
+
+            await DialogService.ShowDialogAsync(new ContentDialog
+            {
+                Title = "跳转官网",
+                Content = stackPanel,
+                PrimaryButtonText = "确定",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary
+            }, () =>
+            {
+                
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = targetUrl,
+                    UseShellExecute = true
+                });
             });
+
         }
 
         private async void button_Manual_Click(object sender, RoutedEventArgs e)

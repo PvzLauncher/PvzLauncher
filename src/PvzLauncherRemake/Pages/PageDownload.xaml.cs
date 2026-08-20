@@ -109,12 +109,14 @@ namespace PvzLauncherRemake.Pages
                     stackPanel_enOrigin.Children.Clear();
                     stackPanel_enRevision.Children.Clear();
                     stackPanel_trainer.Children.Clear();
+                    stackPanel_other.Children.Clear();
 
                     AddGameCard(stackPanel_zhOrigin, Globals.Caches.DownloadIndex.ZhOrigin);
                     AddGameCard(stackPanel_zhRevision, Globals.Caches.DownloadIndex.ZhRevision);
                     AddGameCard(stackPanel_enOrigin, Globals.Caches.DownloadIndex.EnOrigin);
                     AddGameCard(stackPanel_enRevision, Globals.Caches.DownloadIndex.EnRevision);
                     AddTrainerCard(stackPanel_trainer, Globals.Caches.DownloadIndex.Trainer);
+                    AddGameCard(stackPanel_other, Globals.Caches.DownloadIndex.Other);
 
                     EndLoad();
 
