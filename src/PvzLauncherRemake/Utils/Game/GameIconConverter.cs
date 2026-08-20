@@ -40,6 +40,7 @@ namespace PvzLauncherRemake.Utils.Game
         MvZ,//mvz
         TrashCan,//trashcan
         Unparalleled,//unparalleled
+        Genshin,//genshin
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -91,6 +92,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case "mvz": return GameIcons.MvZ;
                 case "trashcan": return GameIcons.TrashCan;
                 case "unparalleled": return GameIcons.Unparalleled;
+                case "genshin": return GameIcons.Genshin;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -146,6 +148,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.MvZ: return "mvz";
                 case GameIcons.TrashCan: return "trashcan";
                 case GameIcons.Unparalleled: return "unparalleled";
+                case GameIcons.Genshin: return "genshin";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -202,6 +205,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.MvZ: return new GameIconMvZ();
                 case GameIcons.TrashCan: return new GameIconTrashCan();
                 case GameIcons.Unparalleled: return new GameIconUnparalleled();
+                case GameIcons.Genshin: return new GameIconGenshin();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
