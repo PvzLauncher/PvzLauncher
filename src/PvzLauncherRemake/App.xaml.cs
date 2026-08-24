@@ -150,6 +150,19 @@ namespace PvzLauncherRemake
                 Color = (Color)ColorConverter.ConvertFromString($"#02{new string(colorFill, 6)}")
             };
 
+            if (currentTheme == ElementTheme.Light)
+            {
+                this.Resources["TUCardBackground"] = new SolidColorBrush { Color = Color.FromArgb(255, 243, 243, 243) };
+                this.Resources["TUCardBorder"] = new SolidColorBrush { Color = Color.FromArgb(255, 223, 223, 223) };
+            }
+            else if (currentTheme == ElementTheme.Dark)
+            {
+                this.Resources["TUCardBackground"] = new SolidColorBrush { Color = Color.FromArgb(255, 32, 32, 32) };
+                this.Resources["TUCardBorder"] = new SolidColorBrush { Color = Color.FromArgb(255, 52, 52, 52) };
+            }
+
+
+
         }
 
         #region 错误捕获
