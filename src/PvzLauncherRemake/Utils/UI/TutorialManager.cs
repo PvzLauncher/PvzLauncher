@@ -10,12 +10,8 @@ namespace PvzLauncherRemake.Utils.UI
     public static class TutorialManager
     {
         public static UserTutorialHost _tutorialHost;
-        
-        static TutorialManager()
-        {
-            if (Application.Current.MainWindow is WindowMain wm)
-                _tutorialHost = wm.tuhost;
-        }
+
+        public static void Initialize(UserTutorialHost tutorialHost) => _tutorialHost = tutorialHost;
 
 
         public static void ShowTutorial() => _tutorialHost.SetVisible(true);

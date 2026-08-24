@@ -55,6 +55,9 @@ namespace PvzLauncherRemake.Windows
                     ConfigManager.SaveConfig();
                 });
 
+                //初始化教程Host
+                TutorialManager.Initialize(tuhost);
+
                 //预加载Page
                 void AddType(Type t)
                 {
