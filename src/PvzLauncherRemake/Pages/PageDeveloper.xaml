@@ -78,6 +78,13 @@
                     </WrapPanel>
                 </ctrl:UserScrollViewer>
             </TabItem>
+            <TabItem Header="教程系统测试">
+                <StackPanel>
+                    <TextBox x:Name="textBox_TUtitle" Text="Title"/>
+                    <TextBox x:Name="textBox_TUcontent" Text="Content"/>
+                    <Button x:Name="button_TUstart" Content="Start tutorial"/>
+                </StackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </ui:Page>

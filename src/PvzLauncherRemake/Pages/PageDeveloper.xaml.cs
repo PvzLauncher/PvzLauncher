@@ -131,6 +131,44 @@ namespace PvzLauncherRemake.Pages
                 Content = $"{rating.Value}",
                 Type = SnackbarType.Success
             });
+
+            #region 教程测试
+            int totalStep = 3;
+            int currentStep = 0;
+            button_TUstart.Click += (s, e) =>
+            {
+                currentStep = 0;
+                currentStep++;
+                TutorialManager.ShowTutorial();
+                TutorialManager.SetTutorial($"{currentStep}/{totalStep} 这是第一个教程标题", "这两个输入框原本应该作为教程的标题与内容定义，但是被弃用了", textBox_TUtitle);
+            };
+            TutorialManager.TutorialHost.NextButtonClick += (s, e) =>
+            {
+                currentStep++;
+                string tit = "";
+                string txt = "";
+                UIElement tgt = null!;
+                if (currentStep == 2)
+                {
+                    tit = "这是第二个教程标题";
+                    txt = "因为教程系统目前仍然非常简陋，完全无法正常投入使用，因为只能放在开发者菜单当测试内容";
+                    tgt = textBox_TUcontent;
+                }
+                else if (currentStep == 3)
+                {
+                    tit = "这是最后一个教程标题";
+                    txt = "你可以点击此按钮再次查看此教程";
+                    tgt = button_TUstart;
+                }
+                else if (currentStep > 3)
+                {
+                    TutorialManager.HideTutorial();
+                    return;
+                }
+
+                TutorialManager.SetTutorial($"{currentStep}/{totalStep} {tit}", txt, tgt);
+            };
+            #endregion
         }
     }
 }

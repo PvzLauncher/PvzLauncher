@@ -9,22 +9,22 @@ namespace PvzLauncherRemake.Utils.UI
 {
     public static class TutorialManager
     {
-        public static UserTutorialHost _tutorialHost;
+        public static UserTutorialHost TutorialHost;
 
-        public static void Initialize(UserTutorialHost tutorialHost) => _tutorialHost = tutorialHost;
+        public static void Initialize(UserTutorialHost tutorialHost) => TutorialHost = tutorialHost;
 
 
-        public static void ShowTutorial() => _tutorialHost.SetVisible(true);
-        public static void HideTutorial() => _tutorialHost.SetVisible(false);
+        public static void ShowTutorial() => TutorialHost.SetVisible(true);
+        public static void HideTutorial() => TutorialHost.SetVisible(false);
         public static void SetTutorial(string title, string content, Rect target)
         {
-            _tutorialHost.Title = title;_tutorialHost.Text = content;
-            _tutorialHost.SetHole(target);
+            TutorialHost.Title = title; TutorialHost.Text = content;
+            TutorialHost.SetHole(target);
         }
         public static void SetTutorial(string title, string content,UIElement target)
         {
-            _tutorialHost.Title = title; _tutorialHost.Text = content;
-            _tutorialHost.SetHole(target);
+            TutorialHost.Title = title; TutorialHost.Text = content;
+            TutorialHost.SetHole(target);
         }
     }
 }
