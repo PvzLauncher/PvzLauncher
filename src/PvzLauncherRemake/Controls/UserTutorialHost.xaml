@@ -23,19 +23,21 @@
         </Path>
 
         <!--Tutorial Card-->
-        <Grid x:Name="grid_tuCard" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Border CornerRadius="5" Background="{DynamicResource TUCardBackground}" BorderThickness="2" BorderBrush="{DynamicResource TUCardBorder}"/>
-            <Grid Margin="10">
-                <icons:IconTeacher Height="80" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="90,0,0,0">
-                    <TextBlock x:Name="textBlock_cardTitle" Text="Title" TextWrapping="Wrap" FontWeight="Bold" FontSize="20"/>
-                    <TextBlock x:Name="textBlock_cardContent" Text="Content" TextWrapping="Wrap" Margin="0,5,0,0"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                        <Button x:Name="button_exitTutorial" Content="退出教程"/>
-                        <Button x:Name="button_nextTutorial" Content="下一步" Style="{DynamicResource AccentButtonStyle}" Margin="10,0,0,0"/>
+        <Canvas>
+            <Grid x:Name="grid_tuCard" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border CornerRadius="5" Background="{DynamicResource TUCardBackground}" BorderThickness="2" BorderBrush="{DynamicResource TUCardBorder}"/>
+                <Grid Margin="10">
+                    <icons:IconTeacher Height="80" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="90,0,0,0">
+                        <TextBlock x:Name="textBlock_cardTitle" Text="Title" TextWrapping="Wrap" FontWeight="Bold" FontSize="20"/>
+                        <TextBlock x:Name="textBlock_cardContent" Text="Content" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,10,0,0">
+                            <Button x:Name="button_exitTutorial" Content="退出教程"/>
+                            <Button x:Name="button_nextTutorial" Content="下一步" Style="{DynamicResource AccentButtonStyle}" Margin="10,0,0,0"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
             </Grid>
-        </Grid>
+        </Canvas>
     </Grid>
 </UserControl>
