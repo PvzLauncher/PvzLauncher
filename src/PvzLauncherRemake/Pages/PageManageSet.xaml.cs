@@ -19,23 +19,6 @@ namespace PvzLauncherRemake.Pages
     public partial class PageManageSet : ModernWpf.Controls.Page
     {
         private JsonGameInfo.Root GameInfo = null!;
-        public void StartLoad(bool isStart = true)
-        {
-            if (isStart)
-            {
-                grid_Loading.Visibility = Visibility.Visible;
-                stackPanel_main.Effect = new BlurEffect { Radius = 10 };
-                stackPanel_main.IsEnabled = false;
-            }
-            else
-            {
-                grid_Loading.Visibility = Visibility.Hidden;
-                stackPanel_main.Effect = null;
-                stackPanel_main.IsEnabled = true;
-            }
-        }
-        public void EndLoad() => StartLoad(false);
-
 
         private void SaveConfig() => JsonHelper.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
@@ -168,7 +151,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (checkBox.IsChecked == true)
                         {
-                            StartLoad();
+                            Globals.WindowMain.SetLoadState(true, "删除游戏中...");
 
                             await Task.Run(() => Directory.Delete(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name), true));
 
@@ -194,7 +177,7 @@ namespace PvzLauncherRemake.Pages
 
                             this.NavigationService.GoBack();
 
-                            EndLoad();
+                            Globals.WindowMain.SetLoadState(false);
                         }
                     }));
                 }));

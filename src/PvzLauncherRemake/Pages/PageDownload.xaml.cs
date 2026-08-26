@@ -69,20 +69,6 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        public void StartLoad()
-        {
-            grid.IsEnabled = false;
-            grid.Effect = new BlurEffect { Radius = 10 };
-            grid_Loading.Visibility = Visibility.Visible;
-        }
-        public void EndLoad()
-        {
-            grid.IsEnabled = true;
-            grid.Effect = null;
-            grid_Loading.Visibility = Visibility.Hidden;
-        }
-
-
         public PageDownload()
         {
             InitializeComponent();
@@ -90,7 +76,7 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
-                    StartLoad();
+                    Globals.WindowMain.SetLoadState(true, "获取下载列表中...");
 
                     if (Globals.Caches.DownloadIndex == null)
                     {
@@ -118,7 +104,7 @@ namespace PvzLauncherRemake.Pages
                     AddTrainerCard(stackPanel_trainer, Globals.Caches.DownloadIndex.Trainer);
                     AddGameCard(stackPanel_other, Globals.Caches.DownloadIndex.Other);
 
-                    EndLoad();
+                    Globals.WindowMain.SetLoadState(false);
 
 
                 }

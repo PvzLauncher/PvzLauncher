@@ -30,7 +30,7 @@
                         <TextBlock Text="{lex:Loc OpenGameDirectory}"/>
                     </StackPanel>
                 </Button>
-                
+
                 <!--删除游戏-->
                 <Button x:Name="button_Delete" Margin="0,0,10,0" Foreground="#E4FF0000" Click="button_Delete_Click">
                     <StackPanel Orientation="Horizontal">
@@ -68,11 +68,5 @@
                 <TextBlock x:Name="textBlock_Record"/>
             </StackPanel>
         </StackPanel>
-
-        <!--加载屏幕-->
-        <Grid x:Name="grid_Loading" Visibility="Hidden">
-            <ui:ProgressRing IsActive="True" Width="50" Height="50"/>
-            <TextBlock x:Name="textBlock_Loading" Text="加载中..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,80,0,0"/>
-        </Grid>
     </Grid>
 </ui:Page>

@@ -20,9 +20,6 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageManage : ModernWpf.Controls.Page
     {
-        public void StartLoad() { grid_Loading.Visibility = Visibility.Visible; grid_Main.IsEnabled = false; grid_Main.Effect = new BlurEffect { Radius = 10 }; }
-        public void EndLoad() { grid_Loading.Visibility = Visibility.Hidden; grid_Main.IsEnabled = true; grid_Main.Effect = null; }
-
         private void SetNoneTipVisb()
         {
             grid_NoneGame.Visibility = Visibility.Hidden;
@@ -143,8 +140,8 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
+                    Globals.WindowMain.SetLoadState(true, "加载游戏列表中...");
 
-                    StartLoad();
 
                     //加载列表
                     GameManager.GameListLoaded += () => { LoadGameList(); SetNoneTipVisb(); };
@@ -160,7 +157,7 @@ namespace PvzLauncherRemake.Pages
 
 
 
-                    EndLoad();
+                    Globals.WindowMain.SetLoadState(false);
 
                 }
                 catch (Exception ex)
@@ -505,14 +502,14 @@ namespace PvzLauncherRemake.Pages
         //幸运的是，我现在已经开始重构他了！！(2026-1-3)
         private async void button_ImportGame_Click(object sender, RoutedEventArgs e)
         {
-            StartLoad();
+            Globals.WindowMain.SetLoadState(true, "导入游戏中...");
 
-            await GameManager.ImportGameOrTrainer(((progress) => textBlock_Loading.Text = $"正在复制: {progress}"));
+            await GameManager.ImportGameOrTrainer(((progress) => Globals.WindowMain.SetLoadText($"正在复制: {progress}")));
 
             SetNoneTipVisb();
             NavigationService.Refresh();
 
-            EndLoad();
+            Globals.WindowMain.SetLoadState(false);
         }
 
 

@@ -23,24 +23,6 @@ namespace PvzLauncherRemake.Pages
     {
         private bool isInitialized = false;
 
-        public void SetLoad(bool isLoad)
-        {
-            tabControl.IsEnabled = !isLoad;
-
-            if (isLoad)
-            {
-                grid_Loading.Visibility = Visibility.Visible;
-                tabControl.Effect = new BlurEffect { Radius = 10 };
-            }
-            else
-            {
-                grid_Loading.Visibility = Visibility.Hidden;
-                tabControl.Effect = null;
-            }
-        }
-
-        public void StartLoad() => SetLoad(true);
-        public void EndLoad() => SetLoad(false);
         public void ShowRestartTip()
         {
             SnackbarService.Show(new SnackbarContent
@@ -528,7 +510,7 @@ namespace PvzLauncherRemake.Pages
 
                 await Updater.CheckUpdate((p, s) =>
                 {
-                    textBlock_Loading.Text = $"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)";
+                    Globals.WindowMain.SetLoadText($"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)");
                 });
 
                 senderBtn.IsEnabled = true;
@@ -568,7 +550,7 @@ namespace PvzLauncherRemake.Pages
                 senderBtn.IsEnabled = false;
                 try
                 {
-                    textBlock_Loading.Text = "扫描临时文件夹...";
+                    Globals.WindowMain.SetLoadState(true, "扫描临时文件中...");
 
                     string[] allTempFiles = { };//全部临时文件
                     List<string> pvzLauncherFiles = new List<string>();//PvzLauncher的临时文件
@@ -637,7 +619,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             Dispatcher.BeginInvoke(() =>
                             {
-                                textBlock_Loading.Text = $"正在删除 {Path.GetFileName(file)}";
+                                Globals.WindowMain.SetLoadText( $"正在删除 {Path.GetFileName(file)}");
                             });
                             File.Delete(file);
                         }
@@ -654,6 +636,10 @@ namespace PvzLauncherRemake.Pages
                 catch (Exception ex)
                 {
                     ErrorReportDialog.Show(ex);
+                }
+                finally
+                {
+                    Globals.WindowMain.SetLoadState(false);
                 }
                 senderBtn.IsEnabled = true;
             }
@@ -739,12 +725,12 @@ namespace PvzLauncherRemake.Pages
 
                             if (Directory.Exists(Globals.Directories.SaveDirectory))
                             {
-                                StartLoad();
+                                Globals.WindowMain.SetLoadState(true, "删除存档中...");
                                 await Task.Run(() =>
                                 {
                                     Directory.Delete(Globals.Directories.SaveDirectory, true);
                                 });
-                                EndLoad();
+                                Globals.WindowMain.SetLoadState(false);
                                 SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "删除存档",
@@ -903,7 +889,7 @@ namespace PvzLauncherRemake.Pages
                                                 DefaultButton = ContentDialogButton.Primary
                                             }, (async () =>
                                             {
-                                                StartLoad();
+                                                Globals.WindowMain.SetLoadState(true, "迁移存档中...");
 
                                                 await Task.Run(() =>
                                                 {
@@ -921,7 +907,7 @@ namespace PvzLauncherRemake.Pages
                                                     Type = SnackbarType.Success
                                                 });
 
-                                                EndLoad();
+                                                Globals.WindowMain.SetLoadState(false);
                                             }));
                                         }
                                         else

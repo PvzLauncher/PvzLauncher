@@ -112,6 +112,7 @@ namespace PvzLauncherRemake
 
             var mainWindow = new WindowMain();
             this.MainWindow = mainWindow;
+            Globals.WindowMain = mainWindow;
 
             InitializeLoaded();
 

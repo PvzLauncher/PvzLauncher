@@ -1,4 +1,5 @@
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Reflection;
 using System.Windows.Media.Imaging;
@@ -11,6 +12,8 @@ namespace PvzLauncherRemake.Classes
         public static readonly string Version = $"1.6.2-beta.1";//版本
         public static readonly bool IsStable = false;//是否稳定版
         public static JsonConfig.Root Config = null!;//配置
+
+        public static WindowMain WindowMain;//主窗口
 
         //目录
         public static class Directories

@@ -67,10 +67,14 @@
             <ui:Frame x:Name="frame" NavigationUIVisibility="Hidden" Navigated="frame_Navigated"/>
         </ui:NavigationView>
 
+        <Grid x:Name="grid_loadScreen" Visibility="Collapsed">
+            <ui:ProgressRing IsActive="True" Width="50" Height="50"/>
+            <TextBlock x:Name="textBlock_loadScreen" Text="加载中..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,0,0"/>
+        </Grid>
+        
         
         <ctrl:UserTutorialHost x:Name="tuhost" IsEnabled="False" Visibility="Collapsed"/>
 
-        
         <wpfui:SnackbarPresenter x:Name="snackbarPersenter" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <wpfui:SnackbarPresenter.Resources>
                 <ResourceDictionary>

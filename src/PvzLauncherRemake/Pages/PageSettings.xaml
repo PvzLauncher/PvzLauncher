@@ -21,12 +21,12 @@
             <!--启动器设置-->
             <TabItem Header="{lex:Loc LauncherSettings}">
                 <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    
+
                     <StackPanel Margin="10,10,10,10">
                         <!--操作-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Operate}" FontSize="25" FontWeight="Bold"/>
-                            
+
                             <!--启动后操作-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc LaunchOperate}" ToolTip="控制游戏启动后，启动器该干什么" VerticalAlignment="Center" Margin="0,0,10,0"/>
@@ -36,13 +36,13 @@
                                     <ComboBoxItem Content="{lex:Loc LaunchHideAndShow}"/>
                                 </ComboBox>
                             </StackPanel>
-                            
+
                             <!--启动器随游戏启动-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc LaunchWithTrainer}" ToolTip="在启动游戏后自动启动已选修改器" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <CheckBox x:Name="checkbox_Launcher_LaunchWithTrainer" Content="{lex:Loc Enabled}" IsChecked="False" Click="Launcher_LaunchWithTrainer"/>
                             </StackPanel>
-                            
+
                             <!--选择方式-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc ManageSelectMode}" ToolTip="在启动游戏后自动启动已选修改器" VerticalAlignment="Center" Margin="0,0,10,0"/>
@@ -54,7 +54,7 @@
                         <!--外观-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Appearance}" FontSize="25" FontWeight="Bold"/>
-                            
+
                             <!--主题-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="{lex:Loc Theme}" Margin="0,0,10,0" VerticalAlignment="Center"/>
@@ -90,7 +90,7 @@
                                         <icons:TitleImageEn/>
                                     </Viewbox>
                                 </StackPanel>
-                                
+
                                 <StackPanel>
                                     <RadioButton x:Name="radioButton_TitleImage_ZH" ToolTip="中文风格" Tag="ZH" Content="植物大战僵尸" IsChecked="False" Click="Launcher_TitleImageLanguage"/>
                                     <Viewbox x:Name="viewBox_Title_ZH" Height="40">
@@ -99,7 +99,7 @@
 
                                 </StackPanel>
                             </StackPanel>
-                            
+
                             <!--背景图-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="{lex:Loc Background}" Margin="0,0,10,0"/>
@@ -119,14 +119,14 @@
                                 <CheckBox x:Name="checkBox_Launcher_EchoCave" Content="{lex:Loc Enabled}" Click="Launcher_EchoCave"/>
 
                             </StackPanel>-->
-                            
+
                             <!--公告-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc Notice}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <CheckBox x:Name="checkBox_Launcher_Notice" Content="{lex:Loc Enabled}" Click="Launcher_Notice"/>
 
                             </StackPanel>
-                            
+
                             <!--启动动画-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc LaunchAnimation}" Margin="0,0,10,0" VerticalAlignment="Center"/>
@@ -187,7 +187,7 @@
                         <!--存储-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Storage}" FontWeight="Bold" FontSize="25"/>
-                            
+
                             <!--下载缓存-->
                             <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc DownloadCache}" VerticalAlignment="Center" Margin="0,0,10,0"/>
@@ -203,7 +203,7 @@
             <TabItem Header="{lex:Loc GameSettings}">
                 <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        
+
                         <!--游戏配置-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc GameConfig}" FontSize="25" FontWeight="Bold"/>
@@ -235,11 +235,11 @@
                                 </ComboBox>
                             </StackPanel>
                         </StackPanel>
-                        
+
                         <!--外观-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Appearance}" FontSize="25" FontWeight="Bold"/>
-                            
+
                             <!--窗口标题-->
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc GameWindowTitle}" Margin="0,0,10,0" VerticalAlignment="Center"/>
@@ -247,7 +247,7 @@
                                 <TextBox x:Name="textBox_GameWindowTitle" ToolTip="设置游戏窗口标题（可能会失败），那些以窗口名检测游戏的修改器可能会受到影响" TextChanged="Game_WindowTitle"/>
                             </StackPanel>
                         </StackPanel>
-                        
+
                         <!--覆盖界面-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc OverlayUI}" FontSize="25" FontWeight="Bold"/>
@@ -257,7 +257,7 @@
                                 <CheckBox x:Name="checkbox_Game_Overlay_Enabled" Content="{lex:Loc Enabled}" Click="Game_OverlayUIEnabled"/>
                             </StackPanel>
                         </StackPanel>
-                        
+
                     </StackPanel>
                 </ctrl:UserScrollViewer>
             </TabItem>
@@ -295,7 +295,7 @@
                                 </Button>
                             </StackPanel>
                         </StackPanel>
-                        
+
                         <!--版本隔离-->
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc SaveIsolation}" FontSize="25" FontWeight="Bold"/>
@@ -305,17 +305,11 @@
                                 <CheckBox x:Name="checkBox_EnableIsolationSave" ToolTip="启用存档隔离，也就是多个游戏不共用一个存档，有效的避免了串档问题。此功能仅对使用原版存档系统的游戏生效。如果某些改版改动了存档系统，那么此功能将没有任何用处" Content="{lex:Loc Enabled}" Click="Save_EnabledSaveIsolation"/>
                             </StackPanel>
                         </StackPanel>
-                        
-                        
+
+
                     </StackPanel>
                 </ctrl:UserScrollViewer>
             </TabItem>
         </TabControl>
-        
-        <!--加载屏幕-->
-        <Grid x:Name="grid_Loading" Visibility="Hidden">
-            <ui:ProgressRing IsActive="True" Width="50" Height="50"/>
-            <TextBlock x:Name="textBlock_Loading" Text="加载中..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,80,0,0"/>
-        </Grid>
     </Grid>
 </ui:Page>

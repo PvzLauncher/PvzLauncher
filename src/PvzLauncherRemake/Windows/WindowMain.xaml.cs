@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Navigation;
 using Wpf.Ui;
 
@@ -336,7 +337,9 @@ namespace PvzLauncherRemake.Windows
 
                 string folderPath = paths[0];
 
-                await GameManager.ImportGameOrTrainer(null, folderPath);
+                SetLoadState(true, "导入中...");
+                await GameManager.ImportGameOrTrainer((s) => SetLoadText($"正在导入: {s}"), folderPath);
+                SetLoadState(false);
             };
         }
 
@@ -383,5 +386,20 @@ namespace PvzLauncherRemake.Windows
 
         private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) =>
             frame.GoBack();
+
+
+        public void SetLoadState(bool state, string tipText = "加载中...")
+        {
+            navView.IsEnabled = !state;
+            grid_loadScreen.Visibility = state ? Visibility.Visible : Visibility.Collapsed;
+            textBlock_loadScreen.Text = tipText;
+
+            navView.Effect = state ? new BlurEffect { Radius = 10 } : null;
+        }
+
+        public void SetLoadText(string tipText) => textBlock_loadScreen.Text = tipText;
+
+
+
     }
 }
