@@ -9,6 +9,7 @@
         xmlns:ctrl="clr-namespace:PvzLauncherRemake.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" ui:WindowHelper.UseModernWindowStyle="True" WindowStartupLocation="CenterScreen" Icon="/Resources/Icons/App/Icon.ico"
+        AllowDrop="True"
         
         
         
@@ -69,7 +70,7 @@
         
         <ctrl:UserTutorialHost x:Name="tuhost" IsEnabled="False" Visibility="Collapsed"/>
 
-
+        
         <wpfui:SnackbarPresenter x:Name="snackbarPersenter" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <wpfui:SnackbarPresenter.Resources>
                 <ResourceDictionary>

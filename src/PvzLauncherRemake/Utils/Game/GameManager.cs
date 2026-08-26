@@ -116,20 +116,14 @@ namespace PvzLauncherRemake.Utils.Game
         /// 导入游戏或修改器
         /// </summary>
         /// <returns></returns>
-        public static async Task ImportGameOrTrainer(Action<string>? progressCallback = null)
+        public static async Task ImportGameOrTrainer(Action<string>? progressCallback = null, string? overridePath = null)
         {
             try
             {
                 bool? isTrainer = null;
                 bool isVirtual = false;
 
-                //选择位置
-                var openFolderDialog = new OpenFolderDialog
-                {
-                    Multiselect = false,
-                    Title = "请选择游戏/修改器所在的文件夹"
-                };
-
+                string originalPath = null!;
 
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
@@ -153,21 +147,32 @@ namespace PvzLauncherRemake.Utils.Game
                 if (isTrainer == null)
                     return;
 
-                if (openFolderDialog.ShowDialog() != true)
-                    return;
-
+                //选择位置
+                if (string.IsNullOrEmpty(overridePath))
+                {
+                    var openFolderDialog = new OpenFolderDialog
+                    {
+                        Multiselect = false,
+                        Title = "请选择游戏/修改器所在的文件夹"
+                    };
+                    if (openFolderDialog.ShowDialog() != true)
+                        return;
+                    originalPath = openFolderDialog.FolderName;
+                }
+                else
+                    originalPath = overridePath;
 
                 //特殊文件夹判断
                 if (!isVirtual)
-                    if (openFolderDialog.FolderName == Globals.Directories.ExecuteDirectory ||
-                        openFolderDialog.FolderName == Globals.Directories.RootDirectory ||
-                        openFolderDialog.FolderName == Globals.Directories.GameDirectory ||
-                        openFolderDialog.FolderName == Globals.Directories.TrainerDirectory)
+                    if (originalPath == Globals.Directories.ExecuteDirectory ||
+                        originalPath == Globals.Directories.RootDirectory ||
+                        originalPath == Globals.Directories.GameDirectory ||
+                        originalPath == Globals.Directories.TrainerDirectory)
                     {
                         SnackbarService.Show(new SnackbarContent
                         {
                             Title = "导入失败",
-                            Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
+                            Content = $"\"{originalPath}\" 是一个非法路径，请重新导入！",
                             Type = SnackbarType.Error
                         });
                         return;
@@ -175,14 +180,14 @@ namespace PvzLauncherRemake.Utils.Game
 
 
                 //解决重名
-                string? savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? Globals.Directories.TrainerDirectory : Globals.Directories.GameDirectory));
+                string? savePath = await ResolveSameName(Path.GetFileName(originalPath), (isTrainer == true ? Globals.Directories.TrainerDirectory : Globals.Directories.GameDirectory));
 
                 if (string.IsNullOrEmpty(savePath))
                     return;
 
                 //解决多exe
                 string? exeFile = null;
-                string[] files = Directory.GetFiles(openFolderDialog.FolderName);
+                string[] files = Directory.GetFiles(originalPath);
                 var listBox = new ListBox();
 
                 foreach (var file in files)
@@ -246,7 +251,7 @@ namespace PvzLauncherRemake.Utils.Game
                     if (!isImportConfirm)
                         return;
 
-                    await DirectoryHelper.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+                    await DirectoryHelper.CopyDirectoryAsync(originalPath, savePath, ((p) => progressCallback?.Invoke(p)));
 
 
                     if (isTrainer == true)
@@ -304,7 +309,7 @@ namespace PvzLauncherRemake.Utils.Game
                             Icon = "origin",
                             Name = Path.GetFileName(savePath),
                             Version = "1.0.0.0",
-                            GamePath = openFolderDialog.FolderName
+                            GamePath = originalPath
                         },
                         Record = new JsonGameInfo.Record
                         {

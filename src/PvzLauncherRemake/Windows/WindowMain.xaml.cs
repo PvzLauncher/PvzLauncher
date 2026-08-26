@@ -270,7 +270,6 @@ namespace PvzLauncherRemake.Windows
             });
 
 
-
             bool _isClose = false;
 
             Closing += async (s, e) =>
@@ -296,12 +295,6 @@ namespace PvzLauncherRemake.Windows
                 }
             };
 
-
-
-
-
-
-
             PreviewKeyUp += (s, e) =>
             {
                 if (navView.IsBackEnabled != true || navView.IsBackButtonVisible != NavigationViewBackButtonVisible.Visible)
@@ -310,6 +303,40 @@ namespace PvzLauncherRemake.Windows
                     return;
 
                 navView_BackRequested(navView, null!);
+            };
+
+            //拖放支持
+            DragOver += (s, e) =>
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                    //仅允许文件夹拖放
+                    if (paths.Length == 1 && Directory.Exists(paths[0]))
+                    {
+                        e.Effects = DragDropEffects.Copy;
+                        e.Handled = true;
+                        return;
+                    }
+                }
+
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            };
+            Drop += async (s, e) =>
+            {
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                    return;
+
+                string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (paths.Length != 1 || !Directory.Exists(paths[0]))
+                    return;
+
+                string folderPath = paths[0];
+
+                await GameManager.ImportGameOrTrainer(null, folderPath);
             };
         }
 
