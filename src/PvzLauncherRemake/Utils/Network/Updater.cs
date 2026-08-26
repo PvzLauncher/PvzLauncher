@@ -224,6 +224,13 @@ namespace PvzLauncherRemake.Utils.Network
             downloader.StartDownload();
             downloaderShell.StartDownload();
 
+            SnackbarService.Show(new SnackbarContent
+            {
+                Title = "更新",
+                Content = "您的更新已开始下载，请稍等...",
+                Type = SnackbarType.Info
+            });
+
             //等待下载完毕
             while (done == null || doneShell == null)
                 await Task.Delay(1000);
