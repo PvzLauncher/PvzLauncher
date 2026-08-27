@@ -31,6 +31,45 @@ namespace PvzLauncherRemake.Controls
         public bool IsReadOnly { get; set; } = false;
         public bool IsFavorite { get; set; } = false;
 
+        public UIElement? CustomControl { get; set; }
+
+
+
+        private void PlayBorderAnimation(double from, double to, TimeSpan duration)
+        {
+            if (IsReadOnly)
+                return;
+
+            var animation = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = duration,
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+            border.BeginAnimation(OpacityProperty, null);
+            border.BeginAnimation(OpacityProperty, animation);
+        }
+        private void PlayMainAreaAniamtion(double from, double to, TimeSpan duration)
+        {
+            if (IsReadOnly)
+                return;
+
+            var animation = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = duration,
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+
+            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
+            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
+        }
+
+
         public UserCard()
         {
             InitializeComponent();
@@ -54,6 +93,11 @@ namespace PvzLauncherRemake.Controls
                 textBlock_Description.Text = Description;
                 rect_favoriteBack.Visibility = IsFavorite ? Visibility.Visible : Visibility.Hidden;
 
+                //自定义控件
+                grid_customControl.Children.Clear();
+                if (CustomControl != null)
+                    grid_customControl.Children.Add(CustomControl);
+
                 //图标
                 var icon = GameIconConverter.ParseGameIconToUserControl(Icon);
                 grid_Icon.Children.Clear();
@@ -61,6 +105,12 @@ namespace PvzLauncherRemake.Controls
 
                 SetLabels();
             });
+
+
+            rectangle_MouseTrigger.MouseEnter += (s, e) => PlayBorderAnimation(0, 1, TimeSpan.FromMilliseconds(200));
+            rectangle_MouseTrigger.MouseLeave += (s, e) => PlayBorderAnimation(1, 0, TimeSpan.FromMilliseconds(500));
+            rectangle_MouseTrigger.MouseDown += (s, e) => PlayMainAreaAniamtion(1, 0.98, TimeSpan.FromMilliseconds(200));
+            rectangle_MouseTrigger.MouseUp += (s, e) => PlayMainAreaAniamtion(0.98, 1, TimeSpan.FromMilliseconds(500));
         }
 
         public void SetLabels()
@@ -108,74 +158,6 @@ namespace PvzLauncherRemake.Controls
                 }
             };
             stackPanel_Labels.Children.Add(label);
-        }
-
-        private void rectangle_MouseTrigger_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (IsReadOnly)
-                return;
-
-            var animation = new DoubleAnimation
-            {
-                To = 1,
-                Duration = TimeSpan.FromMilliseconds(200),
-                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-            };
-            border.BeginAnimation(OpacityProperty, null);
-            border.BeginAnimation(OpacityProperty, animation);
-        }
-
-        private void rectangle_MouseTrigger_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (IsReadOnly)
-                return;
-
-            var animation = new DoubleAnimation
-            {
-                To = 0,
-                From = 1,
-                Duration = TimeSpan.FromMilliseconds(500),
-                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-            };
-            border.BeginAnimation(OpacityProperty, null);
-            border.BeginAnimation(OpacityProperty, animation);
-        }
-
-        private void rectangle_MouseTrigger_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (IsReadOnly)
-                return;
-
-            var animation = new DoubleAnimation
-            {
-                To = 0.98,
-                Duration = TimeSpan.FromMilliseconds(200),
-                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-            };
-
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, null);
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, null);
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
-        }
-
-        private void rectangle_MouseTrigger_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (IsReadOnly)
-                return;
-
-            var animation = new DoubleAnimation
-            {
-                To = 1,
-                From = 0.98,
-                Duration = TimeSpan.FromMilliseconds(500),
-                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
-            };
-
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, null);
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, null);
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
-            grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
         }
     }
 }
