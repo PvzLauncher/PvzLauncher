@@ -65,13 +65,10 @@
             </StackPanel>
         </Grid>
 
-        <!--自定义CONTROL-->
-        <Grid Margin="5,0,15,0" x:Name="grid_customControl" HorizontalAlignment="Right"/>
-
-
-
-
         <!--点击触发器-->
         <Rectangle x:Name="rectangle_MouseTrigger" Fill="Transparent"/>
+
+        <!--自定义CONTROL-->
+        <Grid Margin="5,0,15,0" x:Name="grid_customControl" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>
