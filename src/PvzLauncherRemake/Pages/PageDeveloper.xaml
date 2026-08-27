@@ -85,6 +85,20 @@
                     <Button x:Name="button_TUstart" Content="Start tutorial"/>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="UserCard测试">
+                <ctrl:UserScrollViewer>
+                    <StackPanel x:Name="stackPanel_UCTmain">
+                        <ctrl:UserCard x:Name="usercard_UCTmCard" Title="Test" Description="test" Version="test" Size="test" SupportVersion="test">
+                            <ctrl:UserCard.CustomControl>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Click me !" Click="Button_Click"/>
+                                    <Button Content="CreateNew" Margin="10,0,0,0" Style="{DynamicResource AccentButtonStyle}" Click="Button_Click_1" />
+                                </StackPanel>
+                            </ctrl:UserCard.CustomControl>
+                        </ctrl:UserCard>
+                    </StackPanel>
+                </ctrl:UserScrollViewer>
+            </TabItem>
         </TabControl>
     </Grid>
 </ui:Page>

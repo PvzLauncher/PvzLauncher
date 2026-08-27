@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.Network;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -65,7 +67,7 @@ namespace PvzLauncherRemake.Pages
 
                     #region 服务器文件下载
 
-                    JsonFileIndex.Root index;
+                    /*JsonFileIndex.Root index;
                     using (var client = new HttpClient())
                         index = JsonHelper.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
                     listBox_fileDownload_List.Items.Clear();
@@ -113,7 +115,7 @@ namespace PvzLauncherRemake.Pages
                             Content = "",
                             Type = SnackbarType.Info
                         });
-                    });
+                    });*/
 
                     #endregion
                 }
@@ -169,6 +171,54 @@ namespace PvzLauncherRemake.Pages
                 TutorialManager.SetTutorial($"{currentStep}/{totalStep} {tit}", txt, tgt);
             };
             #endregion
+
+            #region UserCard测试
+            usercard_UCTmCard.MouseUp += (s, e) =>
+            {
+                SnackbarService.Show(new SnackbarContent
+                {
+                    Title = "test",
+                    Content = "you clicked card",
+                    Type = SnackbarType.Info
+                });
+            };
+            #endregion
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SnackbarService.Show(new SnackbarContent
+            {
+                Title = "test",
+                Content = "CLICKED",
+                Type = SnackbarType.Info
+            });
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var button = new Button
+            {
+                Content = "click me !"
+            };
+            var card = new UserCard
+            {
+                Title = "new card",
+                Description = "",
+                Version = "test",
+                Size = "test",
+                SupportVersion = "test",
+                CustomControl = button
+            };
+
+            button.Click += (s, e) => SnackbarService.Show(new SnackbarContent
+            {
+                Title = "test",
+                Content = "CLICKED!",
+                Type = SnackbarType.Info
+            });
+
+            stackPanel_UCTmain.Children.Add(card);
         }
     }
 }
