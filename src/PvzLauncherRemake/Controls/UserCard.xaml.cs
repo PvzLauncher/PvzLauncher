@@ -1,4 +1,5 @@
 ﻿using PvzLauncherRemake.Utils.Game;
+using System.Drawing.Design;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,7 +33,7 @@ namespace PvzLauncherRemake.Controls
         public bool IsFavorite { get; set; } = false;
 
         public UIElement? CustomControl { get; set; }
-
+        public bool CustomControlAlwaysShow { get; set; } = false;
 
 
         private void PlayBorderAnimation(double from, double to, TimeSpan duration)
@@ -68,6 +69,22 @@ namespace PvzLauncherRemake.Controls
             grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
             grid_Content_ScaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
         }
+        private void PlayCustomControlAniamtion(double from, double to, TimeSpan duration)
+        {
+            if (IsReadOnly)
+                return;
+
+            var animation = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = duration,
+                EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
+            };
+
+            grid_customControl.BeginAnimation(OpacityProperty, null);
+            grid_customControl.BeginAnimation(OpacityProperty, animation);
+        }
 
 
         public UserCard()
@@ -97,6 +114,7 @@ namespace PvzLauncherRemake.Controls
                 grid_customControl.Children.Clear();
                 if (CustomControl != null)
                     grid_customControl.Children.Add(CustomControl);
+                grid_customControl.Opacity = CustomControlAlwaysShow ? 1 : 0;
 
                 //图标
                 var icon = GameIconConverter.ParseGameIconToUserControl(Icon);
@@ -107,8 +125,24 @@ namespace PvzLauncherRemake.Controls
             });
 
 
-            rectangle_MouseTrigger.MouseEnter += (s, e) => PlayBorderAnimation(0, 1, TimeSpan.FromMilliseconds(200));
-            rectangle_MouseTrigger.MouseLeave += (s, e) => PlayBorderAnimation(1, 0, TimeSpan.FromMilliseconds(500));
+            this.MouseEnter += (s, e) =>
+            {
+                if (IsReadOnly) return;
+
+                PlayBorderAnimation(0, 1, TimeSpan.FromMilliseconds(200));
+                if (!CustomControlAlwaysShow)
+                    PlayCustomControlAniamtion(0, 1, TimeSpan.FromMilliseconds(200));
+            };
+
+            this.MouseLeave += (s, e) =>
+            {
+                if (IsReadOnly) return;
+
+                PlayBorderAnimation(1, 0, TimeSpan.FromMilliseconds(500));
+                if (!CustomControlAlwaysShow)
+                    PlayCustomControlAniamtion(1, 0, TimeSpan.FromMilliseconds(500));
+            };
+
             rectangle_MouseTrigger.MouseDown += (s, e) => PlayMainAreaAniamtion(1, 0.98, TimeSpan.FromMilliseconds(200));
             rectangle_MouseTrigger.MouseUp += (s, e) => PlayMainAreaAniamtion(0.98, 1, TimeSpan.FromMilliseconds(500));
         }
