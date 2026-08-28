@@ -16,26 +16,17 @@ namespace PvzLauncherRemake
     /// </summary>
     public partial class App : Application
     {
-        #region init
         private async void Initialize()
         {
             //绑定事件
             Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
-
-            //特殊日期
-            var now = DateTimeOffset.Now;
-            if (now.Month == 1 && now.Day == 1)//元旦
-                ThemeManager.Current.AccentColor = Color.FromRgb(255, 150, 150);
-            if (now.Month == 4 && now.Day == 1)//愚人节
-                ThemeManager.Current.AccentColor = Color.FromRgb(150, 255, 150);
-
+            
             //处理启动参数
             string[] args = Environment.GetCommandLineArgs();
             foreach (var arg in args)
             {
-
                 switch (arg)
                 {
                     //外壳启动
@@ -90,8 +81,16 @@ namespace PvzLauncherRemake
             await GameManager.LoadTrainerListAsync();
         }
 
-        private void InitializeLoaded()
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Initialize();
+
+            var mainWindow = new WindowMain();
+            this.MainWindow = mainWindow;
+            Globals.WindowMain = mainWindow;
+
+            mainWindow.Show();
+
             //主题
             ThemeManager.AddActualThemeChangedHandler(this.MainWindow, OnThemeChanged);
             switch (Globals.Config.Settings.LauncherConfig.Theme)
@@ -102,26 +101,6 @@ namespace PvzLauncherRemake
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark; break;
             }
         }
-        #endregion
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            Initialize();
-
-            var mainWindow = new WindowMain();
-            this.MainWindow = mainWindow;
-            Globals.WindowMain = mainWindow;
-
-            InitializeLoaded();
-
-            mainWindow.Show();
-            mainWindow.Activate();
-            mainWindow.Focus();
-        }
-
-
 
         private void OnThemeChanged(object sender, EventArgs e)
         {
@@ -161,9 +140,6 @@ namespace PvzLauncherRemake
                 this.Resources["TUCardBackground"] = new SolidColorBrush { Color = Color.FromArgb(255, 32, 32, 32) };
                 this.Resources["TUCardBorder"] = new SolidColorBrush { Color = Color.FromArgb(255, 52, 52, 52) };
             }
-
-
-
         }
 
         #region 错误捕获
