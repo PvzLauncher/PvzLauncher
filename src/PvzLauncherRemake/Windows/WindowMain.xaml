@@ -74,6 +74,8 @@
 
         <ctrl:UserTutorialHost x:Name="tuhost" IsEnabled="False" Visibility="Collapsed"/>
 
+        <TextBlock x:Name="textBlock_buildWaterMark" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="Black" Foreground="White" Opacity="0.6"/> 
+
         <wpfui:SnackbarPresenter x:Name="snackbarPersenter" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <wpfui:SnackbarPresenter.Resources>
                 <ResourceDictionary>
