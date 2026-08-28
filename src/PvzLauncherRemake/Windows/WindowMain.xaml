@@ -67,14 +67,17 @@
             <ui:Frame x:Name="frame" NavigationUIVisibility="Hidden" Navigated="frame_Navigated"/>
         </ui:NavigationView>
 
+        <!--加载-->
         <Grid x:Name="grid_loadScreen" Visibility="Collapsed">
             <ui:ProgressRing IsActive="True" Width="50" Height="50"/>
             <TextBlock x:Name="textBlock_loadScreen" Text="加载中..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,0,0"/>
         </Grid>
 
+        <!--教程呈现-->
         <ctrl:UserTutorialHost x:Name="tuhost" IsEnabled="False" Visibility="Collapsed"/>
 
-        <TextBlock x:Name="textBlock_buildWaterMark" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="Black" Foreground="White" Opacity="0.6"/> 
+        <!--构建水印-->
+        <TextBlock x:Name="textBlock_buildWaterMark" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="Black" Foreground="White" Opacity="0.6" Visibility="Collapsed"/> 
 
         <wpfui:SnackbarPresenter x:Name="snackbarPersenter" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <wpfui:SnackbarPresenter.Resources>
