@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Effects;
 using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages

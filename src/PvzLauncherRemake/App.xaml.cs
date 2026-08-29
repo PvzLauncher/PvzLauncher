@@ -22,7 +22,7 @@ namespace PvzLauncherRemake
             Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
-            
+
             //处理启动参数
             string[] args = Environment.GetCommandLineArgs();
             foreach (var arg in args)

@@ -9,11 +9,9 @@ using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -182,7 +180,7 @@ namespace PvzLauncherRemake.Pages
                 DefaultButton = ContentDialogButton.Primary
             }, () =>
             {
-                
+
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = targetUrl,

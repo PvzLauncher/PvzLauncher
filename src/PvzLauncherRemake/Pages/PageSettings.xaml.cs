@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -625,7 +624,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             Dispatcher.BeginInvoke(() =>
                             {
-                                Globals.WindowMain.SetLoadText( $"正在删除 {Path.GetFileName(file)}");
+                                Globals.WindowMain.SetLoadText($"正在删除 {Path.GetFileName(file)}");
                             });
                             File.Delete(file);
                         }

@@ -1,8 +1,4 @@
 ﻿using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.Windows;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 
 namespace PvzLauncherRemake.Utils.UI
@@ -21,7 +17,7 @@ namespace PvzLauncherRemake.Utils.UI
             TutorialHost.Title = title; TutorialHost.Text = content;
             TutorialHost.SetHole(target);
         }
-        public static void SetTutorial(string title, string content,UIElement target)
+        public static void SetTutorial(string title, string content, UIElement target)
         {
             TutorialHost.Title = title; TutorialHost.Text = content;
             TutorialHost.SetHole(target);
