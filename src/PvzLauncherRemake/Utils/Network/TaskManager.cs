@@ -1,4 +1,5 @@
-﻿using PvzLauncherRemake.Classes.JsonConfigs;
+﻿using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -90,7 +91,8 @@ namespace PvzLauncherRemake.Utils.Network
                     taskInfo.Speed = s / 1024;
                 }),
                 Url = originDownloader!.Url,
-                SavePath = originDownloader.SavePath
+                SavePath = originDownloader.SavePath,
+                ThreadCount = Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount
             };
 
             DownloadTaskList.Add(taskInfo);

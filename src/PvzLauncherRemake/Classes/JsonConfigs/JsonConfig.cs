@@ -81,6 +81,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("service_provider")]
             public string ServiceProvider { get; set; } = "Gitee";//Gitee GitCode Github
 
+            [JsonProperty("download_engine_thread_count")]
+            public int DownloadEngineThreadCount { get; set; } = 8;
+
             [JsonProperty("offline_mode")]
             public bool OfflineMode { get; set; } = false;
 

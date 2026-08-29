@@ -36,11 +36,11 @@ namespace PvzLauncherRemake.Pages
         #region Animation
         public async Task StartAnimation()
         {
-            List<StackPanel> animationStackPanels = new List<StackPanel>();
+            List<Panel> animationStackPanels = new List<Panel>();
 
             foreach (var controls in VisualTreeTools.GetVisualChildren(this))
             {
-                if (controls is StackPanel sp && sp.Tag != null && sp.Tag.ToString() == "aniSp")
+                if (controls is Panel sp && sp.Tag != null && sp.Tag.ToString() == "aniSp")
                 {
                     animationStackPanels.Add(sp);
 
@@ -56,7 +56,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        public void StackPanelFadeIn(StackPanel sp)
+        public void StackPanelFadeIn(Panel sp)
         {
             ((TranslateTransform)sp.RenderTransform).BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation
             {
@@ -81,13 +81,7 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
-
-
-
-
-
                     isInitialized = false;
-
 
                     //# 启动器设置
                     //## 操作
@@ -179,6 +173,8 @@ namespace PvzLauncherRemake.Pages
                         case "Github":
                             comboBox_Launcher_ServiceProvider.SelectedIndex = 2; break;
                     }
+                    //### 下载引擎线程数
+                    slider_Network_ThreadCount.Value = Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount;
                     //### 离线模式
                     checkBox_Network_OfflineMode.IsChecked = Globals.Config.Settings.LauncherConfig.OfflineMode;
                     //## 更新
@@ -482,6 +478,16 @@ namespace PvzLauncherRemake.Pages
                 Globals.Config.Settings.LauncherConfig.ServiceProvider = (string)(((ComboBoxItem)(comboBox_Launcher_ServiceProvider.SelectedItem)).Tag);
                 ConfigManager.SaveConfig();
                 ShowRestartTip();
+            }
+        }
+
+        private void slider_Network_ThreadCount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (isInitialized)
+            {
+                Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount = (int)slider_Network_ThreadCount.Value;
+                ConfigManager.SaveConfig();
+                textBlock_Network_ThreadCount.Text = slider_Network_ThreadCount.Value.ToString();
             }
         }
 

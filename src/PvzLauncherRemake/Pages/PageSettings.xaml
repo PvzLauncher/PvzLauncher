@@ -169,7 +169,7 @@
                         <StackPanel Margin="0,0,0,10">
                             <TextBlock Text="{lex:Loc Network}" FontSize="25" FontWeight="Bold"/>
                             <!--云服务提供方-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc ServiceSource}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <ComboBox x:Name="comboBox_Launcher_ServiceProvider" SelectedIndex="0" ToolTip="游戏列表、公告信息、更新服务等获取的源，若服务异常请尝试使用另一个源" SelectionChanged="Launcher_ServiceProvider">
                                     <ComboBoxItem Content="Gitee(首选国内源)" Tag="Gitee"/>
@@ -177,8 +177,14 @@
                                     <ComboBoxItem Content="Github(稳定国外源)" Tag="Github"/>
                                 </ComboBox>
                             </StackPanel>
+                            <!--下载引擎线程数-->
+                            <DockPanel Tag="aniSp">
+                                <TextBlock Text="{lex:Loc ThreadCount}" DockPanel.Dock="Left" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="textBlock_Network_ThreadCount" Text="0" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                                <Slider x:Name="slider_Network_ThreadCount" Minimum="1" Maximum="16" SmallChange="1" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" ValueChanged="slider_Network_ThreadCount_ValueChanged"/>
+                            </DockPanel>
                             <!--离线模式-->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Tag="aniSp" Orientation="Horizontal">
                                 <TextBlock Text="{lex:Loc OfflineMode}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                 <CheckBox x:Name="checkBox_Network_OfflineMode" Content="{lex:Loc Enabled}" Click="Launcher_OfflineMode"/>
                             </StackPanel>

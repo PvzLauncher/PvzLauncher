@@ -309,4 +309,7 @@
   <data name="OverlayUIText" xml:space="preserve">
     <value>Interface de superposition (Ctrl+Alt+P) :</value>
   </data>
+  <data name="ThreadCount" xml:space="preserve">
+    <value>Nombre de threads du moteur de téléchargement:</value>
+  </data>
 </root>
