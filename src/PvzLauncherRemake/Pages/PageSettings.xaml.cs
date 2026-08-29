@@ -174,6 +174,7 @@ namespace PvzLauncherRemake.Pages
                     }
                     //### 下载引擎线程数
                     slider_Network_ThreadCount.Value = Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount;
+                    textBlock_Network_ThreadCount.Text = Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount.ToString();
                     //### 离线模式
                     checkBox_Network_OfflineMode.IsChecked = Globals.Config.Settings.LauncherConfig.OfflineMode;
                     //## 更新
