@@ -4,9 +4,11 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
+using Serilog;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -14,6 +16,9 @@ namespace PvzLauncherRemake.Utils.Network
 {
     public static class Updater
     {
+        private static readonly ILogger logger = Log.ForContext(typeof(Updater));
+
+
         public static JsonUpdateIndex.Root UpdateIndex = null!;
         public static HttpClient Client = new HttpClient();
 
@@ -28,10 +33,11 @@ namespace PvzLauncherRemake.Utils.Network
 
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
-
+            logger.Information("更新流程已启动");
 
             if (Globals.Config.Settings.LauncherConfig.OfflineMode)
             {
+                logger.Warning("离线模式已启用，更新退出");
                 await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更新不可用",
@@ -45,20 +51,25 @@ namespace PvzLauncherRemake.Utils.Network
             //检查服务可用性
             if (!await CheckService())
             {
+                logger.Warning("更新服务校验不通过");
                 var result = await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更新服务不可用",
-                    Content = "更新服务检查不通过，请检查 .NET 10 Runtime 是否正确安装",
+                    Content = "更新服务检查不通过，请检查 .NET 10 Runtime x64 是否正确安装",
                     PrimaryButtonText = "忽略，继续尝试更新",
                     CloseButtonText = "取消更新",
                     DefaultButton = ContentDialogButton.Close
                 });
                 if (result == ContentDialogResult.None)
+                {
+                    logger.Information("更新流程退出");
                     return;
+                }
             }
             //是否正在更新
             if (isUpdating)
             {
+                logger.Warning("已有更新正在运行，更新流程退出");
                 await DialogService.ShowDialogAsync(new ContentDialog
                 {
                     Title = "无法更新",
@@ -80,11 +91,9 @@ namespace PvzLauncherRemake.Utils.Network
 
             //获取主索引
             string indexString = await Client.GetStringAsync(Globals.Urls.UpdateIndexUrl);
-
             UpdateIndex = JsonHelper.ReadJson<JsonUpdateIndex.Root>(indexString);
-
+            logger.Information($"获得更新索引: {indexString}");
             //判断更新通道
-
             switch (Globals.Config.Settings.LauncherConfig.UpdateChannel)
             {
                 case "Stable":
@@ -118,7 +127,7 @@ namespace PvzLauncherRemake.Utils.Network
             bool isUpdate = false;
             if (Globals.Version != LatestVersion)
             {
-
+                logger.Information($"发现可用更新 最新版本: {LatestVersion} 当前版本: {Globals.Version}");
 
                 FlowDocumentScrollViewer docViewer = new FlowDocumentScrollViewer
                 {
@@ -142,6 +151,7 @@ namespace PvzLauncherRemake.Utils.Network
                     isUpdate = true;
                 }), (() =>
                 {
+                    logger.Information("跳转Release页面，更新流程退出");
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = $"https://github.com/PvzLauncher/PvzLauncher/releases/tag/{LatestVersion}",
@@ -152,8 +162,9 @@ namespace PvzLauncherRemake.Utils.Network
             }
             else
             {
-
                 if (!isStartUp)
+                {
+                    logger.Information("无可用更新，更新流程退出");
                     await DialogService.ShowDialogAsync(new ContentDialog
                     {
                         Title = "无可用更新",
@@ -161,6 +172,7 @@ namespace PvzLauncherRemake.Utils.Network
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
                     });
+                }
             }
 
 
@@ -168,9 +180,11 @@ namespace PvzLauncherRemake.Utils.Network
             if (!isUpdate)
             {
                 isUpdating = false;
+                logger.Information("更新流程退出");
                 return;
             }
 
+            logger.Information("开始下载更新...");
 
 
             //开始更新
@@ -240,8 +254,11 @@ namespace PvzLauncherRemake.Utils.Network
             if (done == false)
             {
                 isUpdating = false;
+                logger.Warning("更新下载失败，更新流程退出");
                 throw new Exception(errorMessage);
             }
+
+            logger.Information("更新下载成功");
             //下载成功↓
             //运行更新服务
 
@@ -253,7 +270,8 @@ namespace PvzLauncherRemake.Utils.Network
                     Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{Globals.Directories.ExecuteDirectory}\" -shellpath \"{Path.GetDirectoryName(Globals.Directories.ExecuteDirectory)}\" -exepath \"{Path.Combine(Globals.Directories.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
                     UseShellExecute = true
                 });
-                Environment.Exit(0);
+                logger.Information("更新服务已调用，更新流程退出");
+                App.Current.Shutdown(0);
             }
             else
             {
@@ -264,10 +282,9 @@ namespace PvzLauncherRemake.Utils.Network
                     PrimaryButtonText = "确定",
                     DefaultButton = ContentDialogButton.Primary
                 });
-                Environment.Exit(1);
+                logger.Warning("找不到更新服务，更新流程退出");
+                App.Current.Shutdown(1);
             }
-
-
         }
 
         public static async Task<bool> CheckService()
@@ -282,23 +299,36 @@ namespace PvzLauncherRemake.Utils.Network
                         Arguments = "-test",
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
+                        RedirectStandardError = true,
                         StandardOutputEncoding = System.Text.Encoding.UTF8,
+                        StandardErrorEncoding = System.Text.Encoding.UTF8,
                         CreateNoWindow = true
                     }
                 };
 
                 process.Start();
 
-                string output = process.StandardOutput.ReadToEnd();
+                string output = await process.StandardOutput.ReadToEndAsync();
+                string outputError = await process.StandardError.ReadToEndAsync();
 
                 await process.WaitForExitAsync();
 
-                return output == "done";
+                var testComplete = output == "done";
+
+                if (!testComplete)
+                {
+                    logger.Error($"更新服务校验不通过 {process.StartInfo.FileName}");
+                    logger.Error(outputError);
+                }
+
+                return testComplete;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Warning($"更新服务校验出现错误: {ex.Message}: \n{ex}");
                 return false;
             }
+            
         }
     }
 }
