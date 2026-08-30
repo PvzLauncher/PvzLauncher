@@ -5,8 +5,120 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameLibraryEditor.Windows"
         mc:Ignorable="d"
-        Title="Gamelibrary Editor" Height="450" Width="800">
+        Title="Gamelibrary Editor" Height="650" Width="1200">
     <Grid>
-        
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!--LEFT-->
+            <Grid Grid.Column="0" Margin="5">
+                <DockPanel>
+                    <ComboBox x:Name="comboBox_typeSelector" DockPanel.Dock="Top">
+                        <ComboBoxItem Content="en original"/>
+                        <ComboBoxItem Content="en revision"/>
+                        <ComboBoxItem Content="zh original"/>
+                        <ComboBoxItem Content="zh revision"/>
+                        <ComboBoxItem Content="trainer"/>
+                        <ComboBoxItem Content="other"/>
+                    </ComboBox>
+                    <ListBox x:Name="listBox_games" Margin="0,5,0,0">
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="+" MinWidth="20"/>
+                                <Button Content="-" MinWidth="20"/>
+                                <Button Content="↑" MinWidth="20"/>
+                                <Button Content="↓" MinWidth="20"/>
+                                <TextBlock Text="NAME"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                    </ListBox>
+                </DockPanel>
+            </Grid>
+            <!--RIGHT-->
+            <Grid Grid.Column="1" Margin="5">
+                <StackPanel>
+                    <!--title-->
+                    <DockPanel>
+                        <TextBlock Text="Title:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_title"/>
+                    </DockPanel>
+                    <!--description-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="Description:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_description" AcceptsReturn="True" TextWrapping="Wrap"/>
+                    </DockPanel>
+                    <!--authors-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="Authors:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <ListBox x:Name="listbox_authors">
+                            <ListBoxItem>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="name" MinWidth="100"/>
+                                    <TextBox Text="url" MinWidth="100"/>
+                                    <Button Content="+" MinWidth="20"/>
+                                    <Button Content="-" MinWidth="20"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                        </ListBox>
+                    </DockPanel>
+                    <!--icon-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="Icon:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_icon" AllowDrop="False" TextWrapping="Wrap"/>
+                    </DockPanel>
+                    <!--version-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="Version:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_version" AllowDrop="False" TextWrapping="Wrap"/>
+                    </DockPanel>
+                    <!--size-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="Size:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_size" AllowDrop="False" TextWrapping="Wrap"/>
+                    </DockPanel>
+                    <!--executename-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="Execute:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_executeName" AllowDrop="False" TextWrapping="Wrap"/>
+                    </DockPanel>
+                    <!--isrecommend-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="is Recommend:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="checkBox_recommend" Content="True"/>
+                    </DockPanel>
+                    <!--isnew-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="is New:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="checkBox_new" Content="True"/>
+                    </DockPanel>
+                    <!--shareurl-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="ShareUrl:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_shareUrl" AllowDrop="False" TextWrapping="Wrap"/>
+                    </DockPanel>
+                    <!--sharepassword-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="SharePassword:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="textBox_sharePassword" AllowDrop="False" TextWrapping="Wrap"/>
+                    </DockPanel>
+                    <!--links-->
+                    <DockPanel Margin="0,5,0,0">
+                        <TextBlock Text="links:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                        <ListBox x:Name="listbox_links">
+                            <ListBoxItem>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="name" MinWidth="100"/>
+                                    <TextBox Text="url" MinWidth="100"/>
+                                    <Button Content="+" MinWidth="20"/>
+                                    <Button Content="-" MinWidth="20"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                        </ListBox>
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
