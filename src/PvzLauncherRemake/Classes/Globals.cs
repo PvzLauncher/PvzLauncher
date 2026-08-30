@@ -19,8 +19,10 @@ namespace PvzLauncherRemake.Classes
         public static class Directories
         {
             public static readonly string ExecuteDirectory = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}";//执行目录
-
             public static readonly string RootDirectory = $"{Path.Combine(Path.GetDirectoryName(ExecuteDirectory)!, ".pvzl")}";//顶级目录
+
+            public static readonly string LogDirectory = Path.Combine(RootDirectory, "logs");//日志目录
+
             public static readonly string GameDirectory = $"{Path.Combine(RootDirectory, "games")}";//游戏目录
             public static readonly string TrainerDirectory = $"{Path.Combine(RootDirectory, "trainer")}";//修改器目录
 
@@ -72,5 +74,8 @@ namespace PvzLauncherRemake.Classes
             public static bool isCIBuild = false;//是否CI构建
             public static bool isDebugBuild = false;//是调试版构建
         }
+
+
+        public static readonly DateTimeOffset StartupTime = DateTimeOffset.Now;
     }
 }

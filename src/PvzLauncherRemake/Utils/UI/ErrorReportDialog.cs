@@ -1,4 +1,5 @@
 ﻿using Ookii.Dialogs.Wpf;
+using Serilog;
 using System.Diagnostics;
 using System.Windows;
 
@@ -6,10 +7,13 @@ namespace PvzLauncherRemake.Utils.UI
 {
     public static class ErrorReportDialog
     {
+        private static readonly ILogger logger = Log.ForContext(typeof(ErrorReportDialog));
+
         public static async void Show(Exception ex, bool isUnHandleException = false)
         {
             if (!isUnHandleException)
             {
+                logger.Error($"{ex.Message}: \n{ex}");
                 SnackbarService.Show(new SnackbarContent
                 {
                     Title = "发生错误",
@@ -18,7 +22,7 @@ namespace PvzLauncherRemake.Utils.UI
                 });
                 return;
             }
-
+            logger.Fatal($"{ex.Message}: \n{ex}");
 
             var dialog = new TaskDialog
             {

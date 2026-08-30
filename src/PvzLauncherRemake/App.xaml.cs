@@ -4,7 +4,11 @@ using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
+using Serilog;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.Pkcs;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -22,6 +26,22 @@ namespace PvzLauncherRemake
             Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
+
+            //初始化Logger
+            var logFileName = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.log.latest.log");
+            if (File.Exists(logFileName))
+                File.Delete(logFileName);
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.Console(
+                    outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
+                )
+                .WriteTo.File(
+                    path: logFileName,
+                    outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
+                )
+                .CreateLogger();
 
             //处理启动参数
             string[] args = Environment.GetCommandLineArgs();
@@ -58,6 +78,9 @@ namespace PvzLauncherRemake
             //修改器目录
             if (!Directory.Exists(Globals.Directories.TrainerDirectory))
                 Directory.CreateDirectory(Globals.Directories.TrainerDirectory);
+            //日志目录
+            if (!Directory.Exists(Globals.Directories.LogDirectory))
+                Directory.CreateDirectory(Globals.Directories.LogDirectory);
 
             //读配置
             ConfigManager.LoadConfig();
@@ -100,7 +123,42 @@ namespace PvzLauncherRemake
                 case "Dark":
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark; break;
             }
+
+
+            var log = Log.ForContext<App>();
+
+
+            //基本信息输出
+            var sb = new StringBuilder();
+            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
+            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
+            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
+            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
+            sb.AppendLine($"");
+            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
+            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
+            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
+            sb.Append(new string('=', 30));
+            log.Debug(sb.ToString());
         }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            var logger = Log.ForContext<App>();
+
+            logger.Information($"程序{(e.ApplicationExitCode == 0 ? "正常" : "异常")}退出，退出码: {e.ApplicationExitCode}");
+            //重命名日志
+            Log.CloseAndFlush();
+            var originalPath = Path.Combine(Globals.Directories.LogDirectory, "pvzl.log.latest.log");
+            var newPath = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.log.{Globals.StartupTime.ToUnixTimeMilliseconds()}.log");
+            if (File.Exists(originalPath))
+                File.Move(originalPath, newPath);
+
+            base.OnExit(e);
+        }
+
+
+
 
         private void OnThemeChanged(object sender, EventArgs e)
         {

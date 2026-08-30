@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:PvzLauncherRemake"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              Startup="Application_Startup"
+             Exit="Application_Exit"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
