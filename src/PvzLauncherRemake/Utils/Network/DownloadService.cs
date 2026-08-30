@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Serilog;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -8,6 +9,9 @@ namespace PvzLauncherRemake.Utils.Network
 {
     public class DownloadService : IDisposable
     {
+        private static readonly ILogger logger = Log.ForContext<DownloadService>();
+
+
         public string Url { get; init; } = "";
         public string SavePath { get; init; } = "";
         public Action<double, double>? Progress { get; init; } // (progress%, speed KB/s)
@@ -60,9 +64,23 @@ namespace PvzLauncherRemake.Utils.Network
             _cts?.Dispose();
             _cts = new CancellationTokenSource();
             _task = DownloadAsync(_cts.Token);
+
+            logger.Information($"""
+
+                开始下载...
+                    Url: {Url}
+                    SavePath: {SavePath}
+                    ReportIntervalMs: {ReportIntervalMs}
+                    IgnoreSslErrors: {IgnoreSslErrors}
+                    ThreadCount: {ThreadCount}
+                """);
         }
 
-        public void StopDownload() => _cts?.Cancel();
+        public void StopDownload()
+        {
+            _cts?.Cancel();
+            logger.Information("下载任务已取消");
+        }
 
         private async Task DownloadAsync(CancellationToken ct)
         {
@@ -75,15 +93,17 @@ namespace PvzLauncherRemake.Utils.Network
                 var total = probe.Content.Headers.ContentLength ?? -1;
                 bool acceptRanges = probe.Headers.AcceptRanges.Contains("bytes");
 
+                logger.Information($"探测完成 -> 状态码: {probe.StatusCode}, 大小: {total} bytes ({total / 1024.0 / 1024.0:F2} MB), 支持Range: {acceptRanges}");
                 Directory.CreateDirectory(Path.GetDirectoryName(SavePath)!);
                 if (File.Exists(SavePath)) File.Delete(SavePath);
 
                 // 计算实际使用的线程数
                 int segmentCount = Math.Clamp(ThreadCount, 1, MaxAllowedThreads);
-
+                logger.Information($"实际使用线程数: {segmentCount}");
                 // 不满足多线程条件则回退单线程
                 if (total < MinSizeForMulti || !acceptRanges || segmentCount <= 1)
                 {
+                    logger.Warning("多线程条件不满足，退回单线程下载...");
                     await DownloadSingleAsync(probe, total, ct);
                     Progress?.Invoke(100.0, 0.0);
                     Completed?.Invoke(true, null);
@@ -121,22 +141,27 @@ namespace PvzLauncherRemake.Utils.Network
 
                 Progress?.Invoke(100.0, 0.0);
                 Completed?.Invoke(true, null);
+                logger.Information("下载已完成");
             }
             catch (OperationCanceledException)
             {
+                logger.Warning("下载被用户取消");
                 Completed?.Invoke(false, "已取消");
             }
             catch (Exception ex)
             {
+                logger.Error($"下载失败: {ex.Message}");
                 Completed?.Invoke(false, ex.Message);
             }
             finally
             {
+                logger.Information("移除临时文件...");
                 if (tempFiles != null)
                 {
                     foreach (var f in tempFiles)
                     {
-                        try { if (File.Exists(f)) File.Delete(f); } catch { /* ignore */ }
+                        logger.Information($"移除文件 {f}...");
+                        try { if (File.Exists(f)) File.Delete(f); } catch { logger.Warning($"临时文件 {f} 移除失败"); }
                     }
                 }
             }
@@ -144,6 +169,7 @@ namespace PvzLauncherRemake.Utils.Network
 
         private async Task DownloadSegmentAsync(long start, long end, string tempPath, CancellationToken ct)
         {
+            logger.Information($"开始分段下载...区间: {start} ~ {end} 目标: {tempPath}");
             var request = new HttpRequestMessage(HttpMethod.Get, Url);
             request.Headers.Range = new RangeHeaderValue(start, end);
 
@@ -167,10 +193,12 @@ namespace PvzLauncherRemake.Utils.Network
                 await file.WriteAsync(buffer.AsMemory(0, bytes), ct);
                 Interlocked.Add(ref _downloadedBytes, bytes);
             }
+            logger.Information($"分段 {tempPath} 下载完成");
         }
 
         private async Task DownloadSingleAsync(HttpResponseMessage response, long total, CancellationToken ct)
         {
+            logger.Information("开始单线程下载...");
             var canReport = total > 0 && Progress != null;
 
             await using var file = new FileStream(SavePath, FileMode.Create, FileAccess.Write,
@@ -199,6 +227,7 @@ namespace PvzLauncherRemake.Utils.Network
                     lastTime = sw.Elapsed.TotalMilliseconds;
                 }
             }
+            logger.Information("单线程下载完毕");
         }
 
         private async Task MonitorProgressAsync(Task downloadTask, long total, CancellationToken ct)
@@ -240,6 +269,7 @@ namespace PvzLauncherRemake.Utils.Network
 
         private static async Task MergeSegmentsAsync(string[] tempFiles, string savePath, CancellationToken ct)
         {
+            logger.Information("合并文件块...");
             await using var output = new FileStream(savePath, FileMode.Create, FileAccess.Write,
                 FileShare.None, 131072, true);
 
@@ -256,6 +286,7 @@ namespace PvzLauncherRemake.Utils.Network
             _cts?.Cancel();
             _cts?.Dispose();
             _httpClient.Dispose();
+            logger.Information("DownloadSrevice 已销毁");
         }
     }
 }
