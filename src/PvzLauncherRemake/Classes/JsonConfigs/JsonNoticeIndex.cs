@@ -18,6 +18,12 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("contents")]
             public string[] Contents { get; set; }
 
+            [JsonProperty("start")]
+            public DateTimeOffset Start { get; set; }
+            
+            [JsonProperty("end")]
+            public DateTimeOffset End { get; set; }
+
             [JsonProperty("primary-button")]
             public string PrimaryButton { get; set; }
 

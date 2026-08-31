@@ -158,75 +158,7 @@ namespace PvzLauncherRemake.Windows
                     }
 
                     //公告获取
-                    if (Globals.Config.Settings.LauncherConfig.NoticeEnabled && !Globals.Config.Settings.LauncherConfig.OfflineMode)
-                    {
-                        JsonNoticeIndex.Root noticeIndex;
-                        using (var client = new HttpClient())
-                            noticeIndex = JsonHelper.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
-
-                        foreach (var notice in noticeIndex.Notices)
-                        {
-                            string content = "";
-                            foreach (var contentL in notice.Contents)
-                            {
-                                content = $"{content}{contentL}\n";
-                            }
-
-                            var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
-                            if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
-                                await DialogService.ShowDialogAsync(new ContentDialog
-                                {
-                                    Title = notice.Title,
-                                    Content = new StackPanel
-                                    {
-                                        Children =
-                                {
-                                    new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
-                                    chkBox
-                                }
-                                    },
-                                    PrimaryButtonText = notice.PrimaryButton,
-                                    SecondaryButtonText = notice.SecondaryButton,
-                                    CloseButtonText = "关闭",
-                                    DefaultButton = ContentDialogButton.Primary
-                                }, (() => handleButtonActions(notice.PrimaryActions)
-                                ), (() => handleButtonActions(notice.SecondaryActions)));
-
-                            void handleButtonActions(JsonNoticeIndex.ButtonActionInfo[] actions)
-                            {
-                                foreach (var action in actions)
-                                {
-                                    switch (action.Type)
-                                    {
-                                        case "to-url":
-                                            Process.Start(new ProcessStartInfo
-                                            {
-                                                FileName = action.Url,
-                                                UseShellExecute = true
-                                            });
-                                            break;
-                                        case "to-page":
-                                            if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
-                                                NavigationController.Navigate(result);
-                                            else
-                                                throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
-                                            break;
-                                        default:
-                                            throw new Exception($"未知的操作类型: \"{action.Type}\"。这一般是编写失误或当前启动器版本过低导致的");
-                                    }
-                                }
-                            }
-
-
-                            if (chkBox.IsChecked == true)
-                                Globals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
-
-                            ConfigManager.SaveConfig();
-                        }
-                    }
-
-
-
+                    NoticeService.FetchNotices();
                 }
                 catch (Exception ex)
                 {

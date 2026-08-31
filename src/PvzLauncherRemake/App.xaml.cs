@@ -7,7 +7,6 @@ using PvzLauncherRemake.Windows;
 using Serilog;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography.Pkcs;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
@@ -42,6 +41,7 @@ namespace PvzLauncherRemake
                     outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
                 )
                 .CreateLogger();
+            var logger = Log.ForContext<App>();
 
             //处理启动参数
             string[] args = Environment.GetCommandLineArgs();
@@ -99,6 +99,19 @@ namespace PvzLauncherRemake
                     Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.Github; break;
             }
 
+            //基本信息输出
+            var sb = new StringBuilder();
+            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
+            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
+            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
+            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
+            sb.AppendLine($"");
+            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
+            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
+            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
+            sb.Append(new string('=', 30));
+            logger.Debug(sb.ToString());
+
             //加载列表
             await GameManager.LoadGameListAsync();
             await GameManager.LoadTrainerListAsync();
@@ -123,23 +136,6 @@ namespace PvzLauncherRemake
                 case "Dark":
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark; break;
             }
-
-
-            var log = Log.ForContext<App>();
-
-
-            //基本信息输出
-            var sb = new StringBuilder();
-            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
-            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
-            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
-            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
-            sb.AppendLine($"");
-            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
-            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
-            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
-            sb.Append(new string('=', 30));
-            log.Debug(sb.ToString());
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
