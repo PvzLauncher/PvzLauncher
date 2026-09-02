@@ -218,41 +218,20 @@ namespace PvzLauncherRemake.Pages
 
         private async void button_Download_Click(object sender, RoutedEventArgs e)
         {
-            /*//确认下载
-            bool confirm = false;
-            await DialogService.ShowDialogAsync(new ContentDialog
+            if (!string.IsNullOrEmpty(Info.Tips))
             {
-                Title = "下载确认",
-                Content = $"是否下载 \"{Info.Name}\"",
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消",
-                DefaultButton = ContentDialogButton.Primary
-            }, (() => confirm = true));
-            if (!confirm) return;*/
-
-            if (Info.Size >= 500)
-            {
-                bool isReturn = false;
+                bool isContinue = false;
                 await DialogService.ShowDialogAsync(new ContentDialog
                 {
-                    Title = "警告",
-                    Content = $"此游戏体积较大 ({Info.Size} MB) 启动器下载很可能掉速或者失败。建议手动前往浏览器下载",
-                    PrimaryButtonText = "前往浏览器手动下载",
-                    SecondaryButtonText = "仍然使用启动器下载",
+                    Title = "提示",
+                    Content = Info.Tips,
+                    PrimaryButtonText = "确定",
+                    CloseButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary
-                }, () =>
-                {
-                    button_Manual_Click(button_Manual, null!);
-                    isReturn = true;
-                });
-
-                if (isReturn)
+                }, () => isContinue = true);
+                if (!isContinue)
                     return;
             }
-
-
-
-
 
             //处理同名
             string? savePath = await GameManager.ResolveSameName(Info.Name, BaseDirectory);
