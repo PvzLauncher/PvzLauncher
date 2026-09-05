@@ -556,88 +556,48 @@ namespace PvzLauncherRemake.Pages
                 senderBtn.IsEnabled = false;
                 try
                 {
-                    Globals.WindowMain.SetLoadState(true, "扫描临时文件中...");
+                    Globals.WindowMain.SetLoadState(true, "扫描垃圾文件中...");
 
-                    string[] allTempFiles = { };//全部临时文件
-                    List<string> pvzLauncherFiles = new List<string>();//PvzLauncher的临时文件
-                    double tempFilesSize = 0;//缓存文件总大小
+                    var trashFiles = await Cleaner.Scan();
 
-
-                    await Task.Run(() =>
-                    {
-                        allTempFiles = Directory.GetFiles(Globals.Directories.TempDirectory);
-                    });
-
-                    if (!(allTempFiles.Length > 0))
+                    if (trashFiles.TotalSize <= 0)
                     {
                         SnackbarService.Show(new SnackbarContent
                         {
-                            Title = "清理完成",
-                            Content = "临时文件夹是空的，无需清除",
+                            Title = "垃圾清理",
+                            Content = "没有找到垃圾文件",
                             Type = SnackbarType.Success
                         });
+                        Globals.WindowMain.SetLoadState(false);
                         senderBtn.IsEnabled = true;
                         return;
                     }
 
-                    pvzLauncherFiles.Clear();
-                    foreach (var file in allTempFiles)
-                    {
-                        if (Path.GetFileName(file).StartsWith("PvzLauncher", StringComparison.OrdinalIgnoreCase))
-                        {
-                            pvzLauncherFiles.Add(file);
-                            tempFilesSize = tempFilesSize + new FileInfo(file).Length;
-                        }
-                    }
-
-                    if (!(pvzLauncherFiles.Count > 0))
-                    {
-                        SnackbarService.Show(new SnackbarContent
-                        {
-                            Title = "清理完成",
-                            Content = "没有需要清理的缓存文件",
-                            Type = SnackbarType.Success
-                        });
-                        senderBtn.IsEnabled = true;
-                        return;
-                    }
-
-                    bool isClear = false;
+                    bool isContinue = false;
                     await DialogService.ShowDialogAsync(new ContentDialog
                     {
-                        Title = "发现缓存文件",
-                        Content = $"发现了 {pvzLauncherFiles.Count} 个来自PvzLauncher的缓存文件, 共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB, 是否清理?",
+                        Title = "垃圾清理",
+                        Content = $"已找到 {trashFiles.TempFiles.Length} 个临时文件，{trashFiles.OldLogs.Length} 个过时日志。总大小 {Math.Round(trashFiles.TotalSize / 1024.0 / 1024.0, 2)} MB",
                         PrimaryButtonText = "清理",
                         CloseButtonText = "取消",
                         DefaultButton = ContentDialogButton.Primary
-                    }, (() => isClear = true));
-
-                    if (!isClear)
+                    }, () => isContinue = true);
+                    if (!isContinue)
                     {
+                        Globals.WindowMain.SetLoadState(false);
                         senderBtn.IsEnabled = true;
                         return;
                     }
 
-
-                    await Task.Run(() =>
-                    {
-                        foreach (var file in pvzLauncherFiles)
-                        {
-                            Dispatcher.BeginInvoke(() =>
-                            {
-                                Globals.WindowMain.SetLoadText($"正在删除 {Path.GetFileName(file)}");
-                            });
-                            File.Delete(file);
-                        }
-                    });
+                    Globals.WindowMain.SetLoadText("清理垃圾文件中...");
+                    Cleaner.Clean(trashFiles, (f) => Globals.WindowMain.SetLoadText($"清理: {Path.GetFileName(f)}"));
 
                     SnackbarService.Show(new SnackbarContent
                     {
-                        Title = "清理完成",
-                        Content = $"已清理所有缓存文件，共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB",
+                        Title = "垃圾清理",
+                        Content = $"清理完毕，共 {Math.Round(trashFiles.TotalSize / 1024.0 / 1024.0, 2)} MB",
                         Type = SnackbarType.Success
                     });
-
                 }
                 catch (Exception ex)
                 {
@@ -646,8 +606,8 @@ namespace PvzLauncherRemake.Pages
                 finally
                 {
                     Globals.WindowMain.SetLoadState(false);
+                    senderBtn.IsEnabled = true;
                 }
-                senderBtn.IsEnabled = true;
             }
         }
 
