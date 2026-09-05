@@ -14,6 +14,7 @@ namespace PvzLauncherRemake.Classes
         public static JsonConfig.Root Config = null!;//配置
 
         public static WindowMain WindowMain;//主窗口
+        public static readonly DateTimeOffset StartupTime = DateTimeOffset.Now;//启动时间
 
         //目录
         public static class Directories
@@ -33,11 +34,12 @@ namespace PvzLauncherRemake.Classes
         //路径
         public static class Paths
         {
+            public static readonly string ExecutablePath = Environment.ProcessPath!;//当前可执行(.exe)路径
             public static readonly string ConfigPath = $"{Path.Combine(Directories.RootDirectory, "config.json")}";
             public static readonly string BackgroundPath = $"{Path.Combine(Directories.RootDirectory, "background.png")}";
         }
 
-        //特殊
+        //缓存
         public static class Caches
         {
             public static List<JsonGameInfo.Root> GameList = new List<JsonGameInfo.Root>();//游戏列表
@@ -47,7 +49,7 @@ namespace PvzLauncherRemake.Classes
             public static BitmapImage LauncherBackground = null!;//背景图像
         }
 
-        //字符串
+        //URL
         public static class Urls
         {
             public static string ServiceRootUrl = ServiceRootUrls.Gitee;//服务根Url
@@ -68,14 +70,18 @@ namespace PvzLauncherRemake.Classes
         //启动参数配置
         public static class Arguments
         {
-            public static bool isShell = false;//启动壳启动
             public static bool isUpdate = false;//是否更新完毕启动
 
             public static bool isCIBuild = false;//是否CI构建
             public static bool isDebugBuild = false;//是调试版构建
+
+            public static bool isUrl = false;//是否通过URL启动
         }
 
-
-        public static readonly DateTimeOffset StartupTime = DateTimeOffset.Now;
+        //字符串
+        public static class Strings
+        {
+            public static readonly string ProtocolName = "pvzl";
+        }
     }
 }

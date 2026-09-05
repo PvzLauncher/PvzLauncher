@@ -2,6 +2,7 @@
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using Serilog;
@@ -43,20 +44,22 @@ namespace PvzLauncherRemake
                 .CreateLogger();
             var logger = Log.ForContext<App>();
 
-            //处理启动参数
-            string[] args = Environment.GetCommandLineArgs();
-            foreach (var arg in args)
-            {
-                switch (arg)
-                {
-                    //外壳启动
-                    case "-shell":
-                        Globals.Arguments.isShell = true; break;
-                    //更新启动，显示更新完毕对话框
-                    case "-update":
-                        Globals.Arguments.isUpdate = true; break;
-                }
-            }
+            //基本信息输出
+            var sb = new StringBuilder();
+            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
+            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
+            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
+            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
+            sb.AppendLine($"");
+            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
+            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
+            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
+            sb.AppendLine($"");
+            sb.AppendLine($"isUrl? {Globals.Arguments.isUrl}");
+            sb.AppendLine($"isUpdate? {Globals.Arguments.isUpdate}");
+            sb.Append(new string('=', 30));
+            logger.Debug(sb.ToString());
+
             //是否CI构建
 #if CI
             Globals.Arguments.isCIBuild = true;
@@ -85,6 +88,9 @@ namespace PvzLauncherRemake
             //读配置
             ConfigManager.LoadConfig();
 
+            //注册URL协议
+            UrlProtocolHelper.Register(Globals.Strings.ProtocolName, Globals.Paths.ExecutablePath);
+
             //切换语言
             LocalizeService.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
 
@@ -99,26 +105,44 @@ namespace PvzLauncherRemake
                     Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.Github; break;
             }
 
-            //基本信息输出
-            var sb = new StringBuilder();
-            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
-            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
-            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
-            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
-            sb.AppendLine($"");
-            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
-            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
-            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
-            sb.Append(new string('=', 30));
-            logger.Debug(sb.ToString());
-
             //加载列表
             await GameManager.LoadGameListAsync();
             await GameManager.LoadTrainerListAsync();
         }
 
+        private void HandleArgs(string[] args)
+        {
+            string[] urlArgs;
+            foreach (var arg in args)
+            {
+                if (arg.StartsWith($"{Globals.Strings.ProtocolName}://"))
+                {
+                    urlArgs = arg.Split('/');
+                    Globals.Arguments.isUrl = true;
+                    break;
+                }
+            }
+            //处理Url参数
+            if (Globals.Arguments.isUrl)
+            {
+                //
+            }
+            else//处理普通参数
+            {
+                foreach (var arg in args)
+                {
+                    switch (arg)
+                    {
+                        case "-update":
+                            Globals.Arguments.isUpdate = true; break;
+                    }
+                }
+            }
+        }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            HandleArgs(e.Args);
             Initialize();
 
             var mainWindow = new WindowMain();
