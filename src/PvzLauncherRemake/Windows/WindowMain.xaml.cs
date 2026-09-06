@@ -35,6 +35,10 @@ namespace PvzLauncherRemake.Windows
         {
             try
             {
+                //加载列表
+                await GameManager.LoadGameListAsync();
+                await GameManager.LoadTrainerListAsync();
+
                 //应用配置
                 this.Title = Globals.Config.Settings.LauncherConfig.WindowTitle;
                 this.Width = Globals.Config.WindowSize.Width;

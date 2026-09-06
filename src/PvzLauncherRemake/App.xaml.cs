@@ -22,10 +22,10 @@ namespace PvzLauncherRemake
     {
         private static Mutex? _mutex;
         private const string mutexName = "PvzLauncher";
-
         private bool _isSingleShutdown = false;
 
-        private async Task Initialize()
+
+        private void Initialize()
         {
             //初始化Logger
             var logFileName = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.log.latest.log");
@@ -104,10 +104,6 @@ namespace PvzLauncherRemake
                 case "Github":
                     Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.Github; break;
             }
-
-            //加载列表
-            await GameManager.LoadGameListAsync();
-            await GameManager.LoadTrainerListAsync();
         }
 
         private void HandleArgs(string[] args)
@@ -140,7 +136,7 @@ namespace PvzLauncherRemake
             }
         }
 
-        private async void Application_Startup(object sender, StartupEventArgs e)
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
             //绑定事件
             Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
@@ -158,7 +154,7 @@ namespace PvzLauncherRemake
 
             //INIT
             HandleArgs(e.Args);
-            await Initialize();
+            Initialize();
 
             var mainWindow = new WindowMain();
             this.MainWindow = mainWindow;
