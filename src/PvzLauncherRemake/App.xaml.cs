@@ -20,13 +20,13 @@ namespace PvzLauncherRemake
     /// </summary>
     public partial class App : Application
     {
-        private async void Initialize()
-        {
-            //绑定事件
-            Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
-            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
-            TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
+        private static Mutex? _mutex;
+        private const string mutexName = "PvzLauncher";
 
+        private bool _isSingleShutdown = false;
+
+        private async Task Initialize()
+        {
             //初始化Logger
             var logFileName = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.log.latest.log");
             if (File.Exists(logFileName))
@@ -140,10 +140,25 @@ namespace PvzLauncherRemake
             }
         }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
+            //绑定事件
+            Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
+
+            //单例检测
+            _mutex = new Mutex(true, mutexName, out var createdNew);
+            if (!createdNew)
+            {
+                _isSingleShutdown = true;
+                Shutdown(0);
+                return;
+            }
+
+            //INIT
             HandleArgs(e.Args);
-            Initialize();
+            await Initialize();
 
             var mainWindow = new WindowMain();
             this.MainWindow = mainWindow;
@@ -164,6 +179,9 @@ namespace PvzLauncherRemake
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
+            if (_isSingleShutdown)
+                return;
+
             var logger = Log.ForContext<App>();
 
             logger.Information($"程序{(e.ApplicationExitCode == 0 ? "正常" : "异常")}退出，退出码: {e.ApplicationExitCode}");
