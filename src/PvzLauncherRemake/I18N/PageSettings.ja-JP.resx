@@ -310,6 +310,6 @@
     <value>オーバーレイ インターフェイス (Ctrl+Alt+P):</value>
   </data>
   <data name="ThreadCount" xml:space="preserve">
-    <value>ダウンロードエンジンのスレッド数::</value>
+    <value>ダウンロードエンジンのスレッド数:</value>
   </data>
 </root>
