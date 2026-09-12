@@ -187,8 +187,6 @@ namespace PvzLauncherRemake
             var newPath = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.log.{Globals.StartupTime.ToUnixTimeMilliseconds()}.log");
             if (File.Exists(originalPath))
                 File.Move(originalPath, newPath);
-
-            base.OnExit(e);
         }
 
 
