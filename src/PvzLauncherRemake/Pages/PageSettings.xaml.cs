@@ -235,6 +235,10 @@ namespace PvzLauncherRemake.Pages
                     //## 覆盖界面
                     //### 启用
                     checkbox_Game_Overlay_Enabled.IsChecked = Globals.Config.Settings.GameConfig.OverlayUIEnabled;
+                    if (Globals.Windows.WindowOverlay != null)
+                        checkbox_Game_Overlay_Enabled.IsEnabled = false;
+                    else
+                        checkbox_Game_Overlay_Enabled.IsEnabled = true;
 
                     //# 存档设置
                     //## 存档隔离
@@ -518,7 +522,7 @@ namespace PvzLauncherRemake.Pages
 
                 await Updater.CheckUpdate((p, s) =>
                 {
-                    Globals.WindowMain.SetLoadText($"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)");
+                    Globals.Windows.WindowMain.SetLoadText($"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)");
                 });
 
                 senderBtn.IsEnabled = true;
@@ -558,7 +562,7 @@ namespace PvzLauncherRemake.Pages
                 senderBtn.IsEnabled = false;
                 try
                 {
-                    Globals.WindowMain.SetLoadState(true, "扫描垃圾文件中...");
+                    Globals.Windows.WindowMain.SetLoadState(true, "扫描垃圾文件中...");
 
                     var trashFiles = await Cleaner.Scan();
 
@@ -570,7 +574,7 @@ namespace PvzLauncherRemake.Pages
                             Content = "没有找到垃圾文件",
                             Type = SnackbarType.Success
                         });
-                        Globals.WindowMain.SetLoadState(false);
+                        Globals.Windows.WindowMain.SetLoadState(false);
                         senderBtn.IsEnabled = true;
                         return;
                     }
@@ -586,13 +590,13 @@ namespace PvzLauncherRemake.Pages
                     }, () => isContinue = true);
                     if (!isContinue)
                     {
-                        Globals.WindowMain.SetLoadState(false);
+                        Globals.Windows.WindowMain.SetLoadState(false);
                         senderBtn.IsEnabled = true;
                         return;
                     }
 
-                    Globals.WindowMain.SetLoadText("清理垃圾文件中...");
-                    Cleaner.Clean(trashFiles, (f) => Globals.WindowMain.SetLoadText($"清理: {Path.GetFileName(f)}"));
+                    Globals.Windows.WindowMain.SetLoadText("清理垃圾文件中...");
+                    Cleaner.Clean(trashFiles, (f) => Globals.Windows.WindowMain.SetLoadText($"清理: {Path.GetFileName(f)}"));
 
                     SnackbarService.Show(new SnackbarContent
                     {
@@ -607,7 +611,7 @@ namespace PvzLauncherRemake.Pages
                 }
                 finally
                 {
-                    Globals.WindowMain.SetLoadState(false);
+                    Globals.Windows.WindowMain.SetLoadState(false);
                     senderBtn.IsEnabled = true;
                 }
             }
@@ -708,12 +712,12 @@ namespace PvzLauncherRemake.Pages
 
                             if (Directory.Exists(Globals.Directories.SaveDirectory))
                             {
-                                Globals.WindowMain.SetLoadState(true, "删除存档中...");
+                                Globals.Windows.WindowMain.SetLoadState(true, "删除存档中...");
                                 await Task.Run(() =>
                                 {
                                     Directory.Delete(Globals.Directories.SaveDirectory, true);
                                 });
-                                Globals.WindowMain.SetLoadState(false);
+                                Globals.Windows.WindowMain.SetLoadState(false);
                                 SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "删除存档",
@@ -872,7 +876,7 @@ namespace PvzLauncherRemake.Pages
                                                 DefaultButton = ContentDialogButton.Primary
                                             }, (async () =>
                                             {
-                                                Globals.WindowMain.SetLoadState(true, "迁移存档中...");
+                                                Globals.Windows.WindowMain.SetLoadState(true, "迁移存档中...");
 
                                                 await Task.Run(() =>
                                                 {
@@ -890,7 +894,7 @@ namespace PvzLauncherRemake.Pages
                                                     Type = SnackbarType.Success
                                                 });
 
-                                                Globals.WindowMain.SetLoadState(false);
+                                                Globals.Windows.WindowMain.SetLoadState(false);
                                             }));
                                         }
                                         else

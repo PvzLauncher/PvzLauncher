@@ -75,7 +75,7 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
-                    Globals.WindowMain.SetLoadState(true, "获取下载列表中...");
+                    Globals.Windows.WindowMain.SetLoadState(true, "获取下载列表中...");
 
                     if (Globals.Caches.DownloadIndex == null)
                     {
@@ -103,7 +103,7 @@ namespace PvzLauncherRemake.Pages
                     AddTrainerCard(stackPanel_trainer, Globals.Caches.DownloadIndex.Trainer);
                     AddGameCard(stackPanel_other, Globals.Caches.DownloadIndex.Other);
 
-                    Globals.WindowMain.SetLoadState(false);
+                    Globals.Windows.WindowMain.SetLoadState(false);
 
 
                 }

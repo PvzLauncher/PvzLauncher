@@ -189,6 +189,8 @@ namespace PvzLauncherRemake.Windows
 
             windowInteropHelper = new WindowInteropHelper(this);
 
+            Globals.Windows.WindowOverlay = this;
+
             try
             {
                 HotkeyManager.Current.AddOrReplace("ToggleOverlay", System.Windows.Input.Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
@@ -246,6 +248,8 @@ namespace PvzLauncherRemake.Windows
             _timer = null;
             HotkeyManager.Current.Remove("ToggleOverlay");
             WinOverlayInfo.Close();
+
+            Globals.Windows.WindowOverlay = null;
 
             _hook.Stop();
             _hook.Dispose();

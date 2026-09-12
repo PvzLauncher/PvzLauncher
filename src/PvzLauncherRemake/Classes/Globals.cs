@@ -13,8 +13,14 @@ namespace PvzLauncherRemake.Classes
         public static readonly bool IsStable = false;//是否稳定版
         public static JsonConfig.Root Config = null!;//配置
 
-        public static WindowMain WindowMain;//主窗口
         public static readonly DateTimeOffset StartupTime = DateTimeOffset.Now;//启动时间
+
+        //窗口
+        public static class Windows
+        {
+            public static WindowMain WindowMain;//主窗口
+            public static WindowOverlay? WindowOverlay = null;//覆盖窗口
+        }
 
         //目录
         public static class Directories

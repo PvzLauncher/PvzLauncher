@@ -150,7 +150,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (checkBox.IsChecked == true)
                         {
-                            Globals.WindowMain.SetLoadState(true, "删除游戏中...");
+                            Globals.Windows.WindowMain.SetLoadState(true, "删除游戏中...");
 
                             await Task.Run(() => Directory.Delete(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name), true));
 
@@ -176,7 +176,7 @@ namespace PvzLauncherRemake.Pages
 
                             this.NavigationService.GoBack();
 
-                            Globals.WindowMain.SetLoadState(false);
+                            Globals.Windows.WindowMain.SetLoadState(false);
                         }
                     }));
                 }));

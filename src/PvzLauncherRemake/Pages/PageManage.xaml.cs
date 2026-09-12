@@ -139,7 +139,7 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
-                    Globals.WindowMain.SetLoadState(true, "加载游戏列表中...");
+                    Globals.Windows.WindowMain.SetLoadState(true, "加载游戏列表中...");
 
 
                     //加载列表
@@ -156,7 +156,7 @@ namespace PvzLauncherRemake.Pages
 
 
 
-                    Globals.WindowMain.SetLoadState(false);
+                    Globals.Windows.WindowMain.SetLoadState(false);
 
                 }
                 catch (Exception ex)
@@ -501,14 +501,14 @@ namespace PvzLauncherRemake.Pages
         //幸运的是，我现在已经开始重构他了！！(2026-1-3)
         private async void button_ImportGame_Click(object sender, RoutedEventArgs e)
         {
-            Globals.WindowMain.SetLoadState(true, "导入游戏中...");
+            Globals.Windows.WindowMain.SetLoadState(true, "导入游戏中...");
 
-            await GameManager.ImportGameOrTrainer(((progress) => Globals.WindowMain.SetLoadText($"正在复制: {progress}")));
+            await GameManager.ImportGameOrTrainer(((progress) => Globals.Windows.WindowMain.SetLoadText($"正在复制: {progress}")));
 
             SetNoneTipVisb();
             NavigationService.Refresh();
 
-            Globals.WindowMain.SetLoadState(false);
+            Globals.Windows.WindowMain.SetLoadState(false);
         }
 
 
