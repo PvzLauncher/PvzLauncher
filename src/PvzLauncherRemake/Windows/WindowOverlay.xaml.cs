@@ -8,6 +8,7 @@ using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
+using Serilog;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -22,6 +23,8 @@ namespace PvzLauncherRemake.Windows
     /// </summary>
     public partial class WindowOverlay : Window
     {
+        private ILogger logger = Log.ForContext<WindowOverlay>();
+
         private DispatcherTimer? _timer;
         private bool IsOverlayVisible = true;
         private WindowInteropHelper windowInteropHelper;
@@ -186,7 +189,14 @@ namespace PvzLauncherRemake.Windows
 
             windowInteropHelper = new WindowInteropHelper(this);
 
-            HotkeyManager.Current.AddOrReplace("ToggleOverlay", System.Windows.Input.Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
+            try
+            {
+                HotkeyManager.Current.AddOrReplace("ToggleOverlay", System.Windows.Input.Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
+            }
+            catch (Exception ex)
+            {
+                logger.Warning($"热键 Ctrl+Alt+P 注册失败，热键注册跳过；覆盖界面功能将不可用   |   DETAILS: \n{ex}");
+            }
 
             //加载信息层
             WinOverlayInfo.Show();

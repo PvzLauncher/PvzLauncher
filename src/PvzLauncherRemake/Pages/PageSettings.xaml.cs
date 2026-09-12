@@ -3,6 +3,7 @@ using ModernWpf;
 using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
@@ -10,6 +11,7 @@ using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -651,11 +653,26 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Game_OverlayUIEnabled(object sender, RoutedEventArgs e)
+        private async Task Game_OverlayUIEnabled(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
-                Globals.Config.Settings.GameConfig.OverlayUIEnabled = checkbox_Game_Overlay_Enabled.IsChecked == true ? true : false;
+                if (checkbox_Game_Overlay_Enabled.IsChecked == true && !HotKeyHelper.IsHotKeyAvaiable(Key.P, ModifierKeys.Control | ModifierKeys.Alt)) 
+                {
+                    checkbox_Game_Overlay_Enabled.IsChecked = false;
+                    Globals.Config.Settings.GameConfig.OverlayUIEnabled = false;
+                    await DialogService.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "警告",
+                        Content = "检测到用于开启覆盖界面的热键: Ctrl+Alt+P 被占用！\n\n请检查该热键被某个程序占用并取消绑定。确保该热键空闲后再次尝试开启此功能",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    });
+                }
+                else
+                {
+                    Globals.Config.Settings.GameConfig.OverlayUIEnabled = checkbox_Game_Overlay_Enabled.IsChecked ?? false;
+                }
                 ConfigManager.SaveConfig();
             }
         }
