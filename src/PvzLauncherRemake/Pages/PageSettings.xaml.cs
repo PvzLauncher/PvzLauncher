@@ -653,7 +653,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private async Task Game_OverlayUIEnabled(object sender, RoutedEventArgs e)
+        private async void Game_OverlayUIEnabled(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
