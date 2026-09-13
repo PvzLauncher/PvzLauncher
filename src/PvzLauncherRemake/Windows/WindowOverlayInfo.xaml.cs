@@ -1,4 +1,4 @@
-﻿using PvzLauncherRemake.JsonConfigs;
+﻿using PvzLauncherRemake.JsonConfigs.Local;
 using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;

@@ -1,5 +1,5 @@
 ﻿using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.JsonConfigs;
+using PvzLauncherRemake.JsonConfigs.Network;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;

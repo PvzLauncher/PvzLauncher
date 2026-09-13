@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Drawing;
 
-namespace PvzLauncherRemake.JsonConfigs
+namespace PvzLauncherRemake.JsonConfigs.Local
 {
     public class JsonGameInfo
     {
