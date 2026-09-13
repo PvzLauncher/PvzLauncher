@@ -660,7 +660,7 @@ namespace PvzLauncherRemake.Pages
         {
             if (isInitialized)
             {
-                if (checkbox_Game_Overlay_Enabled.IsChecked == true && !HotKeyHelper.IsHotKeyAvaiable(Key.P, ModifierKeys.Control | ModifierKeys.Alt)) 
+                if (checkbox_Game_Overlay_Enabled.IsChecked == true && !HotKeyHelper.IsHotKeyAvaiable(Key.P, ModifierKeys.Control | ModifierKeys.Alt))
                 {
                     checkbox_Game_Overlay_Enabled.IsChecked = false;
                     Globals.Config.Settings.GameConfig.OverlayUIEnabled = false;

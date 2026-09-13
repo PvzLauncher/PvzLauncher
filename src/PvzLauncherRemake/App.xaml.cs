@@ -1,6 +1,5 @@
 ﻿using ModernWpf;
 using PvzLauncherRemake.Utils.FileSystem;
-using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;

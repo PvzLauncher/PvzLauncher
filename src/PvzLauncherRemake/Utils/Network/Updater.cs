@@ -7,7 +7,6 @@ using Serilog;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -327,7 +326,7 @@ namespace PvzLauncherRemake.Utils.Network
                 logger.Warning($"更新服务校验出现错误: {ex.Message}: \n{ex}");
                 return false;
             }
-            
+
         }
     }
 }

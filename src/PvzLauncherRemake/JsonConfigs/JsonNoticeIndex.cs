@@ -20,7 +20,7 @@ namespace PvzLauncherRemake.JsonConfigs
 
             [JsonProperty("start")]
             public DateTimeOffset Start { get; set; }
-            
+
             [JsonProperty("end")]
             public DateTimeOffset End { get; set; }
 
