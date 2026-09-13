@@ -104,7 +104,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case "unknown": return GameIcons.Unknown;
 
 
-                default: return GameIcons.Unknown;
+                default: return GameIcons.Origin;
             }
         }
 
@@ -216,7 +216,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                 case GameIcons.Application: return new IconApplicationFull();
 
-                default: return new GameIconUnknown();
+                default: return new GameIconOrigin();
             }
         }
     }
