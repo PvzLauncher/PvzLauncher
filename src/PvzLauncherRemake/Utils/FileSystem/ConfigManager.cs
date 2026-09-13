@@ -1,5 +1,4 @@
-﻿using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+﻿using PvzLauncherRemake.JsonConfigs;
 using System.IO;
 
 namespace PvzLauncherRemake.Utils.FileSystem

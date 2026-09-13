@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.UI;
 using System.Reflection;

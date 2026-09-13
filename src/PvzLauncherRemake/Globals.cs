@@ -1,10 +1,10 @@
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonConfigs;
 using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
-namespace PvzLauncherRemake.Classes
+namespace PvzLauncherRemake
 {
     //全局类
     public static class Globals

@@ -1,8 +1,7 @@
 ﻿using Microsoft.Win32;
 using ModernWpf;
 using ModernWpf.Controls;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonConfigs;
 using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;

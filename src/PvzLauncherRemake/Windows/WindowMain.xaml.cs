@@ -2,8 +2,7 @@
 using ModernWpf;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonConfigs;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;

@@ -1,5 +1,4 @@
 ﻿using ModernWpf.Controls;
-using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;

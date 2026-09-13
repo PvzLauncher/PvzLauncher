@@ -1,7 +1,6 @@
 ﻿using ModernWpf.Controls;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.JsonConfigs;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;

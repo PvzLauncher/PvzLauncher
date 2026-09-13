@@ -1,6 +1,5 @@
-﻿using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Controls;
+﻿using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.JsonConfigs;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
