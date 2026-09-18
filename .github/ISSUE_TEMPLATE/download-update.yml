@@ -1,0 +1,13 @@
+name: 🟠 更新请求
+description: 如果现有游戏库内的游戏太过老旧且长时间未更新，可提交此类型的Issue来请求更新某个游戏
+type: "游戏库-更新"
+body:
+  - type: input
+    id: gamename
+    attributes:
+      label: 游戏名称
+      description: 植物大战僵尸游戏名称或改版名称
+      placeholder: |
+        例如: 植物大战僵尸β版
+    validations:
+      required: true
