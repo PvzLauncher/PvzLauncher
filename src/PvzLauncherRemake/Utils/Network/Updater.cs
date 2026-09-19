@@ -1,6 +1,6 @@
 ﻿using MdXaml;
 using ModernWpf.Controls;
-using PvzLauncherRemake.JsonConfigs.Network;
+using PvzLauncherRemake.JsonModel.Network;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using Serilog;

@@ -1,5 +1,5 @@
 ﻿using PvzLauncherRemake.Controls.Icons;
-using PvzLauncherRemake.JsonConfigs.Local;
+using PvzLauncherRemake.JsonModel.Local;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;

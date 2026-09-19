@@ -2,7 +2,7 @@
 using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;
-using PvzLauncherRemake.JsonConfigs.Local;
+using PvzLauncherRemake.JsonModel.Local;
 using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;

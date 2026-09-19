@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Drawing;
 
-namespace PvzLauncherRemake.JsonConfigs.Local
+namespace PvzLauncherRemake.JsonModel.Local
 {
     public class JsonGameProfile
     {

@@ -1,5 +1,5 @@
-using PvzLauncherRemake.JsonConfigs.Local;
-using PvzLauncherRemake.JsonConfigs.Network;
+using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.JsonModel.Network;
 using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Reflection;
