@@ -2,7 +2,7 @@
 
 namespace PvzLauncherRemake.JsonConfigs.Network
 {
-    public class JsonDirectAnalysisInfo
+    public class JsonDirectAnalysis
     {
         public class Root
         {
