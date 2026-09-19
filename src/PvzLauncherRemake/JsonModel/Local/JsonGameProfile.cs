@@ -3,12 +3,12 @@ using System.Drawing;
 
 namespace PvzLauncherRemake.JsonConfigs.Local
 {
-    public class JsonGameInfo
+    public class JsonGameProfile
     {
         public partial class Root
         {
             [JsonProperty("tip")]
-            public string Tip { get; set; } = "此文件为PvzLauncher版本标志文件，请勿移除！";
+            public string Tip { get; set; } = "此文件为PvzLauncher版本档案文件，请勿移除！";
 
             [JsonProperty("game_info")]
             public GameInfo GameInfo { get; set; }

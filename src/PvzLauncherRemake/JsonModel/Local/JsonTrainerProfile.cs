@@ -2,7 +2,7 @@
 
 namespace PvzLauncherRemake.JsonConfigs.Local
 {
-    public class JsonTrainerInfo
+    public class JsonTrainerProfile
     {
         public class Root
         {

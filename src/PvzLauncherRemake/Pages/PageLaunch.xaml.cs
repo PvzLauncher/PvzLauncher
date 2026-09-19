@@ -17,8 +17,8 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageLaunch : ModernWpf.Controls.Page
     {
-        private JsonGameInfo.Root currentGameInfo = null!;
-        private JsonTrainerInfo.Root currentTrainerInfo = null!;
+        private JsonGameProfile.Root currentGameInfo = null!;
+        private JsonTrainerProfile.Root currentTrainerInfo = null!;
 
         private List<string> echoCaveTemp = new List<string>();
 
@@ -310,7 +310,7 @@ namespace PvzLauncherRemake.Pages
                     if (Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
                     //再次加载游戏档案
-                    currentGameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"));
+                    currentGameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, currentGameInfo.GameInfo.Name, ".pvzl.json"));
                     //启动游戏
                     GameManager.LaunchGame(currentGameInfo, (async () =>
                     {

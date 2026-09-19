@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Windows
         private LowLevelKeyboardHook _hook = new LowLevelKeyboardHook();
         private InputSimulator _inputSim = new InputSimulator();
 
-        private JsonGameInfo.Root GameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+        private JsonGameProfile.Root GameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
         private WindowOverlayInfo WinOverlayInfo = new WindowOverlayInfo();
         private bool isWinOverlayInfoClosed = false;

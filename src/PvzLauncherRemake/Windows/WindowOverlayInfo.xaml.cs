@@ -38,7 +38,7 @@ namespace PvzLauncherRemake.Windows
         };
         private List<Grid> slotKeyCtrls = new List<Grid>();
 
-        private JsonGameInfo.Root GameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(System.IO.Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+        private JsonGameProfile.Root GameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(System.IO.Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
 
 
@@ -88,7 +88,7 @@ namespace PvzLauncherRemake.Windows
             timer.Tick += (s, e) =>
             {
                 //重载游戏信息
-                GameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(System.IO.Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+                GameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(System.IO.Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
                 grid_logo.Visibility = Globals.Config.OverLayWindowSettings.InfoOverlay.ShowLogo ? Visibility.Visible : Visibility.Hidden;
                 grid_root.Opacity = Globals.Config.OverLayWindowSettings.InfoOverlay.Opacity;

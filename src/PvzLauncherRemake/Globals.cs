@@ -49,8 +49,8 @@ namespace PvzLauncherRemake
         //缓存
         public static class Caches
         {
-            public static List<JsonGameInfo.Root> GameList = new List<JsonGameInfo.Root>();//游戏列表
-            public static List<JsonTrainerInfo.Root> TrainerList = new List<JsonTrainerInfo.Root>();//修改器
+            public static List<JsonGameProfile.Root> GameList = new List<JsonGameProfile.Root>();//游戏列表
+            public static List<JsonTrainerProfile.Root> TrainerList = new List<JsonTrainerProfile.Root>();//修改器
             public static JsonGameLibrary.Root? DownloadIndex = null;//下载索引
 
             public static BitmapImage LauncherBackground = null!;//背景图像
