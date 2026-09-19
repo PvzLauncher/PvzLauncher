@@ -23,9 +23,9 @@ namespace PvzLauncherRemake.Utils.Network
                 return;
             }
 
-            JsonNoticeIndex.Root noticeIndex;
+            JsonNotice.Root noticeIndex;
             using (var client = new HttpClient())
-                noticeIndex = JsonHelper.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
+                noticeIndex = JsonHelper.ReadJson<JsonNotice.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
             logger.Information($"获取到 {noticeIndex.Notices.Length} 个公告");
             foreach (var notice in noticeIndex.Notices)
             {
@@ -63,7 +63,7 @@ namespace PvzLauncherRemake.Utils.Network
                     }
                 }
 
-                void handleButtonActions(JsonNoticeIndex.ButtonActionInfo[] actions)
+                void handleButtonActions(JsonNotice.ButtonActionInfo[] actions)
                 {
                     foreach (var action in actions)
                     {
