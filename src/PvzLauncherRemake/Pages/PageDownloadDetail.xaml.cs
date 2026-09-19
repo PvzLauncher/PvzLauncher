@@ -19,7 +19,7 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownloadDetail : ModernWpf.Controls.Page
     {
-        public JsonDownloadIndex.GameInfo Info { get; set; }
+        public JsonGameLibrary.GameInfo Info { get; set; }
         public string BaseDirectory { get; set; }
         public bool IsTrainer { get; set; }
 
@@ -64,7 +64,7 @@ namespace PvzLauncherRemake.Pages
                     userCard.isNew = Info.IsNew;
                     userCard.isRecommend = Info.IsRecommend;
 
-                    if (Info is JsonDownloadIndex.TrainerInfo ti)
+                    if (Info is JsonGameLibrary.TrainerInfo ti)
                         userCard.SupportVersion = ti.SupportVersion;
 
 

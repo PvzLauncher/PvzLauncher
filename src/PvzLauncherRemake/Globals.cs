@@ -51,7 +51,7 @@ namespace PvzLauncherRemake
         {
             public static List<JsonGameInfo.Root> GameList = new List<JsonGameInfo.Root>();//游戏列表
             public static List<JsonTrainerInfo.Root> TrainerList = new List<JsonTrainerInfo.Root>();//修改器
-            public static JsonDownloadIndex.Root? DownloadIndex = null;//下载索引
+            public static JsonGameLibrary.Root? DownloadIndex = null;//下载索引
 
             public static BitmapImage LauncherBackground = null!;//背景图像
         }

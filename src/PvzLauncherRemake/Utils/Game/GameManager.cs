@@ -348,7 +348,7 @@ namespace PvzLauncherRemake.Utils.Game
 
         #region 下载
 
-        public static async Task StartDownloadAsync(JsonDownloadIndex.GameInfo info, string savePath, bool isTrainer)
+        public static async Task StartDownloadAsync(JsonGameLibrary.GameInfo info, string savePath, bool isTrainer)
         {
             string tempPath = Path.Combine(Globals.Directories.TempDirectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{Guid.NewGuid():N}");
 

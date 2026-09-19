@@ -123,7 +123,7 @@ namespace PvzLauncherRemake.Pages
                     Margin = new Thickness(0, 0, 0, 10)
                 };
 
-                if (e.Info is JsonDownloadIndex.TrainerInfo)
+                if (e.Info is JsonGameLibrary.TrainerInfo)
                     button.Visibility = Visibility.Hidden;
 
                 stackPanel_Completed.Children.Add(grid);

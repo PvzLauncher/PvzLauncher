@@ -2,7 +2,7 @@
 
 namespace PvzLauncherRemake.JsonConfigs.Network
 {
-    public class JsonDownloadIndex
+    public class JsonGameLibrary
     {
         public partial class Root
         {
