@@ -34,6 +34,7 @@ namespace PvzLauncherRemake.Windows
         private JsonGameInfo.Root GameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
         private WindowOverlayInfo WinOverlayInfo = new WindowOverlayInfo();
+        private bool isWinOverlayInfoClosed = false;
 
         private int winLeft = 0;
         private int winTop = 0;
@@ -162,12 +163,12 @@ namespace PvzLauncherRemake.Windows
             //     info
             if (activeWindow == GameManager.GameProcess.MainWindowHandle || activeWindow == windowInteropHelper.Handle)
             {
-                if (!WinOverlayInfo.IsVisible)
+                if (!WinOverlayInfo.IsVisible && !isWinOverlayInfoClosed)
                     WinOverlayInfo.Show();
             }
             else
             {
-                if (WinOverlayInfo.IsVisible)
+                if (WinOverlayInfo.IsVisible && !isWinOverlayInfoClosed)
                     WinOverlayInfo.Hide();
             }
 
@@ -202,6 +203,7 @@ namespace PvzLauncherRemake.Windows
             //加载信息层
             WinOverlayInfo.Show();
             this.Owner = WinOverlayInfo;//保证Info窗口在此之下
+            WinOverlayInfo.Closed += (s, e) => isWinOverlayInfoClosed = true;
 
 
 
