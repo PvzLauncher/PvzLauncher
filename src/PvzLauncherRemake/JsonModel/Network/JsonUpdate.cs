@@ -2,7 +2,7 @@
 
 namespace PvzLauncherRemake.JsonConfigs.Network
 {
-    public class JsonUpdateIndex
+    public class JsonUpdate
     {
         public class Root
         {

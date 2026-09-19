@@ -17,7 +17,7 @@ namespace PvzLauncherRemake.Utils.Network
         private static readonly ILogger logger = Log.ForContext(typeof(Updater));
 
 
-        public static JsonUpdateIndex.Root UpdateIndex = null!;
+        public static JsonUpdate.Root UpdateIndex = null!;
         public static HttpClient Client = new HttpClient();
 
         public static string LatestVersion = null!;
@@ -89,7 +89,7 @@ namespace PvzLauncherRemake.Utils.Network
 
             //获取主索引
             string indexString = await Client.GetStringAsync(Globals.Urls.UpdateIndexUrl);
-            UpdateIndex = JsonHelper.ReadJson<JsonUpdateIndex.Root>(indexString);
+            UpdateIndex = JsonHelper.ReadJson<JsonUpdate.Root>(indexString);
             logger.Information($"获得更新索引: {indexString}");
             //判断更新通道
             switch (Globals.Config.Settings.LauncherConfig.UpdateChannel)
