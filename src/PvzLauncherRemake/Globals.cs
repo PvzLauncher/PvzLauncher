@@ -83,6 +83,9 @@ namespace PvzLauncherRemake
             public static bool isDebugBuild = false;//是调试版构建
 
             public static bool isUrl = false;//是否通过URL启动
+
+            public static bool isWine = false;//是否运行在Wine环境下
+            public static string WineVersion = "UNKNOWN";//Wine的版本
         }
 
         //字符串

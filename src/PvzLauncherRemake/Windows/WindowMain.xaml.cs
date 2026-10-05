@@ -113,6 +113,18 @@ namespace PvzLauncherRemake.Windows
                             DefaultButton = ContentDialogButton.Primary
                         });
                     }
+                    //Wine检测
+                    if (Globals.Arguments.isWine)
+                    {
+                        await DialogService.ShowDialogAsync(new ContentDialog
+                        {
+                            Title = "环境警告",
+                            Content = $"我们检测到 PvzLauncher 正在运行在 Wine {Globals.Arguments.WineVersion} 环境下\n\n我们不保证此软件可以完美的在Wine中运行，也不对Wine做任何适配，因此我们不建议在Wine下运行此软件\n\n在此遇到的任何错误请不要向开发者反馈",
+                            PrimaryButtonText = "退出程序",
+                            CloseButtonText = "继续使用",
+                            DefaultButton = ContentDialogButton.Primary
+                        }, () => Application.Current.Shutdown(0));
+                    }
 
                     //构建检测
                     if (Globals.Arguments.isCIBuild)//CI

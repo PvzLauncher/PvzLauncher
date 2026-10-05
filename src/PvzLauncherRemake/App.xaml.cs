@@ -1,4 +1,5 @@
 ﻿using ModernWpf;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
@@ -52,22 +53,6 @@ namespace PvzLauncherRemake
                     outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
                 )
                 .CreateLogger();
-
-            //基本信息输出
-            var sb = new StringBuilder();
-            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
-            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
-            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
-            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
-            sb.AppendLine($"");
-            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
-            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
-            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
-            sb.AppendLine($"");
-            sb.AppendLine($"isUrl? {Globals.Arguments.isUrl}");
-            sb.AppendLine($"isUpdate? {Globals.Arguments.isUpdate}");
-            sb.Append(new string('=', 30));
-            logger.Debug(sb.ToString());
             #endregion
 
             #region 参数处理
@@ -105,6 +90,35 @@ namespace PvzLauncherRemake
                     }
                 }
             }
+
+            //Wine环境检测
+            if (WinAPI.IsWine())
+            {
+                Globals.Arguments.isWine = true;
+                var result = WinAPI.GetWineVersion();
+                if (!string.IsNullOrEmpty(result))
+                    Globals.Arguments.WineVersion = result;
+            }
+            #endregion
+
+            #region 输出基本信息
+            //基本信息输出
+            var sb = new StringBuilder();
+            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
+            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
+            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
+            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
+            sb.AppendLine($"");
+            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
+            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
+            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
+            sb.AppendLine($"");
+            sb.AppendLine($"isUrl? {Globals.Arguments.isUrl}");
+            sb.AppendLine($"isUpdate? {Globals.Arguments.isUpdate}");
+            sb.AppendLine($"");
+            sb.AppendLine($"isWine? {Globals.Arguments.isWine}");
+            sb.Append(new string('=', 30));
+            logger.Debug(sb.ToString());
             #endregion
 
             #region 文件夹初始化                
