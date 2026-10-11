@@ -42,7 +42,7 @@ namespace PvzLauncherRemake
             var logFileName = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.latest.log");
             if (File.Exists(logFileName))
                 File.Delete(logFileName);
-            Log.Logger = new LoggerConfiguration()
+            var logConfig = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
@@ -52,7 +52,14 @@ namespace PvzLauncherRemake
                     path: logFileName,
                     outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
                 )
+#if DEBUG || CI
+                .MinimumLevel.Debug()
+#else
+                .MinimumLevel.Information()
+#endif
                 .CreateLogger();
+
+            Log.Logger = logConfig;
             #endregion
 
             #region 参数处理
@@ -118,7 +125,7 @@ namespace PvzLauncherRemake
             sb.AppendLine($"");
             sb.AppendLine($"isWine? {Globals.Arguments.isWine}");
             sb.Append(new string('=', 30));
-            logger.Debug(sb.ToString());
+            logger.Information(sb.ToString());
             #endregion
 
             #region 文件夹初始化                
