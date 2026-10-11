@@ -10,7 +10,7 @@ namespace PvzLauncherRemake
     //全局类
     public static class Globals
     {
-        public static readonly string Version = $"1.6.1";//版本
+        public static readonly string Version = $"1.6.2";//版本
         public static readonly bool IsStable = true;//是否稳定版
         public static JsonConfig.Root Config = null!;//配置
 
