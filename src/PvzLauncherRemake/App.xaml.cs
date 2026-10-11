@@ -1,10 +1,13 @@
 ﻿using ModernWpf;
-using PvzLauncherRemake.Classes;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
-using PvzLauncherRemake.Utils.Game;
+using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
+using Serilog;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -16,63 +19,129 @@ namespace PvzLauncherRemake
     /// </summary>
     public partial class App : Application
     {
-        #region init
-        private async void Initialize()
+        private static readonly ILogger logger = Log.ForContext<App>();
+
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //绑定事件
+            #region 事件绑定
             Application.Current.DispatcherUnhandledException += DispatcherUnhandledExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
+            #endregion
 
-            //特殊日期
-            var now = DateTimeOffset.Now;
-            if (now.Month == 1 && now.Day == 1)//元旦
-                ThemeManager.Current.AccentColor = Color.FromRgb(255, 150, 150);
-            if (now.Month == 4 && now.Day == 1)//愚人节
-                ThemeManager.Current.AccentColor = Color.FromRgb(150, 255, 150);
-
-            //处理启动参数
-            string[] args = Environment.GetCommandLineArgs();
-            foreach (var arg in args)
+            #region 单例检测
+            var mutex = new Mutex(true, "pvzlauncher", out var createdNew);
+            if (!createdNew)
             {
-
-                switch (arg)
-                {
-                    //外壳启动
-                    case "-shell":
-                        Globals.Arguments.isShell = true; break;
-                    //更新启动，显示更新完毕对话框
-                    case "-update":
-                        Globals.Arguments.isUpdate = true; break;
-                }
+                Shutdown(101);
+                return;
             }
-            //是否CI构建
+            #endregion
+
+            #region 日志初始化
+            var logFileName = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.latest.log");
+            if (File.Exists(logFileName))
+                File.Delete(logFileName);
+            var logConfig = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.Console(
+                    outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
+                )
+                .WriteTo.File(
+                    path: logFileName,
+                    outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
+                )
+#if DEBUG || CI
+                .MinimumLevel.Debug()
+#else
+                .MinimumLevel.Information()
+#endif
+                .CreateLogger();
+
+            Log.Logger = logConfig;
+            #endregion
+
+            #region 参数处理
+
 #if CI
             Globals.Arguments.isCIBuild = true;
 #endif
-            //是否Debug构建
 #if DEBUG
             Globals.Arguments.isDebugBuild = true;
 #endif
 
-            //初始化根目录
-            if (!Directory.Exists(Globals.Directories.RootDirectory))
-                Directory.CreateDirectory(Globals.Directories.RootDirectory);
-            //初始化配置文件
+            string[] urlArgs;
+            foreach (var arg in e.Args)
+            {
+                if (arg.StartsWith($"{Globals.Strings.ProtocolName}://"))
+                {
+                    urlArgs = arg.Split('/');
+                    Globals.Arguments.isUrl = true;
+                    break;
+                }
+            }
+            //处理Url参数
+            if (Globals.Arguments.isUrl)
+            {
+                //
+            }
+            else//处理普通参数
+            {
+                foreach (var arg in e.Args)
+                {
+                    switch (arg)
+                    {
+                        case "-update":
+                            Globals.Arguments.isUpdate = true; break;
+                    }
+                }
+            }
+
+            //Wine环境检测
+            if (WinAPI.IsWine())
+            {
+                Globals.Arguments.isWine = true;
+                var result = WinAPI.GetWineVersion();
+                if (!string.IsNullOrEmpty(result))
+                    Globals.Arguments.WineVersion = result;
+            }
+            #endregion
+
+            #region 输出基本信息
+            //基本信息输出
+            var sb = new StringBuilder();
+            sb.AppendLine($"\n{new string('=', 10)}[基本系统信息]{new string('=', 10)}");
+            sb.AppendLine($"操作系统: {Environment.OSVersion.VersionString}");
+            sb.AppendLine($"系统架构: {RuntimeInformation.OSArchitecture}");
+            sb.AppendLine($"Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture}");
+            sb.AppendLine($"");
+            sb.AppendLine($"CommandLine: {string.Join(' ', Environment.GetCommandLineArgs())}");
+            sb.AppendLine($"DebugBuild? {Globals.Arguments.isDebugBuild}");
+            sb.AppendLine($"CIBuild? {Globals.Arguments.isCIBuild}");
+            sb.AppendLine($"");
+            sb.AppendLine($"isUrl? {Globals.Arguments.isUrl}");
+            sb.AppendLine($"isUpdate? {Globals.Arguments.isUpdate}");
+            sb.AppendLine($"");
+            sb.AppendLine($"isWine? {Globals.Arguments.isWine}");
+            sb.Append(new string('=', 30));
+            logger.Information(sb.ToString());
+            #endregion
+
+            #region 文件夹初始化                
+            Directory.CreateDirectory(Globals.Directories.RootDirectory);//根目录
+            Directory.CreateDirectory(Globals.Directories.GameDirectory);//游戏
+            Directory.CreateDirectory(Globals.Directories.TrainerDirectory);//修改器
+            Directory.CreateDirectory(Globals.Directories.LogDirectory);//日志
+            #endregion
+
+            #region 配置文件读取/初始化
+            //初始化
             if (!File.Exists(Globals.Paths.ConfigPath))
                 ConfigManager.CreateDefaultConfig();
-            //游戏目录
-            if (!Directory.Exists(Globals.Directories.GameDirectory))
-                Directory.CreateDirectory(Globals.Directories.GameDirectory);
-            //修改器目录
-            if (!Directory.Exists(Globals.Directories.TrainerDirectory))
-                Directory.CreateDirectory(Globals.Directories.TrainerDirectory);
-
-            //读配置
-            ConfigManager.LoadConfig();
-
-            //切换语言
-            LocalizeService.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
+            else
+                //读配置
+                ConfigManager.LoadConfig();
 
             //切换服务提供方
             switch (Globals.Config.Settings.LauncherConfig.ServiceProvider)
@@ -85,74 +154,102 @@ namespace PvzLauncherRemake
                     Globals.Urls.ServiceRootUrl = Globals.Urls.ServiceRootUrls.Github; break;
             }
 
-            //加载列表
-            await GameManager.LoadGameListAsync();
-            await GameManager.LoadTrainerListAsync();
-        }
+            //切换语言
+            LocalizeService.SwitchLanguage(Globals.Config.Settings.LauncherConfig.Language);
+            #endregion
 
-        private void InitializeLoaded()
-        {
+            #region URL协议注册
+            UrlProtocolHelper.Register(Globals.Strings.ProtocolName, Globals.Paths.ExecutablePath);
+            #endregion
+
+            #region 主窗口创建
+            var win = new WindowMain();
+            this.MainWindow = win;
+            Globals.Windows.WindowMain = win;
+            win.Show();
+            #endregion
+
+            #region 窗口主题
             //主题
             ThemeManager.AddActualThemeChangedHandler(this.MainWindow, OnThemeChanged);
             switch (Globals.Config.Settings.LauncherConfig.Theme)
             {
                 case "Light":
-                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; OnThemeChanged(null!, null!); break;
+                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; break;
                 case "Dark":
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark; break;
             }
+            OnThemeChanged(null!, null!);
+            #endregion
         }
-        #endregion
 
-        protected override void OnStartup(StartupEventArgs e)
+        private void Application_Exit(object sender, ExitEventArgs e)
         {
-            base.OnStartup(e);
+            if (e.ApplicationExitCode == 101)//单例退出，不处理日志
+                return;
 
-            Initialize();
+            if (e.ApplicationExitCode == 0)
+                logger.Information($"程序正常退出，退出码: {e.ApplicationExitCode}");
+            else
+                logger.Warning($"程序异常退出，退出码: {e.ApplicationExitCode}");
 
-            var mainWindow = new WindowMain();
-            this.MainWindow = mainWindow;
-
-            InitializeLoaded();
-
-            mainWindow.Show();
-            mainWindow.Activate();
-            mainWindow.Focus();
+            //重命名日志
+            Log.CloseAndFlush();
+            var originalPath = Path.Combine(Globals.Directories.LogDirectory, "pvzl.latest.log");
+            var newPath = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.{Globals.StartupTime.ToUnixTimeMilliseconds()}.log");
+            if (File.Exists(originalPath))
+                File.Move(originalPath, newPath);
         }
-
 
 
         private void OnThemeChanged(object sender, EventArgs e)
         {
             var currentTheme = ThemeManager.GetActualTheme(this.MainWindow);
 
-
-            char colorFill = '0';
-
             if (currentTheme == ElementTheme.Light)
-                colorFill = '0';
-            else if (currentTheme == ElementTheme.Dark)
-                colorFill = 'F';
-
-            this.Resources["BorderBrush"] = new LinearGradientBrush
             {
-                EndPoint = new Point(0, 3),
-                MappingMode = BrushMappingMode.Absolute,
-                RelativeTransform = new ScaleTransform { CenterY = 0.5, ScaleY = -1 },
-                GradientStops =
+                this.Resources["BorderBrush"] = new LinearGradientBrush
                 {
-                    new GradientStop{Color=(Color)ColorConverter.ConvertFromString($"#33{new string(colorFill,6)}"),Offset=0},
-                    new GradientStop{Color=(Color)ColorConverter.ConvertFromString($"#19{new string(colorFill,6)}"),Offset=1},
-                }
-            };
-            this.Resources["BackgroundBrush"] = new SolidColorBrush
+                    EndPoint = new Point(0, 3),
+                    MappingMode = BrushMappingMode.Absolute,
+                    RelativeTransform = new ScaleTransform { CenterY = 0.5, ScaleY = -1 },
+                    GradientStops =
+                    {
+                        new GradientStop{Color=(Color)ColorConverter.ConvertFromString($"#33000000"),Offset=0},
+                        new GradientStop{Color=(Color)ColorConverter.ConvertFromString($"#19000000"),Offset=1},
+                    }
+                };
+                this.Resources["BackgroundBrush"] = new SolidColorBrush
+                {
+                    Color = (Color)ColorConverter.ConvertFromString($"#02000000")
+                };
+                this.Resources["TUCardBackground"] = new SolidColorBrush { Color = Color.FromArgb(255, 243, 243, 243) };
+                this.Resources["TUCardBorder"] = new SolidColorBrush { Color = Color.FromArgb(255, 223, 223, 223) };
+            }
+            else
             {
-                Color = (Color)ColorConverter.ConvertFromString($"#02{new string(colorFill, 6)}")
-            };
-
+                this.Resources["BorderBrush"] = new LinearGradientBrush
+                {
+                    EndPoint = new Point(0, 3),
+                    MappingMode = BrushMappingMode.Absolute,
+                    RelativeTransform = new ScaleTransform { CenterY = 0.5, ScaleY = -1 },
+                    GradientStops =
+                    {
+                        new GradientStop{Color=(Color)ColorConverter.ConvertFromString($"#33FFFFFF"),Offset=0},
+                        new GradientStop{Color=(Color)ColorConverter.ConvertFromString($"#19FFFFFF"),Offset=1},
+                    }
+                };
+                this.Resources["BackgroundBrush"] = new SolidColorBrush
+                {
+                    Color = (Color)ColorConverter.ConvertFromString($"#02FFFFFF")
+                };
+                this.Resources["TUCardBackground"] = new SolidColorBrush { Color = Color.FromArgb(255, 32, 32, 32) };
+                this.Resources["TUCardBorder"] = new SolidColorBrush { Color = Color.FromArgb(255, 52, 52, 52) };
+            }
         }
 
-        #region 错误捕获
+
+
 
         private void DispatcherUnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e) =>
             ProcessUnhandledException(e.Exception);
@@ -165,7 +262,5 @@ namespace PvzLauncherRemake
 
         private void ProcessUnhandledException(Exception ex) =>
             ErrorReportDialog.Show(ex, true);
-
-        #endregion
     }
 }

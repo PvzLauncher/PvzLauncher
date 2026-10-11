@@ -309,4 +309,7 @@
   <data name="OverlayUIText" xml:space="preserve">
     <value>오버레이 인터페이스(Ctrl+Alt+P):</value>
   </data>
+  <data name="ThreadCount" xml:space="preserve">
+    <value>다운로드 엔진 스레드 수:</value>
+  </data>
 </root>

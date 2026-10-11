@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PvzLauncherRemake.Classes.JsonConfigs
+namespace PvzLauncherRemake.JsonModel.Network
 {
-    public class JsonDownloadIndex
+    public class JsonGameLibrary
     {
         public partial class Root
         {
@@ -35,6 +35,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("screenshot")]
             public int Screenshot { get; set; }
+
+            [JsonProperty("tips")]
+            public string Tips { get; set; }
 
             [JsonProperty("authors")]
             public Dictionary<string, string> Authors { get; set; }

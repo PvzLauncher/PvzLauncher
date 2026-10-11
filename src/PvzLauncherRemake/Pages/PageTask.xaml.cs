@@ -1,7 +1,6 @@
 ﻿using ModernWpf.Controls;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.JsonModel.Network;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
@@ -124,7 +123,7 @@ namespace PvzLauncherRemake.Pages
                     Margin = new Thickness(0, 0, 0, 10)
                 };
 
-                if (e.Info is JsonDownloadIndex.TrainerInfo)
+                if (e.Info is JsonGameLibrary.TrainerInfo)
                     button.Visibility = Visibility.Hidden;
 
                 stackPanel_Completed.Children.Add(grid);

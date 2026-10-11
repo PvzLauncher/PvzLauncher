@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Serilog;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace PvzLauncherRemake.Utils
@@ -15,6 +16,9 @@ namespace PvzLauncherRemake.Utils
 
     public static class WinAPI
     {
+        private static readonly ILogger logger = Log.ForContext(typeof(WinAPI));
+
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool SetWindowText(IntPtr hWnd, string lpString);
 
@@ -53,6 +57,12 @@ namespace PvzLauncherRemake.Utils
 
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+        // 用于检测是否运行在Wine环境下
+
+        [DllImport("ntdll.dll")]
+        private static extern IntPtr wine_get_version();
+
 
         /// <summary>
         /// 设置窗口标题
@@ -103,5 +113,40 @@ namespace PvzLauncherRemake.Utils
         /// <param name="pos">目标坐标</param>
         /// <returns>是否成功</returns>
         public static bool SetCursorPos(Point pos) => SetCursorPos(pos.X, pos.Y);
+
+        /// <summary>
+        /// 是否运行在Wine环境下
+        /// </summary>
+        public static bool IsWine()
+        {
+            try
+            {
+                return wine_get_version() != IntPtr.Zero;
+            }
+            catch (Exception ex)
+            {
+                logger.Debug($"尝试判断Wine环境时报错:\n {ex}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 尝试获取Wine的版本
+        /// </summary>
+        /// <returns>理应为版本号字符串，若非wine环境则为null</returns>
+        public static string? GetWineVersion()
+        {
+            try
+            {
+                var ptr = wine_get_version();
+                return ptr == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(ptr);
+            }
+            catch (Exception ex)
+            {
+                logger.Debug($"尝试获取Wine版本时报错: \n{ex}");
+                return null;
+            }
+        }
+
     }
 }

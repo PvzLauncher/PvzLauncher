@@ -1,6 +1,5 @@
 ﻿using ModernWpf.Controls;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonModel.Local;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -8,7 +7,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Effects;
 using static PvzLauncherRemake.Utils.UI.LocalizeService;
 
 namespace PvzLauncherRemake.Pages
@@ -18,28 +16,11 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageManageSet : ModernWpf.Controls.Page
     {
-        private JsonGameInfo.Root GameInfo = null!;
-        public void StartLoad(bool isStart = true)
-        {
-            if (isStart)
-            {
-                grid_Loading.Visibility = Visibility.Visible;
-                stackPanel_main.Effect = new BlurEffect { Radius = 10 };
-                stackPanel_main.IsEnabled = false;
-            }
-            else
-            {
-                grid_Loading.Visibility = Visibility.Hidden;
-                stackPanel_main.Effect = null;
-                stackPanel_main.IsEnabled = true;
-            }
-        }
-        public void EndLoad() => StartLoad(false);
-
+        private JsonGameProfile.Root GameInfo = null!;
 
         private void SaveConfig() => JsonHelper.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
-        public PageManageSet(JsonGameInfo.Root gameInfo)
+        public PageManageSet(JsonGameProfile.Root gameInfo)
         {
             InitializeComponent();
             Loaded += ((s, e) =>
@@ -168,7 +149,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         if (checkBox.IsChecked == true)
                         {
-                            StartLoad();
+                            Globals.Windows.WindowMain.SetLoadState(true, "删除游戏中...");
 
                             await Task.Run(() => Directory.Delete(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name), true));
 
@@ -194,7 +175,7 @@ namespace PvzLauncherRemake.Pages
 
                             this.NavigationService.GoBack();
 
-                            EndLoad();
+                            Globals.Windows.WindowMain.SetLoadState(false);
                         }
                     }));
                 }));

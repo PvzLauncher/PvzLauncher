@@ -1,19 +1,18 @@
 ﻿using MdXaml;
+using ModernWpf;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonModel.Local;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
-using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Navigation;
 using Wpf.Ui;
 
@@ -33,6 +32,10 @@ namespace PvzLauncherRemake.Windows
         {
             try
             {
+                //加载列表
+                await GameManager.LoadGameListAsync();
+                await GameManager.LoadTrainerListAsync();
+
                 //应用配置
                 this.Title = Globals.Config.Settings.LauncherConfig.WindowTitle;
                 this.Width = Globals.Config.WindowSize.Width;
@@ -45,14 +48,8 @@ namespace PvzLauncherRemake.Windows
                         navView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top; break;
                 }
 
-                //注册事件
-
-                this.SizeChanged += ((sender, e) =>
-                {
-
-                    Globals.Config.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
-                    ConfigManager.SaveConfig();
-                });
+                //初始化教程Host
+                TutorialManager.Initialize(tuhost);
 
                 //预加载Page
                 void AddType(Type t)
@@ -82,6 +79,12 @@ namespace PvzLauncherRemake.Windows
                 _snackbarService = new Wpf.Ui.SnackbarService();
                 _snackbarService.SetSnackbarPresenter(snackbarPersenter);
 
+                //特殊日期
+                var now = DateTimeOffset.Now;
+                if (now.Month == 1 && now.Day == 1)//元旦
+                    ThemeManager.Current.AccentColor = Color.FromRgb(255, 150, 150);
+                if (now.Month == 4 && now.Day == 1)//愚人节
+                    ThemeManager.Current.AccentColor = Color.FromRgb(150, 255, 150);
 
             }
             catch (Exception ex)
@@ -95,176 +98,94 @@ namespace PvzLauncherRemake.Windows
         {
             InitializeComponent();
             Initialize();
-            Loaded += ((s, e) =>
+            Loaded += (async (s, e) =>
             {
-                Dispatcher.BeginInvoke((async () =>
+                try
                 {
-                    try
+                    //参数
+                    if (Globals.Arguments.isUpdate)//更新启动
                     {
-
-                        //参数检测
-                        /*if (!Globals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
+                        await DialogService.ShowDialogAsync(new ContentDialog
                         {
-                            await DialogService.ShowDialogAsync(new ContentDialog
-                            {
-                                Title = "警告",
-                                Content = "检测到程序非外壳启动, 此启动方式可能会导致某些意外的事情发生",
-                                PrimaryButtonText = "改用外壳启动",
-                                CloseButtonText = "忽略",
-                                DefaultButton = ContentDialogButton.Primary
-                            }, (() =>
-                            {
-                                //Primary=>改用外壳启动
-                                Process.Start(new ProcessStartInfo
-                                {
-                                    FileName = System.IO.Path.Combine(Globals.Directories.RootDirectory, "PvzLauncher.exe"),
-                                    UseShellExecute = true
-                                });
-                                Environment.Exit(0);
-                            }));
-                        }*/
-                        if (Globals.Arguments.isUpdate)//更新启动
-                        {
-                            await DialogService.ShowDialogAsync(new ContentDialog
-                            {
-                                Title = "更新完毕",
-                                Content = $"您已更新到最新版 {Globals.Version} , 尽情享受吧！",
-                                PrimaryButtonText = "确定",
-                                DefaultButton = ContentDialogButton.Primary
-                            });
-                        }
-
-
-                        //构建检测
-                        if (Globals.Arguments.isCIBuild)//CI
-                        {
-                            Utils.UI.SnackbarService.Show(new SnackbarContent
-                            {
-                                Content = $"您使用的是基于 {Globals.Version} 构建的CI版本\nCI构建是每个提交自动生成的，稳定性无法得到保证，因此仅用于测试使用\n\n如果使用CI版本出现了BUG请不要反馈给开发者!",
-                                Title = "警告",
-                                Type = SnackbarType.Warn
-                            });
-                        }
-                        else if (Globals.Arguments.isDebugBuild)//DEBUG
-                        {
-                            Utils.UI.SnackbarService.Show(new SnackbarContent
-                            {
-                                Content = $"您使用的是您自行构建的版本，此版本的稳定性与安全性无法得到保证，如果你自己改动代码导致了BUG，请不要反馈给开发者!",
-                                Title = "警告",
-                                Type = SnackbarType.Warn
-                            });
-                        }
-
-                        //EULA检测
-                        if (!Globals.Config.Eula)
-                        {
-                            string eulaPath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
-                            string eulaText = $"无法加载{eulaPath}";
-                            eulaText = await File.ReadAllTextAsync(eulaPath);
-
-                            var docViewer = new FlowDocumentScrollViewer
-                            {
-                                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
-                            };
-                            docViewer.Document = new Markdown().Transform(eulaText);
-                            docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
-
-                            await DialogService.ShowDialogAsync(new ContentDialog
-                            {
-                                Title = "请阅读并同意《Plants Vs. Zombies Launcher - 最终用户许可协议》",
-                                Content = docViewer,
-                                PrimaryButtonText = "同意",
-                                CloseButtonText = "拒绝",
-                                DefaultButton = ContentDialogButton.Primary
-                            }, (() => Globals.Config.Eula = true), null, (() => Environment.Exit(0)));
-                            ConfigManager.SaveConfig();
-                        }
-
-                        //检查更新
-                        if (Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
-                        {
-                            await Updater.CheckUpdate(null!, true);
-                        }
-
-                        //公告获取
-                        if (Globals.Config.Settings.LauncherConfig.NoticeEnabled && !Globals.Config.Settings.LauncherConfig.OfflineMode)
-                        {
-                            JsonNoticeIndex.Root noticeIndex;
-                            using (var client = new HttpClient())
-                                noticeIndex = JsonHelper.ReadJson<JsonNoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
-
-                            foreach (var notice in noticeIndex.Notices)
-                            {
-                                string content = "";
-                                foreach (var contentL in notice.Contents)
-                                {
-                                    content = $"{content}{contentL}\n";
-                                }
-
-                                var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
-                                if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
-                                    await DialogService.ShowDialogAsync(new ContentDialog
-                                    {
-                                        Title = notice.Title,
-                                        Content = new StackPanel
-                                        {
-                                            Children =
-                                {
-                                    new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
-                                    chkBox
-                                }
-                                        },
-                                        PrimaryButtonText = notice.PrimaryButton,
-                                        SecondaryButtonText = notice.SecondaryButton,
-                                        CloseButtonText = "关闭",
-                                        DefaultButton = ContentDialogButton.Primary
-                                    }, (() => handleButtonActions(notice.PrimaryActions)
-                                    ), (() => handleButtonActions(notice.SecondaryActions)));
-
-                                void handleButtonActions(JsonNoticeIndex.ButtonActionInfo[] actions)
-                                {
-                                    foreach (var action in actions)
-                                    {
-                                        switch (action.Type)
-                                        {
-                                            case "to-url":
-                                                Process.Start(new ProcessStartInfo
-                                                {
-                                                    FileName = action.Url,
-                                                    UseShellExecute = true
-                                                });
-                                                break;
-                                            case "to-page":
-                                                if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
-                                                    NavigationController.Navigate(result);
-                                                else
-                                                    throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
-                                                break;
-                                            default:
-                                                throw new Exception($"未知的操作类型: \"{action.Type}\"。这一般是编写失误或当前启动器版本过低导致的");
-                                        }
-                                    }
-                                }
-
-
-                                if (chkBox.IsChecked == true)
-                                    Globals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
-
-                                ConfigManager.SaveConfig();
-                            }
-                        }
-
-
-
+                            Title = "更新完毕",
+                            Content = $"您已更新到最新版 {Globals.Version} , 尽情享受吧！",
+                            PrimaryButtonText = "确定",
+                            DefaultButton = ContentDialogButton.Primary
+                        });
                     }
-                    catch (Exception ex)
+                    //Wine检测
+                    if (Globals.Arguments.isWine)
                     {
-                        ErrorReportDialog.Show(ex);
+                        await DialogService.ShowDialogAsync(new ContentDialog
+                        {
+                            Title = "环境警告",
+                            Content = $"我们检测到 PvzLauncher 正在运行在 Wine {Globals.Arguments.WineVersion} 环境下\n\n我们不保证此软件可以完美的在Wine中运行，也不对Wine做任何适配，因此我们不建议在Wine下运行此软件\n\n在此遇到的任何错误请不要向开发者反馈",
+                            PrimaryButtonText = "退出程序",
+                            CloseButtonText = "继续使用",
+                            DefaultButton = ContentDialogButton.Primary
+                        }, () => Application.Current.Shutdown(0));
                     }
-                }), System.Windows.Threading.DispatcherPriority.Normal);
+
+                    //构建检测
+                    if (Globals.Arguments.isCIBuild)//CI
+                    {
+                        textBlock_buildWaterMark.Visibility = Visibility.Visible;
+                        textBlock_buildWaterMark.Text = "此版本由 CI 自动构建，仅供测试使用，非正式发布版。(点击此关闭水印)";
+                    }
+                    else if (Globals.Arguments.isDebugBuild)//DEBUG
+                    {
+                        textBlock_buildWaterMark.Visibility = Visibility.Visible;
+                        textBlock_buildWaterMark.Text = "此版本为 调试 版本，仅测试使用，非正式发布版。(点击此关闭水印)";
+                    }
+
+                    //EULA检测
+                    if (!Globals.Config.Eula)
+                    {
+                        string eulaPath = Path.Combine(Globals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
+                        string eulaText = $"无法加载{eulaPath}";
+                        eulaText = await File.ReadAllTextAsync(eulaPath);
+
+                        var docViewer = new FlowDocumentScrollViewer
+                        {
+                            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+                        };
+                        docViewer.Document = new Markdown().Transform(eulaText);
+                        docViewer.Document.FontFamily = new FontFamily("Microsoft YaHei UI");
+
+                        await DialogService.ShowDialogAsync(new ContentDialog
+                        {
+                            Title = "请阅读并同意《Plants Vs. Zombies Launcher - 最终用户许可协议》",
+                            Content = docViewer,
+                            PrimaryButtonText = "同意",
+                            CloseButtonText = "拒绝",
+                            DefaultButton = ContentDialogButton.Primary
+                        }, (() => Globals.Config.Eula = true), null, (() => Environment.Exit(0)));
+                        ConfigManager.SaveConfig();
+                    }
+
+                    //检查更新
+                    if (Globals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
+                    {
+                        await Updater.CheckUpdate(null!, true);
+                    }
+
+                    //公告获取
+                    NoticeService.FetchNotices();
+                }
+                catch (Exception ex)
+                {
+                    ErrorReportDialog.Show(ex);
+                }
             });
 
+            this.SizeChanged += ((sender, e) =>
+            {
+                Globals.Config.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
+                ConfigManager.SaveConfig();
+            });
+
+            textBlock_buildWaterMark.MouseUp += (s, e) => textBlock_buildWaterMark.Visibility = Visibility.Collapsed;
 
 
             bool _isClose = false;
@@ -292,12 +213,6 @@ namespace PvzLauncherRemake.Windows
                 }
             };
 
-
-
-
-
-
-
             PreviewKeyUp += (s, e) =>
             {
                 if (navView.IsBackEnabled != true || navView.IsBackButtonVisible != NavigationViewBackButtonVisible.Visible)
@@ -306,6 +221,42 @@ namespace PvzLauncherRemake.Windows
                     return;
 
                 navView_BackRequested(navView, null!);
+            };
+
+            //拖放支持
+            DragOver += (s, e) =>
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                    //仅允许文件夹拖放
+                    if (paths.Length == 1 && Directory.Exists(paths[0]))
+                    {
+                        e.Effects = DragDropEffects.Copy;
+                        e.Handled = true;
+                        return;
+                    }
+                }
+
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            };
+            Drop += async (s, e) =>
+            {
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                    return;
+
+                string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (paths.Length != 1 || !Directory.Exists(paths[0]))
+                    return;
+
+                string folderPath = paths[0];
+
+                SetLoadState(true, "导入中...");
+                await GameManager.ImportGameOrTrainer((s) => SetLoadText($"正在导入: {s}"), folderPath);
+                SetLoadState(false);
             };
         }
 
@@ -352,5 +303,20 @@ namespace PvzLauncherRemake.Windows
 
         private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) =>
             frame.GoBack();
+
+
+        public void SetLoadState(bool state, string tipText = "加载中...")
+        {
+            navView.IsEnabled = !state;
+            grid_loadScreen.Visibility = state ? Visibility.Visible : Visibility.Collapsed;
+            textBlock_loadScreen.Text = tipText;
+
+            navView.Effect = state ? new BlurEffect { Radius = 10 } : null;
+        }
+
+        public void SetLoadText(string tipText) => textBlock_loadScreen.Text = tipText;
+
+
+
     }
 }

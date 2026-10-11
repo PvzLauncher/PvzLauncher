@@ -1,7 +1,6 @@
 ﻿using ModernWpf.Controls;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.JsonModel.Local;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -11,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -20,9 +18,6 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageManage : ModernWpf.Controls.Page
     {
-        public void StartLoad() { grid_Loading.Visibility = Visibility.Visible; grid_Main.IsEnabled = false; grid_Main.Effect = new BlurEffect { Radius = 10 }; }
-        public void EndLoad() { grid_Loading.Visibility = Visibility.Hidden; grid_Main.IsEnabled = true; grid_Main.Effect = null; }
-
         private void SetNoneTipVisb()
         {
             grid_NoneGame.Visibility = Visibility.Hidden;
@@ -143,8 +138,8 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
+                    Globals.Windows.WindowMain.SetLoadState(true, "加载游戏列表中...");
 
-                    StartLoad();
 
                     //加载列表
                     GameManager.GameListLoaded += () => { LoadGameList(); SetNoneTipVisb(); };
@@ -160,7 +155,7 @@ namespace PvzLauncherRemake.Pages
 
 
 
-                    EndLoad();
+                    Globals.Windows.WindowMain.SetLoadState(false);
 
                 }
                 catch (Exception ex)
@@ -271,7 +266,7 @@ namespace PvzLauncherRemake.Pages
                     return;
                 }
 
-                this.NavigationService.Navigate(new PageManageSet((JsonGameInfo.Root)((UserCard)sender).Tag));
+                this.NavigationService.Navigate(new PageManageSet((JsonGameProfile.Root)((UserCard)sender).Tag));
             }
             catch (Exception ex)
             {
@@ -284,7 +279,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                var trainerConfig = (JsonTrainerInfo.Root)(((UserCard)sender).Tag);
+                var trainerConfig = (JsonTrainerProfile.Root)(((UserCard)sender).Tag);
 
 
                 //控件
@@ -505,14 +500,14 @@ namespace PvzLauncherRemake.Pages
         //幸运的是，我现在已经开始重构他了！！(2026-1-3)
         private async void button_ImportGame_Click(object sender, RoutedEventArgs e)
         {
-            StartLoad();
+            Globals.Windows.WindowMain.SetLoadState(true, "导入游戏中...");
 
-            await GameManager.ImportGameOrTrainer(((progress) => textBlock_Loading.Text = $"正在复制: {progress}"));
+            await GameManager.ImportGameOrTrainer(((progress) => Globals.Windows.WindowMain.SetLoadText($"正在复制: {progress}")));
 
             SetNoneTipVisb();
             NavigationService.Refresh();
 
-            EndLoad();
+            Globals.Windows.WindowMain.SetLoadState(false);
         }
 
 
@@ -555,12 +550,12 @@ namespace PvzLauncherRemake.Pages
                             Tag = item.Tag,
                             Margin = item.Margin
                         };
-                        if (card.Tag is JsonGameInfo.Root)
+                        if (card.Tag is JsonGameProfile.Root)
                         {
                             card.MouseDoubleClick += SelectGame;
                             card.MouseRightButtonUp += SetGame;
                         }
-                        else if (card.Tag is JsonTrainerInfo.Root)
+                        else if (card.Tag is JsonTrainerProfile.Root)
                         {
                             card.MouseDoubleClick += SelectTrainer;
                             card.MouseRightButtonUp += SetTrainer;

@@ -2,12 +2,12 @@
 using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonModel.Local;
 using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
+using Serilog;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -22,6 +22,8 @@ namespace PvzLauncherRemake.Windows
     /// </summary>
     public partial class WindowOverlay : Window
     {
+        private ILogger logger = Log.ForContext<WindowOverlay>();
+
         private DispatcherTimer? _timer;
         private bool IsOverlayVisible = true;
         private WindowInteropHelper windowInteropHelper;
@@ -29,9 +31,10 @@ namespace PvzLauncherRemake.Windows
         private LowLevelKeyboardHook _hook = new LowLevelKeyboardHook();
         private InputSimulator _inputSim = new InputSimulator();
 
-        private JsonGameInfo.Root GameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+        private JsonGameProfile.Root GameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
         private WindowOverlayInfo WinOverlayInfo = new WindowOverlayInfo();
+        private bool isWinOverlayInfoClosed = false;
 
         private int winLeft = 0;
         private int winTop = 0;
@@ -160,12 +163,12 @@ namespace PvzLauncherRemake.Windows
             //     info
             if (activeWindow == GameManager.GameProcess.MainWindowHandle || activeWindow == windowInteropHelper.Handle)
             {
-                if (!WinOverlayInfo.IsVisible)
+                if (!WinOverlayInfo.IsVisible && !isWinOverlayInfoClosed)
                     WinOverlayInfo.Show();
             }
             else
             {
-                if (WinOverlayInfo.IsVisible)
+                if (WinOverlayInfo.IsVisible && !isWinOverlayInfoClosed)
                     WinOverlayInfo.Hide();
             }
 
@@ -186,11 +189,21 @@ namespace PvzLauncherRemake.Windows
 
             windowInteropHelper = new WindowInteropHelper(this);
 
-            HotkeyManager.Current.AddOrReplace("ToggleOverlay", System.Windows.Input.Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
+            Globals.Windows.WindowOverlay = this;
+
+            try
+            {
+                HotkeyManager.Current.AddOrReplace("ToggleOverlay", System.Windows.Input.Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
+            }
+            catch (Exception ex)
+            {
+                logger.Warning($"热键 Ctrl+Alt+P 注册失败，热键注册跳过；覆盖界面功能将不可用   |   DETAILS: \n{ex}");
+            }
 
             //加载信息层
             WinOverlayInfo.Show();
             this.Owner = WinOverlayInfo;//保证Info窗口在此之下
+            WinOverlayInfo.Closed += (s, e) => isWinOverlayInfoClosed = true;
 
 
 
@@ -236,6 +249,8 @@ namespace PvzLauncherRemake.Windows
             _timer = null;
             HotkeyManager.Current.Remove("ToggleOverlay");
             WinOverlayInfo.Close();
+
+            Globals.Windows.WindowOverlay = null;
 
             _hook.Stop();
             _hook.Dispose();

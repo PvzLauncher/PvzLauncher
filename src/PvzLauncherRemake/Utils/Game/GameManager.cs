@@ -1,8 +1,8 @@
 ﻿using Microsoft.Win32;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.JsonModel.Network;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
@@ -35,7 +35,7 @@ namespace PvzLauncherRemake.Utils.Game
         {
 
 
-            var validGames = new List<JsonGameInfo.Root>();
+            var validGames = new List<JsonGameProfile.Root>();
 
             foreach (string dir in Directory.EnumerateDirectories(Globals.Directories.GameDirectory))
             {
@@ -44,7 +44,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                 try
                 {
-                    var config = JsonHelper.ReadJson<JsonGameInfo.Root>(configPath);
+                    var config = JsonHelper.ReadJson<JsonGameProfile.Root>(configPath);
                     if (config != null)
                     {
                         if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
@@ -79,7 +79,7 @@ namespace PvzLauncherRemake.Utils.Game
         {
 
 
-            var validTrainers = new List<JsonTrainerInfo.Root>();
+            var validTrainers = new List<JsonTrainerProfile.Root>();
 
             foreach (string dir in Directory.EnumerateDirectories(Globals.Directories.TrainerDirectory))
             {
@@ -88,7 +88,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                 try
                 {
-                    var config = JsonHelper.ReadJson<JsonTrainerInfo.Root>(configPath);
+                    var config = JsonHelper.ReadJson<JsonTrainerProfile.Root>(configPath);
                     if (config != null)
                     {
                         validTrainers.Add(config);
@@ -116,20 +116,14 @@ namespace PvzLauncherRemake.Utils.Game
         /// 导入游戏或修改器
         /// </summary>
         /// <returns></returns>
-        public static async Task ImportGameOrTrainer(Action<string>? progressCallback = null)
+        public static async Task ImportGameOrTrainer(Action<string>? progressCallback = null, string? overridePath = null)
         {
             try
             {
                 bool? isTrainer = null;
                 bool isVirtual = false;
 
-                //选择位置
-                var openFolderDialog = new OpenFolderDialog
-                {
-                    Multiselect = false,
-                    Title = "请选择游戏/修改器所在的文件夹"
-                };
-
+                string originalPath = null!;
 
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
@@ -153,21 +147,32 @@ namespace PvzLauncherRemake.Utils.Game
                 if (isTrainer == null)
                     return;
 
-                if (openFolderDialog.ShowDialog() != true)
-                    return;
-
+                //选择位置
+                if (string.IsNullOrEmpty(overridePath))
+                {
+                    var openFolderDialog = new OpenFolderDialog
+                    {
+                        Multiselect = false,
+                        Title = "请选择游戏/修改器所在的文件夹"
+                    };
+                    if (openFolderDialog.ShowDialog() != true)
+                        return;
+                    originalPath = openFolderDialog.FolderName;
+                }
+                else
+                    originalPath = overridePath;
 
                 //特殊文件夹判断
                 if (!isVirtual)
-                    if (openFolderDialog.FolderName == Globals.Directories.ExecuteDirectory ||
-                        openFolderDialog.FolderName == Globals.Directories.RootDirectory ||
-                        openFolderDialog.FolderName == Globals.Directories.GameDirectory ||
-                        openFolderDialog.FolderName == Globals.Directories.TrainerDirectory)
+                    if (originalPath == Globals.Directories.ExecuteDirectory ||
+                        originalPath == Globals.Directories.RootDirectory ||
+                        originalPath == Globals.Directories.GameDirectory ||
+                        originalPath == Globals.Directories.TrainerDirectory)
                     {
                         SnackbarService.Show(new SnackbarContent
                         {
                             Title = "导入失败",
-                            Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
+                            Content = $"\"{originalPath}\" 是一个非法路径，请重新导入！",
                             Type = SnackbarType.Error
                         });
                         return;
@@ -175,14 +180,14 @@ namespace PvzLauncherRemake.Utils.Game
 
 
                 //解决重名
-                string? savePath = await ResolveSameName(Path.GetFileName(openFolderDialog.FolderName), (isTrainer == true ? Globals.Directories.TrainerDirectory : Globals.Directories.GameDirectory));
+                string? savePath = await ResolveSameName(Path.GetFileName(originalPath), (isTrainer == true ? Globals.Directories.TrainerDirectory : Globals.Directories.GameDirectory));
 
                 if (string.IsNullOrEmpty(savePath))
                     return;
 
                 //解决多exe
                 string? exeFile = null;
-                string[] files = Directory.GetFiles(openFolderDialog.FolderName);
+                string[] files = Directory.GetFiles(originalPath);
                 var listBox = new ListBox();
 
                 foreach (var file in files)
@@ -246,12 +251,12 @@ namespace PvzLauncherRemake.Utils.Game
                     if (!isImportConfirm)
                         return;
 
-                    await DirectoryHelper.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+                    await DirectoryHelper.CopyDirectoryAsync(originalPath, savePath, ((p) => progressCallback?.Invoke(p)));
 
 
                     if (isTrainer == true)
                     {
-                        var config = new JsonTrainerInfo.Root
+                        var config = new JsonTrainerProfile.Root
                         {
                             ExecuteName = exeFile,
                             Icon = "origin",
@@ -262,16 +267,16 @@ namespace PvzLauncherRemake.Utils.Game
                     }
                     else
                     {
-                        var config = new JsonGameInfo.Root
+                        var config = new JsonGameProfile.Root
                         {
-                            GameInfo = new JsonGameInfo.GameInfo
+                            GameInfo = new JsonGameProfile.GameInfo
                             {
                                 ExecuteName = exeFile,
                                 Icon = "origin",
                                 Name = Path.GetFileName(savePath),
                                 Version = "1.0.0.0",
                             },
-                            Record = new JsonGameInfo.Record
+                            Record = new JsonGameProfile.Record
                             {
                                 FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
                                 PlayCount = 0,
@@ -296,17 +301,17 @@ namespace PvzLauncherRemake.Utils.Game
                     if (!isImportConfirm)
                         return;
 
-                    var virtualConfig = new JsonGameInfo.Root
+                    var virtualConfig = new JsonGameProfile.Root
                     {
-                        GameInfo = new JsonGameInfo.GameInfo
+                        GameInfo = new JsonGameProfile.GameInfo
                         {
                             ExecuteName = exeFile,
                             Icon = "origin",
                             Name = Path.GetFileName(savePath),
                             Version = "1.0.0.0",
-                            GamePath = openFolderDialog.FolderName
+                            GamePath = originalPath
                         },
-                        Record = new JsonGameInfo.Record
+                        Record = new JsonGameProfile.Record
                         {
                             FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
                             PlayCount = 0,
@@ -343,7 +348,7 @@ namespace PvzLauncherRemake.Utils.Game
 
         #region 下载
 
-        public static async Task StartDownloadAsync(JsonDownloadIndex.GameInfo info, string savePath, bool isTrainer)
+        public static async Task StartDownloadAsync(JsonGameLibrary.GameInfo info, string savePath, bool isTrainer)
         {
             string tempPath = Path.Combine(Globals.Directories.TempDirectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{Guid.NewGuid():N}");
 
@@ -357,7 +362,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                 //解析下载地址
                 using var client = new HttpClient();
-                var analysisResult = JsonConvert.DeserializeObject<JsonDirectAnalysisInfo.Root>(await client.GetStringAsync($"{Globals.Urls.DirectAnalysisBaseUrl}?url={info.ShareUrl}{(string.IsNullOrEmpty(info.SharePassword) ? null : $"&pwd={info.SharePassword}")}"));
+                var analysisResult = JsonConvert.DeserializeObject<JsonDirectAnalysis.Root>(await client.GetStringAsync($"{Globals.Urls.DirectAnalysisBaseUrl}?url={info.ShareUrl}{(string.IsNullOrEmpty(info.SharePassword) ? null : $"&pwd={info.SharePassword}")}"));
 
                 if (analysisResult?.Code != 200 || analysisResult.Message != "success")
                     throw new Exception($"直链解析失败: {analysisResult?.Message}");
@@ -379,16 +384,16 @@ namespace PvzLauncherRemake.Utils.Game
                     string configName = Path.GetFileName(savePath);
                     if (!isTrainer)
                     {
-                        var cfg = new JsonGameInfo.Root
+                        var cfg = new JsonGameProfile.Root
                         {
-                            GameInfo = new JsonGameInfo.GameInfo
+                            GameInfo = new JsonGameProfile.GameInfo
                             {
                                 ExecuteName = info.ExecuteName,
                                 Version = info.Version,
                                 Name = configName,
                                 Icon = info.Icon
                             },
-                            Record = new JsonGameInfo.Record
+                            Record = new JsonGameProfile.Record
                             {
                                 FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
                                 PlayCount = 0,
@@ -400,7 +405,7 @@ namespace PvzLauncherRemake.Utils.Game
                     }
                     else
                     {
-                        var cfg = new JsonTrainerInfo.Root
+                        var cfg = new JsonTrainerProfile.Root
                         {
                             ExecuteName = info.ExecuteName,
                             Version = info.Version,
@@ -433,7 +438,7 @@ namespace PvzLauncherRemake.Utils.Game
         /// 启动游戏
         /// </summary>
         /// <param name="gameInfo">要启动的游戏信息</param>
-        public static async void LaunchGame(JsonGameInfo.Root gameInfo, Action? exitCallback = null)
+        public static async void LaunchGame(JsonGameProfile.Root gameInfo, Action? exitCallback = null)
         {
             //游戏exe路径
             string gameExePath;
@@ -508,7 +513,7 @@ namespace PvzLauncherRemake.Utils.Game
 
             IsGameRuning = false;
 
-            var gameInfo = JsonHelper.ReadJson<JsonGameInfo.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+            var gameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
 
             switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
@@ -571,7 +576,7 @@ namespace PvzLauncherRemake.Utils.Game
         /// 切换当前存档为当前游戏的独立存档
         /// </summary>
         /// <returns></returns>
-        public static async Task SwitchGameSave(JsonGameInfo.Root gamInfo)
+        public static async Task SwitchGameSave(JsonGameProfile.Root gamInfo)
         {
             if (Directory.Exists(Globals.Directories.SaveDirectory))
                 Directory.Delete(Globals.Directories.SaveDirectory, true);
@@ -583,7 +588,7 @@ namespace PvzLauncherRemake.Utils.Game
         /// </summary>
         /// <param name="gamInfo"></param>
         /// <returns></returns>
-        public static async Task SaveGameSave(JsonGameInfo.Root gamInfo)
+        public static async Task SaveGameSave(JsonGameProfile.Root gamInfo)
         {
             if (Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save")))
                 Directory.Delete(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);

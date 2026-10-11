@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PvzLauncherRemake.Classes.JsonConfigs
+namespace PvzLauncherRemake.JsonModel.Network
 {
-    public class JsonDirectAnalysisInfo
+    public class JsonDirectAnalysis
     {
         public class Root
         {

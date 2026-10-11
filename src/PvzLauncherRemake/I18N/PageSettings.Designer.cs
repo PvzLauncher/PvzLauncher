@@ -592,6 +592,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 下载引擎线程数: 的本地化字符串。
+        /// </summary>
+        public static string ThreadCount {
+            get {
+                return ResourceManager.GetString("ThreadCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 3D加速: 的本地化字符串。
         /// </summary>
         public static string ThreeDMode {

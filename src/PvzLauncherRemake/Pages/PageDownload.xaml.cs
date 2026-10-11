@@ -1,6 +1,5 @@
-﻿using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Controls;
+﻿using PvzLauncherRemake.Controls;
+using PvzLauncherRemake.JsonModel.Network;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -9,7 +8,6 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Effects;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -18,7 +16,7 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownload : ModernWpf.Controls.Page
     {
-        private void AddGameCard(StackPanel stackPanel, JsonDownloadIndex.GameInfo[] gameInfos)
+        private void AddGameCard(StackPanel stackPanel, JsonGameLibrary.GameInfo[] gameInfos)
         {
             if (gameInfos == null || gameInfos.Length <= 0)
                 return;
@@ -43,7 +41,7 @@ namespace PvzLauncherRemake.Pages
                 stackPanel.Children.Add(card);
             }
         }
-        private void AddTrainerCard(StackPanel stackPanel, JsonDownloadIndex.TrainerInfo[] trainerInfos)
+        private void AddTrainerCard(StackPanel stackPanel, JsonGameLibrary.TrainerInfo[] trainerInfos)
         {
             if (trainerInfos == null || trainerInfos.Length <= 0)
                 return;
@@ -69,20 +67,6 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        public void StartLoad()
-        {
-            grid.IsEnabled = false;
-            grid.Effect = new BlurEffect { Radius = 10 };
-            grid_Loading.Visibility = Visibility.Visible;
-        }
-        public void EndLoad()
-        {
-            grid.IsEnabled = true;
-            grid.Effect = null;
-            grid_Loading.Visibility = Visibility.Hidden;
-        }
-
-
         public PageDownload()
         {
             InitializeComponent();
@@ -90,7 +74,7 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
-                    StartLoad();
+                    Globals.Windows.WindowMain.SetLoadState(true, "获取下载列表中...");
 
                     if (Globals.Caches.DownloadIndex == null)
                     {
@@ -98,7 +82,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
 
-                            Globals.Caches.DownloadIndex = JsonHelper.ReadJson<JsonDownloadIndex.Root>(indexString);
+                            Globals.Caches.DownloadIndex = JsonHelper.ReadJson<JsonGameLibrary.Root>(indexString);
                         }
                     }
 
@@ -118,7 +102,7 @@ namespace PvzLauncherRemake.Pages
                     AddTrainerCard(stackPanel_trainer, Globals.Caches.DownloadIndex.Trainer);
                     AddGameCard(stackPanel_other, Globals.Caches.DownloadIndex.Other);
 
-                    EndLoad();
+                    Globals.Windows.WindowMain.SetLoadState(false);
 
 
                 }
@@ -143,7 +127,7 @@ namespace PvzLauncherRemake.Pages
             if (sender is not UserCard userCard) return;
 
             bool isTrainer = userCard.AttachedProperty.ToString() == "Trainer";
-            var info = isTrainer ? (JsonDownloadIndex.TrainerInfo)userCard.Tag! : (JsonDownloadIndex.GameInfo)userCard.Tag!;
+            var info = isTrainer ? (JsonGameLibrary.TrainerInfo)userCard.Tag! : (JsonGameLibrary.GameInfo)userCard.Tag!;
             string baseDirectory =
                 isTrainer ? Globals.Directories.TrainerDirectory :
                 Globals.Directories.GameDirectory;

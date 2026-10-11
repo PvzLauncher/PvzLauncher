@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.FileSystem;
-using PvzLauncherRemake.Utils.Game;
-using PvzLauncherRemake.Utils.Network;
+using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.UI;
-using System.IO;
-using System.Net.Http;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -65,7 +60,7 @@ namespace PvzLauncherRemake.Pages
 
                     #region 服务器文件下载
 
-                    JsonFileIndex.Root index;
+                    /*JsonFileIndex.Root index;
                     using (var client = new HttpClient())
                         index = JsonHelper.ReadJson<JsonFileIndex.Root>(await client.GetStringAsync(Globals.Urls.FileIndexUrl));
                     listBox_fileDownload_List.Items.Clear();
@@ -113,7 +108,7 @@ namespace PvzLauncherRemake.Pages
                             Content = "",
                             Type = SnackbarType.Info
                         });
-                    });
+                    });*/
 
                     #endregion
                 }
@@ -131,6 +126,92 @@ namespace PvzLauncherRemake.Pages
                 Content = $"{rating.Value}",
                 Type = SnackbarType.Success
             });
+
+            #region 教程测试
+            int totalStep = 3;
+            int currentStep = 0;
+            button_TUstart.Click += (s, e) =>
+            {
+                currentStep = 0;
+                currentStep++;
+                TutorialManager.ShowTutorial();
+                TutorialManager.SetTutorial($"{currentStep}/{totalStep} 这是第一个教程标题", "这两个输入框原本应该作为教程的标题与内容定义，但是被弃用了", textBox_TUtitle);
+            };
+            TutorialManager.TutorialHost.NextButtonClick += (s, e) =>
+            {
+                currentStep++;
+                string tit = "";
+                string txt = "";
+                UIElement tgt = null!;
+                if (currentStep == 2)
+                {
+                    tit = "这是第二个教程标题";
+                    txt = "因为教程系统目前仍然非常简陋，完全无法正常投入使用，因为只能放在开发者菜单当测试内容";
+                    tgt = textBox_TUcontent;
+                }
+                else if (currentStep == 3)
+                {
+                    tit = "这是最后一个教程标题";
+                    txt = "你可以点击此按钮再次查看此教程";
+                    tgt = button_TUstart;
+                }
+                else if (currentStep > 3)
+                {
+                    TutorialManager.HideTutorial();
+                    return;
+                }
+
+                TutorialManager.SetTutorial($"{currentStep}/{totalStep} {tit}", txt, tgt);
+            };
+            #endregion
+
+            #region UserCard测试
+            usercard_UCTmCard.MouseUp += (s, e) =>
+            {
+                SnackbarService.Show(new SnackbarContent
+                {
+                    Title = "test",
+                    Content = "you clicked card",
+                    Type = SnackbarType.Info
+                });
+            };
+            #endregion
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SnackbarService.Show(new SnackbarContent
+            {
+                Title = "test",
+                Content = "CLICKED",
+                Type = SnackbarType.Info
+            });
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var button = new Button
+            {
+                Content = "click me !"
+            };
+            var card = new UserCard
+            {
+                Title = "new card",
+                Description = "",
+                Version = "test",
+                Size = "test",
+                SupportVersion = "test",
+                CustomControl = button
+            };
+
+            button.Click += (s, e) => SnackbarService.Show(new SnackbarContent
+            {
+                Title = "test",
+                Content = "CLICKED!",
+                Type = SnackbarType.Info
+            });
+
+            stackPanel_UCTmain.Children.Add(card);
         }
     }
 }

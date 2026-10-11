@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PvzLauncherRemake"
              xmlns:ui="http://schemas.modernwpf.com/2019"
+             Startup="Application_Startup"
+             Exit="Application_Exit"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
@@ -15,6 +17,9 @@
 
             <LinearGradientBrush x:Key="BorderBrush"/>
             <SolidColorBrush x:Key="BackgroundBrush"/>
+            
+            <SolidColorBrush x:Key="TUCardBackground"/>
+            <SolidColorBrush x:Key="TUCardBorder"/>
 
             <LinearGradientBrush x:Key="VirtualImportTextBrush" StartPoint="0,0.5" EndPoint="1,0.5">
                 <GradientStop Color="#FF3FD8" Offset="0.0" />

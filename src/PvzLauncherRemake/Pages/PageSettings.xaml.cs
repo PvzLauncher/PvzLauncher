@@ -1,8 +1,8 @@
 ﻿using Microsoft.Win32;
 using ModernWpf;
 using ModernWpf.Controls;
-using PvzLauncherRemake.Classes;
-using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
@@ -10,9 +10,9 @@ using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -23,24 +23,6 @@ namespace PvzLauncherRemake.Pages
     {
         private bool isInitialized = false;
 
-        public void SetLoad(bool isLoad)
-        {
-            tabControl.IsEnabled = !isLoad;
-
-            if (isLoad)
-            {
-                grid_Loading.Visibility = Visibility.Visible;
-                tabControl.Effect = new BlurEffect { Radius = 10 };
-            }
-            else
-            {
-                grid_Loading.Visibility = Visibility.Hidden;
-                tabControl.Effect = null;
-            }
-        }
-
-        public void StartLoad() => SetLoad(true);
-        public void EndLoad() => SetLoad(false);
         public void ShowRestartTip()
         {
             SnackbarService.Show(new SnackbarContent
@@ -54,11 +36,11 @@ namespace PvzLauncherRemake.Pages
         #region Animation
         public async Task StartAnimation()
         {
-            List<StackPanel> animationStackPanels = new List<StackPanel>();
+            List<Panel> animationStackPanels = new List<Panel>();
 
             foreach (var controls in VisualTreeTools.GetVisualChildren(this))
             {
-                if (controls is StackPanel sp && sp.Tag != null && sp.Tag.ToString() == "aniSp")
+                if (controls is Panel sp && sp.Tag != null && sp.Tag.ToString() == "aniSp")
                 {
                     animationStackPanels.Add(sp);
 
@@ -74,7 +56,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        public void StackPanelFadeIn(StackPanel sp)
+        public void StackPanelFadeIn(Panel sp)
         {
             ((TranslateTransform)sp.RenderTransform).BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation
             {
@@ -99,13 +81,7 @@ namespace PvzLauncherRemake.Pages
             {
                 try
                 {
-
-
-
-
-
                     isInitialized = false;
-
 
                     //# 启动器设置
                     //## 操作
@@ -197,6 +173,9 @@ namespace PvzLauncherRemake.Pages
                         case "Github":
                             comboBox_Launcher_ServiceProvider.SelectedIndex = 2; break;
                     }
+                    //### 下载引擎线程数
+                    slider_Network_ThreadCount.Value = Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount;
+                    textBlock_Network_ThreadCount.Text = Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount.ToString();
                     //### 离线模式
                     checkBox_Network_OfflineMode.IsChecked = Globals.Config.Settings.LauncherConfig.OfflineMode;
                     //## 更新
@@ -255,6 +234,10 @@ namespace PvzLauncherRemake.Pages
                     //## 覆盖界面
                     //### 启用
                     checkbox_Game_Overlay_Enabled.IsChecked = Globals.Config.Settings.GameConfig.OverlayUIEnabled;
+                    if (Globals.Windows.WindowOverlay != null)
+                        checkbox_Game_Overlay_Enabled.IsEnabled = false;
+                    else
+                        checkbox_Game_Overlay_Enabled.IsEnabled = true;
 
                     //# 存档设置
                     //## 存档隔离
@@ -503,6 +486,16 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
+        private void slider_Network_ThreadCount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (isInitialized)
+            {
+                Globals.Config.Settings.LauncherConfig.DownloadEngineThreadCount = (int)slider_Network_ThreadCount.Value;
+                ConfigManager.SaveConfig();
+                textBlock_Network_ThreadCount.Text = slider_Network_ThreadCount.Value.ToString();
+            }
+        }
+
         private void Launcher_OfflineMode(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
@@ -528,7 +521,7 @@ namespace PvzLauncherRemake.Pages
 
                 await Updater.CheckUpdate((p, s) =>
                 {
-                    textBlock_Loading.Text = $"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)";
+                    Globals.Windows.WindowMain.SetLoadText($"下载更新文件中 {Math.Round(p, 2)}% ... ({Math.Round(s / 1024, 2)} MB/S)");
                 });
 
                 senderBtn.IsEnabled = true;
@@ -568,94 +561,58 @@ namespace PvzLauncherRemake.Pages
                 senderBtn.IsEnabled = false;
                 try
                 {
-                    textBlock_Loading.Text = "扫描临时文件夹...";
+                    Globals.Windows.WindowMain.SetLoadState(true, "扫描垃圾文件中...");
 
-                    string[] allTempFiles = { };//全部临时文件
-                    List<string> pvzLauncherFiles = new List<string>();//PvzLauncher的临时文件
-                    double tempFilesSize = 0;//缓存文件总大小
+                    var trashFiles = await Cleaner.Scan();
 
-
-                    await Task.Run(() =>
-                    {
-                        allTempFiles = Directory.GetFiles(Globals.Directories.TempDirectory);
-                    });
-
-                    if (!(allTempFiles.Length > 0))
+                    if (trashFiles.TotalSize <= 0)
                     {
                         SnackbarService.Show(new SnackbarContent
                         {
-                            Title = "清理完成",
-                            Content = "临时文件夹是空的，无需清除",
+                            Title = "垃圾清理",
+                            Content = "没有找到垃圾文件",
                             Type = SnackbarType.Success
                         });
+                        Globals.Windows.WindowMain.SetLoadState(false);
                         senderBtn.IsEnabled = true;
                         return;
                     }
 
-                    pvzLauncherFiles.Clear();
-                    foreach (var file in allTempFiles)
-                    {
-                        if (Path.GetFileName(file).StartsWith("PvzLauncher", StringComparison.OrdinalIgnoreCase))
-                        {
-                            pvzLauncherFiles.Add(file);
-                            tempFilesSize = tempFilesSize + new FileInfo(file).Length;
-                        }
-                    }
-
-                    if (!(pvzLauncherFiles.Count > 0))
-                    {
-                        SnackbarService.Show(new SnackbarContent
-                        {
-                            Title = "清理完成",
-                            Content = "没有需要清理的缓存文件",
-                            Type = SnackbarType.Success
-                        });
-                        senderBtn.IsEnabled = true;
-                        return;
-                    }
-
-                    bool isClear = false;
+                    bool isContinue = false;
                     await DialogService.ShowDialogAsync(new ContentDialog
                     {
-                        Title = "发现缓存文件",
-                        Content = $"发现了 {pvzLauncherFiles.Count} 个来自PvzLauncher的缓存文件, 共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB, 是否清理?",
+                        Title = "垃圾清理",
+                        Content = $"已找到 {trashFiles.TempFiles.Length} 个临时文件，{trashFiles.OldLogs.Length} 个过时日志。总大小 {Math.Round(trashFiles.TotalSize / 1024.0 / 1024.0, 2)} MB",
                         PrimaryButtonText = "清理",
                         CloseButtonText = "取消",
                         DefaultButton = ContentDialogButton.Primary
-                    }, (() => isClear = true));
-
-                    if (!isClear)
+                    }, () => isContinue = true);
+                    if (!isContinue)
                     {
+                        Globals.Windows.WindowMain.SetLoadState(false);
                         senderBtn.IsEnabled = true;
                         return;
                     }
 
-
-                    await Task.Run(() =>
-                    {
-                        foreach (var file in pvzLauncherFiles)
-                        {
-                            Dispatcher.BeginInvoke(() =>
-                            {
-                                textBlock_Loading.Text = $"正在删除 {Path.GetFileName(file)}";
-                            });
-                            File.Delete(file);
-                        }
-                    });
+                    Globals.Windows.WindowMain.SetLoadText("清理垃圾文件中...");
+                    Cleaner.Clean(trashFiles, (f) => Globals.Windows.WindowMain.SetLoadText($"清理: {Path.GetFileName(f)}"));
 
                     SnackbarService.Show(new SnackbarContent
                     {
-                        Title = "清理完成",
-                        Content = $"已清理所有缓存文件，共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB",
+                        Title = "垃圾清理",
+                        Content = $"清理完毕，共 {Math.Round(trashFiles.TotalSize / 1024.0 / 1024.0, 2)} MB",
                         Type = SnackbarType.Success
                     });
-
                 }
                 catch (Exception ex)
                 {
                     ErrorReportDialog.Show(ex);
                 }
-                senderBtn.IsEnabled = true;
+                finally
+                {
+                    Globals.Windows.WindowMain.SetLoadState(false);
+                    senderBtn.IsEnabled = true;
+                }
             }
         }
 
@@ -699,11 +656,26 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Game_OverlayUIEnabled(object sender, RoutedEventArgs e)
+        private async void Game_OverlayUIEnabled(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
-                Globals.Config.Settings.GameConfig.OverlayUIEnabled = checkbox_Game_Overlay_Enabled.IsChecked == true ? true : false;
+                if (checkbox_Game_Overlay_Enabled.IsChecked == true && !HotKeyHelper.IsHotKeyAvaiable(Key.P, ModifierKeys.Control | ModifierKeys.Alt))
+                {
+                    checkbox_Game_Overlay_Enabled.IsChecked = false;
+                    Globals.Config.Settings.GameConfig.OverlayUIEnabled = false;
+                    await DialogService.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "警告",
+                        Content = "检测到用于开启覆盖界面的热键: Ctrl+Alt+P 被占用！\n\n请检查该热键被某个程序占用并取消绑定。确保该热键空闲后再次尝试开启此功能",
+                        PrimaryButtonText = "确定",
+                        DefaultButton = ContentDialogButton.Primary
+                    });
+                }
+                else
+                {
+                    Globals.Config.Settings.GameConfig.OverlayUIEnabled = checkbox_Game_Overlay_Enabled.IsChecked ?? false;
+                }
                 ConfigManager.SaveConfig();
             }
         }
@@ -739,12 +711,12 @@ namespace PvzLauncherRemake.Pages
 
                             if (Directory.Exists(Globals.Directories.SaveDirectory))
                             {
-                                StartLoad();
+                                Globals.Windows.WindowMain.SetLoadState(true, "删除存档中...");
                                 await Task.Run(() =>
                                 {
                                     Directory.Delete(Globals.Directories.SaveDirectory, true);
                                 });
-                                EndLoad();
+                                Globals.Windows.WindowMain.SetLoadState(false);
                                 SnackbarService.Show(new SnackbarContent
                                 {
                                     Title = "删除存档",
@@ -903,7 +875,7 @@ namespace PvzLauncherRemake.Pages
                                                 DefaultButton = ContentDialogButton.Primary
                                             }, (async () =>
                                             {
-                                                StartLoad();
+                                                Globals.Windows.WindowMain.SetLoadState(true, "迁移存档中...");
 
                                                 await Task.Run(() =>
                                                 {
@@ -921,7 +893,7 @@ namespace PvzLauncherRemake.Pages
                                                     Type = SnackbarType.Success
                                                 });
 
-                                                EndLoad();
+                                                Globals.Windows.WindowMain.SetLoadState(false);
                                             }));
                                         }
                                         else

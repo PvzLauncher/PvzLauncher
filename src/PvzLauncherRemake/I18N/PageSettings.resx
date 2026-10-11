@@ -309,4 +309,7 @@
   <data name="Source2" xml:space="preserve">
     <value>源2</value>
   </data>
+  <data name="ThreadCount" xml:space="preserve">
+    <value>下载引擎线程数:</value>
+  </data>
 </root>
