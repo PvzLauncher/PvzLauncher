@@ -42,15 +42,18 @@ namespace PvzLauncherRemake
             var logFileName = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.latest.log");
             if (File.Exists(logFileName))
                 File.Delete(logFileName);
+
+            string logTemplate = "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{Classname}]: {Message:lj}{NewLine}{Exception}";
+
             var logConfig = new LoggerConfiguration()
-                .MinimumLevel.Debug()
+                .Enrich.With<LogClassnameEnricher>()
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
-                    outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
+                    outputTemplate: logTemplate
                 )
                 .WriteTo.File(
                     path: logFileName,
-                    outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SourceContext}]: {Message:lj}{NewLine}{Exception}"
+                    outputTemplate: logTemplate
                 )
 #if DEBUG || CI
                 .MinimumLevel.Debug()
