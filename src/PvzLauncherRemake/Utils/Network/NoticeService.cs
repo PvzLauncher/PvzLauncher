@@ -29,38 +29,54 @@ namespace PvzLauncherRemake.Utils.Network
             logger.Information($"获取到 {noticeIndex.Notices.Length} 个公告");
             foreach (var notice in noticeIndex.Notices)
             {
+                var now = DateTimeOffset.Now;
+                var isNoticeHit =
+                    !Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title) &&
+                    now <= notice.End && now >= notice.Start;
+
+
+
                 string content = "";
                 foreach (var contentL in notice.Contents)
                 {
                     content = $"{content}{contentL}\n";
                 }
-                logger.Information($"标题: {notice.Title} 内容: {content} btn1: {notice.PrimaryButton} btn2: {notice.SecondaryButton}");
+
+                logger.Information($"""
+
+                    =====[{notice.Title}]=====
+                    {content}
+                    -----START={notice.Start}
+                    -----END={notice.End}
+                    -----hit?={isNoticeHit}
+
+                    -----PrimaryButton={notice.PrimaryButton}
+                    -----SecondaryButton={notice.SecondaryButton}
+                    ====={new string('=',notice.Title.Length)}=====
+                    """);
+
                 var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
-                if (!Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
+                if (isNoticeHit)
                 {
-                    var now = DateTimeOffset.Now;
-                    logger.Information($"公告时间: {notice.Start} ~ {notice.End}  NOW: {now}");
-                    if (now <= notice.End && now >= notice.Start)
+                    logger.Information("显示公告...");
+                    await DialogService.ShowDialogAsync(new ContentDialog
                     {
-                        logger.Information("开始显示公告...");
-                        await DialogService.ShowDialogAsync(new ContentDialog
+                        Title = notice.Title,
+                        Content = new StackPanel
                         {
-                            Title = notice.Title,
-                            Content = new StackPanel
-                            {
-                                Children =
+                            Children =
                                 {
                                     new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
                                     chkBox
                                 }
-                            },
-                            PrimaryButtonText = notice.PrimaryButton,
-                            SecondaryButtonText = notice.SecondaryButton,
-                            CloseButtonText = "关闭",
-                            DefaultButton = ContentDialogButton.Primary
-                        }, (() => handleButtonActions(notice.PrimaryActions)
-                        ), (() => handleButtonActions(notice.SecondaryActions)));
-                    }
+                        },
+                        PrimaryButtonText = notice.PrimaryButton,
+                        SecondaryButtonText = notice.SecondaryButton,
+                        CloseButtonText = "关闭",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() => handleButtonActions(notice.PrimaryActions)
+                    ), (() => handleButtonActions(notice.SecondaryActions)));
+
                 }
 
                 void handleButtonActions(JsonNotice.ButtonActionInfo[] actions)
