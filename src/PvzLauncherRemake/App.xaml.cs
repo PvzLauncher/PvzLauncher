@@ -197,12 +197,24 @@ namespace PvzLauncherRemake
             else
                 logger.Warning($"程序异常退出，退出码: {e.ApplicationExitCode}");
 
-            //重命名日志
+            //重命名&压缩日志
             Log.CloseAndFlush();
-            var originalPath = Path.Combine(Globals.Directories.LogDirectory, "pvzl.latest.log");
-            var newPath = Path.Combine(Globals.Directories.LogDirectory, $"pvzl.{Globals.StartupTime.ToUnixTimeMilliseconds()}.log");
-            if (File.Exists(originalPath))
-                File.Move(originalPath, newPath);
+            string logName = "pvzl.latest.log";
+            string newLogName = $"pvzl.{Globals.StartupTime.ToUnixTimeMilliseconds()}.log.gz";
+
+            string latestLogPath = Path.Combine(Globals.Directories.LogDirectory, logName);
+            string compressedLogPath = Path.Combine(Globals.Directories.TempDirectory, logName + ".gz");
+            string newLogPath = Path.Combine(Globals.Directories.LogDirectory, newLogName);
+
+            if (File.Exists(latestLogPath))
+            {
+                if (File.Exists(compressedLogPath))
+                    File.Delete(compressedLogPath);
+
+                GzipHelper.Compress(latestLogPath, compressedLogPath);
+                File.Move(compressedLogPath, newLogPath);
+                File.Delete(latestLogPath);
+            }
         }
 
 
