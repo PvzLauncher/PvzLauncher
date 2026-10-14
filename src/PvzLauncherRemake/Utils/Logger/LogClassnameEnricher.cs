@@ -1,7 +1,7 @@
 ﻿using Serilog.Core;
 using Serilog.Events;
 
-namespace PvzLauncherRemake.Utils
+namespace PvzLauncherRemake.Utils.Logger
 {
     internal sealed class LogClassnameEnricher : ILogEventEnricher
     {

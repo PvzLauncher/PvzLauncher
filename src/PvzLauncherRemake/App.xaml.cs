@@ -1,6 +1,7 @@
 ﻿using ModernWpf;
 using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Logger;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
