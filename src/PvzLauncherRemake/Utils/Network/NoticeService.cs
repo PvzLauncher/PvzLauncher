@@ -23,10 +23,14 @@ namespace PvzLauncherRemake.Utils.Network
                 return;
             }
 
+            //GET
             JsonNotice.Root noticeIndex;
             using (var client = new HttpClient())
                 noticeIndex = JsonHelper.ReadJson<JsonNotice.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
             logger.Information($"获取到 {noticeIndex.Notices.Length} 个公告");
+
+
+            //SHOW
             foreach (var notice in noticeIndex.Notices)
             {
                 var now = DateTimeOffset.Now;
@@ -34,14 +38,13 @@ namespace PvzLauncherRemake.Utils.Network
                     !Globals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title) &&
                     now <= notice.End && now >= notice.Start;
 
+                if (!isNoticeHit)
+                    continue;
 
+                string content = string.Join("\n", notice.Contents);
+                var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
 
-                string content = "";
-                foreach (var contentL in notice.Contents)
-                {
-                    content = $"{content}{contentL}\n";
-                }
-
+                logger.Information($"公告命中 {noticeIndex.Notices.Length} 中的 {noticeIndex.Notices.IndexOf(notice)}");
                 logger.Information($"""
 
                     =====[{notice.Title}]=====
@@ -52,57 +55,25 @@ namespace PvzLauncherRemake.Utils.Network
 
                     -----PrimaryButton={notice.PrimaryButton}
                     -----SecondaryButton={notice.SecondaryButton}
-                    ====={new string('=',notice.Title.Length)}=====
+                    ====={new string('=', notice.Title.Length)}=====
                     """);
-
-                var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
-                if (isNoticeHit)
+                await DialogService.ShowDialogAsync(new ContentDialog
                 {
-                    logger.Information("显示公告...");
-                    await DialogService.ShowDialogAsync(new ContentDialog
+                    Title = notice.Title,
+                    Content = new StackPanel
                     {
-                        Title = notice.Title,
-                        Content = new StackPanel
+                        Children =
                         {
-                            Children =
-                                {
-                                    new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
-                                    chkBox
-                                }
-                        },
-                        PrimaryButtonText = notice.PrimaryButton,
-                        SecondaryButtonText = notice.SecondaryButton,
-                        CloseButtonText = "关闭",
-                        DefaultButton = ContentDialogButton.Primary
-                    }, (() => handleButtonActions(notice.PrimaryActions)
-                    ), (() => handleButtonActions(notice.SecondaryActions)));
-
-                }
-
-                void handleButtonActions(JsonNotice.ButtonActionInfo[] actions)
-                {
-                    foreach (var action in actions)
-                    {
-                        switch (action.Type)
-                        {
-                            case "to-url":
-                                Process.Start(new ProcessStartInfo
-                                {
-                                    FileName = action.Url,
-                                    UseShellExecute = true
-                                });
-                                break;
-                            case "to-page":
-                                if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
-                                    NavigationController.Navigate(result);
-                                else
-                                    throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
-                                break;
-                            default:
-                                throw new Exception($"未知的操作类型: \"{action.Type}\"。这一般是编写失误或当前启动器版本过低导致的");
+                             new TextBlock{Text = content,TextWrapping=TextWrapping.Wrap},
+                             chkBox
                         }
-                    }
-                }
+                    },
+                    PrimaryButtonText = notice.PrimaryButton,
+                    SecondaryButtonText = notice.SecondaryButton,
+                    CloseButtonText = "关闭",
+                    DefaultButton = ContentDialogButton.Primary
+                }, (() => HandleButtonActions(notice.PrimaryActions)
+                ), (() => HandleButtonActions(notice.SecondaryActions)));
 
 
                 if (chkBox.IsChecked == true)
@@ -112,10 +83,37 @@ namespace PvzLauncherRemake.Utils.Network
                 }
 
                 ConfigManager.SaveConfig();
-                logger.Information("公告退出");
+
             }
+            //SHOW END
+
 
             logger.Information("公告流程结束");
+        }
+
+        private static void HandleButtonActions(JsonNotice.ButtonActionInfo[] actions)
+        {
+            foreach (var action in actions)
+            {
+                switch (action.Type)
+                {
+                    case "to-url":
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = action.Url,
+                            UseShellExecute = true
+                        });
+                        break;
+                    case "to-page":
+                        if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
+                            NavigationController.Navigate(result);
+                        else
+                            throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
+                        break;
+                    default:
+                        throw new Exception($"未知的操作类型: \"{action.Type}\"。这一般是编写失误或当前启动器版本过低导致的");
+                }
+            }
         }
     }
 }
