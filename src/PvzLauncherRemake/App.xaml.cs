@@ -44,10 +44,10 @@ namespace PvzLauncherRemake
             if (File.Exists(logFileName))
                 File.Delete(logFileName);
 
-            string logTemplate = "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{Classname}]: {Message:lj}{NewLine}{Exception}";
+            string logTemplate = "[{Timestamp:HH:mm:ss.fff}] [{Level:u}] [{SimpleClassname}]: {Message:lj}{NewLine}{Exception}";
 
             var logConfig = new LoggerConfiguration()
-                .Enrich.With<LogClassnameEnricher>()
+                .Enrich.With<LogSimpleClassnameEnricher>()
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
                     outputTemplate: logTemplate
