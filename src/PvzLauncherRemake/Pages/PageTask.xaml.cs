@@ -5,6 +5,7 @@ using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
+using Serilog;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,7 +19,9 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageTask : ModernWpf.Controls.Page
     {
-        private DispatcherTimer _timer;
+        private static readonly ILogger logger = Log.ForContext<PageTask>();
+
+        private DispatcherTimer? _timer;
 
         private void RefreshTaskList()
         {
@@ -148,6 +151,13 @@ namespace PvzLauncherRemake.Pages
 
                 };
             };
+
+            Unloaded += (s, e) =>
+            {
+                _timer.Stop();
+                _timer.Tick -= Timer_Tick;
+                _timer = null;
+            };
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -168,18 +178,20 @@ namespace PvzLauncherRemake.Pages
                         card.UpdateControl();
                     }
                 }
+
                 foreach (var task in TaskManager.DownloadTaskList)
                 {
-                    progressSum = progressSum + task.Progress + task.ExtractProgress;
-                    speedSum = speedSum + task.Speed;
+                    progressSum += task.Progress + task.ExtractProgress;
+                    speedSum += task.Speed;
                 }
 
-                progressAverage = progressSum / (TaskManager.DownloadTaskList.Count * 2);
+                //已完成任务占用200%
+                progressSum += stackPanel_Completed.Children.Count * 200;
+                progressAverage = progressSum / ((TaskManager.DownloadTaskList.Count + stackPanel_Completed.Children.Count) * 2);
 
                 textBlock_ProgressAverage.Text = $"{GetLoc("I18N.PageTask", "Total_Progress")}: {(double.IsNaN(progressAverage) ? "0" : Math.Round(progressAverage, 2))}%";
                 textBlock_SpeedSum.Text = $"{GetLoc("I18N.PageTask", "Total_Speed")}: {(double.IsNaN(speedSum) ? "0" : Math.Round(speedSum, 2))}MB/s";
                 progressBar_Average.Value = double.IsNaN(progressAverage) ? 0 : progressAverage;
-
             }
             catch (Exception ex)
             {
