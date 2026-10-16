@@ -42,6 +42,7 @@ namespace PvzLauncherRemake.Utils.Game
         Unparalleled,//unparalleled
         Genshin,//genshin
         Kindergarten,//kid
+        Math,//math
 
         PvzToolkit,//pvztoolkit
         CheatEngine,//ce
@@ -95,6 +96,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case "unparalleled": return GameIcons.Unparalleled;
                 case "genshin": return GameIcons.Genshin;
                 case "kid": return GameIcons.Kindergarten;
+                case "math": return GameIcons.Math;
 
                 case "pvztoolkit": return GameIcons.PvzToolkit;
                 case "ce": return GameIcons.CheatEngine;
@@ -152,6 +154,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Unparalleled: return "unparalleled";
                 case GameIcons.Genshin: return "genshin";
                 case GameIcons.Kindergarten: return "kid";
+                case GameIcons.Math: return "math";
 
                 case GameIcons.PvzToolkit: return "pvztoolkit";
                 case GameIcons.CheatEngine: return "ce";
@@ -210,6 +213,7 @@ namespace PvzLauncherRemake.Utils.Game
                 case GameIcons.Unparalleled: return new GameIconUnparalleled();
                 case GameIcons.Genshin: return new GameIconGenshin();
                 case GameIcons.Kindergarten: return new GameIconKindergarten();
+                case GameIcons.Math: return new GameIconMath();
 
                 case GameIcons.PvzToolkit: return new GameIconPvzToolkit();
                 case GameIcons.CheatEngine: return new GameIconCheatEngine();
