@@ -23,7 +23,15 @@ namespace PvzLauncherRemake.Windows
     /// </summary>
     public partial class WindowMain : Window
     {
-        public Dictionary<string, Type> PageMap = new Dictionary<string, Type>();//Page预加载
+        public Dictionary<string, Type> PageMap = new Dictionary<string, Type>()
+        {
+            { "PageLaunch",typeof(PageLaunch) },
+            { "PageManage",typeof(PageManage) },
+            { "PageDownload",typeof(PageDownload) },
+            { "PageTask",typeof(PageTask) },
+            { "PageSettings",typeof(PageSettings) },
+            { "PageAbout",typeof(PageAbout) },
+        };
         private NavigationTransitionInfo FrameAnimation = new DrillInNavigationTransitionInfo();//Frame切换动画
         public ISnackbarService _snackbarService;
 
@@ -50,20 +58,6 @@ namespace PvzLauncherRemake.Windows
 
                 //初始化教程Host
                 TutorialManager.Initialize(tuhost);
-
-                //预加载Page
-                void AddType(Type t)
-                {
-                    PageMap.Add($"{t.Name}", t);
-
-                }
-                AddType(typeof(PageLaunch));
-                AddType(typeof(PageManage));
-                AddType(typeof(PageDownload));
-
-                AddType(typeof(PageTask));
-                AddType(typeof(PageSettings));
-                AddType(typeof(PageAbout));
 
                 //选择默认页
                 navView.SelectedItem = navViewItem_Launch;
@@ -303,6 +297,7 @@ namespace PvzLauncherRemake.Windows
 
         private void navView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) =>
             frame.GoBack();
+
 
 
         public void SetLoadState(bool state, string tipText = "加载中...")
