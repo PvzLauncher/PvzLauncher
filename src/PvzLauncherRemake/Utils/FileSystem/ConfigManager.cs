@@ -1,4 +1,4 @@
-﻿using PvzLauncherRemake.JsonModel.Local;
+﻿using PvzLauncherRemake.Models;
 using System.IO;
 
 namespace PvzLauncherRemake.Utils.FileSystem
@@ -7,7 +7,7 @@ namespace PvzLauncherRemake.Utils.FileSystem
     {
         public static void CreateDefaultConfig()
         {
-            Globals.Config = new JsonConfig.Root();
+            Globals.Config = new AppConfig.Root();
             SaveConfig();
         }
 
@@ -24,7 +24,7 @@ namespace PvzLauncherRemake.Utils.FileSystem
                     return;
                 }
 
-                var config = JsonHelper.ReadJson<JsonConfig.Root>(Globals.Paths.ConfigPath);
+                var config = JsonHelper.ReadJson<AppConfig.Root>(Globals.Paths.ConfigPath);
                 if (config == null)
                 {
 

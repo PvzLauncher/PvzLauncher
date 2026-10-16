@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PvzLauncherRemake.JsonModel.Network
+namespace PvzLauncherRemake.Models
 {
-    public class JsonNotice
+    public class NoticeIndex
     {
         public class Root
         {

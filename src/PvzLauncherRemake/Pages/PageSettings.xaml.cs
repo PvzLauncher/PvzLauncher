@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using ModernWpf;
 using ModernWpf.Controls;
-using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
@@ -337,7 +337,7 @@ namespace PvzLauncherRemake.Pages
         private void Launcher_TitleReset(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
-                textBox_WindowTitle.Text = new JsonConfig.Root().Settings.LauncherConfig.WindowTitle;
+                textBox_WindowTitle.Text = new AppConfig.Root().Settings.LauncherConfig.WindowTitle;
         }
 
         private void Launcher_Title(object sender, TextChangedEventArgs e)

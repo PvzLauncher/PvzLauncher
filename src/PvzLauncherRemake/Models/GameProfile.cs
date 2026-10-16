@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Drawing;
 
-namespace PvzLauncherRemake.JsonModel.Local
+namespace PvzLauncherRemake.Models
 {
-    public class JsonGameProfile
+    public class GameProfile
     {
         public partial class Root
         {

@@ -1,6 +1,6 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -266,7 +266,7 @@ namespace PvzLauncherRemake.Pages
                     return;
                 }
 
-                this.NavigationService.Navigate(new PageManageSet((JsonGameProfile.Root)((UserCard)sender).Tag));
+                this.NavigationService.Navigate(new PageManageSet((GameProfile.Root)((UserCard)sender).Tag));
             }
             catch (Exception ex)
             {
@@ -279,7 +279,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                var trainerConfig = (JsonTrainerProfile.Root)(((UserCard)sender).Tag);
+                var trainerConfig = (TrainerProfile.Root)(((UserCard)sender).Tag);
 
 
                 //控件
@@ -550,12 +550,12 @@ namespace PvzLauncherRemake.Pages
                             Tag = item.Tag,
                             Margin = item.Margin
                         };
-                        if (card.Tag is JsonGameProfile.Root)
+                        if (card.Tag is GameProfile.Root)
                         {
                             card.MouseDoubleClick += SelectGame;
                             card.MouseRightButtonUp += SetGame;
                         }
-                        else if (card.Tag is JsonTrainerProfile.Root)
+                        else if (card.Tag is TrainerProfile.Root)
                         {
                             card.MouseDoubleClick += SelectTrainer;
                             card.MouseRightButtonUp += SetTrainer;

@@ -1,5 +1,4 @@
-using PvzLauncherRemake.JsonModel.Local;
-using PvzLauncherRemake.JsonModel.Network;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Windows;
 using System.IO;
 using System.Reflection;
@@ -12,7 +11,7 @@ namespace PvzLauncherRemake
     {
         public static readonly string Version = $"1.6.3-beta.1";//版本
         public static readonly bool IsStable = false;//是否稳定版
-        public static JsonConfig.Root Config = null!;//配置
+        public static AppConfig.Root Config = null!;//配置
 
         public static readonly DateTimeOffset StartupTime = DateTimeOffset.Now;//启动时间
 
@@ -49,9 +48,9 @@ namespace PvzLauncherRemake
         //缓存
         public static class Caches
         {
-            public static List<JsonGameProfile.Root> GameList = new List<JsonGameProfile.Root>();//游戏列表
-            public static List<JsonTrainerProfile.Root> TrainerList = new List<JsonTrainerProfile.Root>();//修改器
-            public static JsonGameLibrary.Root? DownloadIndex = null;//下载索引
+            public static List<GameProfile.Root> GameList = new List<GameProfile.Root>();//游戏列表
+            public static List<TrainerProfile.Root> TrainerList = new List<TrainerProfile.Root>();//修改器
+            public static GameLibraryIndex.Root? DownloadIndex = null;//下载索引
 
             public static BitmapImage LauncherBackground = null!;//背景图像
         }

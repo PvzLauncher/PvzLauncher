@@ -1,5 +1,5 @@
 ﻿using ModernWpf.Controls;
-using PvzLauncherRemake.JsonModel.Network;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using Serilog;
@@ -24,9 +24,9 @@ namespace PvzLauncherRemake.Utils.Network
             }
 
             //GET
-            JsonNotice.Root noticeIndex;
+            NoticeIndex.Root noticeIndex;
             using (var client = new HttpClient())
-                noticeIndex = JsonHelper.ReadJson<JsonNotice.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
+                noticeIndex = JsonHelper.ReadJson<NoticeIndex.Root>(await client.GetStringAsync(Globals.Urls.NoticeIndexUrl));
             logger.Information($"获取到 {noticeIndex.Notices.Length} 个公告");
 
 
@@ -91,7 +91,7 @@ namespace PvzLauncherRemake.Utils.Network
             logger.Information("公告流程结束");
         }
 
-        private static void HandleButtonActions(JsonNotice.ButtonActionInfo[] actions)
+        private static void HandleButtonActions(NoticeIndex.ButtonActionInfo[] actions)
         {
             foreach (var action in actions)
             {

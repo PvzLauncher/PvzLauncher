@@ -2,7 +2,7 @@
 using ModernWpf;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
-using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Pages;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
@@ -181,7 +181,7 @@ namespace PvzLauncherRemake.Windows
 
             this.SizeChanged += ((sender, e) =>
             {
-                Globals.Config.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
+                Globals.Config.WindowSize = new AppConfig.WindowSize { Width = this.Width, Height = this.Height };
                 ConfigManager.SaveConfig();
             });
 

@@ -1,8 +1,7 @@
 ﻿using Microsoft.Win32;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
-using PvzLauncherRemake.JsonModel.Local;
-using PvzLauncherRemake.JsonModel.Network;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
@@ -35,7 +34,7 @@ namespace PvzLauncherRemake.Utils.Game
         {
 
 
-            var validGames = new List<JsonGameProfile.Root>();
+            var validGames = new List<GameProfile.Root>();
 
             foreach (string dir in Directory.EnumerateDirectories(Globals.Directories.GameDirectory))
             {
@@ -44,7 +43,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                 try
                 {
-                    var config = JsonHelper.ReadJson<JsonGameProfile.Root>(configPath);
+                    var config = JsonHelper.ReadJson<GameProfile.Root>(configPath);
                     if (config != null)
                     {
                         if (Globals.Config.Settings.SaveConfig.EnableSaveIsolation)
@@ -79,7 +78,7 @@ namespace PvzLauncherRemake.Utils.Game
         {
 
 
-            var validTrainers = new List<JsonTrainerProfile.Root>();
+            var validTrainers = new List<TrainerProfile.Root>();
 
             foreach (string dir in Directory.EnumerateDirectories(Globals.Directories.TrainerDirectory))
             {
@@ -88,7 +87,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                 try
                 {
-                    var config = JsonHelper.ReadJson<JsonTrainerProfile.Root>(configPath);
+                    var config = JsonHelper.ReadJson<TrainerProfile.Root>(configPath);
                     if (config != null)
                     {
                         validTrainers.Add(config);
@@ -256,7 +255,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                     if (isTrainer == true)
                     {
-                        var config = new JsonTrainerProfile.Root
+                        var config = new TrainerProfile.Root
                         {
                             ExecuteName = exeFile,
                             Icon = "origin",
@@ -267,16 +266,16 @@ namespace PvzLauncherRemake.Utils.Game
                     }
                     else
                     {
-                        var config = new JsonGameProfile.Root
+                        var config = new GameProfile.Root
                         {
-                            GameInfo = new JsonGameProfile.GameInfo
+                            GameInfo = new GameProfile.GameInfo
                             {
                                 ExecuteName = exeFile,
                                 Icon = "origin",
                                 Name = Path.GetFileName(savePath),
                                 Version = "1.0.0.0",
                             },
-                            Record = new JsonGameProfile.Record
+                            Record = new GameProfile.Record
                             {
                                 FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
                                 PlayCount = 0,
@@ -301,9 +300,9 @@ namespace PvzLauncherRemake.Utils.Game
                     if (!isImportConfirm)
                         return;
 
-                    var virtualConfig = new JsonGameProfile.Root
+                    var virtualConfig = new GameProfile.Root
                     {
-                        GameInfo = new JsonGameProfile.GameInfo
+                        GameInfo = new GameProfile.GameInfo
                         {
                             ExecuteName = exeFile,
                             Icon = "origin",
@@ -311,7 +310,7 @@ namespace PvzLauncherRemake.Utils.Game
                             Version = "1.0.0.0",
                             GamePath = originalPath
                         },
-                        Record = new JsonGameProfile.Record
+                        Record = new GameProfile.Record
                         {
                             FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
                             PlayCount = 0,
@@ -348,7 +347,7 @@ namespace PvzLauncherRemake.Utils.Game
 
         #region 下载
 
-        public static async Task StartDownloadAsync(JsonGameLibrary.GameInfo info, string savePath, bool isTrainer)
+        public static async Task StartDownloadAsync(GameLibraryIndex.GameInfo info, string savePath, bool isTrainer)
         {
             string tempPath = Path.Combine(Globals.Directories.TempDirectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{Guid.NewGuid():N}");
 
@@ -362,7 +361,7 @@ namespace PvzLauncherRemake.Utils.Game
 
                 //解析下载地址
                 using var client = new HttpClient();
-                var analysisResult = JsonConvert.DeserializeObject<JsonDirectAnalysis.Root>(await client.GetStringAsync($"{Globals.Urls.DirectAnalysisBaseUrl}?url={info.ShareUrl}{(string.IsNullOrEmpty(info.SharePassword) ? null : $"&pwd={info.SharePassword}")}"));
+                var analysisResult = JsonConvert.DeserializeObject<DirectAnalysisResult.Root>(await client.GetStringAsync($"{Globals.Urls.DirectAnalysisBaseUrl}?url={info.ShareUrl}{(string.IsNullOrEmpty(info.SharePassword) ? null : $"&pwd={info.SharePassword}")}"));
 
                 if (analysisResult?.Code != 200 || analysisResult.Message != "success")
                     throw new Exception($"直链解析失败: {analysisResult?.Message}");
@@ -384,16 +383,16 @@ namespace PvzLauncherRemake.Utils.Game
                     string configName = Path.GetFileName(savePath);
                     if (!isTrainer)
                     {
-                        var cfg = new JsonGameProfile.Root
+                        var cfg = new GameProfile.Root
                         {
-                            GameInfo = new JsonGameProfile.GameInfo
+                            GameInfo = new GameProfile.GameInfo
                             {
                                 ExecuteName = info.ExecuteName,
                                 Version = info.Version,
                                 Name = configName,
                                 Icon = info.Icon
                             },
-                            Record = new JsonGameProfile.Record
+                            Record = new GameProfile.Record
                             {
                                 FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
                                 PlayCount = 0,
@@ -405,7 +404,7 @@ namespace PvzLauncherRemake.Utils.Game
                     }
                     else
                     {
-                        var cfg = new JsonTrainerProfile.Root
+                        var cfg = new TrainerProfile.Root
                         {
                             ExecuteName = info.ExecuteName,
                             Version = info.Version,
@@ -438,7 +437,7 @@ namespace PvzLauncherRemake.Utils.Game
         /// 启动游戏
         /// </summary>
         /// <param name="gameInfo">要启动的游戏信息</param>
-        public static async void LaunchGame(JsonGameProfile.Root gameInfo, Action? exitCallback = null)
+        public static async void LaunchGame(GameProfile.Root gameInfo, Action? exitCallback = null)
         {
             //游戏exe路径
             string gameExePath;
@@ -513,7 +512,7 @@ namespace PvzLauncherRemake.Utils.Game
 
             IsGameRuning = false;
 
-            var gameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+            var gameInfo = JsonHelper.ReadJson<GameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
 
             switch (Globals.Config.Settings.LauncherConfig.LaunchedOperate)
@@ -576,7 +575,7 @@ namespace PvzLauncherRemake.Utils.Game
         /// 切换当前存档为当前游戏的独立存档
         /// </summary>
         /// <returns></returns>
-        public static async Task SwitchGameSave(JsonGameProfile.Root gamInfo)
+        public static async Task SwitchGameSave(GameProfile.Root gamInfo)
         {
             if (Directory.Exists(Globals.Directories.SaveDirectory))
                 Directory.Delete(Globals.Directories.SaveDirectory, true);
@@ -588,7 +587,7 @@ namespace PvzLauncherRemake.Utils.Game
         /// </summary>
         /// <param name="gamInfo"></param>
         /// <returns></returns>
-        public static async Task SaveGameSave(JsonGameProfile.Root gamInfo)
+        public static async Task SaveGameSave(GameProfile.Root gamInfo)
         {
             if (Directory.Exists(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save")))
                 Directory.Delete(Path.Combine(Globals.Directories.GameDirectory, gamInfo.GameInfo.Name, ".save"), true);

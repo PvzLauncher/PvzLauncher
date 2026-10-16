@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PvzLauncherRemake.JsonModel.Local
+namespace PvzLauncherRemake.Models
 {
-    public class JsonTrainerProfile
+    public class TrainerProfile
     {
         public class Root
         {

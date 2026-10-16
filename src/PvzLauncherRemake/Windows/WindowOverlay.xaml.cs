@@ -2,7 +2,7 @@
 using ModernWpf;
 using ModernWpf.Controls;
 using NHotkey.Wpf;
-using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Windows
         private LowLevelKeyboardHook _hook = new LowLevelKeyboardHook();
         private InputSimulator _inputSim = new InputSimulator();
 
-        private JsonGameProfile.Root GameInfo = JsonHelper.ReadJson<JsonGameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+        private GameProfile.Root GameInfo = JsonHelper.ReadJson<GameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
 
         private WindowOverlayInfo WinOverlayInfo = new WindowOverlayInfo();
         private bool isWinOverlayInfoClosed = false;

@@ -1,5 +1,5 @@
 ﻿using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.JsonModel.Network;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -16,7 +16,7 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownload : ModernWpf.Controls.Page
     {
-        private void AddGameCard(StackPanel stackPanel, JsonGameLibrary.GameInfo[] gameInfos)
+        private void AddGameCard(StackPanel stackPanel, GameLibraryIndex.GameInfo[] gameInfos)
         {
             if (gameInfos == null || gameInfos.Length <= 0)
                 return;
@@ -41,7 +41,7 @@ namespace PvzLauncherRemake.Pages
                 stackPanel.Children.Add(card);
             }
         }
-        private void AddTrainerCard(StackPanel stackPanel, JsonGameLibrary.TrainerInfo[] trainerInfos)
+        private void AddTrainerCard(StackPanel stackPanel, GameLibraryIndex.TrainerInfo[] trainerInfos)
         {
             if (trainerInfos == null || trainerInfos.Length <= 0)
                 return;
@@ -82,7 +82,7 @@ namespace PvzLauncherRemake.Pages
                         {
                             string indexString = await client.GetStringAsync(Globals.Urls.DownloadIndexUrl);
 
-                            Globals.Caches.DownloadIndex = JsonHelper.ReadJson<JsonGameLibrary.Root>(indexString);
+                            Globals.Caches.DownloadIndex = JsonHelper.ReadJson<GameLibraryIndex.Root>(indexString);
                         }
                     }
 
@@ -127,7 +127,7 @@ namespace PvzLauncherRemake.Pages
             if (sender is not UserCard userCard) return;
 
             bool isTrainer = userCard.AttachedProperty.ToString() == "Trainer";
-            var info = isTrainer ? (JsonGameLibrary.TrainerInfo)userCard.Tag! : (JsonGameLibrary.GameInfo)userCard.Tag!;
+            var info = isTrainer ? (GameLibraryIndex.TrainerInfo)userCard.Tag! : (GameLibraryIndex.GameInfo)userCard.Tag!;
             string baseDirectory =
                 isTrainer ? Globals.Directories.TrainerDirectory :
                 Globals.Directories.GameDirectory;

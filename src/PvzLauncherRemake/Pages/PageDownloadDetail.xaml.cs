@@ -1,6 +1,6 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Controls;
-using PvzLauncherRemake.JsonModel.Network;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -19,7 +19,7 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownloadDetail : ModernWpf.Controls.Page
     {
-        public JsonGameLibrary.GameInfo Info { get; set; }
+        public GameLibraryIndex.GameInfo Info { get; set; }
         public string BaseDirectory { get; set; }
         public bool IsTrainer { get; set; }
 
@@ -64,7 +64,7 @@ namespace PvzLauncherRemake.Pages
                     userCard.isNew = Info.IsNew;
                     userCard.isRecommend = Info.IsRecommend;
 
-                    if (Info is JsonGameLibrary.TrainerInfo ti)
+                    if (Info is GameLibraryIndex.TrainerInfo ti)
                         userCard.SupportVersion = ti.SupportVersion;
 
 

@@ -1,5 +1,5 @@
 ﻿using ModernWpf.Controls;
-using PvzLauncherRemake.JsonModel.Local;
+using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.UI;
@@ -16,11 +16,11 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageManageSet : ModernWpf.Controls.Page
     {
-        private JsonGameProfile.Root GameInfo = null!;
+        private GameProfile.Root GameInfo = null!;
 
         private void SaveConfig() => JsonHelper.WriteJson(System.IO.Path.Combine(Globals.Directories.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
-        public PageManageSet(JsonGameProfile.Root gameInfo)
+        public PageManageSet(GameProfile.Root gameInfo)
         {
             InitializeComponent();
             Loaded += ((s, e) =>

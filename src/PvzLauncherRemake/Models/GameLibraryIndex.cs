@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PvzLauncherRemake.JsonModel.Network
+namespace PvzLauncherRemake.Models
 {
-    public class JsonGameLibrary
+    public class GameLibraryIndex
     {
         public partial class Root
         {
