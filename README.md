@@ -21,12 +21,10 @@
 
 <img src="docs/image/MainWindow.png" alt="主界面" style="display: block; margin: 0 auto; ">
 
-## 官方社群
+## 官方网站
 
-> [!warning]
-> PvzLauncher仅有这一个官方交流社群，如果您进入了其他未经验证的群可能会含有风险
-
-**QQ**: 1040764053
+[Github Pages](https://pvzlauncher.github.io)<br>
+[Cloudflare Pages](https://pvzlauncher.pages.dev)
 
 ## ✨ 特色功能
 
