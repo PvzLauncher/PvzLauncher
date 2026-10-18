@@ -20,6 +20,11 @@ namespace PvzLauncherRemake.Utils.Network
         public bool IgnoreSslErrors { get; init; } = false;    // 是否忽略 SSL 证书验证错误（仅用于开发/测试）
         public int ThreadCount { get; init; } = 8;   // 线程数1~16
 
+        // 分段低速重启设置
+        public double LowSpeedThresholdKBps { get; init; } = 64; // 低于此速度视为低速（KB/s）
+        public int LowSpeedDurationSeconds { get; init; } = 10;  // 持续低速多久后重启
+        public int MaxSegmentRestarts { get; init; } = 3;        // 每个分段最多重启次数
+
         private readonly HttpClient _httpClient;
         private CancellationTokenSource? _cts;
         private Task? _task;
@@ -27,6 +32,7 @@ namespace PvzLauncherRemake.Utils.Network
         // 内部常量
         private const int MinSizeForMulti = 2 * 1024 * 1024;   // 小于 2MB 不启用多线程
         private const int MaxAllowedThreads = 16;
+        private const int SegmentSpeedCheckIntervalMs = 1000;
 
         // 多线程进度累加
         private long _downloadedBytes;
@@ -160,7 +166,7 @@ namespace PvzLauncherRemake.Utils.Network
                 {
                     foreach (var f in tempFiles)
                     {
-                        logger.Information($"移除文件 {f}...");
+                        //logger.Information($"移除文件 {f}...");
                         try { if (File.Exists(f)) File.Delete(f); } catch { logger.Warning($"临时文件 {f} 移除失败"); }
                     }
                 }
@@ -169,31 +175,120 @@ namespace PvzLauncherRemake.Utils.Network
 
         private async Task DownloadSegmentAsync(long start, long end, string tempPath, CancellationToken ct)
         {
-            logger.Information($"开始分段下载...区间: {start} ~ {end} 目标: {tempPath}");
-            var request = new HttpRequestMessage(HttpMethod.Get, Url);
-            request.Headers.Range = new RangeHeaderValue(start, end);
+            long segmentDownloaded = 0;
+            int restartCount = 0;
+            long segmentLength = end - start + 1;
 
-            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
-            response.EnsureSuccessStatusCode();
-
-            if (response.StatusCode != HttpStatusCode.PartialContent &&
-                response.StatusCode != HttpStatusCode.OK)
+            while (segmentDownloaded < segmentLength)
             {
-                throw new InvalidOperationException($"分段下载失败，状态码: {(int)response.StatusCode}");
+                ct.ThrowIfCancellationRequested();
+
+                long requestStart = start + segmentDownloaded;
+                bool restartForLowSpeed = false;
+                using var attemptCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+
+                logger.Information($"开始分段下载...区间: {requestStart} ~ {end} 目标: {tempPath}");
+                using var request = new HttpRequestMessage(HttpMethod.Get, Url);
+                request.Headers.Range = new RangeHeaderValue(requestStart, end);
+
+                using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, attemptCts.Token);
+                response.EnsureSuccessStatusCode();
+
+                if (response.StatusCode != HttpStatusCode.PartialContent &&
+                    response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new InvalidOperationException($"分段下载失败，状态码: {(int)response.StatusCode}");
+                }
+
+                await using var file = new FileStream(tempPath,
+                    segmentDownloaded == 0 ? FileMode.Create : FileMode.Append,
+                    FileAccess.Write, FileShare.None, 65536, true);
+                using var stream = await response.Content.ReadAsStreamAsync(attemptCts.Token);
+
+                long attemptBytes = 0;
+                var speedMonitorTask = MonitorSegmentSpeedAsync(
+                    () => Interlocked.Read(ref attemptBytes),
+                    attemptCts,
+                    () => restartForLowSpeed = true);
+
+                try
+                {
+                    var buffer = new byte[65536];
+                    int bytes;
+                    while ((bytes = await stream.ReadAsync(buffer.AsMemory(0, buffer.Length), attemptCts.Token)) > 0)
+                    {
+                        await file.WriteAsync(buffer.AsMemory(0, bytes), ct);
+                        segmentDownloaded += bytes;
+                        Interlocked.Add(ref attemptBytes, bytes);
+                        Interlocked.Add(ref _downloadedBytes, bytes);
+                    }
+                }
+                catch (OperationCanceledException) when (restartForLowSpeed && !ct.IsCancellationRequested)
+                {
+                    // 低速监控取消了当前请求，下面从已写入的位置续传。
+                }
+                finally
+                {
+                    attemptCts.Cancel();
+                    await speedMonitorTask;
+                }
+
+                if (!restartForLowSpeed || segmentDownloaded >= segmentLength)
+                    break;
+
+                if (restartCount >= MaxSegmentRestarts)
+                    throw new TimeoutException($"分段下载持续低于 {LowSpeedThresholdKBps:F1} KB/s，已达到最大重启次数。");
+
+                restartCount++;
+                logger.Warning($"分段下载速度持续低于 {LowSpeedThresholdKBps:F1} KB/s，从 {start + segmentDownloaded} 继续下载（第 {restartCount} 次重启）");
             }
 
-            await using var file = new FileStream(tempPath, FileMode.Create, FileAccess.Write,
-                FileShare.None, 65536, true);
-            using var stream = await response.Content.ReadAsStreamAsync(ct);
-
-            var buffer = new byte[65536];
-            int bytes;
-            while ((bytes = await stream.ReadAsync(buffer.AsMemory(0, buffer.Length), ct)) > 0)
-            {
-                await file.WriteAsync(buffer.AsMemory(0, bytes), ct);
-                Interlocked.Add(ref _downloadedBytes, bytes);
-            }
             logger.Information($"分段 {tempPath} 下载完成");
+        }
+
+        private async Task MonitorSegmentSpeedAsync(Func<long> getDownloadedBytes, CancellationTokenSource attemptCts, Action onLowSpeed)
+        {
+            if (LowSpeedThresholdKBps <= 0 || LowSpeedDurationSeconds <= 0)
+                return;
+
+            var sw = Stopwatch.StartNew();
+            long lastBytes = 0;
+            double lastTime = 0;
+            double lowSpeedMilliseconds = 0;
+
+            try
+            {
+                while (!attemptCts.IsCancellationRequested)
+                {
+                    await Task.Delay(SegmentSpeedCheckIntervalMs, attemptCts.Token);
+
+                    double currentTime = sw.Elapsed.TotalMilliseconds;
+                    long currentBytes = getDownloadedBytes();
+                    double elapsedMilliseconds = currentTime - lastTime;
+                    if (elapsedMilliseconds <= 0)
+                        continue;
+
+                    double speed = (currentBytes - lastBytes) / (elapsedMilliseconds / 1000.0) / 1024.0;
+                    if (speed < LowSpeedThresholdKBps)
+                        lowSpeedMilliseconds += elapsedMilliseconds;
+                    else
+                        lowSpeedMilliseconds = 0;
+
+                    if (lowSpeedMilliseconds >= LowSpeedDurationSeconds * 1000.0)
+                    {
+                        onLowSpeed();
+                        attemptCts.Cancel();
+                        return;
+                    }
+
+                    lastBytes = currentBytes;
+                    lastTime = currentTime;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                
+            }
         }
 
         private async Task DownloadSingleAsync(HttpResponseMessage response, long total, CancellationToken ct)
