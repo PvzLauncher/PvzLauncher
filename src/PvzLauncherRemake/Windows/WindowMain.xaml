@@ -79,6 +79,9 @@
         <!--构建水印-->
         <TextBlock x:Name="textBlock_buildWaterMark" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="Black" Foreground="White" Opacity="0.6" Visibility="Collapsed"/> 
 
+        <!--启动动画-->
+        <ctrl:UserLaunchAnimation x:Name="launchAnimation"/>
+
         <wpfui:SnackbarPresenter x:Name="snackbarPersenter" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <wpfui:SnackbarPresenter.Resources>
                 <ResourceDictionary>
