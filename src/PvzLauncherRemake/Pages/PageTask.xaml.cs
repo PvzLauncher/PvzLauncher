@@ -2,10 +2,12 @@
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Models;
 using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.Game;
 using PvzLauncherRemake.Utils.Network;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using Serilog;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -141,14 +143,12 @@ namespace PvzLauncherRemake.Pages
                     Globals.Config.CurrentGame = dti.Info.Name;
                     ConfigManager.SaveConfig();
 
-                    NavigationController.Navigate(NavigaionPages.Launch);
-                    await Task.Delay(500);
-
-                    if (Application.Current.MainWindow is not WindowMain wm || wm.frame.Content is not PageLaunch pl)
-                        return;
-
-                    pl.button_Launch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-
+                    if (Globals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
+                        Globals.Windows.WindowMain.launchAnimation.PlayAnimation();
+                    //再次加载游戏档案
+                    var currentGameInfo = JsonHelper.ReadJson<GameProfile.Root>(Path.Combine(Globals.Directories.GameDirectory, Globals.Config.CurrentGame, ".pvzl.json"));
+                    //启动游戏
+                    GameManager.LaunchGame(currentGameInfo, null);
                 };
             };
 
